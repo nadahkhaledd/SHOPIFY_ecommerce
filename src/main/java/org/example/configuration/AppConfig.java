@@ -1,8 +1,6 @@
 package org.example.configuration;
 
-import org.example.entity.Address;
-import org.example.entity.Admin;
-import org.example.entity.Customer;
+import org.example.entity.*;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,11 +16,13 @@ public class AppConfig {
         return new InternalResourceViewResolver("/WEB-INF/views/",".jsp");
     }
 
-  @Bean
- SessionFactory getSessionFactory(){
-     return new org.hibernate.cfg.Configuration().configure("hibernate.cfg.xml").
-             addAnnotatedClass(Admin.class).addAnnotatedClass(Customer.class).addAnnotatedClass(Address.class)
-             .buildSessionFactory();
- }
+    @Bean
+    SessionFactory getSessionFactory(){
+        return new org.hibernate.cfg.Configuration().configure("hibernate.cfg.xml").
+                addAnnotatedClass(Admin.class).addAnnotatedClass(Customer.class).addAnnotatedClass(Address.class)
+                .addAnnotatedClass(Category.class).addAnnotatedClass(Product.class)
+                .addAnnotatedClass(ShoppingCartProducts.class)
+                .buildSessionFactory();
+    }
 
 }
