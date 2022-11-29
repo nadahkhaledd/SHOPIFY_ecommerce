@@ -1,6 +1,6 @@
-package org.example.Entity;
+package org.example.entity;
 
-import org.example.Enums.Gender;
+import org.example.enums.Gender;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

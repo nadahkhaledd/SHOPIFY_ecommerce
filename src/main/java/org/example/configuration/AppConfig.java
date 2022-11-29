@@ -1,8 +1,8 @@
-package org.example.Configuration;
+package org.example.configuration;
 
-import org.example.Entity.Address;
-import org.example.Entity.Admin;
-import org.example.Entity.Customer;
+import org.example.entity.Address;
+import org.example.entity.Admin;
+import org.example.entity.Customer;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
