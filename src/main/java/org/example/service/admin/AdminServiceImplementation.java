@@ -48,6 +48,9 @@ public class AdminServiceImplementation implements AdminService{
         return rowsAffected==1;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void updateOrderStatus(int orderID) {
         /// call orderservice.updateStatus()
