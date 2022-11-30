@@ -9,7 +9,7 @@ public interface AdminRepository {
     void addAdmin(Admin admin);
      void createSuperAdmin();
     void updateAdmin(Admin admin);
-    void removeAdmin(int adminID);
+    int removeAdmin(int adminID);
     void suspendCustomer(int customerID);
     void addCategory(Category category);
     void updateCategory(int categoryID, String imgPath);

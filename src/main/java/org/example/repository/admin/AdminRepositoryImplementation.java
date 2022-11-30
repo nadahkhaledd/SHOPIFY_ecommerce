@@ -7,12 +7,11 @@ import org.example.utility.DateUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 @Repository
 public class AdminRepositoryImplementation implements AdminRepository{
@@ -52,8 +51,19 @@ public class AdminRepositoryImplementation implements AdminRepository{
     }
 
     @Override
-    public void removeAdmin(int adminID) {
-
+    public int removeAdmin(int adminID) {
+        int results;
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            Query query=session.createQuery(
+                    "delete from Admin a where a.id=:id",
+                    Admin.class
+            );
+            query.setParameter("id", adminID);
+            results = query.executeUpdate();
+            tx.commit();
+        }
+        return results;
     }
 
     @Override

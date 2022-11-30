@@ -7,8 +7,6 @@ import java.util.Date;
 
 public class DateUtils {
 
-
-
     public Date convertStringToDate(String dateString){
         try {
             return new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
