@@ -29,9 +29,29 @@ public interface AdminRepository {
      * @return int number of rows affected
      */
     int removeAdmin(int adminID);
-    void suspendCustomer(int customerID);
+
+    /**
+     * This method is used by admin to remove a customer account from the system.
+     * It works by deactivating the customer from database as to keep their history stored.
+     * @param customerID This is the id of the customer needs to be removed.
+     * @return int number of rows affected
+     */
+    int deactivateCustomer(int customerID);
+
+    /**
+     * This method is used by admin to add a new category to database.
+     * @param category This is the admin object to be added.
+     * @return nothing
+     */
     void addCategory(Category category);
-    void updateCategory(int categoryID, String imgPath);
+
+    /**
+     * This method is used by admin to update a category's image.
+     * @param categoryID This is the id of the category needs to be updated.
+     * @param imgPath This is the path of the new image to be added.
+     * @return int number of rows affected
+     */
+    int updateCategory(int categoryID, String imgPath);
     void removeCategory(int categoryID);
 
 }

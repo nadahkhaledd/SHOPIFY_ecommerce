@@ -2,6 +2,8 @@ package org.example.repository.admin;
 
 import org.example.entity.Admin;
 import org.example.entity.Category;
+import org.example.entity.Customer;
+import org.example.enums.CustomerStatus;
 import org.example.enums.Gender;
 import org.example.utility.DateUtils;
 import org.hibernate.Session;
@@ -56,7 +58,6 @@ public class AdminRepositoryImplementation implements AdminRepository{
 
     }
 
-
     /**
      * @inheritDoc
      */
@@ -76,21 +77,64 @@ public class AdminRepositoryImplementation implements AdminRepository{
         return results;
     }
 
-    @Override
-    public void suspendCustomer(int customerID) {
 
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public int deactivateCustomer(int customerID) {
+        int results;
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            Query query=session.createQuery(
+                    "update Customer c set c.status=:status" +
+                            " where c.id=:id",
+                    Customer.class
+            );
+            query.setParameter("status", CustomerStatus.DEACTIVATED);
+            query.setParameter("id", customerID);
+            results = query.executeUpdate();
+            tx.commit();
+        }
+        return results;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void addCategory(Category category) {
-
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            session.persist(category);
+            tx.commit();
+        }
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
-    public void updateCategory(int categoryID, String imgPath) {
-
+    public int updateCategory(int categoryID, String imgPath) {
+        int results;
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            Query query=session.createQuery(
+                    "update Category c set c.imagePath=:imagePath" +
+                            " where c.id=:id",
+                    Category.class
+            );
+            query.setParameter("imagePath", imgPath);
+            query.setParameter("id", categoryID);
+            results = query.executeUpdate();
+            tx.commit();
+        }
+        return results;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void removeCategory(int categoryID) {
 

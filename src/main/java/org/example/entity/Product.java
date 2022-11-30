@@ -11,6 +11,7 @@ public class Product {
     private String name;
     private String imagePath;
     private double price;
+
     private Category category;
     private int availableQuantity;
 

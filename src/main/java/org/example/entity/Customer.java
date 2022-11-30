@@ -1,5 +1,6 @@
 package org.example.entity;
 
+import org.example.enums.CustomerStatus;
 import org.example.enums.Gender;
 
 import javax.persistence.CascadeType;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 public class Customer extends User {
-    private String status;
+    private CustomerStatus status;
      private int passwordAttempts;
  //   @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
@@ -19,18 +20,18 @@ public class Customer extends User {
     public Customer() {
     }
 
-    public Customer(String firstname, String lastname, String email, String password, Gender gender, Date dateOfBirth, String status, int passwordAttempts, List<Address> addresses) {
+    public Customer(String firstname, String lastname, String email, String password, Gender gender, Date dateOfBirth, CustomerStatus status, int passwordAttempts, List<Address> addresses) {
         super(firstname, lastname, email, password, gender, dateOfBirth);
         this.status = status;
         this.passwordAttempts = passwordAttempts;
         this.addresses = addresses;
     }
 
-    public String getStatus() {
+    public CustomerStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(CustomerStatus status) {
         this.status = status;
     }
 
