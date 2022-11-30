@@ -23,6 +23,9 @@ public class Order{
     @NotNull
     private int total;
 
+    public Order() {
+    }
+
     public Order(Long userId, LocalDate date, OrderStatus status, int total) {
         this.userId = userId;
         this.date = date;

@@ -2,23 +2,28 @@ package org.example.entity;
 
 import org.example.enums.Gender;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 @MappedSuperclass
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
+    @Column(nullable = false, length = 30)
     private String firstName;
     @NotNull
+    @Column(nullable = false, length = 30)
     private String lastName;
     @NotNull
+    @Column(nullable = false, unique = true,length = 150)
     private String email;
     @NotNull
+    @Column(nullable = false)
     private String password;
     @NotNull
+    @Column(nullable = false)
     private Gender gender;
     @NotNull
     private Date dateOfBirth;
