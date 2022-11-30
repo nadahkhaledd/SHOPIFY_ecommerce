@@ -14,17 +14,26 @@ public class CategoryServiceImplementation implements CategoryService{
     }
 
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void addCategory(Category category) {
         repository.addCategory(category);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public boolean updateCategory(int categoryID, String imgPath) {
         int affectedRows = repository.updateCategory(categoryID, imgPath);
         return affectedRows == 1;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public boolean removeCategory(int categoryID) {
         int affectedRows = repository.removeCategory(categoryID);
