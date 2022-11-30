@@ -1,6 +1,8 @@
 package org.example.repository.customer;
 
 import org.example.entity.Address;
+import org.example.entity.Customer;
+import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,31 +24,35 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public void addAddress(Address address) {
+    public void addAddress(Customer customer, Address address) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
-            session.persist(address);
+            address.setCustomer(customer);
+            session.save(address);
             tx.commit();
         }
     }
 
     @Override
-    public List<Address> getAllAddresses(int customerId) {
+    public List<Address> getUserAddresses(Customer customer) {
+        List<Address> addresses;
         try (Session session = factory.openSession()) {
-            return session.createQuery("from Address a where a.customer_id=:customerId" , Address.class)
-                    .setParameter("customerId", customerId)
-                    .list();
+            addresses = session
+                    .createQuery("from Address where customer=:id")
+                    .setParameter("id", customer)
+                    .getResultList();
         }
+        return addresses;
     }
 
     @Override
-    public int updateAddress(int addressId, Address address) {
+    public int updateAddress(Address address) {
         int result;
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
-            Query updateQuery = session.createQuery("update Address a set a.street=:street and a.city=:city" +
-                    "and a.buildingNumber=:buildingNumber where a.id=:addressId",
-                    Address.class);
+            Query updateQuery = session
+                    .createQuery("update Address a set a.street=:street, a.city=:city, " +
+                    "a.buildingNumber=:buildingNumber where a.id=:addressId");
             updateQuery.setParameter("city", address.getCity());
             updateQuery.setParameter("buildingNumber", address.getBuildingNumber());
             updateQuery.setParameter("street", address.getStreet());
@@ -58,12 +64,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public int deleteAddress(int addressId) {
+    public int deleteAddress(Address address) {
         int result;
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             Query deleteQuery = session.createQuery("delete from Address a where a.id=:addressId");
-            deleteQuery.setParameter("addressId", addressId);
+            deleteQuery.setParameter("addressId", address.getId());
             result = deleteQuery.executeUpdate();
             tx.commit();
         }
@@ -71,10 +77,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public void addToCart(ShoppingCartProducts shoppingCartProduct) {
+    public void addToCart(Product product, Customer customer, ShoppingCartProducts shoppingCartProduct) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
-            session.persist(shoppingCartProduct);
+            shoppingCartProduct.setCustomer(customer);
+            shoppingCartProduct.setProduct(product);
+            session.save(shoppingCartProduct);
             tx.commit();
         }
     }
@@ -84,9 +92,9 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         int result;
         try(Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
-            Query updateQuery = session.createQuery("update ShoppingCartProducts scp" +
-                    "scp.product_quantity=:newQuantity" +
-                    "where scp.id=:shoppingCartProductId");
+            Query updateQuery = session
+                    .createQuery("update ShoppingCartProducts set product_quantity=:newQuantity" +
+                            " where id=:shoppingCartProductId");
             updateQuery.setParameter("newQuantity", newQuantity);
             updateQuery.setParameter("shoppingCartProductId", shoppingCartProductId);
             result = updateQuery.executeUpdate();
