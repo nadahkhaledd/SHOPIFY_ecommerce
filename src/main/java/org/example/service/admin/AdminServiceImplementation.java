@@ -47,4 +47,9 @@ public class AdminServiceImplementation implements AdminService{
         int rowsAffected = repository.deactivateCustomer(customerID);
         return rowsAffected==1;
     }
+
+    @Override
+    public void updateOrderStatus(int orderID) {
+        /// call orderservice.updateStatus()
+    }
 }

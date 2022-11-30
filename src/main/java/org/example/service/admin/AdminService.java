@@ -36,6 +36,12 @@ public interface AdminService {
      */
     boolean deactivateCustomer(int customerID);
 
-
+    /**
+     * This method is used by admin to update status of an order after being created/placed.
+     * It works by calling the updateStatus() service placed in order service.
+     * @param orderID This is the id of the customer needs to be removed.
+     * @return nothing.
+     */
+    void updateOrderStatus(int orderID);
 
 }
