@@ -125,28 +125,4 @@ public class AdminRepositoryImplementation implements AdminRepository{
         }
         return results;
     }
-
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public void addCategory(Category category) {
-        categoryRepository.addCategory(category);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public int updateCategory(int categoryID, String imgPath) {
-        return categoryRepository.updateCategory(categoryID, imgPath);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public int removeCategory(int categoryID) {
-        return categoryRepository.removeCategory(categoryID);
-    }
 }
