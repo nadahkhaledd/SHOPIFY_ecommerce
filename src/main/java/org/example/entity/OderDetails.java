@@ -23,6 +23,9 @@ public class OderDetails {
     @NotNull
     private String productImage;
 
+    public OderDetails() {
+    }
+
     public Long getOrderId() {
         return orderId;
     }
