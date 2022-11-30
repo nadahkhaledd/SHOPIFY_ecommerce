@@ -20,15 +20,12 @@ import java.util.Date;
 public class AdminRepositoryImplementation implements AdminRepository{
 
     private final SessionFactory factory;
-    private final CategoryRepository categoryRepository;
     private DateUtils dateUtils = new DateUtils();
 
 
-
     @Autowired
-    public AdminRepositoryImplementation(SessionFactory factory, CategoryRepository categoryRepository){
+    public AdminRepositoryImplementation(SessionFactory factory){
         this.factory = factory;
-        this.categoryRepository = categoryRepository;
     }
 
 
