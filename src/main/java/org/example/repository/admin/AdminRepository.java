@@ -21,7 +21,13 @@ public interface AdminRepository {
      * @return nothing
      */
      void createSuperAdmin();
-    void updateAdmin(Admin admin);
+
+    /**
+     * This method is used to update an admin.
+     * @param admin This is the id of the customer needs to be removed.
+     * @return int number of rows affected
+     */
+    int updateAdmin(Admin admin);
 
     /**
      * This method is used to remove an admin from database.
