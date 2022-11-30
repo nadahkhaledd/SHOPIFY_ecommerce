@@ -1,7 +1,6 @@
 package org.example.service.admin;
 
 import org.example.entity.Admin;
-import org.example.entity.Category;
 
 public interface AdminService {
 

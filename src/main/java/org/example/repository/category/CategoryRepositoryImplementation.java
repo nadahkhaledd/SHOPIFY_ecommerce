@@ -25,6 +25,7 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
     public void addCategory(Category category) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
+            category.setName(category.getName().toLowerCase());
             session.persist(category);
             tx.commit();
         }
