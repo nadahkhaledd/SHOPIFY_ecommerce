@@ -7,11 +7,16 @@ import java.util.List;
 
 @Entity
 public class Category {
-
     private int id;
     private String name;
     private String imagePath;
     private List<Product> products;
+
+    public Category(String name, String imagePath, List<Product> products) {
+        this.name = name;
+        this.imagePath = imagePath;
+        this.products = products;
+    }
 
     public Category() {}
 
@@ -47,7 +52,7 @@ public class Category {
         this.imagePath = imagePath;
     }
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY,cascade  = CascadeType.ALL)
     public List<Product> getProducts() {
         return products;
     }

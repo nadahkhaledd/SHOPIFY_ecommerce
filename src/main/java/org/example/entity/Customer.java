@@ -16,6 +16,9 @@ public class Customer extends User {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
     private List<Address> addresses;
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
+    private List<Rate> Rates;
+
     public Customer() {
     }
 
@@ -24,6 +27,14 @@ public class Customer extends User {
         this.status = status;
         this.passwordAttempts = passwordAttempts;
         this.addresses = addresses;
+    }
+
+    public List<Rate> getRates() {
+        return Rates;
+    }
+
+    public void setRates(List<Rate> rates) {
+        Rates = rates;
     }
 
     public String getStatus() {
