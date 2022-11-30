@@ -26,6 +26,9 @@ public class AdminRepositoryImplementation implements AdminRepository{
     }
 
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void addAdmin(Admin admin) {
         try (Session session = factory.openSession()) {
@@ -35,6 +38,9 @@ public class AdminRepositoryImplementation implements AdminRepository{
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void createSuperAdmin() {
         Date date = dateUtils.convertStringToDate("1989-10-13");
@@ -50,6 +56,10 @@ public class AdminRepositoryImplementation implements AdminRepository{
 
     }
 
+
+    /**
+     * @inheritDoc
+     */
     @Override
     public int removeAdmin(int adminID) {
         int results;
