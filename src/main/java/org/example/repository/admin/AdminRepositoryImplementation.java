@@ -2,7 +2,9 @@ package org.example.repository.admin;
 
 import org.example.entity.Admin;
 import org.example.entity.Category;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class AdminRepositoryImplementation implements AdminRepository{
 
     @Override
