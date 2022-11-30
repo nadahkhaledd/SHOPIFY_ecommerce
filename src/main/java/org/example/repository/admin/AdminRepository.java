@@ -4,7 +4,10 @@ import org.example.entity.Admin;
 import org.example.entity.Category;
 
 public interface AdminRepository {
+
+
     void addAdmin(Admin admin);
+     void createSuperAdmin();
     void updateAdmin(Admin admin);
     void removeAdmin(int adminID);
     void suspendCustomer(int customerID);
