@@ -1,4 +1,4 @@
-package org.example.repository.customer;
+package org.example.repository.address;
 
 import org.example.entity.Address;
 import org.example.entity.Customer;
@@ -14,12 +14,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CustomerRepositoryImpl implements CustomerRepository {
+public class AddressRepositoryImpl implements AddressRepository {
 
     private final SessionFactory factory;
 
     @Autowired
-    public CustomerRepositoryImpl(SessionFactory factory) {
+    public AddressRepositoryImpl(SessionFactory factory) {
         this.factory = factory;
     }
 
@@ -70,47 +70,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             Transaction tx = session.beginTransaction();
             Query deleteQuery = session.createQuery("delete from Address a where a.id=:addressId");
             deleteQuery.setParameter("addressId", address.getId());
-            result = deleteQuery.executeUpdate();
-            tx.commit();
-        }
-        return result;
-    }
-
-    @Override
-    public void addToCart(Product product, Customer customer, ShoppingCartProducts shoppingCartProduct) {
-        try (Session session = factory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            shoppingCartProduct.setCustomer(customer);
-            shoppingCartProduct.setProduct(product);
-            session.save(shoppingCartProduct);
-            tx.commit();
-        }
-    }
-
-    @Override
-    public int updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
-        int result;
-        try(Session session = factory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            Query updateQuery = session
-                    .createQuery("update ShoppingCartProducts set product_quantity=:newQuantity" +
-                            " where id=:shoppingCartProductId");
-            updateQuery.setParameter("newQuantity", newQuantity);
-            updateQuery.setParameter("shoppingCartProductId", shoppingCartProductId);
-            result = updateQuery.executeUpdate();
-            tx.commit();
-        }
-        return result;
-    }
-
-    @Override
-    public int removeFromCart(int shoppingCartProductId) {
-        int result;
-        try(Session session = factory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            Query deleteQuery = session.createQuery("delete from ShoppingCartProducts scp " +
-                    "where scp.id=:shoppingCartProductId");
-            deleteQuery.setParameter("shoppingCartProductId",shoppingCartProductId);
             result = deleteQuery.executeUpdate();
             tx.commit();
         }

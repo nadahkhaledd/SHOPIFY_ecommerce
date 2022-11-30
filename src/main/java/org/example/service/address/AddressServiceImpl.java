@@ -1,20 +1,20 @@
-package org.example.service.customer;
+package org.example.service.address;
 
 import org.example.entity.Address;
 import org.example.entity.Customer;
 import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
-import org.example.repository.customer.CustomerRepository;
+import org.example.repository.address.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class CustomerServiceImpl implements CustomerService {
+public class AddressServiceImpl implements AddressService {
 
-    private final CustomerRepository repository;
+    private final AddressRepository repository;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository repository) {
+    public AddressServiceImpl(AddressRepository repository) {
         this.repository = repository;
     }
 
@@ -37,23 +37,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public boolean deleteAddress(Address address) {
         int affectedRows = repository.deleteAddress(address);
-        return affectedRows == 1;
-    }
-
-    @Override
-    public void addToCart(Product product, Customer customer, ShoppingCartProducts shoppingCartProduct) {
-        repository.addToCart(product, customer, shoppingCartProduct);
-    }
-
-    @Override
-    public boolean updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
-        int affectedRows = repository.updateProductQuantityInCart(shoppingCartProductId, newQuantity);
-        return affectedRows == 1;
-    }
-
-    @Override
-    public boolean removeFromCart(int shoppingCartProductId) {
-        int affectedRows = repository.removeFromCart(shoppingCartProductId);
         return affectedRows == 1;
     }
 }
