@@ -1,12 +1,8 @@
 package org.example.repository.customer;
 
 import org.example.entity.Address;
-import org.example.entity.Customer;
 import org.example.entity.ShoppingCartProducts;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import javax.persistence.Query;
 import java.util.List;
 
 public interface CustomerRepository {
