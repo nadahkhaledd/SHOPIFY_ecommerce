@@ -1,5 +1,5 @@
 package org.example.repository;
 
 
-public class OrederRepo {
+public class OrderRepo {
 }
