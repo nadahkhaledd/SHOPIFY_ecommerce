@@ -5,6 +5,7 @@ import org.example.entity.Category;
 import org.example.entity.Customer;
 import org.example.enums.CustomerStatus;
 import org.example.enums.Gender;
+import org.example.repository.category.CategoryRepository;
 import org.example.utility.DateUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,12 +20,15 @@ import java.util.Date;
 public class AdminRepositoryImplementation implements AdminRepository{
 
     private final SessionFactory factory;
-
+    private final CategoryRepository categoryRepository;
     private DateUtils dateUtils = new DateUtils();
 
+
+
     @Autowired
-    public AdminRepositoryImplementation(SessionFactory factory){
+    public AdminRepositoryImplementation(SessionFactory factory, CategoryRepository categoryRepository){
         this.factory = factory;
+        this.categoryRepository = categoryRepository;
     }
 
 
@@ -127,11 +131,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
      */
     @Override
     public void addCategory(Category category) {
-        try (Session session = factory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            session.persist(category);
-            tx.commit();
-        }
+        categoryRepository.addCategory(category);
     }
 
     /**
@@ -139,20 +139,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
      */
     @Override
     public int updateCategory(int categoryID, String imgPath) {
-        int results;
-        try (Session session = factory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            Query query=session.createQuery(
-                    "update Category c set c.imagePath=:imagePath" +
-                            " where c.id=:id",
-                    Category.class
-            );
-            query.setParameter("imagePath", imgPath);
-            query.setParameter("id", categoryID);
-            results = query.executeUpdate();
-            tx.commit();
-        }
-        return results;
+        return categoryRepository.updateCategory(categoryID, imgPath);
     }
 
     /**
@@ -160,17 +147,6 @@ public class AdminRepositoryImplementation implements AdminRepository{
      */
     @Override
     public int removeCategory(int categoryID) {
-        int results;
-        try (Session session = factory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            Query query=session.createQuery(
-                    "delete from Category c where c.id=:id",
-                    Category.class
-            );
-            query.setParameter("id", categoryID);
-            results = query.executeUpdate();
-            tx.commit();
-        }
-        return results;
+        return categoryRepository.removeCategory(categoryID);
     }
 }
