@@ -12,6 +12,7 @@ public class Product {
     private String imagePath;
     private double price;
     private Category category;
+    private int availableQuantity;
 
     public Product() {}
 
@@ -65,5 +66,15 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @NotNull
+    @Column(name = "available_quantity", nullable = false)
+    public int getAvailableQuantity() {
+        return availableQuantity;
+    }
+
+    public void setAvailableQuantity(int availableQuantity) {
+        this.availableQuantity = availableQuantity;
     }
 }
