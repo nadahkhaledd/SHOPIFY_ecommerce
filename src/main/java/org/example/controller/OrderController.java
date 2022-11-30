@@ -1,38 +1,38 @@
 package org.example.controller;
+import org.example.entity.Order;
+import org.example.entity.OrderDetails;
+import org.example.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+//Omar Abu ElKeir, Vodafone
+//Omar: create order, get orders, view order details, cancel order, CheckOut, update status.
 
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
+    @Autowired
+    OrderService orderService;
 
     @GetMapping(name = "/getOrders")
-    public String getOrders(Long userId){
-        return "";
+    public List getOrders(Long userId){
+        return orderService.getOrders(userId);
     }
 
     @GetMapping(name="/getOrderDetails")
-    public String getOrderDetails(Long userId, Long orderId){
-        return "";
+    public List getOrderDetails(Long orderId){
+        return orderService.getOrderDetails(orderId);
     }
 
-    @GetMapping(name = "/cancelOrder")
-    public String cancelOrder(Long orderId,Long userId){
-        return "";
+    @PutMapping(name = "/cancelOrder")
+    public boolean cancelOrder(Long orderId){
+       return orderService.cancelOrder(orderId);
     }
 
-    @DeleteMapping(name = "/deleteOrderItem")
-    //before order approval
-    public String deleteOrderItem(Long productId, Long userId){
-        return "";
+    @PostMapping(name = "/checkout")
+    public void checkOut(Long userId){
+        orderService.checkOut(userId);
     }
-
-    @PutMapping(name = "/updateOrderItemQty")
-    public String updateOrderDetailQty(Long productId, Long userId, int Qty){
-        return "";
-    }
-
 }

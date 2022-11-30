@@ -2,10 +2,11 @@ package org.example.entity;
 
 import org.example.enums.Gender;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Set;
+
 @MappedSuperclass
 public class User {
     @Id
@@ -22,6 +23,18 @@ public class User {
     private Gender gender;
     @NotNull
     private Date dateOfBirth;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "user_id")
+    private Set<ShoppingCartProducts> shoppingCartProducts;
+
+    public Set<ShoppingCartProducts> getShoppingCartProducts() {
+        return shoppingCartProducts;
+    }
+
+    public void setShoppingCartProducts(Set<ShoppingCartProducts> shoppingCartProducts) {
+        this.shoppingCartProducts = shoppingCartProducts;
+    }
 
     public User() {
     }
