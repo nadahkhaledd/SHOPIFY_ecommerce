@@ -52,6 +52,12 @@ public interface AdminRepository {
      * @return int number of rows affected
      */
     int updateCategory(int categoryID, String imgPath);
-    void removeCategory(int categoryID);
+
+    /**
+     * This method is used to remove a category from database.
+     * @param categoryID This is the id of the category needs to be deleted.
+     * @return int number of rows affected
+     */
+    int removeCategory(int categoryID);
 
 }

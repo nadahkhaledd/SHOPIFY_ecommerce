@@ -136,7 +136,18 @@ public class AdminRepositoryImplementation implements AdminRepository{
      * @inheritDoc
      */
     @Override
-    public void removeCategory(int categoryID) {
-
+    public int removeCategory(int categoryID) {
+        int results;
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            Query query=session.createQuery(
+                    "delete from Category c where c.id=:id",
+                    Category.class
+            );
+            query.setParameter("id", categoryID);
+            results = query.executeUpdate();
+            tx.commit();
+        }
+        return results;
     }
 }
