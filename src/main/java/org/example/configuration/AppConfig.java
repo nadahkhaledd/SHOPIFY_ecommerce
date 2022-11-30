@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 public class AppConfig {
     @Bean
     ViewResolver viewResolver(){
-        return new InternalResourceViewResolver("/WEB-INF/views/",".jsp");
+        return new InternalResourceViewResolver("/WEB-INF/site/views/",".jsp");
     }
 
     @Bean
