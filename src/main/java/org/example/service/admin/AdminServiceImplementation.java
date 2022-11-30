@@ -3,13 +3,17 @@ package org.example.service.admin;
 import org.example.entity.Admin;
 import org.example.repository.admin.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AdminServiceImplementation implements AdminService{
 
     private final AdminRepository repository;
 
     @Autowired
     public AdminServiceImplementation(AdminRepository repository) {
+        System.out.println("in admin service....");
+        repository.createSuperAdmin();
         this.repository = repository;
     }
 

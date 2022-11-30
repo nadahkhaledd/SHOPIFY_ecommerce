@@ -17,13 +17,13 @@ public class User {
     @Column(nullable = false, length = 30)
     private String lastName;
     @NotNull
-    @Column(nullable = false, length = 150)
+    @Column(nullable = false, unique = true,length = 150)
     private String email;
     @NotNull
     @Column(nullable = false)
     private String password;
     @NotNull
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     private Gender gender;
     @NotNull
     private Date dateOfBirth;
