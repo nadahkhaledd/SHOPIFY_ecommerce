@@ -16,7 +16,7 @@ public class Address {
     private String city;
 
     @JoinColumn(name = "customer_id")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Customer customer;
 
 
@@ -59,5 +59,13 @@ public class Address {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
