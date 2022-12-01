@@ -2,6 +2,8 @@ package org.example.service.category;
 
 import org.example.entity.Category;
 
+import java.util.List;
+
 public interface CategoryService {
 
     /**
@@ -25,4 +27,6 @@ public interface CategoryService {
      * @return boolean if category removed.
      */
     boolean removeCategory(int categoryID);
+
+    List<Category> getAllCategories();
 }

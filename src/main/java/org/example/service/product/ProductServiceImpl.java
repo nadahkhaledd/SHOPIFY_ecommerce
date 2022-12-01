@@ -50,7 +50,9 @@ public class ProductServiceImpl implements ProductService {
      * @return
      */
     @Override
-    public List<Product> getProductsByCategory() {
-        return null;
+    public List<Product> getProductsByCategory(int categoryId) {
+        return productRepository.getProductsByCategory(categoryId);
     }
+
+
 }

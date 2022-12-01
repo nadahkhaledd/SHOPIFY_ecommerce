@@ -5,6 +5,8 @@ import org.example.repository.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryServiceImplementation implements CategoryService{
     private final CategoryRepository repository;
@@ -39,5 +41,13 @@ public class CategoryServiceImplementation implements CategoryService{
     public boolean removeCategory(int categoryID) {
         int affectedRows = repository.removeCategory(categoryID);
         return affectedRows == 1;
+    }
+
+    /**
+     * @return 
+     */
+    @Override
+    public List<Category> getAllCategories() {
+        return repository.getAllCategories();
     }
 }

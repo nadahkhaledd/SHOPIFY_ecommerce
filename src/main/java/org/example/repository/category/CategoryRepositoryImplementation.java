@@ -1,12 +1,15 @@
 package org.example.repository.category;
 
 import org.example.entity.Category;
+import org.example.entity.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class CategoryRepositoryImplementation implements CategoryRepository{
@@ -69,6 +72,20 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
             tx.commit();
         }
         return results;
+    }
+
+    /**
+     * @return 
+     */
+    @Override
+    public List<Category> getAllCategories() {
+        List<Category> categories;
+        try(Session session=factory.openSession()){
+            session.beginTransaction();
+            categories=session.createQuery("from Category").list();
+            //     session.getTransaction().commit();
+        }
+        return categories;
     }
 
 }
