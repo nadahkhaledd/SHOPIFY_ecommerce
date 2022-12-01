@@ -111,9 +111,9 @@
                                 <a href="" class="dropdown-item">Baby's Dresses</a>
                             </div>
                         </div>
-                        <a href="" class="nav-item nav-link">Shirts</a>
-                        <a href="" class="nav-item nav-link">Jeans</a>
-                        <a href="" class="nav-item nav-link">Swimwear</a>
+                        <a href="/getShirts" class="nav-item nav-link">Shirts</a>
+                        <a href="/getJeans" class="nav-item nav-link">Jeans</a>
+                        <a href="/getSwimwear" class="nav-item nav-link">Swimwear</a>
                         <a href="" class="nav-item nav-link">Sleepwear</a>
                         <a href="" class="nav-item nav-link">Sportswear</a>
                         <a href="" class="nav-item nav-link">Jumpsuits</a>

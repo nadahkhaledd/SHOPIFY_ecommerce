@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class OderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name="order_id")
     @NotNull
@@ -41,11 +41,11 @@ public class OderDetails {
         this.productImage = productImage;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

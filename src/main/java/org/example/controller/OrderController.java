@@ -1,4 +1,4 @@
-package org.example.controller;
+/*package org.example.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class OrderController {
 
     @GetMapping(name = "/getOrders")
-    public String getOrders(Long userId){
+    public String getOrders(int userId){
         return "";
     }
 
     @GetMapping(name="/getOrderDetails")
-    public String getOrderDetails(Long userId, Long orderId){
+    public String getOrderDetails(int userId, int orderId){
         return "";
     }
 
     @GetMapping(name = "/cancelOrder")
-    public String cancelOrder(Long orderId,Long userId){
+    public String cancelOrder(int orderId,int userId){
         return "";
     }
 
@@ -31,8 +31,8 @@ public class OrderController {
     }
 
     @PutMapping(name = "/updateOrderItemQty")
-    public String updateOrderDetailQty(Long productId, Long userId, int Qty){
+    public String updateOrderDetailQty(int productId, int userId, int Qty){
         return "";
     }
 
-}
+}*/

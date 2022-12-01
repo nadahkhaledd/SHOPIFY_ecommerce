@@ -9,10 +9,10 @@ import java.time.LocalDate;
 public class Order{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @Column(name = "user_id")
     @NotNull
-    private Long userId;
+    private int userId;
     @Column(name = "order_date")
     @NotNull
     private LocalDate date;
@@ -23,29 +23,29 @@ public class Order{
     @NotNull
     private int total;
 
-    public Order() {
+     public Order() {
     }
 
-    public Order(Long userId, LocalDate date, OrderStatus status, int total) {
+    public Order(int userId, LocalDate date, OrderStatus status, int total) {
         this.userId = userId;
         this.date = date;
         this.status = status;
         this.total = total;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
