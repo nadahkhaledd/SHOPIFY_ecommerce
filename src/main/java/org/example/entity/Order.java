@@ -25,12 +25,12 @@ public class Order{
     @Column(name = "status", nullable = false)
     private OrderStatus status;
     @Column(name = "total",nullable = false)
-    private int total;
+    private Integer total;
 
      public Order() {
     }
 
-    public Order(int userId, LocalDate date, OrderStatus status, int total) {
+    public Order(int userId, LocalDate date, OrderStatus status, Integer total) {
         this.userId = userId;
         this.date = date;
         this.status = status;
@@ -69,11 +69,11 @@ public class Order{
         this.status = status;
     }
 
-    public int getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 }

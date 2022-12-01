@@ -29,7 +29,7 @@ public class OrderService {
         if(checkOrderStatus(orderId)=="completed" || checkOrderStatus(orderId)=="returned"){
             return false;
         }else{
-            return orderRepo.updateStatus(orderId,OrderStatus.canceled);
+            return orderRepo.updateStatus(orderId,OrderStatus.cancelled);
         }
     }
 
@@ -38,14 +38,14 @@ public class OrderService {
             case "placed":
                 return orderRepo.updateStatus(orderId, OrderStatus.shipped);
             case "shipped":
-                return orderRepo.updateStatus(orderId, OrderStatus.completed);
+                return orderRepo.updateStatus(orderId, OrderStatus.delivered);
             default: //returned
                return orderRepo.updateStatus(orderId, OrderStatus.returned);
         }
     }
 
 
-    public void checkOut(Long userId) {
+    public void checkOut(int userId) {
         orderRepo.checkOut(userId);
     }
 }

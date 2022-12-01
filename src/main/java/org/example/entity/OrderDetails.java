@@ -9,10 +9,11 @@ public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Long id;
     @ManyToOne
     @JoinColumn(referencedColumnName = "order_id")
     private Order order;
+
+
 
     public Order getOrder() {
         return order;
@@ -33,17 +34,19 @@ public class OrderDetails {
     private String productImage;
 
 
-    public OrderDetails(Long orderId, String productName, double productPrice, String productImage) {
+    public OrderDetails() {
+    }
+    public OrderDetails(int orderId, String productName, double productPrice, String productImage) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.productImage = productImage;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
