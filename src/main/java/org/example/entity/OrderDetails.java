@@ -5,37 +5,38 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="order_details")
-public class OderDetails {
+public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "order_id")
+    private Order order;
 
-    @Column(name="order_id")
-    @NotNull
-    private Long orderId;
+
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     @Column(name = "product_name")
     @NotNull
     private String productName;
     @Column(name = "product_price")
     @NotNull
-    private String productPrice;
+    private double productPrice;
     @Column(name = "product_image")
     @NotNull
     private String productImage;
 
-    public OderDetails() {
-    }
 
-    public Long getOrderId() {
-        return orderId;
+    public OrderDetails() {
     }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public OderDetails(Long orderId, String productName, String productPrice, String productImage) {
-        this.orderId = orderId;
+    public OrderDetails(int orderId, String productName, double productPrice, String productImage) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.productImage = productImage;
@@ -57,11 +58,11 @@ public class OderDetails {
         this.productName = productName;
     }
 
-    public String getProductPrice() {
+    public double getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(String productPrice) {
+    public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
 
