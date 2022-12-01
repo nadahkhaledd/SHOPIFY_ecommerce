@@ -11,7 +11,7 @@ public class OrderService {
     @Autowired
     OrderRepo orderRepo;
 
-    public List getOrders(Long userId) {
+    public List getOrders(int userId) {
 
         return orderRepo.getOrders(userId);
     }

@@ -1,6 +1,5 @@
 package org.example.repository;
 
-
 import org.example.entity.Order;
 import org.example.entity.OrderDetails;
 import org.example.entity.ShoppingCartProducts;
@@ -23,7 +22,7 @@ public class OrderRepo {
     @Autowired
     private static SessionFactory sessionFactory;
 
-    public List<Order> getOrders(Long userId) {
+    public List<Order> getOrders(int userId) {
         try (Session session = this.sessionFactory.getCurrentSession()){
             return  session.createQuery("from Order where userId=:userId",Order.class).setParameter("userId",userId).list();
         }catch (HibernateException e){
@@ -77,7 +76,6 @@ public class OrderRepo {
             }
             Order order1= session.get(Order.class,order.getId());
             order1.setTotal(totalOrderPrice);
-
 
         }catch (HibernateException e){
             e.printStackTrace();

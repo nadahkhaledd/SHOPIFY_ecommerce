@@ -8,8 +8,8 @@ import java.util.List;
 @Entity
 @Table(name="orders")
 public class Order{
-
-
+    public Order() {
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -27,9 +27,6 @@ public class Order{
     private OrderStatus status;
     @Column(name = "total",nullable = false)
     private Integer total;
-
-     public Order() {
-    }
 
     public Order(int userId, LocalDate date, OrderStatus status, Integer total) {
         this.userId = userId;

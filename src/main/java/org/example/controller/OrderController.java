@@ -1,4 +1,4 @@
-/*package org.example.controller;
+package org.example.controller;
 import org.example.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ public class OrderController {
     OrderService orderService;
 
     @GetMapping(name = "/getOrders")
-    public List getOrders(Long userId){
+    public List getOrders(int userId){
         return orderService.getOrders(userId);
     }
 
@@ -33,4 +33,4 @@ public class OrderController {
     public void checkOut(int userId){
         orderService.checkOut(userId);
     }
-}*/
+}
