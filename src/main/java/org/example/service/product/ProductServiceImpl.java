@@ -10,32 +10,47 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     private ProductRepo productRepository;
+
     @Autowired
     public ProductServiceImpl(ProductRepoImpl productRepoImpl) {
         this.productRepository = productRepoImpl;
     }
+
     @Override
-    public void addProduct(Product product){
+    public void addProduct(Product product) {
         productRepository.addProduct(product);
     }
+
     @Override
-    public void updateProduct(Product product){
+    public void updateProduct(Product product) {
         productRepository.updateProduct(product);
     }
+
     @Override
-    public void deleteProduct(Product product){
+    public void deleteProduct(Product product) {
         productRepository.deleteProduct(product);
     }
+
     @Override
-    public boolean updateProductRate(int productId, float rate){
-        return productRepository.updateProductRate(productId,rate);
+    public boolean updateProductRate(int productId, float rate) {
+        return productRepository.updateProductRate(productId, rate);
     }
+
     @Override
     public boolean updateProductQuantity(int productId, int quantity) {
-        return  productRepository.updateProductQuantity(productId,quantity);
+        return productRepository.updateProductQuantity(productId, quantity);
     }
+
     @Override
-    public List<Product> getProducts(){
+    public List<Product> getProducts() {
         return productRepository.getProducts();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public List<Product> getProductsByCategory() {
+        return null;
     }
 }

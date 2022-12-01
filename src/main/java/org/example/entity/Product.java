@@ -52,7 +52,7 @@ public class Product {
 
 
 
-    @NotBlank
+   @NotBlank
     @Column(nullable = false, length = 45,unique = true)
 
     public String getName() {
