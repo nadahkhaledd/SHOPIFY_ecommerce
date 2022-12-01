@@ -24,11 +24,10 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
-    public void addAddress(Customer customer, Address address) {
+    public void addAddress(Address address) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
-            address.setCustomer(customer);
-            session.save(address);
+            session.persist(address);
             tx.commit();
         }
     }

@@ -19,8 +19,8 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void addAddress(Customer customer, Address address) {
-        repository.addAddress(customer, address);
+    public void addAddress(Address address) {
+        repository.addAddress(address);
     }
 
     @Override

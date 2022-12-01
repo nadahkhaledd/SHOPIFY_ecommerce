@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AddressService {
 
-    void addAddress(Customer customer, Address address);
+    void addAddress(Address address);
     List<Address> getUserAddresses(Customer customer);
     boolean updateAddress(Address address);
     boolean deleteAddress(Address address);

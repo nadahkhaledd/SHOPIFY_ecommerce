@@ -6,6 +6,8 @@ import org.example.entity.ShoppingCartProducts;
 import org.example.repository.shoppingcartproducts.ShoppingCartProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsService {
 
     private final ShoppingCartProductsRepository repository;
@@ -21,8 +23,13 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
     }
 
     @Override
-    public void addToCart(Product product, Customer customer, ShoppingCartProducts shoppingCartProduct) {
-        repository.addToCart(product, customer, shoppingCartProduct);
+    public List<ShoppingCartProducts> viewCart(Customer customer) {
+        return repository.viewCart(customer);
+    }
+
+    @Override
+    public void addToCart(ShoppingCartProducts shoppingCartProduct) {
+        repository.addToCart(shoppingCartProduct);
     }
 
     @Override

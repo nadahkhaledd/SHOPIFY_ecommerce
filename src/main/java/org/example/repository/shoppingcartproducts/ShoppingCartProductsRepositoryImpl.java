@@ -9,6 +9,8 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsRepository {
 
     private final SessionFactory factory;
@@ -19,12 +21,22 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
     }
 
     @Override
-    public void addToCart(Product product, Customer customer, ShoppingCartProducts shoppingCartProduct) {
+    public List<ShoppingCartProducts> viewCart(Customer customer) {
+        List<ShoppingCartProducts> shoppingCartProducts;
+        try(Session session = factory.openSession()) {
+            shoppingCartProducts = session.
+                    createQuery("from ShoppingCartProducts where customer=:id")
+                    .setParameter("id", customer)
+                    .getResultList();
+        }
+        return shoppingCartProducts;
+    }
+
+    @Override
+    public void addToCart(ShoppingCartProducts shoppingCartProduct) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
-            shoppingCartProduct.setCustomer(customer);
-            shoppingCartProduct.setProduct(product);
-            session.save(shoppingCartProduct);
+            session.persist(shoppingCartProduct);
             tx.commit();
         }
     }
