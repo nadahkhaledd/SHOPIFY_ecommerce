@@ -7,7 +7,10 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
-@MappedSuperclass
+@Entity(name="user")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="user_type",
+        discriminatorType = DiscriminatorType.INTEGER)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +33,7 @@ public class User {
     @NotNull
     private Date dateOfBirth;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "user_id")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
     private Set<ShoppingCartProducts> shoppingCartProducts;
 
     public Set<ShoppingCartProducts> getShoppingCartProducts() {

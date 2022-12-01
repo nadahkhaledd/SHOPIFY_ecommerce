@@ -9,9 +9,21 @@ public class ShoppingCartProducts {
     private int id;
     private int productQuantity;
     private Product product;
-    private Customer customer;
-
+    private User user;
     public ShoppingCartProducts() {}
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 
     @Id
     @NotNull
@@ -25,7 +37,7 @@ public class ShoppingCartProducts {
         this.id = id;
     }
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="product_id", nullable = false)
     public Product getProduct() {
         return product;
@@ -33,17 +45,6 @@ public class ShoppingCartProducts {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-
-    @ManyToOne
-    @JoinColumn(name="customer_id", nullable = false)
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     @NotNull

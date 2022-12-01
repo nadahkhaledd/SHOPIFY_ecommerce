@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@DiscriminatorValue("0")
 public class Admin extends  User{
 
 

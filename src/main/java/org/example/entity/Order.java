@@ -3,6 +3,7 @@ import org.example.enums.OrderStatus;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name="orders")
@@ -13,8 +14,8 @@ public class Order{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany
-    private OrderDetails orderDetails;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
+    private List<OrderDetails> orderDetails;
 
     @Column(name = "user_id")
     @NotNull

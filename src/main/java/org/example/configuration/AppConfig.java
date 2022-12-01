@@ -27,6 +27,7 @@ public class AppConfig {
                 addAnnotatedClass(Admin.class).addAnnotatedClass(Customer.class).addAnnotatedClass(Address.class)
                 .addAnnotatedClass(Category.class).addAnnotatedClass(Product.class)
                 .addAnnotatedClass(ShoppingCartProducts.class).addAnnotatedClass(Rate.class)
+                .addAnnotatedClass(OrderDetails.class).addAnnotatedClass(Order.class)
                 .buildSessionFactory();
     }
 

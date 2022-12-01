@@ -3,17 +3,17 @@ package org.example.entity;
 import org.example.enums.CustomerStatus;
 import org.example.enums.Gender;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
+@DiscriminatorValue("1")
 public class Customer extends User {
     private CustomerStatus status;
      private int passwordAttempts;
- //   @LazyCollection(LazyCollectionOption.FALSE)
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
     private List<Address> addresses;
 
@@ -29,6 +29,8 @@ public class Customer extends User {
         this.passwordAttempts = passwordAttempts;
         this.addresses = addresses;
     }
+
+
 
     public CustomerStatus getStatus() {
         return status;
