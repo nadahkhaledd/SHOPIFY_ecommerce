@@ -1,4 +1,4 @@
-package org.example.controller;
+/*package org.example.controller;
 
 import org.example.entity.Admin;
 import org.example.service.admin.AdminService;
@@ -36,3 +36,4 @@ public class AdminController {
 
 
 }
+*/
