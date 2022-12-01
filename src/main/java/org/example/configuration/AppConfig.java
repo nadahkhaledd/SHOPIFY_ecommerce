@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-@EnableWebMvc
+@EnableWebMvc  /// will be commented when testing with context from Main
 @Configuration
 @ComponentScan(basePackages = "org.example")
 public class AppConfig {

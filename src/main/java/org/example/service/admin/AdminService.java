@@ -1,6 +1,7 @@
 package org.example.service.admin;
 
 import org.example.entity.Admin;
+import org.example.entity.User;
 
 public interface AdminService {
 
@@ -10,7 +11,7 @@ public interface AdminService {
      * @param admin This is the admin object to be added.
      * @return nothing
      */
-    void addAdmin(Admin admin);
+    void addAdmin(User admin);
 
 
     /**
