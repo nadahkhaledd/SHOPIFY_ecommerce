@@ -7,20 +7,24 @@ import java.time.LocalDate;
 @Entity
 @Table(name="orders")
 public class Order{
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @OneToMany
+    private OrderDetails orderDetails;
+
     @Column(name = "user_id")
     @NotNull
     private int userId;
     @Column(name = "order_date")
     @NotNull
     private LocalDate date;
-    @Column(name = "status")
-    @NotNull
+    @Column(name = "status", nullable = false)
     private OrderStatus status;
-    @Column(name = "total")
-    @NotNull
+    @Column(name = "total",nullable = false)
     private int total;
 
      public Order() {

@@ -1,38 +1,34 @@
-/*package org.example.controller;
+package org.example.controller;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+//Omar Abu ElKeir, Vodafone
+//Omar: create order, get orders, view order details, cancel order, CheckOut, update status.
 
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
+    @Autowired
+    OrderService orderService;
 
     @GetMapping(name = "/getOrders")
-    public String getOrders(int userId){
-        return "";
+    public List getOrders(Long userId){
+        return orderService.getOrders(userId);
     }
 
     @GetMapping(name="/getOrderDetails")
-    public String getOrderDetails(int userId, int orderId){
-        return "";
+    public List getOrderDetails(Long orderId){
+        return orderService.getOrderDetails(orderId);
     }
 
-    @GetMapping(name = "/cancelOrder")
-    public String cancelOrder(int orderId,int userId){
-        return "";
+    @PutMapping(name = "/cancelOrder")
+    public boolean cancelOrder(Long orderId){
+       return orderService.cancelOrder(orderId);
     }
 
-    @DeleteMapping(name = "/deleteOrderItem")
-    //before order approval
-    public String deleteOrderItem(Long productId, Long userId){
-        return "";
+    @PostMapping(name = "/checkout")
+    public void checkOut(Long userId){
+        orderService.checkOut(userId);
     }
-
-    @PutMapping(name = "/updateOrderItemQty")
-    public String updateOrderDetailQty(int productId, int userId, int Qty){
-        return "";
-    }
-
-}*/
+}
