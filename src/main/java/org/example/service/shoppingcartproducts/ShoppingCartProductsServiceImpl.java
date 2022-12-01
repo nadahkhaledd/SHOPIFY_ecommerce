@@ -5,9 +5,11 @@ import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
 import org.example.repository.shoppingcartproducts.ShoppingCartProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsService {
 
     private final ShoppingCartProductsRepository repository;
