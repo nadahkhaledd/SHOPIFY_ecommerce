@@ -31,6 +31,9 @@ public class Customer extends User {
     }
 
     public CustomerStatus getStatus() {
+        return status;
+    }
+
     public List<Rate> getRates() {
         return Rates;
     }
@@ -39,9 +42,6 @@ public class Customer extends User {
         Rates = rates;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
     public void setStatus(CustomerStatus status) {
         this.status = status;
