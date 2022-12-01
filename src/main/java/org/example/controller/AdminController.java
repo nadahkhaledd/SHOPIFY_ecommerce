@@ -32,6 +32,13 @@ public class AdminController {
         return "addadmin";
     }
 
+    @GetMapping("home.htm")
+    public String home() {
+        //model.addAttribute("admin", new Admin());
+        //model.addAttribute("message", "hello world from spring mvc");
+        return "home";
+    }
+
 
 
 
