@@ -1,8 +1,10 @@
 package org.example.entity;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -11,10 +13,31 @@ public class Product {
     private String name;
     private String imagePath;
     private double price;
+
     private Category category;
     private int availableQuantity;
 
+    private List<Rate> Rates;
+
     public Product() {}
+
+    public Product(String name, String imagePath, double price, Category category, int availableQuantity) {
+        this.name = name;
+        this.imagePath = imagePath;
+        this.price = price;
+        this.category = category;
+        this.availableQuantity = availableQuantity;
+
+    }
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
+    public List<Rate> getRates() {
+        return Rates;
+    }
+
+    public void setRates(List<Rate> rates) {
+        Rates = rates;
+    }
 
     @Id
     @NotNull
@@ -28,8 +51,11 @@ public class Product {
         this.id = id;
     }
 
-    @NotBlank
-    @Column(nullable = false, length = 45)
+
+
+   @NotBlank
+    @Column(nullable = false, length = 45,unique = true)
+
     public String getName() {
         return name;
     }
@@ -58,7 +84,7 @@ public class Product {
         this.price = price;
     }
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "category_id")
     public Category getCategory() {
         return category;
@@ -76,5 +102,17 @@ public class Product {
 
     public void setAvailableQuantity(int availableQuantity) {
         this.availableQuantity = availableQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", price=" + price +
+                ", category=" + category +
+                ", availableQuantity=" + availableQuantity +
+                '}';
     }
 }

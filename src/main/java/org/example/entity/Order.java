@@ -7,42 +7,49 @@ import java.time.LocalDate;
 @Entity
 @Table(name="orders")
 public class Order{
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
+
+    @OneToMany
+    private OrderDetails orderDetails;
+
     @Column(name = "user_id")
     @NotNull
-    private Long userId;
+    private int userId;
     @Column(name = "order_date")
     @NotNull
     private LocalDate date;
-    @Column(name = "status")
-    @NotNull
+    @Column(name = "status", nullable = false)
     private OrderStatus status;
-    @Column(name = "total")
-    @NotNull
-    private int total;
+    @Column(name = "total",nullable = false)
+    private Integer total;
 
-    public Order(Long userId, LocalDate date, OrderStatus status, int total) {
+     public Order() {
+    }
+
+    public Order(int userId, LocalDate date, OrderStatus status, Integer total) {
         this.userId = userId;
         this.date = date;
         this.status = status;
         this.total = total;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -62,11 +69,11 @@ public class Order{
         this.status = status;
     }
 
-    public int getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 }
