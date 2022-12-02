@@ -16,6 +16,16 @@ public class ProductRepoImpl implements ProductRepo {
     public ProductRepoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
+    public Product getProduct(int productId) {
+        List<Product> products;
+        try(Session session = sessionFactory.openSession()) {
+            products=session.createQuery("from Product where id=:productId")
+                    .setParameter("productId", productId)
+                    .list();
+        }
+        return products.get(0);
+    }
     /**
      * @InheritedDoc
      */

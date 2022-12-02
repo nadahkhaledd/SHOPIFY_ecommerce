@@ -19,6 +19,11 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceImpl(ProductRepoImpl productRepoImpl) {
         this.productRepository = productRepoImpl;
     }
+
+    public Product getProduct(int productId) {
+        return productRepository.getProduct(productId);
+    }
+
     /**
      * @Inherited
      */

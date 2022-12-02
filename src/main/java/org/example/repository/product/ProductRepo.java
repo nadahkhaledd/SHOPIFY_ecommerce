@@ -6,6 +6,7 @@ import org.example.entity.Product;
 import java.util.List;
 
 public interface ProductRepo {
+    Product getProduct(int productId);
 
     /**
      *  add product this function used by admin to add product to database
