@@ -12,18 +12,18 @@
   <body>
     <div class="container" id="container">
         <div class="testbox">
-          <form:form modelAttribute="category" method="POST" >
+          <form:form modelAttribute="category" method="POST">
             <div class="banner">
               <h1>New Admin Registration</h1>
             </div>
             <div class="columns">
 
               <div class="item">
-                <label for="name"> First Name<span>*</span></label>
+                <label for="name">Category name<span>*</span></label>
                 <form:input path="name" id="name" type="text" name="name"/>
               </div>
               <div class="item">
-                <label for="imagePath"> Last Name<span>*</span></label>
+                <label for="imagePath">Image path<span>*</span></label>
                 <form:input path="imagePath" id="imagePath" type="text" name="imagePath"/>
               </div>
             </div>

@@ -65,7 +65,7 @@ public class AdminController {
     }
 
     @PostMapping("addCategory")
-    public String addCategory(@Valid  @ModelAttribute("category") Category category, BindingResult bindingResult) {
+    public String addCategory(@ModelAttribute("category") Category category, BindingResult bindingResult) {
         System.out.println("hello to post category");
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
