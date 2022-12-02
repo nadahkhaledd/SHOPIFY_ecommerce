@@ -15,7 +15,7 @@ public class AdminServiceImplementation implements AdminService{
     public AdminServiceImplementation(AdminRepository repository) {
         System.out.println("in admin service....");
         this.repository = repository;
-        repository.createSuperAdmin();
+        //repository.createSuperAdmin();
     }
 
     /**
