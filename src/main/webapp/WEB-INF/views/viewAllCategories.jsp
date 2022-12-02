@@ -1,6 +1,11 @@
 <%@ include file="common/header.jspf"%>
 <%@ include file="common/navigation.jspf"%>
-
+<!--
+<div class="container">
+    <input type="text" placeholder="Search...">
+    <div class="search"></div>
+</div>
+-->
 <h2 style="text-align:center">Categories</h2>
 
 <c:forEach  begin="0" items="${categories}"  var="category" varStatus="loopCounter" >
