@@ -24,6 +24,7 @@ public class HomeController {
         List<Category> categories = categoryService.getAllCategories();
         categories.forEach(System.out::println);
         List<Product> products = productService.getProducts();
+       // products.forEach(p->p.s);
         products.forEach(System.out::println);
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("categories", categories);

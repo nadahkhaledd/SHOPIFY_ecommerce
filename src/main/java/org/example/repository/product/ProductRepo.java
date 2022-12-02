@@ -1,5 +1,6 @@
 package org.example.repository.product;
 
+import org.example.entity.Category;
 import org.example.entity.Product;
 
 import java.util.List;
@@ -62,4 +63,11 @@ public interface ProductRepo {
      * @return {@link List} list of products
      */
     List<Product> getProductsByCategory(int categoryId);
+    /**
+     * search by product name
+     * takes a product name and retrieve all products matching this name
+     * @param productName productName
+     * @return list of products
+     */
+    public List<Product> searchByProductName(String productName);
 }

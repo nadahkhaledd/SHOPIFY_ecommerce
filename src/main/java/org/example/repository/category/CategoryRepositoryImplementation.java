@@ -88,4 +88,20 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
         return categories;
     }
 
+    /**
+     * @InheritedDoc
+     */
+    @Override
+    public List<Category> searchByCategoryName(String categoryName) {
+        List<Category> categories;
+        try(Session session=factory.openSession()){
+            session.beginTransaction();
+            categories=session.createQuery("from Category where name like :searchkey ").
+                    setString("searchkey", "%"+categoryName+"%").list();
+            //     session.getTransaction().commit();
+        }
+        categories.forEach(System.out::println);
+        return categories;
+    }
+
 }

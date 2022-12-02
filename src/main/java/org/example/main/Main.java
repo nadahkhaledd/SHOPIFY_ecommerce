@@ -5,6 +5,8 @@ import org.example.entity.Admin;
 import org.example.enums.Gender;
 import org.example.service.admin.AdminService;
 import org.example.service.admin.AdminServiceImplementation;
+import org.example.service.product.ProductService;
+import org.example.service.product.ProductServiceImpl;
 import org.example.utility.DateUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -13,6 +15,8 @@ import java.util.Date;
 public class Main {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+        ProductService productService=context.getBean(ProductServiceImpl.class);
+     productService.searchByProductName("men").forEach(System.out::println);
        // ProductService productService=context.getBean(ProductServiceImpl.class);
        // RateServiceImpl rateService=context.getBean(RateServiceImpl.class);
        /// System.out.println( rateService.getRates(1));

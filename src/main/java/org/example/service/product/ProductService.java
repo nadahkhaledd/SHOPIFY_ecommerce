@@ -1,5 +1,6 @@
 package org.example.service.product;
 
+import org.example.entity.Category;
 import org.example.entity.Product;
 
 import java.util.List;
@@ -59,12 +60,22 @@ public interface ProductService {
      */
     List<Product> getProducts();
 
+
     /**
      * get products by category
-     *
-     * @return {@link List}
-     * @see List
-     * @see Product
+     * retrieves all products related to a category
+     * @param categoryId id of category
+     * @return list of products
      */
     List<Product> getProductsByCategory(int categoryId);
+
+
+    /**
+     * search by product name
+     * takes a product name and retrieve all products matching this name
+     * @param productName productName
+     * @return list of products
+     */
+
+     List<Product> searchByProductName(String productName);
 }

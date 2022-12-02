@@ -16,6 +16,8 @@ public class Product {
 
     private Category category;
     private int availableQuantity;
+    @Transient//will not be added as a column in the database
+    private float rate;
 
     private List<Rate> Rates;
 

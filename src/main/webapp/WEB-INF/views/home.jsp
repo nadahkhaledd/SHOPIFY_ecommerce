@@ -26,8 +26,46 @@
     <!-- Libraries Stylesheet -->
     <link href="${pageContext.request.contextPath}/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
+    <link href="${pageContext.request.contextPath}/resources/scss/style.scss" rel="stylesheet">
     <!-- Customized Bootstrap Stylesheet -->
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+<style>
+    .stars-container {
+  position: relative;
+  display: inline-block;
+  color: transparent;
+}
+
+.stars-container:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '★★★★★';
+  color: lightgray;
+}
+
+.stars-container:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '★★★★★';
+  color: gold;
+  overflow: hidden;
+}
+
+.stars-0:after { width: 0%; }
+.stars-10:after { width: 10%; }
+.stars-20:after { width: 20%; }
+.stars-30:after { width: 35%; }
+.stars-40:after { width: 40%; }
+.stars-50:after { width: 50%; }
+.stars-60:after { width: 60%; }
+.stars-70:after { width: 70%; }
+.stars-80:after { width: 80%; }
+.stars-90:after { width: 90%; }
+.stars-100:after { width: 100; }
+
+</style>
 </head>
 
 <body>
@@ -70,9 +108,9 @@
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
-                <form action="">
+                <form action="/e-commerce/search" method="POST">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" id="searchValue" name="searchValue" class="form-control" placeholder="Search for products">
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -280,7 +318,7 @@
                             <h6>$${product.price}</h6>
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between bg-light border">
+                   <div class="card-footer d-flex justify-content-between bg-light border">
                         <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
                         <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                     </div>

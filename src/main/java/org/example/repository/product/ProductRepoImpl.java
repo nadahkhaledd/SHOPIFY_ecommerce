@@ -1,5 +1,6 @@
 package org.example.repository.product;
 
+import org.example.entity.Category;
 import org.example.entity.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,7 +16,9 @@ public class ProductRepoImpl implements ProductRepo {
     public ProductRepoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-
+    /**
+     * @InheritedDoc
+     */
     @Override
     public void addProduct(Product product){
         try(Session session=sessionFactory.openSession()){
@@ -24,6 +27,9 @@ public class ProductRepoImpl implements ProductRepo {
             session.getTransaction().commit();
         }
     }
+    /**
+     * @InheritedDoc
+     */
     @Override
     public void updateProduct(Product product){
         try(Session session=sessionFactory.openSession()){
@@ -32,6 +38,9 @@ public class ProductRepoImpl implements ProductRepo {
             session.getTransaction().commit();
         }
     }
+    /**
+     * @InheritedDoc
+     */
     @Override
     public void deleteProduct(Product product){
         try(Session session=sessionFactory.openSession()){
@@ -40,7 +49,9 @@ public class ProductRepoImpl implements ProductRepo {
             session.getTransaction().commit();
         }
     }
-
+    /**
+     * @InheritedDoc
+     */
     @Override
     public boolean updateProductRate(int productId, float rate){
         int rowsAffected=0;
@@ -55,7 +66,9 @@ public class ProductRepoImpl implements ProductRepo {
         }
         return rowsAffected!=0;
     }
-
+    /**
+     * @InheritedDoc
+     */
     @Override
     public boolean updateProductQuantity(int productId, int quantity){
         int rowsAffected=0;
@@ -69,6 +82,9 @@ public class ProductRepoImpl implements ProductRepo {
         }
         return rowsAffected!=0;
     }
+    /**
+     * @InheritedDoc
+     */
    @Override
    public List<Product> getProducts(){
         List<Product> products;
@@ -81,8 +97,7 @@ public class ProductRepoImpl implements ProductRepo {
    }
 
     /**
-     * @param categoryId categoryId id of category we want to retrieve it's products 
-     * @return
+     * @InheritedDoc
      */
     @Override
     public List<Product> getProductsByCategory(int categoryId) {
@@ -95,6 +110,23 @@ public class ProductRepoImpl implements ProductRepo {
                     setParameter("categoryId",categoryId).list();
            // session.getTransaction().commit();
         }
+        return products;
+    }
+    /**
+     * @InheritedDoc
+     */
+    @Override
+    public List<Product> searchByProductName(String productName) {
+        System.out.println("hheherrr "+productName);
+        List<Product> products;
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            products=session.createQuery("from Product where name like :searchkey ").
+                    setString("searchkey", "%"+productName+"%").list();
+            //     session.getTransaction().commit();
+        }
+        System.out.println("tam heeee");
+        products.forEach(System.out::println);
         return products;
     }
 
