@@ -30,6 +30,14 @@ public class AdminServiceImplementation implements AdminService{
      * @inheritDoc
      */
     @Override
+    public void createSuperAdmin() {
+        repository.createSuperAdmin();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
     public boolean updateAdmin(Admin admin) {
         int rowsAffected = repository.updateAdmin(admin);
         return rowsAffected==1;

@@ -13,6 +13,14 @@ public interface AdminService {
      */
     void addAdmin(User admin);
 
+    /**
+     * This method is used to create the super admin of the system.
+     * It creates a new admin object and then add it to database.
+     * This method will be called by the start of the project.
+     * @return nothing
+     */
+    void createSuperAdmin();
+
 
     /**
      * This method is used to update an admin.
