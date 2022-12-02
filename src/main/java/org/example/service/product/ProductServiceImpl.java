@@ -73,6 +73,15 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.getProductsByCategory(categoryId);
     }
 
+    /**
+     * @param productId id of product
+     * @return
+     */
+    @Override
+    public Product getProductsById(int productId) {
+        return productRepository.getProductsById(productId);
+    }
+
 
     /**
      * @Inherited

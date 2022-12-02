@@ -19,7 +19,7 @@ public class Product {
     @Transient//will not be added as a column in the database
     private float rate;
 
-    private List<Rate> Rates;
+    private List<Rate> rates;
 
     public Product() {}
 
@@ -32,14 +32,25 @@ public class Product {
 
     }
 
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
     public List<Rate> getRates() {
-        return Rates;
+        return rates;
     }
 
     public void setRates(List<Rate> rates) {
-        Rates = rates;
+        this.rates = rates;
     }
+
+
+
 
     @Id
     @NotNull

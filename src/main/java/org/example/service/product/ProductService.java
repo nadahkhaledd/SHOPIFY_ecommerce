@@ -68,7 +68,13 @@ public interface ProductService {
      * @return list of products
      */
     List<Product> getProductsByCategory(int categoryId);
-
+    /**
+     * get products by id
+     * retrieves product with the given id
+     * @param productId id of product
+     * @return  product
+     */
+    Product getProductsById(int productId);
 
     /**
      * search by product name

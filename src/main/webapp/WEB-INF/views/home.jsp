@@ -29,43 +29,7 @@
     <link href="${pageContext.request.contextPath}/resources/scss/style.scss" rel="stylesheet">
     <!-- Customized Bootstrap Stylesheet -->
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
-<style>
-    .stars-container {
-  position: relative;
-  display: inline-block;
-  color: transparent;
-}
 
-.stars-container:before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  content: '★★★★★';
-  color: lightgray;
-}
-
-.stars-container:after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  content: '★★★★★';
-  color: gold;
-  overflow: hidden;
-}
-
-.stars-0:after { width: 0%; }
-.stars-10:after { width: 10%; }
-.stars-20:after { width: 20%; }
-.stars-30:after { width: 35%; }
-.stars-40:after { width: 40%; }
-.stars-50:after { width: 50%; }
-.stars-60:after { width: 60%; }
-.stars-70:after { width: 70%; }
-.stars-80:after { width: 80%; }
-.stars-90:after { width: 90%; }
-.stars-100:after { width: 100; }
-
-</style>
 </head>
 
 <body>
@@ -145,7 +109,7 @@
                 <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
                         <c:forEach   items="${categories}"  var="category"  >
-                            <a href="http://localhost:8080/e-commerce/products/getCategoryProducts?categoryId=${category.id}" class="nav-item nav-link">${category.name}</a>
+                            <a href="/e-commerce/products/getCategoryProducts?categoryId=${category.id}" class="nav-item nav-link">${category.name}</a>
                         </c:forEach>
                     </div>
                 </nav>
@@ -258,7 +222,7 @@
                     <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
 
                         <p class="text-right">${fn:length(category.products)} products</p>
-                        <a href="http://localhost:8080/e-commerce/products/getCategoryProducts?categoryId=${category.id}" class="cat-img position-relative overflow-hidden mb-3">
+                        <a href="e-commerce/products/getCategoryProducts?categoryId=${category.id}" class="cat-img position-relative overflow-hidden mb-3">
                             <img class="img-fluid" src="${pageContext.request.contextPath}/resources/img/${category.imagePath}" alt="">
                         </a>
                         <h5 class="font-weight-semi-bold m-0">${category.name} </h5>
@@ -318,8 +282,9 @@
                             <h6>$${product.price}</h6>
                         </div>
                     </div>
-                   <div class="card-footer d-flex justify-content-between bg-light border">
-                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+
+                    <div class="card-footer d-flex justify-content-between bg-light border">
+                        <a href="/e-commerce/products/productDetails?productId=${product.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
                         <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                     </div>
                 </div>
