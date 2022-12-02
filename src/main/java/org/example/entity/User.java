@@ -3,7 +3,7 @@ package org.example.entity;
 import org.example.enums.Gender;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;

@@ -1,6 +1,7 @@
 package org.example.entity;
 
 import javax.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Rate {

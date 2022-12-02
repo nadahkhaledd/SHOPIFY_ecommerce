@@ -20,19 +20,23 @@
               <div class="item">
                 <label for="firstName"> First Name<span>*</span></label>
                 <form:input path="firstName" id="firstName" type="text" name="firstName"/>
+                <form:errors path="firstName" cssClass="error"/>
               </div>
               <div class="item">
                 <label for="lastName"> Last Name<span>*</span></label>
                 <form:input path="lastName" id="lastName" type="text" name="lastName"/>
+                <form:errors path="lastName" cssClass="error"/>
               </div>
 
               <div class="item">
                 <label for="email">Email<span>*</span></label>
                 <form:input path="email" id="email" type="email" name="email"/>
+                <form:errors path="email" cssClass="error"/>
               </div>
               <div class="item">
                 <label for="password">Password<span>*</span></label>
                 <form:input path="password" id="password" type="text" name="password"/>
+                <form:errors path="password" cssClass="error"/>
               </div>
 
                <div class="item">
@@ -41,6 +45,7 @@
                      placeholder="dd-mm-yyyy" value=""
                      min="1960-01-01" max="2030-12-31"/>
                     <i class="fas fa-calendar-alt"></i>
+                    <form:errors path="dateOfBirth" cssClass="error"/>
                </div>
 
                <div class="question">
