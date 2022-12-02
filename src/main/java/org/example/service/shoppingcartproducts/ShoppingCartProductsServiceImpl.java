@@ -3,6 +3,7 @@ package org.example.service.shoppingcartproducts;
 import org.example.entity.Customer;
 import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
+import org.example.entity.User;
 import org.example.repository.shoppingcartproducts.ShoppingCartProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,13 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
     }
 
     @Override
-    public double calculateTotal(Customer customer) {
-        return repository.calculateTotal(customer);
+    public double calculateTotal(int userId) {
+        return repository.calculateTotal(userId);
     }
 
     @Override
-    public List<ShoppingCartProducts> viewCart(Customer customer) {
-        return repository.viewCart(customer);
+    public List<ShoppingCartProducts> viewCart(int userId) {
+        return repository.viewCart(userId);
     }
 
     @Override

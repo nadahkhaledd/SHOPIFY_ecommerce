@@ -1,9 +1,6 @@
 package org.example.service.address;
 
-import org.example.entity.Address;
-import org.example.entity.Customer;
-import org.example.entity.Product;
-import org.example.entity.ShoppingCartProducts;
+import org.example.entity.*;
 import org.example.repository.address.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +23,8 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<Address> getUserAddresses(Customer customer) {
-        return repository.getUserAddresses(customer);
+    public List<Address> getUserAddresses(User user) {
+        return repository.getUserAddresses(user);
     }
 
     @Override

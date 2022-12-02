@@ -1,9 +1,6 @@
 package org.example.repository.address;
 
-import org.example.entity.Address;
-import org.example.entity.Customer;
-import org.example.entity.Product;
-import org.example.entity.ShoppingCartProducts;
+import org.example.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -33,12 +30,12 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
-    public List<Address> getUserAddresses(Customer customer) {
+    public List<Address> getUserAddresses(User user) {
         List<Address> addresses;
         try (Session session = factory.openSession()) {
             addresses = session
                     .createQuery("from Address where customer=:id")
-                    .setParameter("id", customer)
+                    .setParameter("id", user)
                     .getResultList();
         }
         return addresses;

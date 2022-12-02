@@ -3,6 +3,7 @@ package org.example.repository.shoppingcartproducts;
 import org.example.entity.Customer;
 import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
+import org.example.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,12 +24,14 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
     }
 
     @Override
-    public List<ShoppingCartProducts> viewCart(Customer customer) {
+    public List<ShoppingCartProducts> viewCart(int userId) {
         List<ShoppingCartProducts> shoppingCartProducts;
         try(Session session = factory.openSession()) {
             shoppingCartProducts = session.
-                    createQuery("from ShoppingCartProducts where customer=:id")
-                    .setParameter("id", customer)
+                    createQuery("select scp from ShoppingCartProducts as scp inner join scp.user as u " +
+                                    "where u.id=:id",
+                            ShoppingCartProducts.class)
+                    .setParameter("id", userId)
                     .getResultList();
         }
         return shoppingCartProducts;
@@ -73,15 +76,16 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
         return result;
     }
     @Override
-    public double calculateTotal(Customer customer) {
-        double result;
+    public double calculateTotal(int userId) {
+        Double result;
         try(Session session = factory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            Query query = session.createQuery("select sum(p.price*scp.productQuantity) from ShoppingCartProducts scp " +
-                    "LEFT JOIN Product p ON scp.product=p.id where scp.customer=:customerId");
-            query.setParameter("customerId", customer);
+            Query query = session.createQuery(
+                    "select sum(scp.product.price*scp.productQuantity) " +
+                            "from ShoppingCartProducts as scp inner join scp.user as u where u.id=:id"
+            ).setParameter("id", userId);
             result = (Double) query.getSingleResult();
-            tx.commit();
+            if(result == null)
+                return 0.0;
         }
         return result;
     }
