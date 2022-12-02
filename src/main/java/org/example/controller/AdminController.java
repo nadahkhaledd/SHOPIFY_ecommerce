@@ -6,7 +6,10 @@ import org.example.entity.Product;
 import org.example.enums.Gender;
 import org.example.service.admin.AdminService;
 import org.example.service.category.CategoryService;
+import org.example.service.product.ProductService;
+import org.example.utility.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,10 +19,7 @@ import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -27,11 +27,15 @@ public class AdminController {
 
     private final AdminService adminService;
     private final CategoryService categoryService;
+    private final ProductService productService;
+
+    private DateUtils dateUtils = new DateUtils();
 
     @Autowired
-    public AdminController(AdminService adminService, CategoryService categoryService) {
+    public AdminController(AdminService adminService, CategoryService categoryService, ProductService productService) {
         this.adminService = adminService;
         this.categoryService = categoryService;
+        this.productService = productService;
     }
 
     @GetMapping("addAdmin")
@@ -40,12 +44,12 @@ public class AdminController {
         List<String> genders = new ArrayList<>(
                 Arrays.asList(Gender.male.toString(), Gender.female.toString()));
         model.addAttribute("admin", new Admin());
-        //model.addAllAttributes(Map.of("admin", new Admin(), "gender", genders));
+        model.addAttribute("genders", genders);
         return "addAdmin";
     }
 
     @PostMapping("addAdmin")
-    public String addUser(@Valid  @ModelAttribute("admin") Admin admin, BindingResult bindingResult) {
+    public String addUser(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd")  @ModelAttribute("admin") Admin admin, BindingResult bindingResult) {
         System.out.println("hello to post admin");
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
@@ -74,6 +78,26 @@ public class AdminController {
         }
         System.out.println(category);
         categoryService.addCategory(category);
+        return "redirect:/admin/login";
+    }
+
+    @GetMapping("addProduct")
+    public String newProduct(Model model) {
+        model.addAttribute("product", new Product());
+        model.addAttribute("categories", categoryService.getCategoriesNames());
+        return "addProduct";
+    }
+
+    @PostMapping("addProduct")
+    public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult) {
+        System.out.println("hello to post product");
+        if (bindingResult.hasErrors()) {
+            Map<String, Object> model = bindingResult.getModel();
+            System.out.println(model);
+            return "addProduct";
+        }
+        System.out.println(product);
+        productService.addProduct(product);
         return "redirect:/admin/login";
     }
 

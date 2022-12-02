@@ -54,16 +54,17 @@
                         <div>
                             <form:radiobutton path="gender" value="male" id="male" name="gender"/>
                             <label for="male" class="radio"><span>male</span></label>
+                            <form:errors path="gender" cssClass="error"/>
                         </div>
                         <div>
                             <form:radiobutton path="gender" value="female" id="female" name="gender"/>
                             <label for="female" class="radio"><span>female</span></label>
+                            <form:errors path="gender" cssClass="error"/>
                         </div>
                     </div>
                </div>
             </div>
 
-            <h2>Terms and Conditions</h2>
             <div class="btn-block">
               <button type="submit" >Submit</button>
             </div>

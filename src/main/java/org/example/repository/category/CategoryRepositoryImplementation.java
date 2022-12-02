@@ -75,7 +75,7 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
     }
 
     /**
-     * @return 
+     * @inheritDoc
      */
     @Override
     public List<Category> getAllCategories() {
@@ -88,4 +88,16 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
         return categories;
     }
 
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public List<String> getCategoriesNames() {
+        List<String> categoriesNames;
+        try (Session session = factory.openSession()) {
+            categoriesNames  = session.createQuery("SELECT c.name from Category c", String.class).list();
+
+        }
+        return categoriesNames;
+    }
 }

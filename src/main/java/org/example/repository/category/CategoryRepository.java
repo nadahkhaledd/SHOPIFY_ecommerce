@@ -28,5 +28,15 @@ public interface CategoryRepository {
      */
     int removeCategory(int categoryID);
 
+    /**
+     * This method is used to fetch all categories available in database.
+     * @return List a list with all categories available.
+     */
     List<Category> getAllCategories();
+
+    /**
+     * This method is used to get the names of all categories available in database.
+     * @return List a list with categories available names.
+     */
+    List<String> getCategoriesNames();
 }

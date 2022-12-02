@@ -3,6 +3,8 @@ package org.example.entity;
 
 import javax.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -46,40 +48,36 @@ public class Product {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
 
-
-
-   @NotBlank
+    @NotBlank
+    @NotNull
     @Column(nullable = false, length = 45,unique = true)
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
 
     @NotBlank
+    @NotNull
     @Column(name = "image_path", nullable = false, length = 45)
     public String getImagePath() {
         return imagePath;
     }
-
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 
     @NotNull
     @Column(nullable = false)
+    @Min(1)
     public double getPrice() {
         return price;
     }
-
     public void setPrice(double price) {
         this.price = price;
     }
@@ -89,17 +87,16 @@ public class Product {
     public Category getCategory() {
         return category;
     }
-
     public void setCategory(Category category) {
         this.category = category;
     }
 
     @NotNull
     @Column(name = "available_quantity", nullable = false)
+    @Min(0)
     public int getAvailableQuantity() {
         return availableQuantity;
     }
-
     public void setAvailableQuantity(int availableQuantity) {
         this.availableQuantity = availableQuantity;
     }

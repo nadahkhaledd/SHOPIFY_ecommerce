@@ -50,4 +50,12 @@ public class CategoryServiceImplementation implements CategoryService{
     public List<Category> getAllCategories() {
         return repository.getAllCategories();
     }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public List<String> getCategoriesNames() {
+        return repository.getCategoriesNames();
+    }
 }
