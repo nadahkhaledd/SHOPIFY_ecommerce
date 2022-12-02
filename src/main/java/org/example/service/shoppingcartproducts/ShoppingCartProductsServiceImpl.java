@@ -31,13 +31,31 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
     }
 
     @Override
+    public ShoppingCartProducts getCartItem(Product product, User user) {
+        return repository.getCartItem(product, user);
+    }
+
+    @Override
     public void addToCart(ShoppingCartProducts shoppingCartProduct) {
-        repository.addToCart(shoppingCartProduct);
+        ShoppingCartProducts returnedProduct = getCartItem(shoppingCartProduct.getProduct(),
+                shoppingCartProduct.getUser());
+        if(returnedProduct == null)
+            repository.addToCart(shoppingCartProduct);
+        else
+            repository.updateProductQuantityInCart(returnedProduct.getId(),
+                    returnedProduct.getProductQuantity()+1);
+
     }
 
     @Override
     public boolean updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
-        int affectedRows = repository.updateProductQuantityInCart(shoppingCartProductId, newQuantity);
+        int affectedRows;
+        if(newQuantity > 0)
+            affectedRows = repository.updateProductQuantityInCart(shoppingCartProductId, newQuantity);
+        else {
+            affectedRows = 0;
+            repository.removeFromCart(shoppingCartProductId);
+        }
         return affectedRows == 1;
     }
 

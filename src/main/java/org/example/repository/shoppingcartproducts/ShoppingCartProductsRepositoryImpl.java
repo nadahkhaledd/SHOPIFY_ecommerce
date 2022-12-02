@@ -24,6 +24,22 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
     }
 
     @Override
+    public ShoppingCartProducts getCartItem(Product product, User user) {
+        List<ShoppingCartProducts> cartProducts;
+        try(Session session = factory.openSession()) {
+            cartProducts = session.createQuery("from ShoppingCartProducts where user=:userId and product=:productId",
+                            ShoppingCartProducts.class)
+                    .setParameter("userId", user)
+                    .setParameter("productId", product)
+                    .getResultList();
+            if(cartProducts.isEmpty())
+                return null;
+            else
+                return cartProducts.get(0);
+        }
+    }
+
+    @Override
     public List<ShoppingCartProducts> viewCart(int userId) {
         List<ShoppingCartProducts> shoppingCartProducts;
         try(Session session = factory.openSession()) {
