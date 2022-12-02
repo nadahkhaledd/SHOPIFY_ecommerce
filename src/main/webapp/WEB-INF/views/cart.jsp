@@ -196,13 +196,15 @@
                                 <td class="align-middle">
                                     <div class="input-group quantity mx-auto" style="width: 100px;">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary btn-minus" >
+                                            <button class="btn btn-sm btn-primary btn-minus"
+                                            onclick="location.href = '${pageContext.request.contextPath}/cart/update/${product.user.id}/${product.id}?quantity=${product.productQuantity-1}'">
                                             <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
                                         <input type="text" class="form-control form-control-sm bg-secondary text-center" value=${product.productQuantity}>
                                         <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary btn-plus">
+                                            <button class="btn btn-sm btn-primary btn-plus"
+                                            onclick="location.href = '${pageContext.request.contextPath}/cart/update/${product.user.id}/${product.id}?quantity=${product.productQuantity+1}'">
                                                 <i class="fa fa-plus"></i>
                                             </button>
                                         </div>

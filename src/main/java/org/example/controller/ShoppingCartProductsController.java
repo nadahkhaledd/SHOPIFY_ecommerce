@@ -23,9 +23,16 @@ public class ShoppingCartProductsController {
         this.cartServices = cartServices;
     }
 
+    @GetMapping("/update/{userId}/{id}")
+    public String updateQuantity(@PathVariable("userId") int userId, @PathVariable("id") int id,
+                                 @RequestParam int quantity) {
+        cartServices.updateProductQuantityInCart(id, quantity);
+        return "redirect:/cart/view?id="+userId;
+    }
+
     @GetMapping("/delete/{userId}/{id}")
     public String deleteCartItem(@PathVariable("userId") int userId, @PathVariable("id") int id) {
-        boolean isRemoved = cartServices.removeFromCart(id);
+        cartServices.removeFromCart(id);
         return "redirect:/cart/view?id="+userId;
     }
 
