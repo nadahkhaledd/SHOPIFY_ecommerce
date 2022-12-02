@@ -52,12 +52,22 @@ public class Category {
         this.imagePath = imagePath;
     }
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY,cascade  = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER,cascade  = CascadeType.ALL)
     public List<Product> getProducts() {
         return products;
     }
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", products=" + products +
+                '}';
     }
 }

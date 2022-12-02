@@ -84,7 +84,7 @@ public class Product {
         this.price = price;
     }
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     public Category getCategory() {
         return category;
@@ -111,7 +111,6 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", imagePath='" + imagePath + '\'' +
                 ", price=" + price +
-                ", category=" + category +
                 ", availableQuantity=" + availableQuantity +
                 '}';
     }
