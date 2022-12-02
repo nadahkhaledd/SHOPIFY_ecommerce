@@ -52,4 +52,14 @@ public interface ProductRepo {
      */
 
     List<Product> getProducts();
+
+
+
+    /**
+     * get products by category
+     *
+     * @param categoryId categoryId id of category we want to retrieve it's products
+     * @return {@link List} list of products
+     */
+    List<Product> getProductsByCategory(int categoryId);
 }

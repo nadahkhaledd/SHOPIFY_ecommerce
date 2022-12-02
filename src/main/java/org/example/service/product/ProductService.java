@@ -58,5 +58,13 @@ public interface ProductService {
      * @return products
      */
     List<Product> getProducts();
-    List<Product> getProductsByCategory();
+
+    /**
+     * get products by category
+     *
+     * @return {@link List}
+     * @see List
+     * @see Product
+     */
+    List<Product> getProductsByCategory(int categoryId);
 }

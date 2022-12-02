@@ -75,9 +75,27 @@ public class ProductRepoImpl implements ProductRepo {
        try(Session session=sessionFactory.openSession()){
            session.beginTransaction();
            products=session.createQuery("from Product").list();
-           session.getTransaction().commit();
+      //     session.getTransaction().commit();
        }
        return products;
    }
+
+    /**
+     * @param categoryId categoryId id of category we want to retrieve it's products 
+     * @return
+     */
+    @Override
+    public List<Product> getProductsByCategory(int categoryId) {
+        List<Product> products;
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            //  //"select c.name , c.id FROM Course as c inner join c.students as s WHERE s.id=:studentId"
+            //
+            products=session.createQuery("select p from Product as p inner join p.category as c where c.id=:categoryId").
+                    setParameter("categoryId",categoryId).list();
+           // session.getTransaction().commit();
+        }
+        return products;
+    }
 
 }

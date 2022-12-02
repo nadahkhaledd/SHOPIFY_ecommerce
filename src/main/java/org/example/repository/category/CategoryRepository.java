@@ -2,6 +2,8 @@ package org.example.repository.category;
 
 import org.example.entity.Category;
 
+import java.util.List;
+
 public interface CategoryRepository {
 
     /**
@@ -25,4 +27,6 @@ public interface CategoryRepository {
      * @return int number of rows affected.
      */
     int removeCategory(int categoryID);
+
+    List<Category> getAllCategories();
 }
