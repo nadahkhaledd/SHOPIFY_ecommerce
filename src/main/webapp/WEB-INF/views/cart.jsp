@@ -191,7 +191,7 @@
                     <c:if test="${!empty cartProducts}">
                         <c:forEach var="product" items="${cartProducts}">
                             <tr>
-                                <td class="align-middle"><img src="${pageContext.request.contextPath}/resources/img/product-1.jpg" alt="" style="width: 50px;"> ${product.product.name}</td>
+                                <td class="align-middle"><img src="${pageContext.request.contextPath}/resources/img/${product.imagePath}" alt="" style="width: 50px;"> ${product.product.name}</td>
                                 <td class="align-middle"><fmt:formatNumber value = "${product.product.price}" type = "currency"/></td>
                                 <td class="align-middle">
                                     <div class="input-group quantity mx-auto" style="width: 100px;">
