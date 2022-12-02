@@ -25,18 +25,16 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @GetMapping("addadmin.htm")
+    @GetMapping("addadmin")
     public String sayHello(Model model) {
         //model.addAttribute("admin", new Admin());
         model.addAttribute("message", "hello world from spring mvc");
         return "addadmin";
     }
 
-    @GetMapping("home.htm")
+    @GetMapping("login")
     public String home() {
-        //model.addAttribute("admin", new Admin());
-        //model.addAttribute("message", "hello world from spring mvc");
-        return "home";
+        return "login";
     }
 
 }

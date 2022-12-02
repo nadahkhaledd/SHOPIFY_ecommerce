@@ -21,7 +21,7 @@ public class ProductController {
 
     @GetMapping("/shop")
     public String test(){
-        return "mainPage";
+        return "detail";
     }
     @GetMapping("/getAllProducts")
     public String getAllProducts(Model model){

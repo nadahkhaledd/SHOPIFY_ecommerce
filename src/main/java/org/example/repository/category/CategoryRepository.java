@@ -27,6 +27,21 @@ public interface CategoryRepository {
      * @return int number of rows affected.
      */
     int removeCategory(int categoryID);
+    /**
+     * get all categories
+     * retrieves all categories from database
+     * @return list of categories
+
+     */
 
     List<Category> getAllCategories();
+
+    /**
+     * search by category name
+     * takes category name and retrieves all categories matching this name
+     * @param categoryName categoryName
+     * @return list of matched categories
+     */
+
+    List<Category> searchByCategoryName(String categoryName);
 }

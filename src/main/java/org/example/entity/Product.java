@@ -16,6 +16,8 @@ public class Product {
 
     private Category category;
     private int availableQuantity;
+    @Transient//will not be added as a column in the database
+    private float rate;
 
     private List<Rate> Rates;
 
@@ -84,7 +86,7 @@ public class Product {
         this.price = price;
     }
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     public Category getCategory() {
         return category;
@@ -111,7 +113,6 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", imagePath='" + imagePath + '\'' +
                 ", price=" + price +
-                ", category=" + category +
                 ", availableQuantity=" + availableQuantity +
                 '}';
     }

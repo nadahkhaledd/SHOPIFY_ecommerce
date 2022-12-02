@@ -22,6 +22,8 @@ public class CategoryServiceImplementation implements CategoryService{
      */
     @Override
     public void addCategory(Category category) {
+
+        category.setName(category.getName().toLowerCase());
         repository.addCategory(category);
     }
 
@@ -44,10 +46,18 @@ public class CategoryServiceImplementation implements CategoryService{
     }
 
     /**
-     * @return 
+     * @InheritedDoc
      */
     @Override
     public List<Category> getAllCategories() {
         return repository.getAllCategories();
+    }
+
+    /**
+     * @InheritedDoc
+     */
+    @Override
+    public List<Category> searchByCategoryName(String categoryName) {
+        return repository.searchByCategoryName(categoryName);
     }
 }
