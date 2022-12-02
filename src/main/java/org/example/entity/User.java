@@ -47,9 +47,9 @@ public class User {
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, String password, Gender gender, Date dateOfBirth) {
-        this.firstName = firstname;
-        this.lastName = lastname;
+    public User(String firstName, String lastName, String email, String password, Gender gender, Date dateOfBirth) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.gender = gender;
