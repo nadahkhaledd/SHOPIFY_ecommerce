@@ -16,7 +16,7 @@
             <div class="banner">
               <h1>New Admin Registration</h1>
             </div>
-            <div class="colums">
+            <div class="columns">
               <div class="item">
                 <label for="firstName"> First Name<span>*</span></label>
                 <form:input path="firstName" id="firstName" type="text" name="firstName"/>

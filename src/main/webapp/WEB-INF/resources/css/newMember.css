@@ -116,13 +116,13 @@ textarea
       display:flex;
       justfiy-content:space-between;
       }
-      .colums {
+      .columns {
       display:flex;
       justify-content:space-between;
       flex-direction:row;
       flex-wrap:wrap;
       }
-      .colums div {
+      .columns div {
       width:48%;
       }
       input[type="date"]::-webkit-inner-spin-button {
