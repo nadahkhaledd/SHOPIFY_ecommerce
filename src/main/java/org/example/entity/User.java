@@ -3,11 +3,12 @@ package org.example.entity;
 import org.example.enums.Gender;
 
 import javax.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
-@Entity(name="user")
+@Entity(name="User")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="user_type",
         discriminatorType = DiscriminatorType.INTEGER)
@@ -16,6 +17,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
+    @NotBlank
     @Column(nullable = false, length = 30)
     private String firstName;
     @NotNull
@@ -47,9 +49,9 @@ public class User {
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, String password, Gender gender, Date dateOfBirth) {
-        this.firstName = firstname;
-        this.lastName = lastname;
+    public User(String firstName, String lastName, String email, String password, Gender gender, Date dateOfBirth) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.gender = gender;

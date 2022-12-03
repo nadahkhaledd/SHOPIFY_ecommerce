@@ -2,6 +2,7 @@ package org.example.entity;
 import org.example.enums.OrderStatus;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.List;
 

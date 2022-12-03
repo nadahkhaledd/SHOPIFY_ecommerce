@@ -2,6 +2,7 @@ package org.example.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Address {

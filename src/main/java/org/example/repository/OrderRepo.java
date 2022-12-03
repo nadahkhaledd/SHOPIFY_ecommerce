@@ -16,13 +16,18 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Repository
 public class OrderRepo {
+
+    private final SessionFactory sessionFactory;
+
     @Autowired
-    private static SessionFactory sessionFactory;
+    public OrderRepo(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
 
     public List<Order> getOrders(int userId) {
         try (Session session = this.sessionFactory.getCurrentSession()){

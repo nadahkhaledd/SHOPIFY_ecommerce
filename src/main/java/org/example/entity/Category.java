@@ -1,7 +1,7 @@
 package org.example.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class Category {
     }
 
     @NotBlank
-    @Column(name = "image_path", nullable = false)
+    @Column(nullable = false)
     public String getImagePath() {
         return imagePath;
     }

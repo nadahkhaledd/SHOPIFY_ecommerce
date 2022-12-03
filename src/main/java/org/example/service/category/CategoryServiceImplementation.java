@@ -60,4 +60,12 @@ public class CategoryServiceImplementation implements CategoryService{
     public List<Category> searchByCategoryName(String categoryName) {
         return repository.searchByCategoryName(categoryName);
     }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public List<String> getCategoriesNames() {
+        return repository.getCategoriesNames();
+    }
 }

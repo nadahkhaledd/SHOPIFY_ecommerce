@@ -66,8 +66,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
             Query query=session.createQuery(
                     "update User a set a.firstname=:firstname, a.lastname=:lastname," +
                             " a.email=:email, a.password=:password, a.gender=:gender, a.dateOfBirth=:dateOfBirth," +
-                            " where a.id=:id and a.user_type:=user_type",
-                    Admin.class
+                            " where a.id=:id and a.user_type:=user_type"
             );
             query.setParameter("firstname", admin.getFirstName());
             query.setParameter("lastname", admin.getLastName());
@@ -88,16 +87,15 @@ public class AdminRepositoryImplementation implements AdminRepository{
      * @inheritDoc
      */
     @Override
-    public int removeAdmin(int adminID) {
+    public int removeAdmin(int adminID, String adminEmail) {
         int results;
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             Query query=session.createQuery(
-                    "delete from User a where a.id=:id and a.user_type:=user_type",
-                    Admin.class
+                    "delete from User a where a.id=:id and a.email=:email"
             );
             query.setParameter("id", adminID);
-            query.setParameter("user_type", 0);
+            query.setParameter("email", adminEmail);
             results = query.executeUpdate();
             tx.commit();
         }
@@ -109,18 +107,17 @@ public class AdminRepositoryImplementation implements AdminRepository{
      * @inheritDoc
      */
     @Override
-    public int deactivateCustomer(int customerID) {
+    public int deactivateCustomer(int customerID, String customerEmail) {
         int results;
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             Query query=session.createQuery(
                     "update User c set c.status=:status" +
-                            " where c.id=:id and c.user_type:=user_type",
-                    Customer.class
+                            " where c.id=:id and c.email:=email"
             );
             query.setParameter("status", CustomerStatus.DEACTIVATED);
             query.setParameter("id", customerID);
-            query.setParameter("user_type", 1);
+            query.setParameter("email", customerEmail);
 
             results = query.executeUpdate();
             tx.commit();
