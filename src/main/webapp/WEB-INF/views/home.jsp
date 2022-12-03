@@ -222,7 +222,7 @@
                     <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
 
                         <p class="text-right">${fn:length(category.products)} products</p>
-                        <a href="e-commerce/products/getCategoryProducts?categoryId=${category.id}" class="cat-img position-relative overflow-hidden mb-3">
+                        <a href="products/getCategoryProducts?categoryId=${category.id}" class="cat-img position-relative overflow-hidden mb-3">
                             <img class="img-fluid" src="${pageContext.request.contextPath}/resources/img/${category.imagePath}" alt="">
                         </a>
                         <h5 class="font-weight-semi-bold m-0">${category.name} </h5>
