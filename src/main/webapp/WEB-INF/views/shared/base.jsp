@@ -23,11 +23,8 @@
            <div class="navbar-collapse" id="navbarSupportedContent">
              <ul class="navbar-nav me-auto ">
                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/e-commerce/admin/adminHome" >Home</a></li>
-               <li class="nav-item"><a class="nav-link active" aria-current="page" href="/e-commerce/admin/addAdmin" >Add admin</a></li>
-               <li class="nav-item"><a class="nav-link active" aria-current="page" href="/e-commerce/admin/addCategory" >Add category</a></li>
-               <li class="nav-item"><a class="nav-link active" aria-current="page" href="/e-commerce/admin/addProduct" >Add product</a></li>
 
-               <li class="nav-right my-2 my-lg-0" style="float: right; padding-left: 100vh !important;">
+               <li class="nav-right my-2 my-lg-0" style="float: right; padding-left: 150vh !important;">
                    <a class="nav-link active" aria-current="page" href="" >Logout</a></li>
              </ul>
            </div>

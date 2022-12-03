@@ -47,8 +47,8 @@ public class AdminServiceImplementation implements AdminService{
      * @inheritDoc
      */
     @Override
-    public boolean removeAdmin(int adminID) {
-        int rowsAffected = repository.removeAdmin(adminID);
+    public boolean removeAdmin(int adminID, String adminEmail) {
+        int rowsAffected = repository.removeAdmin(adminID, adminEmail);
         return rowsAffected==1;
     }
 
@@ -56,8 +56,8 @@ public class AdminServiceImplementation implements AdminService{
      * @inheritDoc
      */
     @Override
-    public boolean deactivateCustomer(int customerID) {
-        int rowsAffected = repository.deactivateCustomer(customerID);
+    public boolean deactivateCustomer(int customerID, String customerEmail) {
+        int rowsAffected = repository.deactivateCustomer(customerID, customerEmail);
         return rowsAffected==1;
     }
 

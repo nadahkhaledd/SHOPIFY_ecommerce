@@ -4,6 +4,7 @@ import org.example.entity.Admin;
 import org.example.entity.Category;
 import org.example.entity.Product;
 import org.example.enums.Gender;
+import org.example.model.RemoveUserFields;
 import org.example.service.admin.AdminService;
 import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
@@ -62,7 +63,7 @@ public class AdminController {
         }
         System.out.println(admin);
         adminService.addAdmin(admin);
-        return "redirect:/admin/login";
+        return "redirect:/admin/adminHome";
     }
 
     @GetMapping("addCategory")
@@ -82,7 +83,7 @@ public class AdminController {
         }
         System.out.println(category);
         categoryService.addCategory(category);
-        return "redirect:/admin/login";
+        return "redirect:/admin/adminHome";
     }
 
     @GetMapping("addProduct")
@@ -102,8 +103,35 @@ public class AdminController {
         }
         System.out.println(product);
         productService.addProduct(product);
-        return "redirect:/admin/login";
+        return "redirect:/admin/adminHome";
     }
+
+    @GetMapping("removeUser")
+    public String removeUser(Model model) {
+        List<String> userTypes = new ArrayList<>(
+                Arrays.asList("admin", "customer"));
+        model.addAttribute("fields", new RemoveUserFields());
+        model.addAttribute("userTypes", userTypes);
+        return "removeUser";
+    }
+
+    @PostMapping("removeUser")
+    public String deleteUser(@Valid @ModelAttribute("fields") RemoveUserFields fields, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, Object> model = bindingResult.getModel();
+            System.out.println(model);
+            return "removeUser";
+        }
+        if(fields.getUserType().equals("admin")){
+            adminService.removeAdmin(fields.getUserID(), fields.getUserEmail());
+        }
+        else
+            adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
+
+        return "redirect:/admin/adminHome";
+    }
+
+
 
     @GetMapping("login")
     public String loginAdmin() {
