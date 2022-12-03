@@ -11,13 +11,10 @@ import org.example.utility.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.*;
 
@@ -36,6 +33,13 @@ public class AdminController {
         this.adminService = adminService;
         this.categoryService = categoryService;
         this.productService = productService;
+    }
+
+    @GetMapping("adminHome")
+    public String adminHome(Model model) {
+        //model.addAttribute("admin", new Admin());
+        model.addAttribute("name", "Nadah");
+        return "adminHome";
     }
 
     @GetMapping("addAdmin")
@@ -102,7 +106,7 @@ public class AdminController {
     }
 
     @GetMapping("login")
-    public String home() {
+    public String loginAdmin() {
         return "login";
     }
 
