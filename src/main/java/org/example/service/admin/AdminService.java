@@ -13,6 +13,14 @@ public interface AdminService {
      */
     void addAdmin(User admin);
 
+    /**
+     * This method is used to create the super admin of the system.
+     * It creates a new admin object and then add it to database.
+     * This method will be called by the start of the project.
+     * @return nothing
+     */
+    void createSuperAdmin();
+
 
     /**
      * This method is used to update an admin.
@@ -26,7 +34,7 @@ public interface AdminService {
      * @param adminID This is the id of the admin needs to be deleted.
      * @return boolean if admin removed.
      */
-    boolean removeAdmin(int adminID);
+    boolean removeAdmin(int adminID, String adminEmail);
 
     /**
      * This method is used by admin to remove a customer account from the system.
@@ -34,7 +42,7 @@ public interface AdminService {
      * @param customerID This is the id of the customer needs to be removed.
      * @return boolean if customer deactivated.
      */
-    boolean deactivateCustomer(int customerID);
+    boolean deactivateCustomer(int customerID, String customerEmail);
 
     /**
      * This method is used by admin to update status of an order after being created/placed.

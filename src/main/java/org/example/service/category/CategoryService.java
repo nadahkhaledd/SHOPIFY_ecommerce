@@ -44,4 +44,10 @@ public interface CategoryService {
      */
     List<Category> searchByCategoryName(String categoryName);
 
+
+    /**
+     * This method is used to get the names of all categories available in database.
+     * @return List a list with categories available names.
+     */
+    List<String> getCategoriesNames();
 }
