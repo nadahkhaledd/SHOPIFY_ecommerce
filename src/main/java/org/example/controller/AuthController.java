@@ -51,8 +51,8 @@ public class AuthController
 
     @GetMapping({ "/logout" })
     public String logout(final Model model) {
-        final User user = new User();
-        model.addAttribute("user", (Object)user);
+        User user = new User();
+        model.addAttribute("user", user);
         return "login";
     }
 
