@@ -28,8 +28,8 @@ public class AuthRepo
             final List<User> users = (List<User>)session.createQuery("FROM User", (Class)User.class).list();
             if (users.size() > 0) {
                 try {
-                    final int userId = ((User)session.createQuery("FROM User u where u.email=:email", (Class)User.class).setParameter("email", (Object)email).getSingleResult()).getId();
-                    final User customer = (User)session.get((Class)User.class, (Serializable)userId);
+                     int userId = ((User)session.createQuery("FROM User u where u.email=:email", (Class)User.class).setParameter("email", (Object)email).getSingleResult()).getId();
+                     User customer = (User)session.get((Class)User.class, (Serializable)userId);
                     if (customer != null) {
                         if (customer.getPassword().equals(password)) {
                             customer.setPasswordAttempts(0);
@@ -105,8 +105,8 @@ public class AuthRepo
         try {
             final List<User> users = (List<User>)session.createQuery("FROM User", (Class)User.class).list();
             if (users.size() > 0) {
-                final int userId = users.stream().filter(user -> user.getEmail().equals(email)).findFirst().get().getId();
-                final User customer = (User)session.get((Class)User.class, (Serializable)userId);
+                int userId = users.stream().filter(user -> user.getEmail().equals(email)).findFirst().get().getId();
+                User customer = session.get(User.class, userId);
                 if (customer != null) {
                     customer.setStatus(CustomerStatus.ACTIVATED);
                     final boolean b = true;
