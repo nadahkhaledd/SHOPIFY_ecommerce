@@ -10,6 +10,7 @@ import java.util.List;
 public interface ShoppingCartProductsService {
     List<ShoppingCartProducts> viewCart(int userId);
     ShoppingCartProducts getCartItem(Product product, User user);
+    ShoppingCartProducts getCartItem(int cartItemId);
     void addToCart(ShoppingCartProducts shoppingCartProduct);
     boolean updateProductQuantityInCart(int shoppingCartProductId, int newQuantity);
     boolean removeFromCart(int shoppingCartProductId);

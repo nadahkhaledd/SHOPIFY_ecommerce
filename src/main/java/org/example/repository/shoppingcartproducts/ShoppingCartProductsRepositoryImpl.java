@@ -40,6 +40,21 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
     }
 
     @Override
+    public ShoppingCartProducts getCartItem(int cartItemId) {
+        List<ShoppingCartProducts> cartProducts;
+        try(Session session = factory.openSession()) {
+            cartProducts = session.createQuery("from ShoppingCartProducts where id=:cartItemId",
+                            ShoppingCartProducts.class)
+                    .setParameter("cartItemId", cartItemId)
+                    .getResultList();
+            if(cartProducts.isEmpty())
+                return null;
+            else
+                return cartProducts.get(0);
+        }
+    }
+
+    @Override
     public List<ShoppingCartProducts> viewCart(int userId) {
         List<ShoppingCartProducts> shoppingCartProducts;
         try(Session session = factory.openSession()) {

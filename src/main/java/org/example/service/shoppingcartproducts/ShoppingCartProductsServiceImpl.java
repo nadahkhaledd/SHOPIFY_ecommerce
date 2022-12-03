@@ -1,10 +1,10 @@
 package org.example.service.shoppingcartproducts;
 
-import org.example.entity.Customer;
 import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
 import org.example.entity.User;
 import org.example.repository.shoppingcartproducts.ShoppingCartProductsRepository;
+import org.example.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +14,12 @@ import java.util.List;
 public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsService {
 
     private final ShoppingCartProductsRepository repository;
+    private final ProductService productService;
 
     @Autowired
-    public ShoppingCartProductsServiceImpl(ShoppingCartProductsRepository repository) {
+    public ShoppingCartProductsServiceImpl(ShoppingCartProductsRepository repository, ProductService productService) {
         this.repository = repository;
+        this.productService = productService;
     }
 
     @Override
@@ -36,11 +38,17 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
     }
 
     @Override
+    public ShoppingCartProducts getCartItem(int cartItemId) {
+        return repository.getCartItem(cartItemId);
+    }
+
+    @Override
     public void addToCart(ShoppingCartProducts shoppingCartProduct) {
         ShoppingCartProducts returnedProduct = getCartItem(shoppingCartProduct.getProduct(),
                 shoppingCartProduct.getUser());
-        if(returnedProduct == null)
+        if(returnedProduct == null) {
             repository.addToCart(shoppingCartProduct);
+        }
         else
             repository.updateProductQuantityInCart(returnedProduct.getId(),
                     returnedProduct.getProductQuantity()+1);
@@ -50,8 +58,12 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
     @Override
     public boolean updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
         int affectedRows;
-        if(newQuantity > 0)
+        ShoppingCartProducts cartProduct = getCartItem(shoppingCartProductId);
+        if(cartProduct.getProduct().getAvailableQuantity() < newQuantity)
+            return false;
+        if(newQuantity > 0) {
             affectedRows = repository.updateProductQuantityInCart(shoppingCartProductId, newQuantity);
+        }
         else {
             affectedRows = 0;
             repository.removeFromCart(shoppingCartProductId);
