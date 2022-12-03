@@ -39,7 +39,7 @@ public class AdminController {
     @GetMapping("adminHome")
     public String adminHome(Model model) {
         //model.addAttribute("admin", new Admin());
-        model.addAttribute("name", "Nadah");
+        model.addAttribute("name", "Admin");
         return "adminHome";
     }
 
