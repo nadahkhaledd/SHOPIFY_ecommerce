@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface AddressRepository {
     void addAddress(Address address);
-    List<Address> getUserAddresses(User user);
+    List<Address> getUserAddresses(int userId);
+    Address getAddress(int addressId);
     int updateAddress(Address address);
-    int deleteAddress(Address address);
+    int deleteAddress(int addressId);
 }

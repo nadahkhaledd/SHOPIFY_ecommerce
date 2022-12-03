@@ -217,8 +217,10 @@
                         </button>
                     </div>
                 </div>
-                <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
-            </div>
+                <button class="btn btn-primary px-3" onclick="location.href = '${pageContext.request.contextPath}/cart/add/1?productId=${product.id}'">
+                <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
+                </button>
+             </div>
             <div class="d-flex pt-2">
                 <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
                 <div class="d-inline-flex">

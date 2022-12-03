@@ -30,15 +30,28 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
-    public List<Address> getUserAddresses(User user) {
+    public List<Address> getUserAddresses(int userId) {
         List<Address> addresses;
         try (Session session = factory.openSession()) {
             addresses = session
-                    .createQuery("from Address where customer=:id")
-                    .setParameter("id", user)
+                    .createQuery("select a from Address a inner join a.customer c where c.id=:userId",
+                            Address.class)
+                    .setParameter("userId", userId)
                     .getResultList();
         }
         return addresses;
+    }
+
+    @Override
+    public Address getAddress(int addressId) {
+        List<Address> addresses;
+        try(Session session = factory.openSession()) {
+            addresses = session
+                    .createQuery("from Address where id=:id", Address.class)
+                    .setParameter("id", addressId)
+                    .getResultList();
+        }
+        return addresses.get(0);
     }
 
     @Override
@@ -60,12 +73,12 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
-    public int deleteAddress(Address address) {
+    public int deleteAddress(int addressId) {
         int result;
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             Query deleteQuery = session.createQuery("delete from Address a where a.id=:addressId");
-            deleteQuery.setParameter("addressId", address.getId());
+            deleteQuery.setParameter("addressId", addressId);
             result = deleteQuery.executeUpdate();
             tx.commit();
         }

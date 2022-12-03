@@ -22,7 +22,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User getUser(int userId) {
         List<User> users;
         try(Session session = factory.openSession()) {
-            users = session.createQuery("from user where id=:userId", User.class)
+            users = session.createQuery("from User where id=:userId", User.class)
                     .setParameter("userId", userId)
                     .getResultList();
         }

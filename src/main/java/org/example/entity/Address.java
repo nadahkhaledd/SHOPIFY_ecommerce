@@ -17,7 +17,7 @@ public class Address {
     private String city;
 
     @JoinColumn(name = "customer_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Customer customer;
 
 

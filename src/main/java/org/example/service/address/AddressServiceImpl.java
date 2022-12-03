@@ -23,9 +23,11 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<Address> getUserAddresses(User user) {
-        return repository.getUserAddresses(user);
+    public List<Address> getUserAddresses(int userId) {
+        return repository.getUserAddresses(userId);
     }
+
+    public Address getAddress(int addressId) { return repository.getAddress(addressId); }
 
     @Override
     public boolean updateAddress(Address address) {
@@ -34,7 +36,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public boolean deleteAddress(Address address) {
+    public boolean deleteAddress(int address) {
         int affectedRows = repository.deleteAddress(address);
         return affectedRows == 1;
     }
