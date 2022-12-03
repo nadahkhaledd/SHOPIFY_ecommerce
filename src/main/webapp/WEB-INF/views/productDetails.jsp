@@ -1,4 +1,9 @@
-
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -173,18 +178,28 @@
 <!-- Shop Detail Start -->
 <div class="container-fluid py-5">
     <div class="row px-xl-5">
+        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+            <img class="img-fluid w-100" src="${pageContext.request.contextPath}/resources/img/${product.imagePath}" alt="">
+        </div>
+
         <div class="col-lg-7 pb-5">
             <h3 class="font-weight-semi-bold"> ${product.name}</h3>
             <div class="d-flex mb-3">
-                <div class="text-primary mr-2">
+
+               <!-- <small class="pt-1"> ${product.rate} </small> -->
+                <c:forEach var="i" begin="1" end="${stars.numberOfFullStars}">
                     <small class="fas fa-star"></small>
-                    <small class="fas fa-star"></small>
-                    <small class="fas fa-star"></small>
+                </c:forEach>
+
+                <c:if test= "${stars.hasHalfStar == true}">
                     <small class="fas fa-star-half-alt"></small>
+                </c:if>
+                <c:forEach var="i" begin="1" end="${stars.numberOfEmptyStars}">
                     <small class="far fa-star"></small>
-                </div>
-                <small class="pt-1">(  ${fn:length(product.rates)}  Reviews)</small>
+                </c:forEach>
+                <small class="pt-1">( ${fn:length(product.rates)} Reviews )</small>
             </div>
+
             <h3 class="font-weight-semi-bold mb-4">$${product.price}</h3>
 
 

@@ -1,7 +1,9 @@
 package org.example.controller;
 
 import org.example.entity.Product;
+import org.example.model.Star;
 import org.example.service.product.ProductService;
+import org.example.utility.RateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +23,15 @@ public class ProductController {
     ProductService productService;
     @GetMapping("/productDetails")
     public ModelAndView getProductDetails( @RequestParam int productId){
+        RateUtils rateUtils=new RateUtils();
         ModelAndView modelAndView=new ModelAndView("productDetails");
         Product product=productService.getProductsById(productId);
+        System.out.println(product.toString());
+        productService.calculateProductRate(product);
         modelAndView.addObject("product",product);
+        Star star=rateUtils.computeNumberOfStars(product.getRate());
+        System.out.println(star.toString());
+        modelAndView.addObject("stars",star);
         return modelAndView;
     }
 

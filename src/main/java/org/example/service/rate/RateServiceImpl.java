@@ -15,6 +15,7 @@ public class RateServiceImpl implements RateService {
     public RateServiceImpl(RateRepo rateRepository) {
         this.rateRepository = rateRepository;
     }
+    public RateServiceImpl(){}
     @Override
     public void AssignRateToProduct(Rate rate){
         rateRepository.addRate(rate);
@@ -22,7 +23,9 @@ public class RateServiceImpl implements RateService {
 
     @Override
     public double calculateRateOfProduct(int productId) {
-       return rateRepository.calculateRateOfProduct(productId);
+        double rate=rateRepository.calculateRateOfProduct(productId);
+       // System.out.println("in rate service "+rate);
+        return rate;
     }
   /*  public List<Float> getRates(int productId){
         return rateRepository.getRates(productId);

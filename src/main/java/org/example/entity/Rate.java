@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Rate {
     private int id;
-    private float rate;
+    private double rate;
     private Customer customer;
     private Product product;
     private String description;
@@ -29,11 +29,11 @@ public class Rate {
         this.id = id;
     }
 
-    public float getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(float rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 
