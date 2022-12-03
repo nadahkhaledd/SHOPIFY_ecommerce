@@ -1,28 +1,44 @@
+
 package org.example.entity;
 
-import org.example.enums.Gender;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+import javax.persistence.FetchType;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import java.util.Set;
+import java.util.Date;
+import org.example.enums.Gender;
+import org.example.enums.CustomerStatus;
+import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.InheritanceType;
+import javax.persistence.Inheritance;
+import javax.persistence.Entity;
 
-@Entity(name="user")
+@Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="user_type",
-        discriminatorType = DiscriminatorType.INTEGER)
-public class User {
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.INTEGER)
+public class User
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
     @Column(nullable = false, length = 30)
     private String firstName;
+    @Column
+    private int PasswordAttempts;
+    @Column
+    private CustomerStatus status;
     @NotNull
     @Column(nullable = false, length = 30)
     private String lastName;
     @NotNull
-    @Column(nullable = false, unique = true,length = 150)
+    @Column(nullable = false, unique = true, length = 150)
     private String email;
     @NotNull
     @Column(nullable = false)
@@ -32,22 +48,39 @@ public class User {
     private Gender gender;
     @NotNull
     private Date dateOfBirth;
-
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "user")
     private Set<ShoppingCartProducts> shoppingCartProducts;
 
-    public Set<ShoppingCartProducts> getShoppingCartProducts() {
-        return shoppingCartProducts;
+    public CustomerStatus getStatus() {
+        return this.status;
     }
 
-    public void setShoppingCartProducts(Set<ShoppingCartProducts> shoppingCartProducts) {
+    public void setStatus(final CustomerStatus status) {
+        this.status = status;
+    }
+
+    public Set<ShoppingCartProducts> getShoppingCartProducts() {
+        return this.shoppingCartProducts;
+    }
+
+    public void setShoppingCartProducts(final Set<ShoppingCartProducts> shoppingCartProducts) {
         this.shoppingCartProducts = shoppingCartProducts;
     }
 
-    public User() {
+    public int getPasswordAttempts() {
+        return this.PasswordAttempts;
     }
 
-    public User(String firstname, String lastname, String email, String password, Gender gender, Date dateOfBirth) {
+    public void setPasswordAttempts(final int passwordAttempts) {
+        this.PasswordAttempts = passwordAttempts;
+    }
+
+    public User() {
+        this.status = CustomerStatus.DEACTIVATED;
+    }
+
+    public User(final String firstname, final String lastname, final String email, final String password, final Gender gender, final Date dateOfBirth) {
+        this.status = CustomerStatus.DEACTIVATED;
         this.firstName = firstname;
         this.lastName = lastname;
         this.email = email;
@@ -57,58 +90,58 @@ public class User {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
     public Gender getGender() {
-        return gender;
+        return this.gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(final Gender gender) {
         this.gender = gender;
     }
 
     public Date getDateOfBirth() {
-        return dateOfBirth;
+        return this.dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(final Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 }
