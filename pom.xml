@@ -85,7 +85,6 @@
             <version>3.0.2</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
