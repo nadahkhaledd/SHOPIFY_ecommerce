@@ -114,11 +114,8 @@ public class ProductRepoImpl implements ProductRepo {
         List<Product> products;
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
-            //  //"select c.name , c.id FROM Course as c inner join c.students as s WHERE s.id=:studentId"
-            //
-            products=session.createQuery("select p from Product as p inner join p.category as c where c.id=:categoryId").
+                  products=session.createQuery("select p from Product as p inner join p.category as c where c.id=:categoryId").
                     setParameter("categoryId",categoryId).list();
-           // session.getTransaction().commit();
         }
         return products;
     }
@@ -127,7 +124,7 @@ public class ProductRepoImpl implements ProductRepo {
      */
     @Override
     public List<Product> searchByProductName(String productName) {
-        System.out.println("hheherrr "+productName);
+
         List<Product> products;
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
@@ -135,9 +132,24 @@ public class ProductRepoImpl implements ProductRepo {
                     setString("searchkey", "%"+productName+"%").list();
             //     session.getTransaction().commit();
         }
-        System.out.println("tam heeee");
         products.forEach(System.out::println);
         return products;
+    }
+
+    /**
+     * @Inherited
+     */
+    @Override
+    public Product getProductsById(int productId) {
+        Product product;
+        try(Session session=sessionFactory.openSession()){
+            session.beginTransaction();
+            product= (Product) session.createQuery("from Product where id= :productId")
+                    .setParameter("productId",productId).getSingleResult();
+            //     session.getTransaction().commit();
+        }
+        System.out.println(product.toString());
+        return product;
     }
 
 }

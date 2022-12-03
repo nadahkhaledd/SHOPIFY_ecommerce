@@ -70,7 +70,13 @@ public interface ProductService {
      * @return list of products
      */
     List<Product> getProductsByCategory(int categoryId);
-
+    /**
+     * get products by id
+     * retrieves product with the given id
+     * @param productId id of product
+     * @return  product
+     */
+    Product getProductsById(int productId);
 
     /**
      * search by product name
@@ -80,4 +86,13 @@ public interface ProductService {
      */
 
      List<Product> searchByProductName(String productName);
+
+     /**
+      *  calculate product rate
+      * product having list<Rate> and calculate rate of the product
+      * and put the value in the transient parameter rate to be displayed in product details view
+      * @param product product
+      * @return nothing
+      */
+      void calculateProductRate(Product product);
 }

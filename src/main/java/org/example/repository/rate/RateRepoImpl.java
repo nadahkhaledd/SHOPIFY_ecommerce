@@ -37,6 +37,7 @@ public class RateRepoImpl implements RateRepo {
                                +"inner join r.product as p "+"WHERE p.id = :productId").
                    setParameter("productId",productId).getSingleResult();
             }
+    //    System.out.println("inn  repo "+productRate);
             return productRate;
 
     }

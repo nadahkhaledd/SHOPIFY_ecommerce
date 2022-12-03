@@ -71,4 +71,12 @@ public interface ProductRepo {
      * @return list of products
      */
     public List<Product> searchByProductName(String productName);
+
+    /**
+     * get products by id
+     * retrieves product with the given id
+     * @param productId id of product
+     * @return  product
+     */
+    Product getProductsById(int productId);
 }
