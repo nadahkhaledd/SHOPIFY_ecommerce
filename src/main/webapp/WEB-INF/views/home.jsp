@@ -40,14 +40,14 @@
                             </button>
                             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                                 <div class="navbar-nav mr-auto py-0">
-                                    <a href="home.jsp" class="nav-item nav-link active">Home</a>
-                                    <a href="shop.jsp" class="nav-item nav-link">Shop</a>
-                                    <a href="detail.jsp" class="nav-item nav-link">Shop Detail</a>
+                                    <a href="" class="nav-item nav-link active">Home</a>
+                                    <a href="" class="nav-item nav-link">Shop</a>
+                                    <a href="" class="nav-item nav-link">Shop Detail</a>
                                     <div class="nav-item dropdown">
                                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                         <div class="dropdown-menu rounded-0 m-0">
-                                            <a href="cart.jsp" class="dropdown-item">Shopping Cart</a>
-                                            <a href="checkout.jsp" class="dropdown-item">Checkout</a>
+                                            <a href="" class="dropdown-item">Shopping Cart</a>
+                                            <a href="" class="dropdown-item">Checkout</a>
                                         </div>
                                     </div>
                                     <a href="" class="nav-item nav-link">Contact</a>
@@ -146,38 +146,6 @@
                 </div>
             </div>
             <!-- Offer End -->
-
-
-            <!-- Products Start -->
-            <div class="container-fluid pt-5">
-                <div class="text-center mb-4">
-                    <h2 class="section-title px-5"><span class="px-2">Trandy Products</span></h2>
-                </div>
-                <div class="row px-xl-5 pb-3">
-                    <c:forEach   items="${products}"  var="product"  >
-                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                        <div class="card product-item border-0 mb-4">
-                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <img class="img-fluid w-100" src="${product.imagePath}" alt="">
-                            </div>
-
-                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                <h6 class="text-truncate mb-3">${product.name}</h6>
-                                <div class="d-flex justify-content-center">
-                                    <h6>$${product.price}</h6>
-                                </div>
-                            </div>
-
-                            <div class="card-footer d-flex justify-content-between bg-light border">
-                                <a href="/e-commerce/products/productDetails?productId=${product.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    </c:forEach>
-                </div>
-            </div>
-            <!-- Products End -->
         </layout:put>
     </body>
 </html>
