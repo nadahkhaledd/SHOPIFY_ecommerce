@@ -17,12 +17,12 @@ public class RateController {
     ProductService productService;
     @PostMapping("/rate")
     public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message, @RequestParam String email){
-       ModelAndView modelAndView=new ModelAndView("productDetails");
+       ModelAndView modelAndView=new ModelAndView("redirect:/products/productDetails?productId="+productId);
         System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message + ", email = " + email);
         UserInputReview userInputReview=new UserInputReview(rate,1,productId,message,email);
         rateService.AssignRateToProduct(userInputReview);
-        Product product=productService.getProductsById(productId);
-        modelAndView.addObject("product",product);
+       // Product product=productService.getProductsById(productId);
+       // modelAndView.addObject("product",product);
        return modelAndView ;
     }
 }

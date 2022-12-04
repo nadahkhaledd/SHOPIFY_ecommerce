@@ -5,5 +5,4 @@ import org.example.entity.User;
 public interface UserRepository {
     User getUserById(int userId);
 
-    User getUser(int userId);
 }

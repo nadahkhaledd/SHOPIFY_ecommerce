@@ -192,16 +192,15 @@
             <h3 class="font-weight-semi-bold"> ${product.name}</h3>
             <div class="d-flex mb-3">
 
-               <!-- <small class="pt-1"> ${product.rate} </small> -->
                 <c:forEach var="i" begin="1" end="${stars.numberOfFullStars}">
-                    <small class="fas fa-star"></small>
+                    <small class="fas fa-star" style="color:yellow"></small>
                 </c:forEach>
 
                 <c:if test= "${stars.hasHalfStar == true}">
-                    <small class="fas fa-star-half-alt"></small>
+                    <small class="fas fa-star-half-alt" style="color:yellow" ></small>
                 </c:if>
                 <c:forEach var="i" begin="1" end="${stars.numberOfEmptyStars}">
-                    <small class="far fa-star"></small>
+                    <small class="far fa-star" style="color:yellow" ></small>
                 </c:forEach>
                 <small class="pt-1">( ${fn:length(product.rates)} Reviews )</small>
             </div>
