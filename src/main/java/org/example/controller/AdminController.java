@@ -10,13 +10,16 @@ import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
 import org.example.utility.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -34,6 +37,13 @@ public class AdminController {
         this.adminService = adminService;
         this.categoryService = categoryService;
         this.productService = productService;
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(
+                dateFormat, false));
     }
 
     @GetMapping("adminHome")
