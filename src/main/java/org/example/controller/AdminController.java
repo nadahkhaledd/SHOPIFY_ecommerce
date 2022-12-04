@@ -8,15 +8,20 @@ import org.example.model.RemoveUserFields;
 import org.example.service.admin.AdminService;
 import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
+import org.example.typeEditor.CategoryTypeEditor;
 import org.example.utility.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.springframework.validation.BindingResult;
 
 import java.text.SimpleDateFormat;
@@ -44,6 +49,14 @@ public class AdminController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(
                 dateFormat, false));
+    }
+
+    @InitBinder
+    public void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+    {
+        binder.registerCustomEditor(Category.class,
+                new CategoryTypeEditor(categoryService));
+
     }
 
     @GetMapping("adminHome")

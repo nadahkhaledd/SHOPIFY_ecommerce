@@ -10,13 +10,17 @@ import java.beans.PropertyEditorSupport;
 @Component
 public class CategoryTypeEditor extends PropertyEditorSupport {
 
-    private final CategoryService categoryService;
+
+    private CategoryService categoryService;
+
 
     @Autowired
     public CategoryTypeEditor(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
+    public CategoryTypeEditor() {
+    }
 
     @Override
     public String getAsText(){

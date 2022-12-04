@@ -35,7 +35,7 @@
 
                   <div class="item">
                     <label for="category">Category<span>*</span></label>
-                    <form:select path="category" id="category" name="category" items="${categories}" />
+                    <form:select path="category" multiple="false" id="category" name="category" items="${categories}" />
                     <form:errors path="category" cssClass="error"/>
                   </div>
 
