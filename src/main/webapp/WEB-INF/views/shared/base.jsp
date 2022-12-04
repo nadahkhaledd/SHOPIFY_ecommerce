@@ -22,7 +22,7 @@
 
        <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
          <div class="container-fluid">
-           <a class="navbar-brand" href="" style="font-weight: bolder; color: cadetblue">Shopify Admin</a>
+           <a class="navbar-brand" href="/e-commerce/admin/adminHome" style="font-weight: bolder; color: cadetblue">Shopify Admin</a>
            <div class="navbar-collapse" id="navbarSupportedContent">
              <ul class="navbar-nav me-auto ">
                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/e-commerce/admin/adminHome" >Home</a></li>

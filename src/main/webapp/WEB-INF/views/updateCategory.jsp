@@ -16,6 +16,13 @@
     <body>
         <layout:put block="content" type="REPLACE">
             <div class="container">
+                <div class="welcome" style="
+                                             margin-bottom: 50px
+                                             margin-left: 50px
+                                             padding-bottom: 25px;
+                                             margin-top: 20px;">
+                    <h2>Update Category <span style="color:red;font-weight:bolder">${category.name}</span></h2>
+                </div>
 				<form:form  method="post"  modelAttribute="category">
 					<fieldset class="form-group">
 						<label path="name"> Category name </label>
