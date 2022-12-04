@@ -12,8 +12,6 @@
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
 
-    <!-- Favicon -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -191,7 +189,7 @@
                     <c:if test="${!empty cartProducts}">
                         <c:forEach var="product" items="${cartProducts}">
                             <tr>
-                                <td class="align-middle"><img src="${pageContext.request.contextPath}/resources/img/${product.product.imagePath}" alt="" style="width: 50px;"> ${product.product.name}</td>
+                                <td class="align-middle"><img src="${product.product.imagePath}" alt="" style="width: 50px;"> ${product.product.name}</td>
                                 <td class="align-middle"><fmt:formatNumber value = "${product.product.price}" type = "currency"/></td>
                                 <td class="align-middle">
                                     <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -321,7 +319,7 @@
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">
-                <img class="img-fluid" src="../img/payments.png" alt="">
+                <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fpayments.png?alt=media&token=cb9e4ab8-0a2b-4c20-9ceb-9b172700900b" alt="">
             </div>
         </div>
     </div>

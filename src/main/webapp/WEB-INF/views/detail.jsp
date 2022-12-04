@@ -11,8 +11,6 @@
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
 
-    <!-- Favicon -->
-    <link href="../img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -179,7 +177,7 @@
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner border">
                         <div class="carousel-item active">
-                            <img class="w-100 h-100" src="../img/product-1.jpg" alt="Image">
+                            <img class="w-100 h-100" src="${product.imagePath}" alt="Image">
                         </div>
                         <div class="carousel-item">
                             <img class="w-100 h-100" src="../img/product-2.jpg" alt="Image">
@@ -355,7 +353,7 @@
                             <div class="col-md-6">
                                 <h4 class="mb-4">1 review for "Colorful Stylish Shirt"</h4>
                                 <div class="media mb-4">
-                                    <img src="../img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                                    <img src="" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                     <div class="media-body">
                                         <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
                                         <div class="text-primary mb-2">
@@ -563,7 +561,7 @@
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">
-                <img class="img-fluid" src="../img/payments.png" alt="">
+                <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fpayments.png?alt=media&token=cb9e4ab8-0a2b-4c20-9ceb-9b172700900b" alt="">
             </div>
         </div>
     </div>
