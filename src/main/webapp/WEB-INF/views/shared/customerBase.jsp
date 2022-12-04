@@ -29,6 +29,7 @@
         <!-- Customized Bootstrap Stylesheet -->
         <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 
+        <layout:block name="style">base_head_style</layout:block>
     </head>
 
     <body>
