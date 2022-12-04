@@ -27,7 +27,7 @@
 				        <c:forEach items="${categories}" var="category">
 				            <tr>
 				                <td>${category.name}</td>
-				                <td>${category.imagePath}</td>
+				                <td><a href="${category.imagePath}">${category.imagePath}</a></td>
 
 				                <th><a href="/e-commerce/admin/deleteCategory/${category.id}" class="btn btn-danger">Delete</a></th>
 				                <th>
