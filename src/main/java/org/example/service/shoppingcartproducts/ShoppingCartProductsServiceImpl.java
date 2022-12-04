@@ -56,11 +56,12 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
     }
 
     @Override
-    public boolean updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
+    public String updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
         int affectedRows;
         ShoppingCartProducts cartProduct = getCartItem(shoppingCartProductId);
-        if(cartProduct.getProduct().getAvailableQuantity() < newQuantity)
-            return false;
+        if(cartProduct.getProduct().getAvailableQuantity() < newQuantity) {
+            return "The amount isn't in stock.";
+        }
         if(newQuantity > 0) {
             affectedRows = repository.updateProductQuantityInCart(shoppingCartProductId, newQuantity);
         }
@@ -68,7 +69,7 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
             affectedRows = 0;
             repository.removeFromCart(shoppingCartProductId);
         }
-        return affectedRows == 1;
+        return "Quantity updated.";
     }
 
     @Override

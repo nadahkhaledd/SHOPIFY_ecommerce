@@ -12,7 +12,7 @@ public interface ShoppingCartProductsService {
     ShoppingCartProducts getCartItem(Product product, User user);
     ShoppingCartProducts getCartItem(int cartItemId);
     void addToCart(ShoppingCartProducts shoppingCartProduct);
-    boolean updateProductQuantityInCart(int shoppingCartProductId, int newQuantity);
+    String updateProductQuantityInCart(int shoppingCartProductId, int newQuantity);
     boolean removeFromCart(int shoppingCartProductId);
     double calculateTotal(int userId);
 

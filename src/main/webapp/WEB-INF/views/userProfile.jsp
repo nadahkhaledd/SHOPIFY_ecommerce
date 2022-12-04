@@ -64,7 +64,7 @@
                                                width: 25%;
                                                padding: 25px 10px;">
                     <div class="card">
-                        <h4>Show all categories</h4>
+                        <h4>View orders</h4>
                         <a role="button" type="button" class="btn btn-dark" href="" style="
 
                                  height: 40px;

@@ -201,7 +201,7 @@
                                             <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" class="form-control form-control-sm bg-secondary text-center" value=${product.productQuantity}>
+                                        <input type="text" class="form-control form-control-sm bg-secondary text-center" readonly value=${product.productQuantity}>
                                         <div class="input-group-btn">
                                             <button class="btn btn-sm btn-primary btn-plus"
                                             onclick="location.href = '${pageContext.request.contextPath}/cart/update/${product.user.id}/${product.id}?quantity=${product.productQuantity+1}'">
@@ -246,7 +246,9 @@
                             <h5 class="font-weight-bold">Total</h5>
                             <h5 class="font-weight-bold"><fmt:formatNumber value = "${cartTotal+10}" type = "currency"/></h5>
                         </div>
-                        <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
+                        <button class="btn btn-block btn-primary my-3 py-3"
+                        onclick="location.href = '${pageContext.request.contextPath}/cart/checkout/1'">
+                        Proceed To Checkout</button>
                     </div>
                 </div>
             </div>

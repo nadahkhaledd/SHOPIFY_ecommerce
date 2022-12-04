@@ -37,7 +37,7 @@ public class OrderRepo {
         }
     }
 
-    public List getOrderDetails(Long orderId) {
+    public List getOrderDetails(int orderId) {
         try(Session session = this.sessionFactory.getCurrentSession()){
             return session.createQuery("from OrderDetails where order_id =:orderId",OrderDetails.class).setParameter("orderId", orderId).list();
         }catch (HibernateException e){
@@ -45,13 +45,13 @@ public class OrderRepo {
         }
     }
     //ok
-    public String checkOrderStatus(Long orderId) {
+    public String checkOrderStatus(int orderId) {
         Session session = this.sessionFactory.getCurrentSession();
         Order order = session.get(Order.class, orderId);
         return order.getStatus().toString();
     }
 
-    public boolean updateStatus(Long orderId, OrderStatus status) {
+    public boolean updateStatus(int orderId, OrderStatus status) {
         Session session = this.sessionFactory.getCurrentSession();
         Order order = session.get(Order.class, orderId);
         if (order != null) {

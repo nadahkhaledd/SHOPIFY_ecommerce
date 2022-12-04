@@ -1,6 +1,8 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html dir="ltr"  xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form">
 
 <head>
@@ -11,7 +13,7 @@
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../img/favicon.ico" rel="icon">
+    <link href="${pageContext.request.contextPath}/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -21,10 +23,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -173,67 +175,18 @@
 
     <!-- Checkout Start -->
     <div class="container-fluid pt-5">
+        <form action="${pageContext.request.contextPath}/orders/getOrderDetails">
         <div class="row px-xl-5">
             <div class="col-lg-8">
                 <div class="mb-4">
-                    <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
+                    <h4 class="font-weight-semi-bold mb-4">Addresses</h4>
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label>First Name</label>
-                            <input class="form-control" type="text" placeholder="John">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Last Name</label>
-                            <input class="form-control" type="text" placeholder="Doe">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>E-mail</label>
-                            <input class="form-control" type="text" placeholder="example@email.com">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Mobile No</label>
-                            <input class="form-control" type="text" placeholder="+123 456 789">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Address Line 1</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Address Line 2</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Country</label>
-                            <select class="custom-select">
-                                <option selected>United States</option>
-                                <option>Afghanistan</option>
-                                <option>Albania</option>
-                                <option>Algeria</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>City</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>State</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>ZIP Code</label>
-                            <input class="form-control" type="text" placeholder="123">
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="newaccount">
-                                <label class="custom-control-label" for="newaccount">Create an account</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="shipto">
-                                <label class="custom-control-label" for="shipto"  data-toggle="collapse" data-target="#shipping-address">Ship to different address</label>
-                            </div>
+                                <c:forEach var="address" items="${addresses}">
+                                    <input type="radio" name="address" id="${address.id}" value="${address.id}">
+                                    &nbsp;Street: ${address.street}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;City: ${address.city}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Building number: ${address.buildingNumber}
+                                    <br/><br/>
+                                </c:forEach>
                         </div>
                     </div>
                 </div>
@@ -295,22 +248,16 @@
                     </div>
                     <div class="card-body">
                         <h5 class="font-weight-medium mb-3">Products</h5>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 1</p>
-                            <p>$150</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 2</p>
-                            <p>$150</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 3</p>
-                            <p>$150</p>
-                        </div>
+                        <c:forEach var="cartItem" items="${cartProducts}">
+                            <div class="d-flex justify-content-between">
+                                <p>${cartItem.product.name} (x${cartItem.productQuantity})</p>
+                                <p><fmt:formatNumber value = "${cartItem.product.price * cartItem.productQuantity}" type = "currency"/></p>
+                            </div>
+                        </c:forEach>
                         <hr class="mt-0">
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">$150</h6>
+                            <h6 class="font-weight-medium"><fmt:formatNumber value = "${cartTotal}" type = "currency"/></h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
@@ -320,40 +267,17 @@
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">$160</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0">
-                        <h4 class="font-weight-semi-bold m-0">Payment</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="paypal">
-                                <label class="custom-control-label" for="paypal">Paypal</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="directcheck">
-                                <label class="custom-control-label" for="directcheck">Direct Check</label>
-                            </div>
-                        </div>
-                        <div class="">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
-                                <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
-                            </div>
+                            <h5 class="font-weight-bold"><fmt:formatNumber value = "${cartTotal+10}" type = "currency"/></h5>
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
-                        <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>
+                        <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3"
+                        type="submit">Place Order</button>
                     </div>
                 </div>
             </div>
         </div>
+                            </form>
     </div>
     <!-- Checkout End -->
 

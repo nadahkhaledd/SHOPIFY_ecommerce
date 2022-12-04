@@ -15,7 +15,7 @@ public class Order{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order", fetch = FetchType.EAGER)
     private List<OrderDetails> orderDetails;
 
     @Column(name = "user_id")

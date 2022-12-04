@@ -18,15 +18,15 @@ public class OrderService {
         return orderRepo.getOrders(userId);
     }
 
-    public List getOrderDetails(Long orderId) {
+    public List getOrderDetails(int orderId) {
         return orderRepo.getOrderDetails(orderId);
     }
 
-    public String checkOrderStatus(Long orderId){
+    public String checkOrderStatus(int orderId){
         return orderRepo.checkOrderStatus(orderId);
     }
 
-    public boolean cancelOrder(Long orderId) {
+    public boolean cancelOrder(int orderId) {
         //get order status and deny the process if it's delivered
         if(checkOrderStatus(orderId)=="completed" || checkOrderStatus(orderId)=="returned"){
             return false;
@@ -35,7 +35,7 @@ public class OrderService {
         }
     }
 
-    public boolean updateStatus(Long orderId){
+    public boolean updateStatus(int orderId){
         switch(orderRepo.checkOrderStatus(orderId)) {
             case "placed":
                 return orderRepo.updateStatus(orderId, OrderStatus.shipped);
@@ -45,7 +45,6 @@ public class OrderService {
                return orderRepo.updateStatus(orderId, OrderStatus.returned);
         }
     }
-
 
     public void checkOut(int userId) {
         orderRepo.checkOut(userId);
