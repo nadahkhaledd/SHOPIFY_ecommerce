@@ -66,6 +66,13 @@ public class AdminController {
         return "adminHome";
     }
 
+    @GetMapping("showCategories")
+    public String showCategories(Model model) {
+        List<Category> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
+        return "showCategories";
+    }
+
     @GetMapping("addAdmin")
     public String newAdmin(Model model) {
 

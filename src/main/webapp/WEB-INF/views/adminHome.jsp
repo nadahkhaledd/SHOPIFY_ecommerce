@@ -5,6 +5,10 @@
 <layout:extends name="base">
 <html xmlns:layout="http://kwonnam.pe.kr/jsp/template-inheritance" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form">
   <head>
+    <layout:put block="style" type="REPLACE">
+        <link href="${pageContext.request.contextPath}/resources/css/newMember.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/resources/css/homeAdmin.css" rel="stylesheet">
+    </layout:put>
     <title><layout:put block="title" type="REPLACE">Admin Home</layout:put></title>
   </head>
 
@@ -65,7 +69,7 @@
                                                padding: 25px 10px;">
                     <div class="card">
                         <h4>Show all categories</h4>
-                        <a role="button" type="button" class="btn btn-dark" href="" style="
+                        <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/showCategories" style="
 
                                  height: 40px;
                                  display: inline;
