@@ -21,7 +21,7 @@ public class OrderController {
 
     @GetMapping("/getOrderDetails")
     public String getOrderDetails(){
-        return "contact";
+        return "detail";
     }
 
     @PutMapping("/cancelOrder")
