@@ -85,13 +85,10 @@ public class AdminController {
 
     @PostMapping("addAdmin")
     public String addUser(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd")  @ModelAttribute("admin") Admin admin, BindingResult bindingResult) {
-        System.out.println("hello to post admin");
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
-            System.out.println(model);
             return "addAdmin";
         }
-        System.out.println(admin);
         adminService.addAdmin(admin);
         return "redirect:/admin/adminHome";
     }
@@ -111,15 +108,12 @@ public class AdminController {
 
     @PostMapping("addCategory")
     public String addCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
-        System.out.println("hello to post category");
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
-            System.out.println(model);
             return "addCategory";
         }
-        System.out.println(category);
         categoryService.addCategory(category);
-        return "redirect:/admin/adminHome";
+        return "redirect:/admin/showCategories";
     }
 
     @GetMapping("addProduct")
@@ -131,13 +125,10 @@ public class AdminController {
 
     @PostMapping("addProduct")
     public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult) {
-        System.out.println("hello to post product");
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
-            System.out.println(model);
             return "addProduct";
         }
-        System.out.println(product);
         productService.addProduct(product);
         return "redirect:/admin/adminHome";
     }
@@ -155,7 +146,6 @@ public class AdminController {
     public String deleteUser(@Valid @ModelAttribute("fields") RemoveUserFields fields, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
-            System.out.println(model);
             return "removeUser";
         }
         if(fields.getUserType().equals("admin")){
