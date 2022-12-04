@@ -15,8 +15,8 @@
         <div class="container" id="container">
             <div class="testbox">
               <form:form modelAttribute="category" method="POST">
-                <div class="banner">
-                  <h1>Update Category <span style="color:#669999">${category.name}</span></h1>
+                <div class="banner" style="background-color:maroon">
+                  <h1>Update Category <i>${category.name}</i></h1>
                 </div>
 
                 <div class="columns">
@@ -32,7 +32,9 @@
                   </div>
                 </div>
 
-                <input type="submit" value="submit" class="btn btn-success"/>
+                <div class="btn-block">
+                    <button type="submit" style="background: maroon">Submit</button>
+                </div>
               </form:form>
             </div>
         <div>
