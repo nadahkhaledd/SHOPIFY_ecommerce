@@ -77,7 +77,7 @@ public class Product {
 
     @NotBlank
     @NotNull
-    @Column(name = "image_path", nullable = false, length = 45)
+    @Column(name = "image_path", nullable = false, length = 300)
     public String getImagePath() {
         return imagePath;
     }

@@ -43,7 +43,7 @@ public class Category {
     }
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, length = 300)
     public String getImagePath() {
         return imagePath;
     }
