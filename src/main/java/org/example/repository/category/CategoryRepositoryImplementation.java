@@ -38,16 +38,17 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
      * @inheritDoc
      */
     @Override
-    public int updateCategory(int categoryID, String imgPath) {
+    public int updateCategory(Category category) {
         int results;
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             Query query=session.createQuery(
-                    "update Category c set c.imagePath=:imagePath" +
+                    "update Category c set c.name=:name, c.imagePath=:imagePath" +
                             " where c.id=:id"
             );
-            query.setParameter("imagePath", imgPath);
-            query.setParameter("id", categoryID);
+            query.setParameter("name", category.getName());
+            query.setParameter("imagePath", category.getImagePath());
+            query.setParameter("id", category.getId());
             results = query.executeUpdate();
             tx.commit();
         }
@@ -95,6 +96,21 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
         try (Session session = factory.openSession()) {
             category  = session.createQuery("from Category c WHERE c.name=:name", Category.class)
                     .setParameter("name", name)
+                    .getSingleResult();
+
+        }
+        return category;
+    }
+
+    /**
+    * @inheritDoc
+     */
+    @Override
+    public Category getCategoryByID(int id) {
+        Category category;
+        try (Session session = factory.openSession()) {
+            category  = session.createQuery("from Category c WHERE c.id=:id", Category.class)
+                    .setParameter("id", id)
                     .getSingleResult();
 
         }

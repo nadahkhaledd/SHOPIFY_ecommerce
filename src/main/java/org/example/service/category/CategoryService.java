@@ -19,7 +19,7 @@ public interface CategoryService {
      * @param imgPath This is the path of the new image to be added.
      * @return boolean if category updated.
      */
-    boolean updateCategory(int categoryID, String imgPath);
+    boolean updateCategory(Category category);
 
     /**
      * This method is used by admin to remove a category from database.
@@ -41,6 +41,13 @@ public interface CategoryService {
      * @return the found category.
      */
     Category getCategoryByName(String name);
+
+    /**
+     * get category by its id.
+     * @param id the id of the category to get form database.
+     * @return the found category.
+     */
+    Category getCategoryByID(int id);
 
     /**
      * search by category name

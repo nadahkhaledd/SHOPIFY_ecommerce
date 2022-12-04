@@ -19,7 +19,7 @@ public interface CategoryRepository {
      * @param imgPath This is the path of the new image to be added.
      * @return int number of rows affected.
      */
-    int updateCategory(int categoryID, String imgPath);
+    int updateCategory(Category category);
 
     /**
      * This method is used by admin to remove a category from database.
@@ -41,6 +41,13 @@ public interface CategoryRepository {
      * @return the found category.
      */
     Category getCategoryByName(String name);
+
+    /**
+     * get category by its id.
+     * @param id the id of the category to get form database.
+     * @return the found category.
+     */
+    Category getCategoryByID(int id);
 
     /**
      * This method is used to get the names of all categories available in database.

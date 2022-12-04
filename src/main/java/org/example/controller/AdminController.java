@@ -100,12 +100,6 @@ public class AdminController {
         return "addCategory";
     }
 
-    @GetMapping("deleteCategory/{id}")
-    public String deleteCategory(@PathVariable int id) {
-        categoryService.removeCategory(id);
-        return "redirect:/admin/showCategories";
-    }
-
     @PostMapping("addCategory")
     public String addCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -113,6 +107,30 @@ public class AdminController {
             return "addCategory";
         }
         categoryService.addCategory(category);
+        return "redirect:/admin/showCategories";
+    }
+
+    @GetMapping("deleteCategory/{id}")
+    public String deleteCategory(@PathVariable int id) {
+        categoryService.removeCategory(id);
+        return "redirect:/admin/showCategories";
+    }
+
+    @GetMapping("updateCategory/{id}")
+    public String updateCategory(Model model, @PathVariable int id) {
+        Category category = categoryService.getCategoryByID(id);
+        model.addAttribute("category", category);
+
+        return "updateCategory";
+    }
+
+    @PostMapping("updateCategory/{id}")
+    public String updateCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, Object> model = bindingResult.getModel();
+            return "updateCategory";
+        }
+        categoryService.updateCategory(category);
         return "redirect:/admin/showCategories";
     }
 
@@ -156,8 +174,6 @@ public class AdminController {
 
         return "redirect:/admin/adminHome";
     }
-
-
 
     @GetMapping("login")
     public String loginAdmin() {
