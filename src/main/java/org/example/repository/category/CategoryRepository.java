@@ -15,8 +15,7 @@ public interface CategoryRepository {
 
     /**
      * This method is used by admin to update a category's image.
-     * @param categoryID This is the id of the category needs to be updated.
-     * @param imgPath This is the path of the new image to be added.
+     * @param category category object updated.
      * @return int number of rows affected.
      */
     int updateCategory(Category category);

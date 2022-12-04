@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.DefaultValue;
 import java.util.List;
 
 @Entity
@@ -25,7 +26,9 @@ public class Product {
 
     private List<Rate> rates;
 
-    public Product() {}
+    public Product() {
+        this.rate = 0;
+    }
 
     public Product(String name, String imagePath, double price, Category category, int availableQuantity) {
         this.name = name;
@@ -33,6 +36,7 @@ public class Product {
         this.price = price;
         this.category = category;
         this.availableQuantity = availableQuantity;
+        this.rate = 0;
 
     }
     @Transient//will not be added as a column in the database

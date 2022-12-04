@@ -15,8 +15,7 @@ public interface CategoryService {
 
     /**
      * This method is used by admin to update a category's image.
-     * @param categoryID This is the id of the category needs to be updated.
-     * @param imgPath This is the path of the new image to be added.
+     * @param category updated category object.
      * @return boolean if category updated.
      */
     boolean updateCategory(Category category);
