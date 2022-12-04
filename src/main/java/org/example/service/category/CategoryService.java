@@ -32,9 +32,15 @@ public interface CategoryService {
      * get all categories
      * retrieves all categories from database
      * @return list of categories
-
      */
     List<Category> getAllCategories();
+
+    /**
+     * get category by its name.
+     * @param name the name of the category to get form database.
+     * @return the found category.
+     */
+    Category getCategoryByName(String name);
 
     /**
      * search by category name

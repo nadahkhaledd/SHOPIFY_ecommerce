@@ -92,6 +92,21 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
      * @inheritDoc
      */
     @Override
+    public Category getCategoryByName(String name) {
+        Category category;
+        try (Session session = factory.openSession()) {
+            category  = session.createQuery("from Category c WHERE c.name=:name", Category.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+
+        }
+        return category;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
     public List<String> getCategoriesNames() {
         List<String> categoriesNames;
         try (Session session = factory.openSession()) {
