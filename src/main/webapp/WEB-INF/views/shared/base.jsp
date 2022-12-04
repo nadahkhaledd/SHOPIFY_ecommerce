@@ -9,9 +9,12 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
                       integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
         <!-- Customized Bootstrap Stylesheets -->
-        <link href="${pageContext.request.contextPath}/resources/css/newMember.css" rel="stylesheet">
-        <link href="${pageContext.request.contextPath}/resources/css/homeAdmin.css" rel="stylesheet">
+        <layout:block name="style">
+            base_page_style
+        </layout:block>
+
         <title><layout:block name="title">base_head_title</layout:block></title>
     </head>
     <body>
@@ -19,7 +22,7 @@
 
        <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
          <div class="container-fluid">
-           <a class="navbar-brand" href="" style="font-weight: bolder; color: cadetblue">Shopify Admin</a>
+           <a class="navbar-brand" href="/e-commerce/admin/adminHome" style="font-weight: bolder; color: cadetblue">Shopify Admin</a>
            <div class="navbar-collapse" id="navbarSupportedContent">
              <ul class="navbar-nav me-auto ">
                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/e-commerce/admin/adminHome" >Home</a></li>

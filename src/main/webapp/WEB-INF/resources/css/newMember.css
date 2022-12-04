@@ -44,8 +44,7 @@ textarea
       }
       .banner {
       position: relative;
-      height: 300px;
-      background-image: url("/uploads/media/default/0001/02/c1504011491c4e04e5158b63a27a4ea654b03ed1.jpeg");
+      height: 200px;
       background-size: cover;
       display: flex;
       justify-content: center;
@@ -185,7 +184,7 @@ textarea
       display:flex;
       justify-content:space-around;
       }
-      .btn-block {
+      .btn-block, .btn-success {
       margin-top: 10px;
       text-align: center;
       }
