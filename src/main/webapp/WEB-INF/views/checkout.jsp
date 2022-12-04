@@ -346,7 +346,7 @@
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">
-                <img class="img-fluid" src="../img/payments.png" alt="">
+                <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fpayments.png?alt=media&token=cb9e4ab8-0a2b-4c20-9ceb-9b172700900b" alt="">
             </div>
         </div>
     </div>

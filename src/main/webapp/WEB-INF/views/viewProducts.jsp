@@ -110,7 +110,7 @@
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                 <div class="card product-item border-0 mb-4">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img class="img-fluid w-100" src="${pageContext.request.contextPath}/resources/img/${product.imagePath}" alt="">
+                        <img class="img-fluid w-100" src="${product.imagePath}" alt="">
                     </div>
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                         <h6 class="text-truncate mb-3">${product.name}</h6>
@@ -161,39 +161,31 @@
 <!-- Featured End -->
 
 <!-- Vendor Start -->
-<div class="container-fluid py-5">
-    <div class="row px-xl-5">
-        <div class="col">
-            <div class="owl-carousel vendor-carousel">
-                <div class="vendor-item border p-4">
-                    <img src="${pageContext.request.contextPath}/resources/img/vendor-1.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="${pageContext.request.contextPath}/resources/img/vendor-2.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="${pageContext.request.contextPath}/resources/img/vendor-3.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="${pageContext.request.contextPath}/resources/img/vendor-4.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="${pageContext.request.contextPath}/resources/img/vendor-5.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="${pageContext.request.contextPath}/resources/img/vendor-6.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="${pageContext.request.contextPath}/resources/img/vendor-7.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="${pageContext.request.contextPath}/resources/img/vendor-8.jpg" alt="">
+    <div class="container-fluid py-5">
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="owl-carousel vendor-carousel">
+                    <div class="vendor-item border p-4">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fvendor-1.jpg?alt=media&token=3508f088-e221-49a7-88d2-d70b5203a9d1" alt="">
+                    </div>
+                    <div class="vendor-item border p-4">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fvendor-2.jpg?alt=media&token=a2bc966d-9837-46ac-9881-5bd857778d54" alt="">
+                    </div>
+                    <div class="vendor-item border p-4">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fvendor-3.jpg?alt=media&token=198d8e76-9556-4b99-9c5e-a4ae152f9b53" alt="">
+                    </div>
+                    <div class="vendor-item border p-4">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fvendor-4.jpg?alt=media&token=bd189bf4-ab09-4296-8bfd-dd12e95817e2" alt="">
+                    </div>
+                    <div class="vendor-item border p-4">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fvendor-5.jpg?alt=media&token=15f945ac-1574-4150-9ce4-83bb041104d7" alt="">
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Vendor End -->
+    <!-- Vendor End -->
 
 
 <!-- Footer Start -->
@@ -260,7 +252,7 @@
             </p>
         </div>
         <div class="col-md-6 px-xl-0 text-center text-md-right">
-            <img class="img-fluid" src="${pageContext.request.contextPath}/resources/img/payments.png" alt="">
+            <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fpayments.png?alt=media&token=cb9e4ab8-0a2b-4c20-9ceb-9b172700900b" alt="">
         </div>
     </div>
 </div>

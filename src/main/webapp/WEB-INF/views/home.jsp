@@ -145,7 +145,7 @@
                 <div id="header-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active" style="height: 410px;">
-                            <img class="img-fluid" src="${pageContext.request.contextPath}/resources/img/carousel-1.jpg" alt="Image">
+                            <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fcarousel-1.jpg?alt=media&token=d959f240-0bc8-430b-9ca3-21448fe38d3e" alt="Image">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
                                     <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
@@ -155,7 +155,7 @@
                             </div>
                         </div>
                         <div class="carousel-item" style="height: 410px;">
-                            <img class="img-fluid" src="${pageContext.request.contextPath}/resources/img/carousel-2.jpg" alt="Image">
+                            <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fcarousel-2.jpg?alt=media&token=319e2ff7-3025-4a5e-bc95-9fd1fefe411c" alt="Image">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
                                     <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
@@ -242,7 +242,7 @@
         <div class="row px-xl-5">
             <div class="col-md-6 pb-4">
                 <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
-                    <img src="${pageContext.request.contextPath}/resources/img/offer-1.png" alt="">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/products%2Foffer-1.png?alt=media&token=f9774fef-ed80-41d5-a01d-411011d25604" alt="">
                     <div class="position-relative" style="z-index: 1;">
                         <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
                         <h1 class="mb-4 font-weight-semi-bold">Spring Collection</h1>
@@ -252,7 +252,7 @@
             </div>
             <div class="col-md-6 pb-4">
                 <div class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
-                    <img src="${pageContext.request.contextPath}/resources/img/offer-2.png" alt="">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/products%2Foffer-2.png?alt=media&token=cde2e020-e78c-41a9-a36e-43edb110619b" alt="">
                     <div class="position-relative" style="z-index: 1;">
                         <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
                         <h1 class="mb-4 font-weight-semi-bold">Winter Collection</h1>
@@ -305,29 +305,21 @@
             <div class="col">
                 <div class="owl-carousel vendor-carousel">
                     <div class="vendor-item border p-4">
-                        <img src="${pageContext.request.contextPath}/resources/img/vendor-1.jpg" alt="">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fvendor-1.jpg?alt=media&token=3508f088-e221-49a7-88d2-d70b5203a9d1" alt="">
                     </div>
                     <div class="vendor-item border p-4">
-                        <img src="${pageContext.request.contextPath}/resources/img/vendor-2.jpg" alt="">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fvendor-2.jpg?alt=media&token=a2bc966d-9837-46ac-9881-5bd857778d54" alt="">
                     </div>
                     <div class="vendor-item border p-4">
-                        <img src="${pageContext.request.contextPath}/resources/img/vendor-3.jpg" alt="">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fvendor-3.jpg?alt=media&token=198d8e76-9556-4b99-9c5e-a4ae152f9b53" alt="">
                     </div>
                     <div class="vendor-item border p-4">
-                        <img src="${pageContext.request.contextPath}/resources/img/vendor-4.jpg" alt="">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fvendor-4.jpg?alt=media&token=bd189bf4-ab09-4296-8bfd-dd12e95817e2" alt="">
                     </div>
                     <div class="vendor-item border p-4">
-                        <img src="${pageContext.request.contextPath}/resources/img/vendor-5.jpg" alt="">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fvendor-5.jpg?alt=media&token=15f945ac-1574-4150-9ce4-83bb041104d7" alt="">
                     </div>
-                    <div class="vendor-item border p-4">
-                        <img src="${pageContext.request.contextPath}/resources/img/vendor-6.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="${pageContext.request.contextPath}/resources/img/vendor-7.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="${pageContext.request.contextPath}/resources/img/vendor-8.jpg" alt="">
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -399,7 +391,7 @@
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">
-                <img class="img-fluid" src="${pageContext.request.contextPath}/resources/img/payments.png" alt="">
+                <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fpayments.png?alt=media&token=cb9e4ab8-0a2b-4c20-9ceb-9b172700900b" alt="">
             </div>
         </div>
     </div>
