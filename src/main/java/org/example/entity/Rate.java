@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 public class Rate {
     private int id;
-    private double rate;
+    private int rate;
     private Customer customer;
     private Product product;
     private String description;
@@ -14,13 +14,15 @@ public class Rate {
     public Rate() {
     }
 
-    public Rate(String description,Customer customer, Product product) {
+    public Rate(int rate,String description,Customer customer, Product product) {
         this.customer = customer;
         this.product = product;
         this.description=description;
+        this.rate=rate;
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="rate_id")
     public int getId() {
         return id;
@@ -30,11 +32,11 @@ public class Rate {
         this.id = id;
     }
 
-    public double getRate() {
+    public int getRate() {
         return rate;
     }
 
-    public void setRate(double rate) {
+    public void setRate(int rate) {
         this.rate = rate;
     }
 

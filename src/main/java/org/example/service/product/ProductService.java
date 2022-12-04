@@ -87,12 +87,5 @@ public interface ProductService {
 
      List<Product> searchByProductName(String productName);
 
-     /**
-      *  calculate product rate
-      * product having list<Rate> and calculate rate of the product
-      * and put the value in the transient parameter rate to be displayed in product details view
-      * @param product product
-      * @return nothing
-      */
-      void calculateProductRate(Product product);
+
 }

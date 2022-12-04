@@ -52,7 +52,7 @@ public class ShoppingCartProductsController {
         ShoppingCartProducts cartProduct = new ShoppingCartProducts();
         cartProduct.setProductQuantity(1);
         cartProduct.setProduct(productService.getProduct(productId));
-        cartProduct.setUser(userService.getUser(userId));
+        cartProduct.setUser(userService.getUserById(userId));
         cartServices.addToCart(cartProduct);
         return "redirect:/products/getAllProducts";
     }

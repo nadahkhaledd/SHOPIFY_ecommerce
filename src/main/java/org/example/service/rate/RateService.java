@@ -1,6 +1,8 @@
 package org.example.service.rate;
 
+import org.example.entity.Product;
 import org.example.entity.Rate;
+import org.example.model.UserInputReview;
 
 public interface RateService {
     /**
@@ -9,11 +11,15 @@ public interface RateService {
      * @param rate rate (customer id,product id,description)
      * @Return nothing
      */
-    void AssignRateToProduct(Rate rate);
-    /** calculate product rate (avg of users' rate to this product)
-     * @param productId id of the product
-     * @return rate of the product
+    void AssignRateToProduct(UserInputReview rate);
+
+    /**
+     *  calculate product rate
+     * product having list<Rate> and calculate rate of the product
+     * and put the value in the transient parameter rate to be displayed in product details view
+     * @param product product
+     * @return nothing
      */
-    double calculateRateOfProduct(int productId);
+    void calculateProductRate(Product product);
 
 }
