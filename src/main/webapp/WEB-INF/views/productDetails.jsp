@@ -227,7 +227,7 @@
 
                                   <p class="mb-0 mr-2">Your Rating * :</p>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" value="1" class="custom-control-input" id="rate-1" name="rate">
+                                            <input type="radio" value="1" class="custom-control-input" required="required" id="rate-1" name="rate">
                                             <label class="custom-control-label" for="rate-1">1</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
@@ -251,11 +251,7 @@
 
                                 <div class="form-group">
                                     <label for="message">Your Review *</label>
-                                    <textarea id="message" name="message" cols="30" rows="5" class="form-control"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Your Email *</label>
-                                    <input type="email" name="email" class="form-control" id="email">
+                                    <textarea id="message" name="message" required="required" cols="30" rows="5" class="form-control"></textarea>
                                 </div>
                                 <div class="form-group mb-0">
                                     <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">

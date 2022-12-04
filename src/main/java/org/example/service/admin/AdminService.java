@@ -2,6 +2,7 @@ package org.example.service.admin;
 
 import org.example.entity.Admin;
 import org.example.entity.User;
+import org.example.model.Response;
 
 public interface AdminService {
 
@@ -11,7 +12,7 @@ public interface AdminService {
      * @param admin This is the admin object to be added.
      * @return nothing
      */
-    void addAdmin(User admin);
+    Response addAdmin(User admin);
 
     /**
      * This method is used to create the super admin of the system.

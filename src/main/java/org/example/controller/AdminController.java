@@ -5,6 +5,7 @@ import org.example.entity.Category;
 import org.example.entity.Product;
 import org.example.enums.Gender;
 import org.example.model.RemoveUserFields;
+import org.example.model.Response;
 import org.example.service.admin.AdminService;
 import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -84,12 +86,18 @@ public class AdminController {
     }
 
     @PostMapping("addAdmin")
-    public String addUser(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd")  @ModelAttribute("admin") Admin admin, BindingResult bindingResult) {
+    public String addUser(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd")  @ModelAttribute("admin") Admin admin, BindingResult bindingResult ,
+                          ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
             return "addAdmin";
         }
-        adminService.addAdmin(admin);
+        Response response= adminService.addAdmin(admin);
+        if(String.valueOf(response.getStatusCode()).charAt(0)=='4' || String.valueOf(response.getStatusCode()).charAt(0)=='5'){
+            modelMap.put("errorMessage",response.getMessage());
+            return "addAdmin";
+        }
+
         return "redirect:/admin/adminHome";
     }
 

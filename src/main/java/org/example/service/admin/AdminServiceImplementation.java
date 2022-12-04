@@ -2,7 +2,9 @@ package org.example.service.admin;
 
 import org.example.entity.Admin;
 import org.example.entity.User;
+import org.example.model.Response;
 import org.example.repository.admin.AdminRepository;
+import org.example.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +13,10 @@ public class AdminServiceImplementation implements AdminService{
 
     private final AdminRepository repository;
 
+    private ValidationService validationService;
     @Autowired
     public AdminServiceImplementation(AdminRepository repository) {
+        validationService=new ValidationService();
         System.out.println("in admin service....");
         this.repository = repository;
         //repository.createSuperAdmin();
@@ -22,8 +26,10 @@ public class AdminServiceImplementation implements AdminService{
      * @inheritDoc
      */
     @Override
-    public void addAdmin(User admin) {
+    public Response addAdmin(User admin) {
+        Response response=validationService.validateAdminEmail(admin.getEmail());
         repository.addAdmin(admin);
+        return response;
     }
 
     /**
