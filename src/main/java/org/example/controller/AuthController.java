@@ -4,60 +4,68 @@
 
 package org.example.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import org.example.entity.User;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.example.service.security.AuthService;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RequestMapping({ "/Auth" })
 @Controller
-@SessionAttributes({ "user" })
+@SessionAttributes({"user","error"})
 public class AuthController
 {
     @Autowired
     AuthService authService;
 
     @GetMapping({ "/login" })
-    public String loginForm(final Model model) {
-        if (model.getAttribute("user") != null) {
-            return "shop";
-        }
-        final User user = new User();
-        model.addAttribute("user", (Object)user);
+    public String loginForm(Model model) {
+//        if (model.getAttribute("user") !=null) {
+//            return "redirect:products/shop";
+//        }
+////        User user = new User();
+////        model.addAttribute("user",user);
         return "login";
     }
+    //get user type
 
-    @PostMapping({ "/login" })
-    public String login(@ModelAttribute("user") final User user, final Model model) {
-        final User result = this.authService.login(user.getEmail(), user.getPassword());
-        if (result == null) {
+    @PostMapping({ "/loginPost" })
+    public String login(@ModelAttribute("user")  User user, Model model) {
+         User result = this.authService.login(user.getEmail(), user.getPassword());
+        if (result.getId()==0) {
+          model.addAttribute("error","Email or Password is Wrong");
             return "login";
         }
-        model.addAttribute("user", (Object)result);
-        return "shop";
+
+        String regex = "[a-z0-9]+@admin.com";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(result.getEmail());
+        if(matcher.matches()){
+            return "redirect:/admin/dashboard";
+        }
+
+        model.addAttribute("user", result);
+        return "redirect:/products/shop";
     }
 
     @PostMapping({ "/register" })
-    public String register(@ModelAttribute("regUser") final User user) {
-        System.out.println(user.toString());
+    public String register(@ModelAttribute("regUser")  User user) {
         return "EmailSentPage";
     }
 
     @GetMapping({ "/logout" })
-    public String logout(final Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "login";
+    public String logout(Model model) {
+      //  User user = new User();
+        model.addAttribute("user","0");
+        return "redirect:/Auth/login";
     }
 
-    @GetMapping({ "/activate" })
-    public String activate(final String email) {
+    @GetMapping({ "/activate/{email}" })
+    public String activate(@PathVariable("email") String email) {
         if (this.authService.verifyEmail(email)) {
             return "shop";
         }

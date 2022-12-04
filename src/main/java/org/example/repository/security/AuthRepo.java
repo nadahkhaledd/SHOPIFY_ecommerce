@@ -25,19 +25,18 @@ public class AuthRepo
     public User checkLoginCredential(final String email, final String password) {
         final Session session = this.factory.openSession();
         try {
-            final List<User> users = (List<User>)session.createQuery("FROM User", (Class)User.class).list();
+            List<User> users = session.createQuery("FROM User", User.class).list();
             if (users.size() > 0) {
                 try {
-                     int userId = ((User)session.createQuery("FROM User u where u.email=:email", (Class)User.class).setParameter("email", (Object)email).getSingleResult()).getId();
-                     User customer = (User)session.get((Class)User.class, (Serializable)userId);
+                     int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email",email).getSingleResult()).getId();
+                     User customer = session.get(User.class, userId);
                     if (customer != null) {
                         if (customer.getPassword().equals(password)) {
                             customer.setPasswordAttempts(0);
-                            final User user = customer;
                             if (session != null) {
                                 session.close();
                             }
-                            return user;
+                            return customer;
                         }
                         customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
                         if (customer.getPasswordAttempts() >= 3) {
@@ -46,11 +45,10 @@ public class AuthRepo
                     }
                 }
                 catch (Exception e) {
-                    final User user2 = null;
                     if (session != null) {
                         session.close();
                     }
-                    return user2;
+                    return null;
                 }
             }
             if (session != null) {
@@ -71,12 +69,12 @@ public class AuthRepo
         return null;
     }
 
-    public boolean register(final User user) {
+    public boolean register(User user) {
         try {
             final Session session = this.factory.openSession();
             try {
                 final Transaction tx = session.beginTransaction();
-                session.persist((Object)user);
+                session.persist(user);
                 tx.commit();
                 if (session != null) {
                     session.close();
@@ -103,9 +101,7 @@ public class AuthRepo
     public boolean verifyEmail(final String email) {
         final Session session = this.factory.openSession();
         try {
-            final List<User> users = (List<User>)session.createQuery("FROM User", (Class)User.class).list();
-            if (users.size() > 0) {
-                int userId = users.stream().filter(user -> user.getEmail().equals(email)).findFirst().get().getId();
+                int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email",email).getSingleResult()).getId();
                 User customer = session.get(User.class, userId);
                 if (customer != null) {
                     customer.setStatus(CustomerStatus.ACTIVATED);
@@ -115,7 +111,6 @@ public class AuthRepo
                     }
                     return b;
                 }
-            }
             if (session != null) {
                 session.close();
             }

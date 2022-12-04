@@ -28,8 +28,7 @@
 </head>
 
 <body>
-<h3>Heey</h3>
-<h3>${user.firstName}</h3>
+<h1>${user}<h1>
     <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-2 px-xl-5">
