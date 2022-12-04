@@ -9,7 +9,7 @@
 <html xmlns:layout="http://kwonnam.pe.kr/jsp/template-inheritance"  xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form">
 
     <head>
-        <title><layout:put block="title" type="REPLACE">Shopify</layout:put></title>
+        <title><layout:put block="title" type="REPLACE">SHOPIFY</layout:put></title>
     </head>
 
     <body>
