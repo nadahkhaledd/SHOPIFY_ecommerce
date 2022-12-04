@@ -5,6 +5,10 @@
 <layout:extends name="base">
 <html xmlns:layout="http://kwonnam.pe.kr/jsp/template-inheritance" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form">
   <head>
+    <layout:put block="style" type="REPLACE">
+        <link href="${pageContext.request.contextPath}/resources/css/newMember.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/resources/css/homeAdmin.css" rel="stylesheet">
+    </layout:put>
     <title><layout:put block="title" type="REPLACE">Admin Home</layout:put></title>
   </head>
 
@@ -65,7 +69,7 @@
                                                padding: 25px 10px;">
                     <div class="card">
                         <h4>Show all categories</h4>
-                        <a role="button" type="button" class="btn btn-dark" href="" style="
+                        <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/showCategories" style="
 
                                  height: 40px;
                                  display: inline;
@@ -97,6 +101,26 @@
                                  border: none;
                                  transition: 0.5s;
                                  background-size: 200% auto;">Go</a>
+                    </div>
+                  </div>
+
+                  <div class="column" style="float: left;
+                                                  width: 25%;
+                                                  padding: 25px 10px;">
+                    <div class="card">
+                        <h4>Update product</h4>
+                        <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/updateProduct" style="
+
+                                                    height: 40px;
+                                                   display: inline;
+                                                   align-items: center;
+                                                   color: antiquewhite;
+                                                   justify-content: space-between;
+
+                                                   background-image: linear-gradient(to right, cadetblue 0%, #79CBCA 51%, #77A1D3 100%);
+                                                   border: none;
+                                                   transition: 0.5s;
+                                                   background-size: 200% auto;">Go</a>
                     </div>
                   </div>
 

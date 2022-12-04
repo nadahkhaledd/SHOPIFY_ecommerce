@@ -31,8 +31,8 @@ public class CategoryServiceImplementation implements CategoryService{
      * @inheritDoc
      */
     @Override
-    public boolean updateCategory(int categoryID, String imgPath) {
-        int affectedRows = repository.updateCategory(categoryID, imgPath);
+    public boolean updateCategory(Category category) {
+        int affectedRows = repository.updateCategory(category);
         return affectedRows == 1;
     }
 
@@ -51,6 +51,22 @@ public class CategoryServiceImplementation implements CategoryService{
     @Override
     public List<Category> getAllCategories() {
         return repository.getAllCategories();
+    }
+
+    /**
+     * @InheritedDoc
+     */
+    @Override
+    public Category getCategoryByName(String name) {
+        return repository.getCategoryByName(name);
+    }
+
+    /**
+     * @InheritedDoc
+     */
+    @Override
+    public Category getCategoryByID(int id) {
+        return repository.getCategoryByID(id);
     }
 
     /**

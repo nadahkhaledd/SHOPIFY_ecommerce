@@ -5,6 +5,9 @@
 <layout:extends name="base">
 <html xmlns:layout="http://kwonnam.pe.kr/jsp/template-inheritance" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form">
   <head>
+    <layout:put block="style" type="REPLACE">
+        <link href="${pageContext.request.contextPath}/resources/css/newMember.css" rel="stylesheet">
+    </layout:put>
     <title><layout:put block="title" type="REPLACE">Add new product</layout:put></title>
   </head>
   <body>
@@ -35,7 +38,7 @@
 
                   <div class="item">
                     <label for="category">Category<span>*</span></label>
-                    <form:select path="category" id="category" name="category" items="${categories}" />
+                    <form:select path="category" multiple="false" id="category" name="category" items="${categories}" />
                     <form:errors path="category" cssClass="error"/>
                   </div>
 

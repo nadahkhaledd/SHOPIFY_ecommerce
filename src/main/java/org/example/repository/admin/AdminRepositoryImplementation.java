@@ -47,6 +47,27 @@ public class AdminRepositoryImplementation implements AdminRepository{
      */
     @Override
     public void createSuperAdmin() {
+        /*
+          execute at beginning of system just once if database not found.
+          INSERT INTO `e-commerce`.`User`
+            (`user_type`,
+            `dateOfBirth`,
+            `email`,
+            `firstName`,
+            `gender`,
+            `lastName`,
+            `password`
+            )
+            VALUES
+            (0,
+            "1989-10-13",
+            "superadmin@shop.comm",
+            "super",
+            0,
+            "admin",
+            "super@dm1n"
+            );
+         */
         Date date = dateUtils.convertStringToDate("1989-10-13");
 
         Admin superAdmin = new Admin("super", "admin",
