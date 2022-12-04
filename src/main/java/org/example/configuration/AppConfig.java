@@ -1,6 +1,7 @@
 package org.example.configuration;
 
 import org.example.entity.*;
+import org.example.service.product.ProductServiceImpl;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,6 +31,5 @@ public class AppConfig {
                 .addAnnotatedClass(OrderDetails.class).addAnnotatedClass(Order.class)
                 .buildSessionFactory();
     }
-
 
 }

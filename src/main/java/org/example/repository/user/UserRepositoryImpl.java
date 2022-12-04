@@ -1,5 +1,7 @@
 package org.example.repository.user;
 
+import jdk.jfr.Registered;
+import org.example.entity.Product;
 import org.example.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,5 +29,22 @@ public class UserRepositoryImpl implements UserRepository {
                     .getResultList();
         }
         return users.get(0);
+    }
+    /**
+
+     /**
+     * @return
+     */
+    @Override
+    public User getUserById(int userId) {
+        User user;
+        try(Session session=factory.openSession()){
+            session.beginTransaction();
+            user= (User) session.createQuery("from User where id= :userId")
+                    .setParameter("userId",userId).getSingleResult();
+            //     session.getTransaction().commit();
+        }
+        System.out.println(user.toString());
+        return user;
     }
 }

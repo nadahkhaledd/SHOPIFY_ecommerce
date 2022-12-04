@@ -17,8 +17,10 @@ public class Product {
     private double price;
 
     private Category category;
+
+    private String description;
     private int availableQuantity;
-    @Transient//will not be added as a column in the database
+
     private double rate;
 
     private List<Rate> rates;
@@ -33,7 +35,7 @@ public class Product {
         this.availableQuantity = availableQuantity;
 
     }
-
+    @Transient//will not be added as a column in the database
     public double getRate() {
         return rate;
     }
@@ -52,7 +54,13 @@ public class Product {
     }
 
 
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Id
     @NotNull
