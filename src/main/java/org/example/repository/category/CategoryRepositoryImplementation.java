@@ -138,8 +138,10 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
         List<Category> categories;
         try(Session session=factory.openSession()){
             session.beginTransaction();
-            categories=session.createQuery("from Category where name like :searchkey ", Category.class).
-                    setParameter("searchkey", "% "+categoryName+"%").list();
+            categories=session.createQuery("from Category where name like :searchkey or name= :categoryName ", Category.class).
+                    setParameter("searchkey", "% "+categoryName+" %")
+                    .setParameter("categoryName",categoryName)
+                    .list();
             //     session.getTransaction().commit();
         }
         categories.forEach(System.out::println);

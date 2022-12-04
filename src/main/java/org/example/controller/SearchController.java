@@ -33,6 +33,8 @@ public class SearchController {
         List<Product> products = productService.searchByProductName(searchValue);
         Set<Product> allReturnedProducts=productsUtils.
                 mergingProductsAndCategoryProducts(categories,products);
+        System.out.println("in search");
+        System.out.println(allReturnedProducts.toString());
         modelAndView.addObject("products", allReturnedProducts);
         return modelAndView;
     }
