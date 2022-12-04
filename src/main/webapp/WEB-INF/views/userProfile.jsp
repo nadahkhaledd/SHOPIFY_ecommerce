@@ -65,7 +65,7 @@
                                                padding: 25px 10px;">
                     <div class="card">
                         <h4>View orders</h4>
-                        <a role="button" type="button" class="btn btn-dark" href="" style="
+                        <a role="button" type="button" class="btn btn-dark" href="/e-commerce/orders/view?id=1" style="
 
                                  height: 40px;
                                  display: inline;

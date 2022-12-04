@@ -13,7 +13,7 @@ public class ShoppingCartProducts {
     private User user;
     public ShoppingCartProducts() {}
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "user_id")
 
     public User getUser() {

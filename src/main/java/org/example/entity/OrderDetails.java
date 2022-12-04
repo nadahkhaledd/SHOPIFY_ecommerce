@@ -37,10 +37,11 @@ public class OrderDetails {
 
     public OrderDetails() {
     }
-    public OrderDetails(int orderId, String productName, double productPrice, String productImage) {
+    public OrderDetails(Order order, String productName, double productPrice, String productImage) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.productImage = productImage;
+        this.order = order;
     }
 
     public int getId() {

@@ -175,7 +175,7 @@
 
     <!-- Checkout Start -->
     <div class="container-fluid pt-5">
-        <form action="${pageContext.request.contextPath}/orders/getOrderDetails">
+        <form action="${pageContext.request.contextPath}/orders/placeOrder/1" method="post">
         <div class="row px-xl-5">
             <div class="col-lg-8">
                 <div class="mb-4">

@@ -2,7 +2,7 @@ package org.example.controller;
 
 import org.example.entity.Address;
 import org.example.entity.ShoppingCartProducts;
-import org.example.service.OrderService;
+import org.example.service.order.OrderServiceImpl;
 import org.example.service.address.AddressService;
 import org.example.service.product.ProductService;
 import org.example.service.shoppingcartproducts.ShoppingCartProductsService;
@@ -20,16 +20,16 @@ public class ShoppingCartProductsController {
     private final ShoppingCartProductsService cartServices;
     private final ProductService productService;
     private final UserService userService;
-    private final OrderService orderService;
+    private final OrderServiceImpl orderServiceImpl;
     private final AddressService addressService;
 
     @Autowired
-    public ShoppingCartProductsController(ShoppingCartProductsService cartServices, OrderService orderService,
+    public ShoppingCartProductsController(ShoppingCartProductsService cartServices, OrderServiceImpl orderServiceImpl,
                                           ProductService productService, UserService userService, AddressService addressService) {
         this.cartServices = cartServices;
         this.productService = productService;
         this.userService = userService;
-        this.orderService = orderService;
+        this.orderServiceImpl = orderServiceImpl;
         this.addressService = addressService;
     }
 

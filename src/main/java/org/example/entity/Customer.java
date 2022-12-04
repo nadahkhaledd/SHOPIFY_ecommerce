@@ -20,6 +20,9 @@ public class Customer extends User {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
     private List<Rate> Rates;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    private List<Order> orders;
+
     public Customer() {
     }
 

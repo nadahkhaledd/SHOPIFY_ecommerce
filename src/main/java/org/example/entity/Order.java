@@ -15,22 +15,22 @@ public class Order{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
     private List<OrderDetails> orderDetails;
 
-    @Column(name = "user_id")
-    @NotNull
-    private int userId;
+    @JoinColumn(name = "customer_id")
+    @ManyToOne
+    private Customer customer;
     @Column(name = "order_date")
     @NotNull
     private LocalDate date;
     @Column(name = "status", nullable = false)
     private OrderStatus status;
     @Column(name = "total",nullable = false)
-    private Integer total;
+    private Double total;
 
-    public Order(int userId, LocalDate date, OrderStatus status, Integer total) {
-        this.userId = userId;
+    public Order(Customer customer, LocalDate date, OrderStatus status, Double total) {
+        this.customer = customer;
         this.date = date;
         this.status = status;
         this.total = total;
@@ -44,12 +44,20 @@ public class Order{
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public List<OrderDetails> getOrderDetails() {
+        return orderDetails;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setOrderDetails(List<OrderDetails> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public LocalDate getDate() {
@@ -68,11 +76,11 @@ public class Order{
         this.status = status;
     }
 
-    public Integer getTotal() {
+    public Double getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 }
