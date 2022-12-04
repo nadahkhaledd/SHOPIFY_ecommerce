@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
     private ProductRepo productRepository;
-    private RateService rateService;
+
     @Autowired
-    public ProductServiceImpl(ProductRepoImpl productRepoImpl,RateService rateService) {
+    public ProductServiceImpl(ProductRepoImpl productRepoImpl) {
         this.productRepository = productRepoImpl;
-        this.rateService=rateService;
+
     }
     /**
      * @Inherited Doc
@@ -94,14 +94,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    /**
-     * @Inherited Doc
-     */
 
-    @Override
-    public void calculateProductRate(Product product) {
-        if(!product.getRates().isEmpty())
-            product.setRate(rateService.calculateRateOfProduct(product.getId()));
-    }
+
+
+
 
 }

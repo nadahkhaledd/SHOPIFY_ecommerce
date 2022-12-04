@@ -2,7 +2,9 @@ package org.example.controller;
 
 import org.example.entity.Product;
 import org.example.model.Star;
+import org.example.model.UserInputReview;
 import org.example.service.product.ProductService;
+import org.example.service.rate.RateService;
 import org.example.utility.RateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,24 +23,23 @@ import java.util.List;
 public class ProductController {
     @Autowired
     ProductService productService;
+    @Autowired
+    RateService rateService;
     @GetMapping("/productDetails")
-    public ModelAndView getProductDetails( @RequestParam int productId){
+    public ModelAndView getProductDetails( @RequestParam int productId,ModelMap modelMap){
         RateUtils rateUtils=new RateUtils();
         ModelAndView modelAndView=new ModelAndView("productDetails");
         Product product=productService.getProductsById(productId);
         System.out.println(product.toString());
-        productService.calculateProductRate(product);
+        rateService.calculateProductRate(product);
         modelAndView.addObject("product",product);
+ //       modelAndView.addObject("rate",new UserInputReview());
         Star star=rateUtils.computeNumberOfStars(product.getRate());
         System.out.println(star.toString());
         modelAndView.addObject("stars",star);
         return modelAndView;
     }
 
-    @GetMapping("/shop")
-    public String test(){
-        return "detail";
-    }
     @GetMapping("/getAllProducts")
     public String getAllProducts(Model model){
         System.out.println("innnnnn productsss");

@@ -119,7 +119,7 @@ public class ProductRepoImpl implements ProductRepo {
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
             products=session.createQuery("from Product where name like :searchkey ").
-                    setString("searchkey", "%"+productName+"%").list();
+                    setString("searchkey", "% "+productName+"%").list();
             //     session.getTransaction().commit();
         }
         products.forEach(System.out::println);
