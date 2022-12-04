@@ -44,8 +44,7 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
             Transaction tx = session.beginTransaction();
             Query query=session.createQuery(
                     "update Category c set c.imagePath=:imagePath" +
-                            " where c.id=:id",
-                    Category.class
+                            " where c.id=:id"
             );
             query.setParameter("imagePath", imgPath);
             query.setParameter("id", categoryID);
@@ -64,8 +63,7 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             Query query=session.createQuery(
-                    "delete from Category c where c.id=:id",
-                    Category.class
+                    "delete from Category c where c.id=:id"
             );
             query.setParameter("id", categoryID);
             results = query.executeUpdate();
@@ -82,7 +80,7 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
         List<Category> categories;
         try(Session session=factory.openSession()){
             session.beginTransaction();
-            categories=session.createQuery("from Category").list();
+            categories=session.createQuery("from Category", Category.class).list();
             //     session.getTransaction().commit();
         }
         return categories;
@@ -115,6 +113,7 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
         }
         return categoriesNames;
     }
+
     /**
      * @InheritedDoc
      */
@@ -123,8 +122,8 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
         List<Category> categories;
         try(Session session=factory.openSession()){
             session.beginTransaction();
-            categories=session.createQuery("from Category where name like :searchkey ").
-                    setString("searchkey", "%"+categoryName+"%").list();
+            categories=session.createQuery("from Category where name like :searchkey ", Category.class).
+                    setParameter("searchkey", "%"+categoryName+"%").list();
             //     session.getTransaction().commit();
         }
         categories.forEach(System.out::println);

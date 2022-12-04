@@ -103,6 +103,12 @@ public class AdminController {
         return "addCategory";
     }
 
+    @GetMapping("deleteCategory/{id}")
+    public String deleteCategory(@PathVariable int id) {
+        categoryService.removeCategory(id);
+        return "redirect:/admin/showCategories";
+    }
+
     @PostMapping("addCategory")
     public String addCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
         System.out.println("hello to post category");
