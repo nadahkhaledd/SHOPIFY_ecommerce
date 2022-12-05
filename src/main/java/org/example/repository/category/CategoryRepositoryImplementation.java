@@ -1,7 +1,7 @@
 package org.example.repository.category;
 
 import org.example.entity.Category;
-import org.example.entity.Product;
+import org.example.model.Response;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CategoryRepositoryImplementation implements CategoryRepository{
+public class CategoryRepositoryImplementation implements CategoryRepository {
 
     private final SessionFactory factory;
 
     @Autowired
-    public CategoryRepositoryImplementation(SessionFactory factory){
+    public CategoryRepositoryImplementation(SessionFactory factory) {
         this.factory = factory;
     }
 
@@ -25,127 +25,171 @@ public class CategoryRepositoryImplementation implements CategoryRepository{
      * @inheritDoc
      */
     @Override
-    public void addCategory(Category category) {
+    public Response addCategory(Category category) {
         try (Session session = factory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            category.setName(category.getName().toLowerCase());
-            session.persist(category);
-            tx.commit();
+                Transaction tx = session.beginTransaction();
+                category.setName(category.getName().toLowerCase());
+                session.persist(category);
+                tx.commit();
+            } catch (Exception e) {
+                System.out.println("in add category category repo impl e.getStackTrace() = " + e.getStackTrace());
+                return new Response("error occurred while processing your request", 500, true);
+
         }
+        return new Response("Done", 200, false);
+
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public int updateCategory(Category category) {
+    public Response<Boolean> updateCategory(Category category) {
         int results;
         try (Session session = factory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            Query query=session.createQuery(
-                    "update Category c set c.name=:name, c.imagePath=:imagePath" +
-                            " where c.id=:id"
-            );
-            query.setParameter("name", category.getName());
-            query.setParameter("imagePath", category.getImagePath());
-            query.setParameter("id", category.getId());
-            results = query.executeUpdate();
-            tx.commit();
+                Transaction tx = session.beginTransaction();
+                Query query = session.createQuery(
+                        "update Category c set c.name=:name, c.imagePath=:imagePath" +
+                                " where c.id=:id"
+                );
+                query.setParameter("name", category.getName());
+                query.setParameter("imagePath", category.getImagePath());
+                query.setParameter("id", category.getId());
+                results = query.executeUpdate();
+                tx.commit();
+            } catch (Exception e) {
+                System.out.println("in update category category repo impl e.getStackTrace() = " + e.getStackTrace());
+                return new Response("error occurred while processing your request", 500, true);
+
         }
-        return results;
+        return new Response("Done", 200, false, results == 1);
+
     }
+
 
     /**
      * @inheritDoc
      */
     @Override
-    public int removeCategory(int categoryID) {
+    public Response<Boolean> removeCategory(int categoryID) {
         int results;
+
         try (Session session = factory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            Query query=session.createQuery(
-                    "delete from Category c where c.id=:id"
-            );
-            query.setParameter("id", categoryID);
-            results = query.executeUpdate();
-            tx.commit();
+
+                Transaction tx = session.beginTransaction();
+                Query query = session.createQuery(
+                        "delete from Category c where c.id=:id"
+                );
+                query.setParameter("id", categoryID);
+                results = query.executeUpdate();
+                tx.commit();
+            } catch (Exception e) {
+                System.out.println("in remove category category repo impl e.getStackTrace() = " + e.getStackTrace());
+                return new Response("error occurred while processing your request", 500, true);
+
         }
-        return results;
+        return new Response("Done", 200, false, results == 1);
+
     }
+
 
     /**
      * @inheritDoc
      */
     @Override
-    public List<Category> getAllCategories() {
+    public Response<List<Category>> getAllCategories() {
         List<Category> categories;
-        try(Session session=factory.openSession()){
-            session.beginTransaction();
-            categories=session.createQuery("from Category", Category.class).list();
-            //     session.getTransaction().commit();
+        try (Session session = factory.openSession()) {
+
+                session.beginTransaction();
+                categories = session.createQuery("from Category", Category.class).list();
+                //     session.getTransaction().commit();
+            } catch (Exception e) {
+                System.out.println("in add category category repo impl e.getStackTrace() = " + e.getStackTrace());
+                return new Response("error occurred while processing your request", 500, true);
+
         }
-        return categories;
+        return new Response("Done", 200, false, categories);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Response<Category> getCategoryByName(String name) {
+        Category category;
+        try (Session session = factory.openSession()) {
+
+                category = session.createQuery("from Category c WHERE c.name=:name", Category.class)
+                        .setParameter("name", name)
+                        .getSingleResult();
+
+            } catch (Exception e) {
+                System.out.println("in get category by name category repo impl e.getStackTrace() = " + e.getStackTrace());
+                return new Response("error occurred while processing your request", 500, true);
+
+        }
+        return new Response("Done", 200, false, category);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Response<Category> getCategoryByID(int id) {
+        Category category;
+        try (Session session = factory.openSession()) {
+
+                category = session.createQuery("from Category c WHERE c.id=:id", Category.class)
+                        .setParameter("id", id)
+                        .getSingleResult();
+            } catch (Exception e) {
+                System.out.println("in add category category repo impl e.getStackTrace() = " + e.getStackTrace());
+                return new Response("error occurred while processing your request", 500, true);
+
+        }
+        return new Response("Done", 200, false, category);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public Category getCategoryByName(String name) {
-        Category category;
-        try (Session session = factory.openSession()) {
-            category  = session.createQuery("from Category c WHERE c.name=:name", Category.class)
-                    .setParameter("name", name)
-                    .getSingleResult();
-
-        }
-        return category;
-    }
-
-    /**
-    * @inheritDoc
-     */
-    @Override
-    public Category getCategoryByID(int id) {
-        Category category;
-        try (Session session = factory.openSession()) {
-            category  = session.createQuery("from Category c WHERE c.id=:id", Category.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
-
-        }
-        return category;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public List<String> getCategoriesNames() {
+    public Response<List<String>> getCategoriesNames() {
         List<String> categoriesNames;
         try (Session session = factory.openSession()) {
-            categoriesNames  = session.createQuery("SELECT c.name from Category c", String.class).list();
 
-        }
-        return categoriesNames;
+                categoriesNames = session.createQuery("SELECT c.name from Category c", String.class).list();
+            } catch (Exception e) {
+                System.out.println("in get category names category repo impl e.getStackTrace() = " + e.getStackTrace());
+                return new Response("error occurred while processing your request", 500, true);
+            }
+
+        return new Response("Done", 200, false, categoriesNames);
     }
+
 
     /**
      * @InheritedDoc
      */
     @Override
-    public List<Category> searchByCategoryName(String categoryName) {
+    public Response<List<Category>> searchByCategoryName(String categoryName) {
         List<Category> categories;
-        try(Session session=factory.openSession()){
-            session.beginTransaction();
-            categories=session.createQuery("from Category where name like :searchkey or name= :categoryName ", Category.class).
-                    setParameter("searchkey", "% "+categoryName+" %")
-                    .setParameter("categoryName",categoryName)
-                    .list();
-            //     session.getTransaction().commit();
-        }
-        categories.forEach(System.out::println);
-        return categories;
-    }
+        try (Session session = factory.openSession()) {
 
+                session.beginTransaction();
+                categories = session.createQuery("from Category where name like :searchkey or name= :categoryName ", Category.class).
+                        setParameter("searchkey", "% " + categoryName + " %")
+                        .setParameter("categoryName", categoryName)
+                        .list();
+            } catch (Exception e) {
+                System.out.println("in add category category repo impl e.getStackTrace() = " + e.getStackTrace());
+                return new Response("error occurred while processing your request", 500, true);
+            }
+
+        return new Response("Done", 200, false, categories);
+    }
+    //     session.getTransaction().commit();
 }

@@ -70,8 +70,8 @@ public class AdminController {
 
     @GetMapping("showCategories")
     public String showCategories(Model model) {
-        List<Category> categories = categoryService.getAllCategories();
-        model.addAttribute("categories", categories);
+        Response<List<Category>> categoriesResponse = categoryService.getAllCategories();
+        model.addAttribute("categories", categoriesResponse.getObjectToBeReturned());
         return "showCategories";
     }
 
@@ -129,8 +129,8 @@ public class AdminController {
 
     @GetMapping("updateCategory/{id}")
     public String updateCategory(Model model, @PathVariable int id) {
-        Category category = categoryService.getCategoryByID(id);
-        model.addAttribute("category", category);
+        Response<Category> categoryResponse = categoryService.getCategoryByID(id);
+        model.addAttribute("category", categoryResponse.getObjectToBeReturned());
 
         return "updateCategory";
     }
