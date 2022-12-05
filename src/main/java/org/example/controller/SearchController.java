@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.entity.Category;
 import org.example.entity.Product;
+import org.example.model.Response;
 import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
 import org.example.utility.ProductsUtils;
@@ -30,9 +31,14 @@ public class SearchController {
     public ModelAndView searchByName(@RequestParam String searchValue){
         ModelAndView modelAndView = new ModelAndView("viewProducts");
         List<Category> categories = categoryService.searchByCategoryName(searchValue);
-        List<Product> products = productService.searchByProductName(searchValue);
+        Response <List<Product>> productsResponse = productService.searchByProductName(searchValue);
+        if (productsResponse.isErrorOccurred()){
+            modelAndView.setViewName("error");
+            modelAndView.addObject("errorMessage",productsResponse.getMessage());
+            return modelAndView;
+        }
         Set<Product> allReturnedProducts=productsUtils.
-                mergingProductsAndCategoryProducts(categories,products);
+                mergingProductsAndCategoryProducts(categories,productsResponse.getObjectToBeReturned());
         System.out.println("in search");
         System.out.println(allReturnedProducts.toString());
         modelAndView.addObject("products", allReturnedProducts);

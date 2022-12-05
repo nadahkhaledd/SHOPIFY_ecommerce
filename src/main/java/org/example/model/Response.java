@@ -1,12 +1,39 @@
 package org.example.model;
 
-public class Response {
+public class Response<T> {
     private String message;
     private int statusCode;
+    private boolean errorOccurred;
 
-    public Response(String message, int statusCode) {
+    private T objectToBeReturned;
+
+    public T getObjectToBeReturned() {
+        return objectToBeReturned;
+    }
+
+    public void setObjectToBeReturned(T objectToBeReturned) {
+        this.objectToBeReturned = objectToBeReturned;
+    }
+
+    public boolean isErrorOccurred() {
+        return errorOccurred;
+    }
+
+    public void setErrorOccurred(boolean errorOccurred) {
+        this.errorOccurred = errorOccurred;
+    }
+
+    public Response(String message, int statusCode, boolean errorOccurred, T objectToBeReturned) {
         this.message = message;
         this.statusCode = statusCode;
+        this.errorOccurred = errorOccurred;
+        this.objectToBeReturned = objectToBeReturned;
+    }
+
+    public Response(String message, int statusCode, boolean errorOccurred) {
+        this.message = message;
+        this.statusCode = statusCode;
+        this.errorOccurred=errorOccurred;
     }
 
     public String getMessage() {
@@ -23,5 +50,14 @@ public class Response {
 
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "message='" + message + '\'' +
+                ", statusCode=" + statusCode +
+                ", errorOccurred=" + errorOccurred +
+                '}';
     }
 }

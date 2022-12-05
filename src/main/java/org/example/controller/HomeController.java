@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.entity.Category;
 import org.example.entity.Product;
+import org.example.model.Response;
 import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,17 @@ public class HomeController {
 
     @GetMapping("/home")
     public ModelAndView getAllItems() {
+        ModelAndView modelAndView = new ModelAndView("home");
         List<Category> categories = categoryService.getAllCategories();
         categories.forEach(System.out::println);
-        List<Product> products = productService.getProducts();
-       // products.forEach(p->p.s);
-        products.forEach(System.out::println);
-        ModelAndView modelAndView = new ModelAndView("home");
+        Response<List<Product>> productsResponse = productService.getProducts();
+        if (productsResponse.isErrorOccurred()){
+            modelAndView.setViewName("error");
+            modelAndView.addObject("errorMessage",productsResponse.getMessage());
+            return modelAndView;
+        }
         modelAndView.addObject("categories", categories);
-        modelAndView.addObject("products", products);
-        //  model.addAttribute("categories",categories);
+        modelAndView.addObject("products", productsResponse.getObjectToBeReturned());
         return modelAndView;
     }
 

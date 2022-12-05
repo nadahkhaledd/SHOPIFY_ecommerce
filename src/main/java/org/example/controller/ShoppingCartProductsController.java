@@ -51,7 +51,7 @@ public class ShoppingCartProductsController {
     public String addToCart(@PathVariable int userId, @RequestParam int productId){
         ShoppingCartProducts cartProduct = new ShoppingCartProducts();
         cartProduct.setProductQuantity(1);
-        cartProduct.setProduct(productService.getProduct(productId));
+        cartProduct.setProduct(productService.getProduct(productId).getObjectToBeReturned());
         cartProduct.setUser(userService.getUserById(userId));
         cartServices.addToCart(cartProduct);
         return "redirect:/products/getAllProducts";

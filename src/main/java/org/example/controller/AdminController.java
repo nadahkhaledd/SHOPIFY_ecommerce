@@ -92,13 +92,15 @@ public class AdminController {
             Map<String, Object> model = bindingResult.getModel();
             return "addAdmin";
         }
+        modelMap.put("emailErrorMessage","");//initialize as empty
         Response response= adminService.addAdmin(admin);
+        System.out.println("responseeeee "+response.toString());
         if(String.valueOf(response.getStatusCode()).charAt(0)=='4' || String.valueOf(response.getStatusCode()).charAt(0)=='5'){
-            modelMap.put("errorMessage",response.getMessage());
+            modelMap.put("emailErrorMessage",response.getMessage());
             return "addAdmin";
         }
 
-        return "redirect:/admin/adminHome";
+        return "redirect:/admin/home";
     }
 
     @GetMapping("addCategory")
@@ -156,7 +158,7 @@ public class AdminController {
             return "addProduct";
         }
         productService.addProduct(product);
-        return "redirect:/admin/adminHome";
+        return "redirect:/admin/home";
     }
 
     @GetMapping("removeUser")
@@ -180,7 +182,7 @@ public class AdminController {
         else
             adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
 
-        return "redirect:/admin/adminHome";
+        return "redirect:/admin/home";
     }
 
     @GetMapping("login")

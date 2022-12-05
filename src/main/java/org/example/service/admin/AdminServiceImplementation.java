@@ -28,7 +28,8 @@ public class AdminServiceImplementation implements AdminService{
     @Override
     public Response addAdmin(User admin) {
         Response response=validationService.validateAdminEmail(admin.getEmail());
-        repository.addAdmin(admin);
+        if(!response.isErrorOccurred())
+            repository.addAdmin(admin);
         return response;
     }
 

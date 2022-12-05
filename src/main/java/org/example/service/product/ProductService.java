@@ -2,6 +2,7 @@ package org.example.service.product;
 
 import org.example.entity.Category;
 import org.example.entity.Product;
+import org.example.model.Response;
 
 import java.util.List;
 
@@ -11,21 +12,21 @@ import java.util.List;
  */
 public interface ProductService {
 
-    Product getProduct(int productId);
+    Response<Product> getProduct(int productId);
 
     /**
      *  add product this function used by admin to add product to database
      *
      * @param product product object to be added
      */
-    void addProduct(Product product);
+    Response addProduct(Product product);
     /**
      * update product this function is used by admin to update product from database
      * @param product product object to be updated
      * @Return nothing
      */
 
-    void updateProduct(Product product);
+    Response updateProduct(Product product);
 
 
     /**
@@ -33,7 +34,7 @@ public interface ProductService {
      * @param product product object to be deleted
      * @Return nothing
      */
-    void deleteProduct(Product product);
+    Response deleteProduct(Product product);
 
 
     /**
@@ -42,7 +43,7 @@ public interface ProductService {
      * @param rate rate new rate of the product
      * @return  true if a row is updated in the database
      */
-    boolean updateProductRate(int productId, float rate);
+    Response<Boolean> updateProductRate(int productId, float rate);
 
 
     /**
@@ -52,7 +53,8 @@ public interface ProductService {
      * @param quantity quantity new quantity of the product to be updated
      * @return  true if a row is updated in the database
      */
-    boolean updateProductQuantity(int productId, int quantity);
+
+    Response<Boolean> updateProductQuantity(int productId, int quantity);
 
 
     /**
@@ -60,7 +62,7 @@ public interface ProductService {
      * function used to return all products from the database
      * @return products
      */
-    List<Product> getProducts();
+    Response<List<Product>> getProducts();
 
 
     /**
@@ -69,14 +71,14 @@ public interface ProductService {
      * @param categoryId id of category
      * @return list of products
      */
-    List<Product> getProductsByCategory(int categoryId);
+    Response<List<Product>> getProductsByCategory(int categoryId);
     /**
      * get products by id
      * retrieves product with the given id
      * @param productId id of product
      * @return  product
      */
-    Product getProductsById(int productId);
+    Response<Product> getProductsById(int productId);
 
     /**
      * search by product name
@@ -85,7 +87,7 @@ public interface ProductService {
      * @return list of products
      */
 
-     List<Product> searchByProductName(String productName);
+     Response<List<Product>> searchByProductName(String productName);
 
 
 }

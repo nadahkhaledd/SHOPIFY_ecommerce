@@ -4,6 +4,7 @@ import org.example.entity.Customer;
 import org.example.entity.Product;
 import org.example.entity.Rate;
 import org.example.entity.User;
+import org.example.model.Response;
 import org.example.model.UserInputReview;
 import org.example.repository.rate.RateRepo;
 import org.example.repository.rate.RateRepoImpl;
@@ -29,8 +30,8 @@ public class RateServiceImpl implements RateService {
     @Override
     public void AssignRateToProduct(UserInputReview userRate){
         Customer customer=customerService.getCustomerById(userRate.getUserId());
-        Product product=productService.getProductsById(userRate.getProductId());
-        Rate rate=new Rate(userRate.getRate(),userRate.getReview(),customer,product);
+        Response<Product> productResponse=productService.getProductsById(userRate.getProductId());
+        Rate rate=new Rate(userRate.getRate(),userRate.getReview(),customer,productResponse.getObjectToBeReturned());
         System.out.println(rate.toString());
         rateRepository.addRate(rate);
     }

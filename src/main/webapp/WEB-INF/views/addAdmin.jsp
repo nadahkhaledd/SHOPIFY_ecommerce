@@ -33,7 +33,9 @@
                   <div class="item">
                     <label for="email">Email<span>*</span></label>
                     <form:input path="email" required="required" id="email" type="email" name="email"/>
-                    <form:errors path="email" cssClass="error"/>
+                     <small style="color:red">${emailErrorMessage}</small>
+                     <form:errors path="email" cssClass="error"/>
+
                   </div>
                   <div class="item">
                     <label for="password">Password<span>*</span></label>
