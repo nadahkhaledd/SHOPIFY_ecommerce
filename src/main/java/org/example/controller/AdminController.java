@@ -200,7 +200,7 @@ public class AdminController {
             Response response = adminService.removeAdmin(fields.getUserID(), fields.getUserEmail());
             if(response.isErrorOccurred()){
                 modelMap.put("removeAdminErrorMessage",response.getMessage());
-                return "removeUser";
+                return "error";
             }
         }
         else
@@ -208,7 +208,7 @@ public class AdminController {
             Response response = adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
             if(response.isErrorOccurred()){
                 modelMap.put("removeCustomerErrorMessage",response.getMessage());
-                return "removeUser";
+                return "error";
             }
         }
 

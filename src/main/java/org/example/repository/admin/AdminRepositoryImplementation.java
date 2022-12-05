@@ -45,7 +45,6 @@ public class AdminRepositoryImplementation implements AdminRepository{
         catch (Exception e) {
             System.out.println("in AdminRepositoryImplementation.addAdmin  e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
             return new Response<>("error occurred while processing your request", 500, true);
-
         }
         return new Response<>("Done", 200, false);
     }
@@ -127,7 +126,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
     @Override
     public Response<Boolean> deactivateCustomer(int customerID, String customerEmail) {
         int results;
-        try (Session session = factory.openSession()) {
+        try(Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             Query query=session.createQuery(
                     "update User c set c.status=:status" +

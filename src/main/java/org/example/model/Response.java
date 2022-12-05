@@ -5,6 +5,7 @@ public class Response<T> {
     private int statusCode;
     private boolean errorOccurred;
 
+    private boolean fieldErrorOccurred;
     private T objectToBeReturned;
 
     public T getObjectToBeReturned() {
@@ -23,6 +24,14 @@ public class Response<T> {
         this.errorOccurred = errorOccurred;
     }
 
+    public boolean isFieldErrorOccurred() {
+        return fieldErrorOccurred;
+    }
+
+    public void setFieldErrorOccurred(boolean fieldErrorOccurred) {
+        this.fieldErrorOccurred = fieldErrorOccurred;
+    }
+
     public Response(String message, int statusCode, boolean errorOccurred, T objectToBeReturned) {
         this.message = message;
         this.statusCode = statusCode;
@@ -34,6 +43,12 @@ public class Response<T> {
         this.message = message;
         this.statusCode = statusCode;
         this.errorOccurred=errorOccurred;
+    }
+
+    public Response(String message, int statusCode, boolean errorOccurred, boolean fieldErrorOccurred) {
+        this.message = message;
+        this.statusCode = statusCode;
+        this.fieldErrorOccurred = fieldErrorOccurred;
     }
 
     public String getMessage() {
