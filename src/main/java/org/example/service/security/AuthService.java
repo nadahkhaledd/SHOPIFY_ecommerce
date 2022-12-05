@@ -34,7 +34,7 @@ public class AuthService {
 
     public void sendVerificationEmail(final String sendTo) {
         final Email from = new Email("prd@storkstores.com");
-        final Email to = new Email("omar.ramzi97@gmail.com");
+        final Email to = new Email(sendTo);
         final String subject = "please verify your account";
         final Content content = new Content("text/plain", "http://localhost:8080/e-commerce/activate/"+sendTo);
         final Mail mail = new Mail(from, subject, to, content);

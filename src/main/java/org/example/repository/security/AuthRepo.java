@@ -52,12 +52,11 @@ public class AuthRepo {
                      }
                  }
              }
-         }catch (HibernateException ex){
+         }catch (Exception ex){
                 return null;
          }
         return null;
     }
-
 
     public boolean verifyEmail(final String email) {
         try (Session session = factory.openSession()) {

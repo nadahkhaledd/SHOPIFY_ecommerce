@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @Controller
-@SessionAttributes({"user","error"})
+@SessionAttributes({"userId","error"})
 public class AuthController {
     @Autowired
     AuthService authService;
@@ -59,7 +59,7 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@ModelAttribute("user")  User user, Model model) {
         User result = this.authService.login(user.getEmail(), user.getPassword());
-        if (result.getId()==0) {
+        if (result==null) {
             model.addAttribute("error","Email or Password is Wrong");
             return "login";
         }
@@ -69,16 +69,22 @@ public class AuthController {
         if(matcher.matches()){
             return "redirect:/admin/adminHome";
         }
-        model.addAttribute("user", result);
+        model.addAttribute("userId", result.getId());
         return "redirect:/home";
     }
-
 
     @GetMapping({ "/activate/{email}" })
     public String activate(@PathVariable("email") String email) {
         authService.verifyEmail(email);
         return "redirect:/home";
     }
+
+    @GetMapping("/logout")
+    public String logout(Model model){
+        model.addAttribute("userId", null);
+        return  "redirect:/login";
+    }
+
 
 
 }
