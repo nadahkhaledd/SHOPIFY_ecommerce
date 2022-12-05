@@ -1,5 +1,6 @@
 package org.example.repository.security;
 
+import org.example.entity.Customer;
 import org.example.entity.User;
 import org.example.enums.CustomerStatus;
 import org.hibernate.HibernateException;
@@ -61,15 +62,14 @@ public class AuthRepo {
          {
             int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email",email).getSingleResult()).getId();
             User customer = session.get(User.class, userId);
-            if (customer != null) {
+            //if (customer != null) {
                 customer.setStatus(CustomerStatus.ACTIVATED);
                 return true;
-            }
+          //  }
         }
         catch (Throwable t) {
             return false;
         }
-        return false;
     }
 
 }

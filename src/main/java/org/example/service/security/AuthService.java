@@ -36,7 +36,7 @@ public class AuthService {
         final Email from = new Email("prd@storkstores.com");
         final Email to = new Email("omar.ramzi97@gmail.com");
         final String subject = "please verify your account";
-        final Content content = new Content("text/plain", "http://localhost:8080/e-commerce/Auth/activate/"+sendTo);
+        final Content content = new Content("text/plain", "http://localhost:8080/e-commerce/activate/"+sendTo);
         final Mail mail = new Mail(from, subject, to, content);
         final SendGrid sg = new SendGrid("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");
         final Request request = new Request();

@@ -54,9 +54,7 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user){
         if(authService.register(user)){
-
-            //send verification email and then redirect him to login page
-            //temp ^_^
+            authService.sendVerificationEmail(user.getEmail());
             return "redirect:/home";
         }
         return "register";
@@ -86,6 +84,13 @@ public class AuthController {
     }
 
 
+    @GetMapping({ "/activate/{email}" })
+    public String activate(@PathVariable("email") String email) {
+        if(authService.verifyEmail(email)){
+            return "redirect:/home";
+        }
+        return "redirect:/login";
+    }
 
 
 }
