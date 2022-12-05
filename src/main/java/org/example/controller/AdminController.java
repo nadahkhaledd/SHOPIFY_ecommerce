@@ -95,7 +95,6 @@ public class AdminController {
 
     @GetMapping("addCategory")
     public String newCategory(Model model) {
-
         model.addAttribute("category", new Category());
         return "addCategory";
     }

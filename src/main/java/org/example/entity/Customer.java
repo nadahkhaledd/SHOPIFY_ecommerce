@@ -11,8 +11,8 @@ import java.util.Set;
 @Entity
 @DiscriminatorValue("1")
 public class Customer extends User {
-    private CustomerStatus status;
-     private int passwordAttempts;
+     private CustomerStatus status=CustomerStatus.DEACTIVATED;
+     private int passwordAttempts=0;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
     private List<Address> addresses;

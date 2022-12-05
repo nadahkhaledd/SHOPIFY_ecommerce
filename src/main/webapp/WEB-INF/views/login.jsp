@@ -1,5 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" >
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html dir="ltr"  xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form">
+
 <head>
   <meta charset="UTF-8">
   <title>CodePen - Weekly Coding Challenge #1 -  Double slider Sign in/up Form - Desktop Only</title>
@@ -266,20 +269,18 @@
 	<div class="form-container sign-up-container">
 		<form action="#">
 			<h1>Create Account</h1>
-			<input type="text" placeholder="Name" />
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
+
 			<button>Sign Up</button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
-		<form action="#">
+        <form:form modelAttribute="user" method="POST">
 			<h1>Sign in</h1>
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
+			    <form:input path="email" id="email" type="email" name="email"/>
+                <form:input path="password" id="password" type="text" name="password"/>
 			<a href="#">Forgot your password?</a>
 			<button>Sign In</button>
-		</form>
+		</form:form>
 	</div>
 	<div class="overlay-container">
 		<div class="overlay">
@@ -291,7 +292,6 @@
 			<div class="overlay-panel overlay-right">
 				<h1>Hello, Friend!</h1>
 				<p>Enter your personal details and start journey with us</p>
-				<button class="ghost" id="signUp">Sign Up</button>
 			</div>
 		</div>
 	</div>
@@ -299,7 +299,7 @@
 
 <footer>
 	<p>
-		E-Commerce website <i>All rights reserved</i>
+		_VOIS E-Commerce website
 	</p>
 </footer>
 <!-- partial -->
@@ -318,4 +318,3 @@
   </script>
 
 </body>
-</html>
