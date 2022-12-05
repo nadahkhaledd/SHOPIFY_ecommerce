@@ -45,10 +45,11 @@ public class ShoppingCartProductsController {
 
         modelMap.put("updateQuantityErrorMessage","");//initialize as empty
         Response response = cartServices.updateProductQuantityInCart(id, quantity);
-        if(response.isFieldErrorOccurred()){
-            model.addAttribute("updateError", response.getMessage());
-        }
+
         if(response.isErrorOccurred()){
+            if(response.isFieldErrorOccurred()){
+                model.addAttribute("updateError", response.getMessage());
+            }
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
