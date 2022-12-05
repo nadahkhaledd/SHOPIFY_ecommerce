@@ -7,10 +7,8 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,21 +33,13 @@ public class AuthController {
         return "register";
     }
 
-    //...
-//    @PostMapping("/register")
-//    public String addUser(@Valid @ModelAttribute("customer") Customer customer,
-//                          BindingResult bindingResult,Model model) throws Exception {
-//        if (bindingResult.hasErrors()) {
-//            return "register";
-//        }
 //        //check if there is user before used this email
 //        Customer existingUser = userRegisterService.findByEmail(customer.getEmail());
 //        if(existingUser!=null) {
 //            model.addAttribute("error","There is already an account with this email:" + customer.getEmail());
 //            return "alreadyRegistered";
 //        }else {
-            //register our user to DB
-    //...
+
 
     @PostMapping("/register")
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user){
@@ -77,7 +67,7 @@ public class AuthController {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(result.getEmail());
         if(matcher.matches()){
-            return "redirect:/admin/dashboard";
+            return "redirect:/admin/adminHome";
         }
         model.addAttribute("user", result);
         return "redirect:/home";
@@ -86,10 +76,8 @@ public class AuthController {
 
     @GetMapping({ "/activate/{email}" })
     public String activate(@PathVariable("email") String email) {
-        if(authService.verifyEmail(email)){
-            return "redirect:/home";
-        }
-        return "redirect:/login";
+        authService.verifyEmail(email);
+        return "redirect:/home";
     }
 
 

@@ -7,10 +7,12 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Repository
 public class AuthRepo {
@@ -58,14 +60,17 @@ public class AuthRepo {
 
 
     public boolean verifyEmail(final String email) {
-        try(Session session = this.factory.openSession())
-         {
-            int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email",email).getSingleResult()).getId();
-            User customer = session.get(User.class, userId);
-            //if (customer != null) {
-                customer.setStatus(CustomerStatus.ACTIVATED);
-                return true;
-          //  }
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            Query query = session.createQuery(
+                    "update User c set c.status=:status" +
+                            " where c.email:=email"
+            );
+            query.setParameter("status", CustomerStatus.ACTIVATED);
+            query.setParameter("email", email);
+            query.executeUpdate();
+            tx.commit();
+            return true;
         }
         catch (Throwable t) {
             return false;
