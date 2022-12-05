@@ -44,7 +44,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
             tx.commit();
         }
         catch (Exception e) {
-            System.out.println("in AdminRepositoryImplementation.addAdmin  e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
+            System.out.println("in AdminRepositoryImplementation.addAdmin  e.getMessage() = " + e.getMessage());
             return new Response("error occurred while processing your request", 500, true);
         }
         System.out.println("magetsh fel error");
@@ -69,15 +69,15 @@ public class AdminRepositoryImplementation implements AdminRepository{
      */
     @Override
     public Response<List<Admin>> getAllAdmins() {
-        List<Admin> admins;
+        List<User> admins;
         try (Session session = factory.openSession()) {
 
             session.beginTransaction();
-            admins = session.createQuery("from User where email LIKE :key ", Admin.class)
-                    .setString("key", "% "+"@shopify.com")
+            admins = session.createQuery("from User where email LIKE :key ", User.class)
+                    .setString("key", "%"+"@shopify.com")
                     .list();
         } catch (Exception e) {
-            System.out.println("in AdminRepositoryImplementation.getAllAdmins e.getStackTrace() = " + e.getStackTrace());
+            System.out.println("in AdminRepositoryImplementation.getAllAdmins = " + e.getMessage());
             return new Response("error occurred while processing your request", 500, true);
 
         }
@@ -88,7 +88,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
      * @inheritDoc
      */
     @Override
-    public Response<Boolean> updateAdmin(Admin admin) {
+    public Response<Boolean> updateAdmin(User admin) {
         int results;
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
@@ -109,7 +109,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
             tx.commit();
         }
         catch (Exception e) {
-            System.out.println("in AdminRepositoryImplementation.updateAdmin  e.getStackTrace() = " + e.getStackTrace());
+            System.out.println("in AdminRepositoryImplementation.updateAdmin  e.getMessage() = " + e.getMessage());
             return new Response<>("error occurred while processing your request", 500, true);
 
         }
@@ -134,7 +134,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
             tx.commit();
         }
         catch (Exception e) {
-            System.out.println("in AdminRepositoryImplementation.removeAdmin  e.getStackTrace() = " + e.getStackTrace());
+            System.out.println("in AdminRepositoryImplementation.removeAdmin  e.getMessage() = " + e.getMessage());
             return new Response<>("error occurred while processing your request", 500, true);
 
         }
@@ -162,7 +162,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
             tx.commit();
         }
         catch (Exception e) {
-            System.out.println("in AdminRepositoryImplementation.deactivateCustomer  e.getStackTrace() = " + e.getStackTrace());
+            System.out.println("in AdminRepositoryImplementation.deactivateCustomer  e.getMessage() = " + e.getMessage());
             return new Response<>("error occurred while processing your request", 500, true);
 
         }

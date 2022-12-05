@@ -22,7 +22,10 @@
 
                   <div class="item">
                     <label for="userType">user type<span>*</span></label>
-                    <form:select path="userType" id="userType" name="userType" items="${userTypes}" required="true"/>
+                    <form:select path="userType" id="userType" name="userType" required="true">
+                      <form:option value="admin" label="admin"/>
+                      <form:option value="customer" label="customer"/>
+                    </form:select>
                     <form:errors path="userType" cssClass="error"/>
                   </div>
 
@@ -43,6 +46,8 @@
                 <div class="btn-block">
                   <button type="submit" >Submit</button>
                 </div>
+                <small style="color:red; text-align: center;">${removeUserErrorMessage}</small>
+
               </form:form>
             </div>
         <div>

@@ -27,10 +27,10 @@ import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 @Controller
+@SessionAttributes({"userId","error"})
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -72,7 +72,7 @@ public class AdminController {
     @GetMapping("admins")
     public String getAdmins(Model model) {
         Response<List<Admin>> admins = adminService.getAllAdmins();
-        model.addAttribute("categories", admins.getObjectToBeReturned());
+        model.addAttribute("admins", admins.getObjectToBeReturned());
         return "showAdmins";
     }
 
@@ -114,7 +114,7 @@ public class AdminController {
             return "error";
         }
 
-        return "redirect:/admin/home";
+        return "redirect:/admin/admins";
     }
 
     @GetMapping("addCategory")
@@ -213,10 +213,8 @@ public class AdminController {
 
     @GetMapping("removeUser")
     public String removeUser(Model model) {
-        List<String> userTypes = new ArrayList<>(
-                Arrays.asList("admin", "customer"));
         model.addAttribute("fields", new RemoveUserFields());
-        model.addAttribute("userTypes", userTypes);
+
         return "removeUser";
     }
 
@@ -225,37 +223,24 @@ public class AdminController {
                              BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
+
             return "removeUser";
         }
-
-        if(fields.getUserType().equals("admin")){
-            modelMap.put("removeAdminErrorMessage","");//initialize as empty
-            Response response = adminService.removeAdmin(fields.getUserID(), fields.getUserEmail());
-
-            if(response.isErrorOccurred()){
-                if(response.isFieldErrorOccurred()){
-                    modelMap.put("removeAdminErrorMessage",response.getMessage());
-                    return "removeUser";
-                }
-                modelMap.put("statusCode", response.getStatusCode());
-                modelMap.put("errorMessage",response.getMessage());
-                return "error";
-            }
-        }
+        modelMap.put("removeUserErrorMessage","");//initialize as empty
+        Response response;
+        if(fields.getUserType().equals("admin"))
+            response = adminService.removeAdmin(fields.getUserID(), fields.getUserEmail());
         else
-        {
-            modelMap.put("removeAdminErrorMessage","");//initialize as empty
-            Response response = adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
+            response = adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
 
-            if(response.isErrorOccurred()){
-                if(response.isFieldErrorOccurred()){
-                    modelMap.put("removeCustomerErrorMessage",response.getMessage());
-                    return "removeUser";
-                }
-                modelMap.put("statusCode", response.getStatusCode());
-                modelMap.put("removeCustomerErrorMessage",response.getMessage());
-                return "error";
+        if(response.isErrorOccurred()){
+            if(response.isFieldErrorOccurred()){
+                modelMap.put("removeUserErrorMessage",response.getMessage());
+                return "removeUser";
             }
+            modelMap.put("statusCode", response.getStatusCode());
+            modelMap.put("errorMessage",response.getMessage());
+            return "error";
         }
 
         return "redirect:/admin/home";
