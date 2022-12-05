@@ -82,6 +82,7 @@ public class AdminController {
                 Arrays.asList(Gender.male.toString(), Gender.female.toString()));
         model.addAttribute("admin", new Admin());
         model.addAttribute("genders", genders);
+        model.addAttribute("date", dateUtils.dateYearsAgo(18));
         return "addAdmin";
     }
 
