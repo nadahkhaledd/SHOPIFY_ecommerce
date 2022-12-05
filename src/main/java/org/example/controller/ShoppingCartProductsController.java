@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/// all controller needs to be updated
 @Controller
 @RequestMapping("/cart")
 public class ShoppingCartProductsController {
@@ -38,9 +39,20 @@ public class ShoppingCartProductsController {
 
     @GetMapping("/update/{userId}/{id}")
     public String updateQuantity(@PathVariable("userId") int userId, @PathVariable("id") int id,
-                                 @RequestParam int quantity, Model model) {
-        String updatedMessage = cartServices.updateProductQuantityInCart(id, quantity);
-        model.addAttribute("updateError", updatedMessage);
+                                 @RequestParam int quantity, Model model, ModelMap modelMap) {
+
+
+
+        modelMap.put("updateQuantityErrorMessage","");//initialize as empty
+        Response response = cartServices.updateProductQuantityInCart(id, quantity);
+        if(response.isFieldErrorOccurred()){
+            model.addAttribute("updateError", response.getMessage());
+        }
+        if(response.isErrorOccurred()){
+            modelMap.put("errorMessage",response.getMessage());
+            return "error";
+        }
+//        model.addAttribute("updateError", response.getMessage());
         return "redirect:/cart/view?id="+userId;
     }
 
@@ -50,13 +62,14 @@ public class ShoppingCartProductsController {
         return "redirect:/cart/view?id="+userId;
     }
 
+    /// to be modified and separated to post
     @GetMapping("/add/{userId}")
     public String addToCart(@PathVariable int userId, @RequestParam int productId, ModelMap modelMap){
         ShoppingCartProducts cartProduct = new ShoppingCartProducts();
         cartProduct.setProductQuantity(1);
         Response productResponse=productService.getProduct(productId);
         if(productResponse.isErrorOccurred()){
-            modelMap.put("errorMessage",productResponse.getMessage());
+            modelMap.put("errorMessage", productResponse.getMessage());
             return "error";
         }
 
@@ -68,17 +81,19 @@ public class ShoppingCartProductsController {
 
     @GetMapping("/view")
     public String viewCart(Model model, @RequestParam int id) {
-        List<ShoppingCartProducts> cartProducts = cartServices.viewCart(id);
-        Double cartTotal = cartServices.calculateTotal(id);
+        List<ShoppingCartProducts> cartProducts = cartServices.viewCart(id).getObjectToBeReturned();
+        Double cartTotal = cartServices.calculateTotal(id).getObjectToBeReturned();
         model.addAttribute("cartProducts", cartProducts);
         model.addAttribute("cartTotal", cartTotal);
         return "cart";
     }
 
+
+    /// to be modified
     @GetMapping("/checkout/{userId}")
     public String checkOut(@PathVariable("userId") int userId, Model model) {
-        List<ShoppingCartProducts> cartProducts = cartServices.viewCart(userId);
-        Double cartTotal = cartServices.calculateTotal(userId);
+        List<ShoppingCartProducts> cartProducts = cartServices.viewCart(userId).getObjectToBeReturned();
+        Double cartTotal = cartServices.calculateTotal(userId).getObjectToBeReturned();
         List<Address> addresses = addressService.getUserAddresses(userId);
         model.addAttribute("cartProducts", cartProducts);
         model.addAttribute("cartTotal",  cartTotal);
