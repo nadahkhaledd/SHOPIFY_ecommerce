@@ -2,18 +2,19 @@ package org.example.repository.product;
 
 import org.example.entity.Category;
 import org.example.entity.Product;
+import org.example.model.Response;
 
 import java.util.List;
 
 public interface ProductRepo {
-    Product getProduct(int productId);
+    Response<Product> getProduct(int productId);
 
     /**
      *  add product this function used by admin to add product to database
      *
      * @param product product object to be added
      */
-    void addProduct(Product product);
+    Response<Product> addProduct(Product product);
     /**
      * update product this function is used by admin to update product from database
      * @param product product object to be updated
@@ -21,14 +22,14 @@ public interface ProductRepo {
      */
 
 
-    void updateProduct(Product product);
+    Response<Product> updateProduct(Product product);
     /**
      * delete product function invoked by admin to delete product from database
      * @param product product object to be deleted
      * @Return nothing
      */
 
-    void deleteProduct(Product product);
+    Response<Product> deleteProduct(Product product);
     /**
      * update product rate used by customers to update rate to database
      * @param productId productId  id of the product to be updated
@@ -36,7 +37,7 @@ public interface ProductRepo {
      * @return  true if a row is updated in the database
      */
 
-    boolean updateProductRate(int productId, float rate);
+    Response<Boolean> updateProductRate(int productId, float rate);
     /**
      * update product quantity
      * function takes id of the product and new quantity and apply this changes to database
@@ -45,7 +46,7 @@ public interface ProductRepo {
      * @return  true if a row is updated in the database
      */
 
-    boolean updateProductQuantity(int productId, int quantity);
+    Response<Boolean> updateProductQuantity(int productId, int quantity);
 
     /**
      * get products
@@ -53,7 +54,7 @@ public interface ProductRepo {
      * @return products
      */
 
-    List<Product> getProducts();
+   Response<List<Product>> getProducts();
 
 
 
@@ -63,14 +64,14 @@ public interface ProductRepo {
      * @param categoryId categoryId id of category we want to retrieve it's products
      * @return {@link List} list of products
      */
-    List<Product> getProductsByCategory(int categoryId);
+    Response<List<Product>> getProductsByCategory(int categoryId);
     /**
      * search by product name
      * takes a product name and retrieve all products matching this name
      * @param productName productName
      * @return list of products
      */
-    public List<Product> searchByProductName(String productName);
+    Response<List<Product>> searchByProductName(String productName);
 
     /**
      * get products by id
@@ -78,5 +79,5 @@ public interface ProductRepo {
      * @param productId id of product
      * @return  product
      */
-    Product getProductsById(int productId);
+     Response<Product> getProductsById(int productId);
 }

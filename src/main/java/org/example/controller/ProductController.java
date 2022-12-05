@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.entity.Product;
+import org.example.model.Response;
 import org.example.model.Star;
 import org.example.model.UserInputReview;
 import org.example.service.product.ProductService;
@@ -29,30 +30,50 @@ public class ProductController {
     public ModelAndView getProductDetails( @RequestParam int productId,ModelMap modelMap){
         RateUtils rateUtils=new RateUtils();
         ModelAndView modelAndView=new ModelAndView("productDetails");
-        Product product=productService.getProductsById(productId);
-        System.out.println(product.toString());
-        rateService.calculateProductRate(product);
-        modelAndView.addObject("product",product);
- //       modelAndView.addObject("rate",new UserInputReview());
-        Star star=rateUtils.computeNumberOfStars(product.getRate());
+        Response<Product> productResponse=productService.getProductsById(productId);
+        if(productResponse.isErrorOccurred()){
+            modelAndView.setViewName("error");
+            modelAndView.addObject("errorMessage",productResponse.getMessage());
+            modelMap.put("statusCode",productResponse.getStatusCode());
+            return modelAndView;
+        }
+        Response rateResponse= rateService.setProductRate(productResponse.getObjectToBeReturned());
+        if(rateResponse.isErrorOccurred()){
+            modelAndView.setViewName("error");
+            modelAndView.addObject("errorMessage",rateResponse.getMessage());
+            modelAndView.addObject("statusCode",rateResponse.getStatusCode());
+            return modelAndView;
+        }
+        modelAndView.addObject("product",productResponse.getObjectToBeReturned());
+        Star star=rateUtils.computeNumberOfStars(productResponse.getObjectToBeReturned().getRate());
         System.out.println(star.toString());
         modelAndView.addObject("stars",star);
         return modelAndView;
     }
 
     @GetMapping("/getAllProducts")
-    public String getAllProducts(Model model){
-        System.out.println("innnnnn productsss");
-        List<Product> products=productService.getProducts();
-        products.forEach(System.out::println);
-        model.addAttribute("products",products);
+    public String getAllProducts(ModelMap modelMap){
+        System.out.println("innnnnn productss controller");
+        Response<List<Product>> productsResponse=productService.getProducts();
+        if(productsResponse.isErrorOccurred()){
+            modelMap.put("errorMessage",productsResponse.getMessage());
+            modelMap.put("statusCode",productsResponse.getStatusCode());
+            return "error";
+        }
+        modelMap.addAttribute("products",productsResponse.getObjectToBeReturned());
+
         return "viewProducts";
 
     }
     @GetMapping("/getCategoryProducts")
-    public String getCategoryProducts(Model model, @RequestParam int categoryId){
-        List<Product> products=productService.getProductsByCategory(categoryId);
-        model.addAttribute("products",products);
+    public String getCategoryProducts(ModelMap modelMap, @RequestParam int categoryId){
+        Response<List<Product>> productsResponse=productService.getProductsByCategory(categoryId);
+        if(productsResponse.isErrorOccurred()){
+            modelMap.put("errorMessage",productsResponse.getMessage());
+            modelMap.put("statusCode",productsResponse.getStatusCode());
+            return "error";
+        }
+        modelMap.addAttribute("products",productsResponse.getObjectToBeReturned());
         return "viewProducts";
 
     }

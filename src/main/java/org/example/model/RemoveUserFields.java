@@ -1,8 +1,20 @@
 package org.example.model;
 
+import jakarta.validation.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
+
 public class RemoveUserFields {
+
+    @NotNull
+    @NotBlank
     private int userID;
+
+    @NotNull
+    @NotBlank
     private String userEmail;
+
+    @NotNull
     private String userType;
 
     public RemoveUserFields() {

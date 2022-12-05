@@ -3,6 +3,7 @@ package org.example.service.shoppingcartproducts;
 import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
 import org.example.entity.User;
+import org.example.model.Response;
 import org.example.repository.shoppingcartproducts.ShoppingCartProductsRepository;
 import org.example.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,29 +24,29 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
     }
 
     @Override
-    public double calculateTotal(int userId) {
+    public Response<Double> calculateTotal(int userId) {
         return repository.calculateTotal(userId);
     }
 
     @Override
-    public List<ShoppingCartProducts> viewCart(int userId) {
+    public Response<List<ShoppingCartProducts>> viewCart(int userId) {
         return repository.viewCart(userId);
     }
 
     @Override
-    public ShoppingCartProducts getCartItem(Product product, User user) {
+    public Response<ShoppingCartProducts> getCartItem(Product product, User user) {
         return repository.getCartItem(product, user);
     }
 
     @Override
-    public ShoppingCartProducts getCartItem(int cartItemId) {
+    public Response<ShoppingCartProducts> getCartItem(int cartItemId) {
         return repository.getCartItem(cartItemId);
     }
 
     @Override
-    public void addToCart(ShoppingCartProducts shoppingCartProduct) {
+    public Response addToCart(ShoppingCartProducts shoppingCartProduct) {
         ShoppingCartProducts returnedProduct = getCartItem(shoppingCartProduct.getProduct(),
-                shoppingCartProduct.getUser());
+                shoppingCartProduct.getUser()).getObjectToBeReturned();
         if(returnedProduct == null) {
             repository.addToCart(shoppingCartProduct);
         }
@@ -53,28 +54,28 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
             repository.updateProductQuantityInCart(returnedProduct.getId(),
                     returnedProduct.getProductQuantity()+1);
 
+        return new Response<>("Done", 200, false);
     }
 
     @Override
-    public String updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
+    public Response updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
         int affectedRows;
-        ShoppingCartProducts cartProduct = getCartItem(shoppingCartProductId);
+        ShoppingCartProducts cartProduct = getCartItem(shoppingCartProductId).getObjectToBeReturned();
         if(cartProduct.getProduct().getAvailableQuantity() < newQuantity) {
-            return "The amount isn't in stock.";
+            return new Response<>("The amount isn't in stock.", 402, false, true);
         }
         if(newQuantity > 0) {
-            affectedRows = repository.updateProductQuantityInCart(shoppingCartProductId, newQuantity);
+            affectedRows = repository.updateProductQuantityInCart(shoppingCartProductId, newQuantity).getObjectToBeReturned();
         }
         else {
             affectedRows = 0;
             repository.removeFromCart(shoppingCartProductId);
         }
-        return "Quantity updated.";
+        return new Response<>("Quantity updated.", 200, false);
     }
 
     @Override
-    public boolean removeFromCart(int shoppingCartProductId) {
-        int affectedRows = repository.removeFromCart(shoppingCartProductId);
-        return affectedRows == 1;
+    public Response<Boolean> removeFromCart(int shoppingCartProductId) {
+        return repository.removeFromCart(shoppingCartProductId);
     }
 }

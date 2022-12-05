@@ -29,7 +29,7 @@ public class CategoryTypeEditor extends PropertyEditorSupport {
 
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
-        Category category = categoryService.getCategoryByName(text);
+        Category category = categoryService.getCategoryByName(text).getObjectToBeReturned();
         this.setValue(category);
     }
 }

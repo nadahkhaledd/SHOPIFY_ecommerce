@@ -2,63 +2,90 @@ package org.example.service.admin;
 
 import org.example.entity.Admin;
 import org.example.entity.User;
+import org.example.model.Response;
 import org.example.repository.admin.AdminRepository;
+import org.example.repository.user.UserRepository;
+import org.example.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AdminServiceImplementation implements AdminService{
 
     private final AdminRepository repository;
+    private final UserRepository userRepository;
 
+    private ValidationService validationService;
     @Autowired
-    public AdminServiceImplementation(AdminRepository repository) {
-        System.out.println("in admin service....");
+    public AdminServiceImplementation(AdminRepository repository, UserRepository userRepository) {
+        validationService=new ValidationService();
         this.repository = repository;
-        //repository.createSuperAdmin();
+        this.userRepository = userRepository;
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public void addAdmin(User admin) {
-        repository.addAdmin(admin);
+    public Response addAdmin(Admin admin) {
+        Response response=validationService.validateAdminEmail(admin.getEmail());
+        System.out.println("**********************");
+        System.out.println( response.toString());
+        System.out.println("**********************");
+        if (response.isErrorOccurred()){
+            System.out.println("henaa");
+            response.setFieldErrorOccurred(true);
+            return response;
+        }
+      else{
+            System.out.println("beforrrrrrrr");
+            Response adminResponse=repository.addAdmin(admin);
+            System.out.println("email is valid 444");
+            if(adminResponse.isErrorOccurred()){
+                return adminResponse;
+            }
+        }
+      return new Response("Ok",200,false);
+
+    }
+
+    @Override
+    public Response<List<Admin>> getAllAdmins() {
+        return repository.getAllAdmins();
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public void createSuperAdmin() {
-        repository.createSuperAdmin();
+    public Response<Boolean> updateAdmin(Admin admin) {
+        return repository.updateAdmin(admin);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public boolean updateAdmin(Admin admin) {
-        int rowsAffected = repository.updateAdmin(admin);
-        return rowsAffected==1;
+    public Response<Boolean> removeAdmin(int adminID, String adminEmail) {
+        Response isAdminDataCorrect = userRepository.getUser(adminID, adminEmail);
+
+        if(isAdminDataCorrect.getObjectToBeReturned()==null)
+            return new Response<>("admin data incorrect", 404, true, true, false);
+        return repository.removeAdmin(adminID, adminEmail);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public boolean removeAdmin(int adminID, String adminEmail) {
-        int rowsAffected = repository.removeAdmin(adminID, adminEmail);
-        return rowsAffected==1;
-    }
+    public Response<Boolean> deactivateCustomer(int customerID, String customerEmail) {
+        Response isAdminDataCorrect = userRepository.getUser(customerID, customerEmail);
 
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public boolean deactivateCustomer(int customerID, String customerEmail) {
-        int rowsAffected = repository.deactivateCustomer(customerID, customerEmail);
-        return rowsAffected==1;
+        if(isAdminDataCorrect.getObjectToBeReturned()==null)
+            return new Response<>("customer data incorrect", 404, true, true, false);
+        return repository.deactivateCustomer(customerID, customerEmail);
     }
 
     /**

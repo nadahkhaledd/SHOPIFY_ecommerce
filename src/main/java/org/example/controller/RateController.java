@@ -20,12 +20,22 @@ public class RateController {
     ProductService productService;
     @PostMapping("/rate")
     public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message, @RequestParam String email, Model model){
+    public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message){
        ModelAndView modelAndView=new ModelAndView("redirect:/products/productDetails?productId="+productId);
         System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message + ", email = " + email);
         UserInputReview userInputReview=new UserInputReview(rate, (Integer) model.getAttribute("userId"),productId,message,email);
         rateService.AssignRateToProduct(userInputReview);
        // Product product=productService.getProductsById(productId);
        // modelAndView.addObject("product",product);
+        System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message );
+        UserInputReview userInputReview=new UserInputReview(rate,1,productId,message);
+        Response rateResponse= rateService.AssignRateToProduct(userInputReview);
+        if(rateResponse.isErrorOccurred()){
+            modelAndView.setViewName("error");
+            modelAndView.addObject("errorMessage",rateResponse.getMessage());
+            modelAndView.addObject("statusCode",rateResponse.getStatusCode());
+            return modelAndView;
+        }
        return modelAndView ;
     }
 }

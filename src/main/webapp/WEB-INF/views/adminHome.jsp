@@ -44,12 +44,32 @@
                     </div>
                   </div>
 
+                    <div class="column" style="float: left;
+                                               width: 25%;
+                                               padding: 25px 10px;">
+                        <div class="card">
+                            <h4>Add new admin</h4>
+                            <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/addAdmin" style="
+
+                                    height: 40px;
+                                    display: inline;
+                                    align-items: center;
+                                    color: antiquewhite;
+                                    justify-content: space-between;
+
+                                    background-image: linear-gradient(to right, cadetblue 0%, #79CBCA 51%, #77A1D3 100%);
+                                    border: none;
+                                    transition: 0.5s;
+                                    background-size: 200% auto;">Go</a>
+                        </div>
+                    </div>
+
                   <div class="column" style="float: left;
                                                width: 25%;
                                                padding: 25px 10px;">
                     <div class="card">
-                        <h4>Add new category</h4>
-                        <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/addCategory" style="
+                        <h4>Show all admins</h4>
+                        <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/admins" style="
 
                                   height: 40px;
                                   display: inline;

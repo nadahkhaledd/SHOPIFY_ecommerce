@@ -1,17 +1,14 @@
 package org.example.service.product;
 
-import org.example.entity.Category;
 import org.example.entity.Product;
+import org.example.model.Response;
 import org.example.repository.product.ProductRepo;
 import org.example.repository.product.ProductRepoImpl;
-import org.example.service.rate.RateService;
-import org.example.service.rate.RateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -23,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    public Product getProduct(int productId) {
+    public Response<Product> getProduct(int productId) {
         return productRepository.getProduct(productId);
     }
 
@@ -31,45 +28,46 @@ public class ProductServiceImpl implements ProductService {
      * @Inherited Doc
      */
     @Override
-    public void addProduct(Product product) {
+    public Response addProduct(Product product) {
         product.setName(product.getName().toLowerCase());
-        productRepository.addProduct(product);
+       return productRepository.addProduct(product);
     }
     /**
      * @Inherited Doc
      */
 
     @Override
-    public void updateProduct(Product product) {
+    public Response updateProduct(Product product) {
         product.setName(product.getName().toLowerCase());
-        productRepository.updateProduct(product);
+       return productRepository.updateProduct(product);
     }
     /**
      * @Inherited Doc
      */
     @Override
-    public void deleteProduct(Product product) {
-        productRepository.deleteProduct(product);
+    public Response deleteProduct(Product product) {
+
+        return productRepository.deleteProduct(product);
     }
     /**
      * @Inherited Doc
      */
     @Override
-    public boolean updateProductRate(int productId, float rate) {
+    public Response<Boolean> updateProductRate(int productId, float rate) {
         return productRepository.updateProductRate(productId, rate);
     }
     /**
      * @Inherited Doc
      */
     @Override
-    public boolean updateProductQuantity(int productId, int quantity) {
+    public Response<Boolean> updateProductQuantity(int productId, int quantity) {
         return productRepository.updateProductQuantity(productId, quantity);
     }
     /**
      * @Inherited Doc
      */
     @Override
-    public List<Product> getProducts() {
+    public Response<List<Product>> getProducts() {
         return productRepository.getProducts();
     }
 
@@ -77,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
      * @Inherited Doc
      */
     @Override
-    public List<Product> getProductsByCategory(int categoryId) {
+    public Response<List<Product>> getProductsByCategory(int categoryId) {
         return productRepository.getProductsByCategory(categoryId);
     }
 
@@ -85,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
      * @Inherited Doc
      */
     @Override
-    public Product getProductsById(int productId) {
+    public Response<Product> getProductsById(int productId) {
         return productRepository.getProductsById(productId);
     }
 
@@ -94,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
      * @Inherited Doc
      */
     @Override
-    public List<Product> searchByProductName(String productName) {
+    public Response<List<Product>> searchByProductName(String productName) {
         return productRepository.searchByProductName(productName);
     }
 
