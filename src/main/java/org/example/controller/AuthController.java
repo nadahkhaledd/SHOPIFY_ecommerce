@@ -54,6 +54,7 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user){
         if(authService.register(user)){
+
             //send verification email and then redirect him to login page
             //temp ^_^
             return "redirect:/home";
