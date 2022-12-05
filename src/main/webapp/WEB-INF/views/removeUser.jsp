@@ -22,7 +22,7 @@
 
                   <div class="item">
                     <label for="userType">user type<span>*</span></label>
-                    <form:select path="userType" id="userType" name="userType" items="${userTypes}" />
+                    <form:select path="userType" id="userType" name="userType" items="${userTypes}" required="true"/>
                     <form:errors path="userType" cssClass="error"/>
                   </div>
 
