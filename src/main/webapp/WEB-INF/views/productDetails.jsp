@@ -140,8 +140,7 @@
 
                     <div class="col-md-6">
                         <h4 class="mb-4">Leave a review</h4>
-                        <small>Your email address will not be published. Required fields are marked *</small>
-                        <form method="POST" action="/e-commerce/rate?productId=${product.id}">
+                         <form method="POST" action="/e-commerce/rate?productId=${product.id}">
                             <div class="d-flex my-3">
 
                                   <p class="mb-0 mr-2">Your Rating * :</p>
@@ -171,10 +170,6 @@
                             <div class="form-group">
                                 <label for="message">Your Review *</label>
                                 <textarea id="message" name="message" cols="30" rows="5" class="form-control"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Your Email *</label>
-                                <input type="email" name="email" class="form-control" id="email">
                             </div>
                             <div class="form-group mb-0">
                                 <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">

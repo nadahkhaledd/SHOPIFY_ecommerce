@@ -1,7 +1,9 @@
 package org.example.controller;
 
 import org.example.entity.Address;
+import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
+import org.example.model.Response;
 import org.example.service.OrderService;
 import org.example.service.address.AddressService;
 import org.example.service.product.ProductService;
@@ -10,6 +12,7 @@ import org.example.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,10 +51,16 @@ public class ShoppingCartProductsController {
     }
 
     @GetMapping("/add/{userId}")
-    public String addToCart(@PathVariable int userId, @RequestParam int productId){
+    public String addToCart(@PathVariable int userId, @RequestParam int productId, ModelMap modelMap){
         ShoppingCartProducts cartProduct = new ShoppingCartProducts();
         cartProduct.setProductQuantity(1);
-        cartProduct.setProduct(productService.getProduct(productId).getObjectToBeReturned());
+        Response productResponse=productService.getProduct(productId);
+        if(productResponse.isErrorOccurred()){
+            modelMap.put("errorMessage",productResponse.getMessage());
+            return "error";
+        }
+
+        cartProduct.setProduct((Product) productResponse.getObjectToBeReturned());
         cartProduct.setUser(userService.getUserById(userId));
         cartServices.addToCart(cartProduct);
         return "redirect:/products/getAllProducts";

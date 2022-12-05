@@ -31,6 +31,11 @@ public class ProductController {
         RateUtils rateUtils=new RateUtils();
         ModelAndView modelAndView=new ModelAndView("productDetails");
         Response<Product> productResponse=productService.getProductsById(productId);
+        if(productResponse.isErrorOccurred()){
+            modelAndView.setViewName("error");
+            modelAndView.addObject("errorMessage",productResponse.getMessage());
+            return modelAndView;
+        }
         rateService.calculateProductRate(productResponse.getObjectToBeReturned());
         modelAndView.addObject("product",productResponse.getObjectToBeReturned());
         Star star=rateUtils.computeNumberOfStars(productResponse.getObjectToBeReturned().getRate());
@@ -40,17 +45,26 @@ public class ProductController {
     }
 
     @GetMapping("/getAllProducts")
-    public String getAllProducts(Model model){
-        System.out.println("innnnnn productsss");
+    public String getAllProducts(ModelMap modelMap){
+        System.out.println("innnnnn productss controller");
         Response<List<Product>> productsResponse=productService.getProducts();
-        model.addAttribute("products",productsResponse.getObjectToBeReturned());
+        if(productsResponse.isErrorOccurred()){
+            modelMap.put("errorMessage",productsResponse.getMessage());
+            return "error";
+        }
+        modelMap.addAttribute("products",productsResponse.getObjectToBeReturned());
+
         return "viewProducts";
 
     }
     @GetMapping("/getCategoryProducts")
-    public String getCategoryProducts(Model model, @RequestParam int categoryId){
+    public String getCategoryProducts(ModelMap modelMap, @RequestParam int categoryId){
         Response<List<Product>> productsResponse=productService.getProductsByCategory(categoryId);
-        model.addAttribute("products",productsResponse.getObjectToBeReturned());
+        if(productsResponse.isErrorOccurred()){
+            modelMap.put("errorMessage",productsResponse.getMessage());
+            return "error";
+        }
+        modelMap.addAttribute("products",productsResponse.getObjectToBeReturned());
         return "viewProducts";
 
     }
