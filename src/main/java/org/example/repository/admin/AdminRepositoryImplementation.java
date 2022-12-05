@@ -6,6 +6,7 @@ import org.example.entity.Customer;
 import org.example.entity.User;
 import org.example.enums.CustomerStatus;
 import org.example.enums.Gender;
+import org.example.model.Response;
 import org.example.repository.category.CategoryRepository;
 import org.example.utility.DateUtils;
 import org.hibernate.Session;
@@ -15,6 +16,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.Date;
 
 @Repository
@@ -34,12 +36,18 @@ public class AdminRepositoryImplementation implements AdminRepository{
      * @inheritDoc
      */
     @Override
-    public void addAdmin(User admin) {
+    public Response addAdmin(User admin) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             session.persist(admin);
             tx.commit();
         }
+        catch (Exception e) {
+            System.out.println("in AdminRepositoryImplementation.addAdmin  e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<>("Done", 200, false);
     }
 
     /**
@@ -47,27 +55,6 @@ public class AdminRepositoryImplementation implements AdminRepository{
      */
     @Override
     public void createSuperAdmin() {
-        /*
-          execute at beginning of system just once if database not found.
-          INSERT INTO `e-commerce`.`User`
-            (`user_type`,
-            `dateOfBirth`,
-            `email`,
-            `firstName`,
-            `gender`,
-            `lastName`,
-            `password`
-            )
-            VALUES
-            (0,
-            "1989-10-13",
-            "superadmin@shop.comm",
-            "super",
-            0,
-            "admin",
-            "super@dm1n"
-            );
-         */
         Date date = dateUtils.convertStringToDate("1989-10-13");
 
         Admin superAdmin = new Admin("super", "admin",
@@ -80,7 +67,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
      * @inheritDoc
      */
     @Override
-    public int updateAdmin(Admin admin) {
+    public Response<Boolean> updateAdmin(Admin admin) {
         int results;
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
@@ -100,7 +87,12 @@ public class AdminRepositoryImplementation implements AdminRepository{
             results = query.executeUpdate();
             tx.commit();
         }
-        return results;
+        catch (Exception e) {
+            System.out.println("in AdminRepositoryImplementation.updateAdmin  e.getStackTrace() = " + e.getStackTrace());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<Boolean>("Done", 200, false, results==1);
 
     }
 
@@ -108,7 +100,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
      * @inheritDoc
      */
     @Override
-    public int removeAdmin(int adminID, String adminEmail) {
+    public Response<Boolean> removeAdmin(int adminID, String adminEmail) {
         int results;
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
@@ -120,7 +112,12 @@ public class AdminRepositoryImplementation implements AdminRepository{
             results = query.executeUpdate();
             tx.commit();
         }
-        return results;
+        catch (Exception e) {
+            System.out.println("in AdminRepositoryImplementation.removeAdmin  e.getStackTrace() = " + e.getStackTrace());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<Boolean>("Done", 200, false, results==1);
     }
 
 
@@ -128,7 +125,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
      * @inheritDoc
      */
     @Override
-    public int deactivateCustomer(int customerID, String customerEmail) {
+    public Response<Boolean> deactivateCustomer(int customerID, String customerEmail) {
         int results;
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
@@ -143,6 +140,11 @@ public class AdminRepositoryImplementation implements AdminRepository{
             results = query.executeUpdate();
             tx.commit();
         }
-        return results;
+        catch (Exception e) {
+            System.out.println("in AdminRepositoryImplementation.deactivateCustomer  e.getStackTrace() = " + e.getStackTrace());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<Boolean>("Done", 200, false, results==1);
     }
 }
