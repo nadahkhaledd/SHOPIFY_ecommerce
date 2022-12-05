@@ -4,6 +4,7 @@ import javax.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Category {
@@ -43,7 +44,7 @@ public class Category {
     }
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, length = 300)
     public String getImagePath() {
         return imagePath;
     }
@@ -59,6 +60,19 @@ public class Category {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id == category.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

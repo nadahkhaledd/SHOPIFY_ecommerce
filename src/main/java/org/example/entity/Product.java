@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.DefaultValue;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Product {
@@ -25,7 +27,9 @@ public class Product {
 
     private List<Rate> rates;
 
-    public Product() {}
+    public Product() {
+        this.rate = 0;
+    }
 
     public Product(String name, String imagePath, double price, Category category, int availableQuantity) {
         this.name = name;
@@ -33,6 +37,7 @@ public class Product {
         this.price = price;
         this.category = category;
         this.availableQuantity = availableQuantity;
+        this.rate = 0;
 
     }
     @Transient//will not be added as a column in the database
@@ -85,7 +90,7 @@ public class Product {
 
     @NotBlank
     @NotNull
-    @Column(name = "image_path", nullable = false, length = 45)
+    @Column(name = "image_path", nullable = false, length = 300)
     public String getImagePath() {
         return imagePath;
     }
@@ -120,6 +125,19 @@ public class Product {
     }
     public void setAvailableQuantity(int availableQuantity) {
         this.availableQuantity = availableQuantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

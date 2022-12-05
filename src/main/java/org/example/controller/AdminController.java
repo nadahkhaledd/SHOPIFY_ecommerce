@@ -8,15 +8,23 @@ import org.example.model.RemoveUserFields;
 import org.example.service.admin.AdminService;
 import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
+import org.example.typeEditor.CategoryTypeEditor;
 import org.example.utility.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.springframework.validation.BindingResult;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -36,11 +44,33 @@ public class AdminController {
         this.productService = productService;
     }
 
-    @GetMapping("adminHome")
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(
+                dateFormat, false));
+    }
+
+    @InitBinder
+    public void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+    {
+        binder.registerCustomEditor(Category.class,
+                new CategoryTypeEditor(categoryService));
+
+    }
+
+    @GetMapping("home")
     public String adminHome(Model model) {
         //model.addAttribute("admin", new Admin());
         model.addAttribute("name", "Admin");
         return "adminHome";
+    }
+
+    @GetMapping("showCategories")
+    public String showCategories(Model model) {
+        List<Category> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
+        return "showCategories";
     }
 
     @GetMapping("addAdmin")
@@ -50,20 +80,18 @@ public class AdminController {
                 Arrays.asList(Gender.male.toString(), Gender.female.toString()));
         model.addAttribute("admin", new Admin());
         model.addAttribute("genders", genders);
+        model.addAttribute("date", dateUtils.dateYearsAgo(18));
         return "addAdmin";
     }
 
     @PostMapping("addAdmin")
     public String addUser(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd")  @ModelAttribute("admin") Admin admin, BindingResult bindingResult) {
-        System.out.println("hello to post admin");
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
-            System.out.println(model);
             return "addAdmin";
         }
-        System.out.println(admin);
         adminService.addAdmin(admin);
-        return "redirect:/admin/adminHome";
+        return "redirect:/admin/home";
     }
 
     @GetMapping("addCategory")
@@ -75,15 +103,36 @@ public class AdminController {
 
     @PostMapping("addCategory")
     public String addCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
-        System.out.println("hello to post category");
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
-            System.out.println(model);
             return "addCategory";
         }
-        System.out.println(category);
         categoryService.addCategory(category);
-        return "redirect:/admin/adminHome";
+        return "redirect:/admin/showCategories";
+    }
+
+    @GetMapping("deleteCategory/{id}")
+    public String deleteCategory(@PathVariable int id) {
+        categoryService.removeCategory(id);
+        return "redirect:/admin/showCategories";
+    }
+
+    @GetMapping("updateCategory/{id}")
+    public String updateCategory(Model model, @PathVariable int id) {
+        Category category = categoryService.getCategoryByID(id);
+        model.addAttribute("category", category);
+
+        return "updateCategory";
+    }
+
+    @PostMapping("updateCategory/{id}")
+    public String updateCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, Object> model = bindingResult.getModel();
+            return "updateCategory";
+        }
+        categoryService.updateCategory(category);
+        return "redirect:/admin/showCategories";
     }
 
     @GetMapping("addProduct")
@@ -95,15 +144,12 @@ public class AdminController {
 
     @PostMapping("addProduct")
     public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult) {
-        System.out.println("hello to post product");
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
-            System.out.println(model);
             return "addProduct";
         }
-        System.out.println(product);
         productService.addProduct(product);
-        return "redirect:/admin/adminHome";
+        return "redirect:/admin/home";
     }
 
     @GetMapping("removeUser")
@@ -119,7 +165,6 @@ public class AdminController {
     public String deleteUser(@Valid @ModelAttribute("fields") RemoveUserFields fields, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
-            System.out.println(model);
             return "removeUser";
         }
         if(fields.getUserType().equals("admin")){
@@ -128,10 +173,8 @@ public class AdminController {
         else
             adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
 
-        return "redirect:/admin/adminHome";
+        return "redirect:/admin/home";
     }
-
-
 
     @GetMapping("login")
     public String loginAdmin() {
