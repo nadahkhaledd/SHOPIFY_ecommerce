@@ -1,6 +1,7 @@
 package org.example.controller;
 import org.example.entity.Customer;
 import org.example.entity.Order;
+import org.example.entity.OrderDetails;
 import org.example.enums.OrderStatus;
 import org.example.service.order.OrderService;
 import org.example.service.user.UserService;
@@ -28,20 +29,12 @@ public class OrderController {
         this.userService = userService;
     }
 
- //   @GetMapping("/getOrders")
-//    public List getOrders(int userId){
-//        return orderServiceImpl.getOrders(userId);
-//    }
-
-    @GetMapping("/getOrderDetails")
-    public String getOrderDetails(){
-        return "detail";
+    @GetMapping("/details")
+    public String getOrderDetails(@RequestParam int orderId, Model model) {
+        List<OrderDetails> orderDetails = orderService.getOrderDetails(orderId);
+        model.addAttribute("orderDetails", orderDetails);
+        return "viewOrderDetails";
     }
-
-//    @PutMapping("/cancelOrder")
-//    public boolean cancelOrder(int orderId){
-//       return orderServiceImpl.cancelOrder(orderId);
-//    }
 
     @GetMapping("/view")
     public String getOrders(@RequestParam int id, Model model) {
@@ -49,15 +42,11 @@ public class OrderController {
         model.addAttribute("orders", orders);
         return "viewOrders";
     }
+
     @PostMapping("/placeOrder/{userId}")
     public String placeOrder(@PathVariable("userId") int userId) {
         Customer customer = (Customer) userService.getUserById(userId);
         orderService.checkOut(customer);
         return "contact";
     }
-
-//    @PostMapping("/checkout")
-//    public void checkOut(int userId){
-//        orderServiceImpl.checkOut(userId);
-//    }
 }

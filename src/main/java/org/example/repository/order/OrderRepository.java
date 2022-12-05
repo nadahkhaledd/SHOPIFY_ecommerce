@@ -12,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface OrderRepository {
-    List<Order> getOrders(int userId);
-    List getOrderDetails(int orderId);
+    List<Order> getOrders(Customer customer);
+    List<OrderDetails> getOrderDetails(Order order);
+    Order getOrderById(int orderId);
     String checkOrderStatus(int orderId);
     boolean updateStatus(int orderId, OrderStatus status);
     Double calculateTotal(int orderId);

@@ -11,20 +11,18 @@
 <table class="table">
     <thead class="table table-dark">
     <tr>
-        <td>Order date</td>
-        <td>Status</td>
-        <td>Total</td>
-        <td>View details</td>
+        <td>Product name</td>
+        <td>Product image</td>
+        <td>Product price</td>
     </tr>
     </thead>
     <tbody>
-    <c:if test="${!empty orders}">
-        <c:forEach var="order" items="${orders}">
+    <c:if test="${!empty orderDetails}">
+        <c:forEach var="orderDetail" items="${orderDetails}">
             <tr>
-                <td>${order.date}</td>
-                <td>${order.status}</td>
-                <td>${order.total}</td>
-                <td><a role="button" type="button" class="btn btn-dark" href="/e-commerce/orders/details?orderId=${order.id}">View details</a></td>
+                <td>${orderDetail.productName}</td>
+                <td><img src="${orderDetail.productImage}" alt="" style="width: 50px;"></td>
+                <td>${orderDetail.productPrice}</td>
             </tr>
     </c:forEach>
 

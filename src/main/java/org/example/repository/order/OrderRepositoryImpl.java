@@ -23,19 +23,16 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     private final SessionFactory sessionFactory;
     private final ShoppingCartProductsService cartProductsService;
-    private final UserService userService;
 
     @Autowired
     public OrderRepositoryImpl(SessionFactory sessionFactory, ShoppingCartProductsService cartProductsService, UserService userService) {
         this.sessionFactory = sessionFactory;
         this.cartProductsService = cartProductsService;
-        this.userService = userService;
     }
 
 
-    public List<Order> getOrders(int userId) {
+    public List<Order> getOrders(Customer customer) {
         List<Order> orders;
-        Customer customer = (Customer) userService.getUserById(userId);
         try (Session session = sessionFactory.openSession()){
             orders = session.createQuery("from Order where customer=:customer",Order.class)
                     .setParameter("customer", customer).list();
@@ -43,11 +40,17 @@ public class OrderRepositoryImpl implements OrderRepository {
         return orders;
     }
 
-    public List getOrderDetails(int orderId) {
-        try(Session session = this.sessionFactory.getCurrentSession()){
-            return session.createQuery("from OrderDetails where order_id =:orderId",OrderDetails.class).setParameter("orderId", orderId).list();
-        }catch (HibernateException e){
-            return new ArrayList();
+    public Order getOrderById(int orderId) {
+        try(Session session = sessionFactory.openSession()) {
+            return session.createQuery("from Order where id=:orderId", Order.class)
+                    .setParameter("orderId", orderId)
+                    .getSingleResult();
+        }
+    }
+
+    public List<OrderDetails> getOrderDetails(Order order) {
+        try(Session session = sessionFactory.openSession()){
+            return session.createQuery("from OrderDetails where order=:order",OrderDetails.class).setParameter("order", order).list();
         }
     }
     //ok
