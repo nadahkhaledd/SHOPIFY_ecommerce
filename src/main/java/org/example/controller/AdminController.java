@@ -80,6 +80,7 @@ public class AdminController {
                 Arrays.asList(Gender.male.toString(), Gender.female.toString()));
         model.addAttribute("admin", new Admin());
         model.addAttribute("genders", genders);
+        model.addAttribute("date", dateUtils.dateYearsAgo(18));
         return "addAdmin";
     }
 
@@ -90,7 +91,7 @@ public class AdminController {
             return "addAdmin";
         }
         adminService.addAdmin(admin);
-        return "redirect:/admin/adminHome";
+        return "redirect:/admin/home";
     }
 
     @GetMapping("addCategory")
@@ -148,7 +149,7 @@ public class AdminController {
             return "addProduct";
         }
         productService.addProduct(product);
-        return "redirect:/admin/adminHome";
+        return "redirect:/admin/home";
     }
 
     @GetMapping("removeUser")
@@ -172,7 +173,7 @@ public class AdminController {
         else
             adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
 
-        return "redirect:/admin/adminHome";
+        return "redirect:/admin/home";
     }
 
     @GetMapping("login")
