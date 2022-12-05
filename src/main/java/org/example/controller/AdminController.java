@@ -95,10 +95,14 @@ public class AdminController {
         }
         modelMap.put("emailErrorMessage","");//initialize as empty
         Response response= adminService.addAdmin(admin);
-        System.out.println("responseeeee "+response.toString());
-        if(response.isErrorOccurred()){
+        //System.out.println("responseeeee "+response.toString());
+        if(response.isFieldErrorOccurred()){
             modelMap.put("emailErrorMessage",response.getMessage());
             return "addAdmin";
+        }
+        if(response.isErrorOccurred()){
+            modelMap.put("errorMessage",response.getMessage());
+            return "error";
         }
 
         return "redirect:/admin/home";
@@ -118,10 +122,15 @@ public class AdminController {
             Map<String, Object> model = bindingResult.getModel();
             return "addCategory";
         }
+        modelMap.put("addCategoryErrorMessage","");//initialize as empty
         Response response = categoryService.addCategory(category);
-        if(response.isErrorOccurred()){
-            modelMap.put("addCategoryErrorMessage",response.getMessage());
+        if(response.isFieldErrorOccurred()){
+            modelMap.put("addCategoryErrorMessage", response.getMessage());
             return "addCategory";
+        }
+        if(response.isErrorOccurred()){
+            modelMap.put("errorMessage",response.getMessage());
+            return "error";
         }
 
         return "redirect:/admin/showCategories";
@@ -148,10 +157,15 @@ public class AdminController {
             Map<String, Object> model = bindingResult.getModel();
             return "updateCategory";
         }
+        modelMap.put("updateCategoryErrorMessage","");//initialize as empty
         Response response = categoryService.updateCategory(category);
-        if(response.isErrorOccurred()){
+        if(response.isFieldErrorOccurred()){
             modelMap.put("updateCategoryErrorMessage",response.getMessage());
             return "updateCategory";
+        }
+        if(response.isErrorOccurred()){
+            modelMap.put("errorMessage",response.getMessage());
+            return "error";
         }
         return "redirect:/admin/showCategories";
     }
@@ -170,10 +184,15 @@ public class AdminController {
             Map<String, Object> model = bindingResult.getModel();
             return "addProduct";
         }
+        modelMap.put("addProductErrorMessage","");//initialize as empty
         Response response = productService.addProduct(product);
-        if(response.isErrorOccurred()){
+        if(response.isFieldErrorOccurred()){
             modelMap.put("addProductErrorMessage",response.getMessage());
             return "addProduct";
+        }
+        if(response.isErrorOccurred()){
+            modelMap.put("errorMessage",response.getMessage());
+            return "error";
         }
         return "redirect:/admin/home";
     }
@@ -196,16 +215,25 @@ public class AdminController {
         }
 
         if(fields.getUserType().equals("admin")){
-
+            modelMap.put("removeAdminErrorMessage","");//initialize as empty
             Response response = adminService.removeAdmin(fields.getUserID(), fields.getUserEmail());
-            if(response.isErrorOccurred()){
+            if(response.isFieldErrorOccurred()){
                 modelMap.put("removeAdminErrorMessage",response.getMessage());
+                return "removeUser";
+            }
+            if(response.isErrorOccurred()){
+                modelMap.put("errorMessage",response.getMessage());
                 return "error";
             }
         }
         else
         {
+            modelMap.put("removeAdminErrorMessage","");//initialize as empty
             Response response = adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
+            if(response.isFieldErrorOccurred()){
+                modelMap.put("removeCustomerErrorMessage",response.getMessage());
+                return "removeUser";
+            }
             if(response.isErrorOccurred()){
                 modelMap.put("removeCustomerErrorMessage",response.getMessage());
                 return "error";
