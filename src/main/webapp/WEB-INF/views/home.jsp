@@ -10,6 +10,7 @@
 
     <head>
         <title><layout:put block="title" type="REPLACE">SHOPIFY</layout:put></title>
+        <layout:put block="style" type="REPLACE"></layout:put>
     </head>
 
     <body>
