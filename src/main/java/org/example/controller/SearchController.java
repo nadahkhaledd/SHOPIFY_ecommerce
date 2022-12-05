@@ -30,15 +30,16 @@ public class SearchController {
     @PostMapping
     public ModelAndView searchByName(@RequestParam String searchValue){
         ModelAndView modelAndView = new ModelAndView("viewProducts");
-        List<Category> categories = categoryService.searchByCategoryName(searchValue);
+        Response<List<Category>> categoriesResponse = categoryService.searchByCategoryName(searchValue);
         Response <List<Product>> productsResponse = productService.searchByProductName(searchValue);
-        if (productsResponse.isErrorOccurred()){
+        if (productsResponse.isErrorOccurred()||categoriesResponse.isErrorOccurred()){
             modelAndView.setViewName("error");
-            modelAndView.addObject("errorMessage",productsResponse.getMessage());
+            modelAndView.addObject("errorMessage",productsResponse.isErrorOccurred()?productsResponse.getMessage():categoriesResponse.getMessage());
+            modelAndView.addObject("statusCode",productsResponse.isErrorOccurred()?productsResponse.getStatusCode():categoriesResponse.getStatusCode());
             return modelAndView;
         }
         Set<Product> allReturnedProducts=productsUtils.
-                mergingProductsAndCategoryProducts(categories,productsResponse.getObjectToBeReturned());
+                mergingProductsAndCategoryProducts(categoriesResponse.getObjectToBeReturned(),productsResponse.getObjectToBeReturned());
         System.out.println("in search");
         System.out.println(allReturnedProducts.toString());
         modelAndView.addObject("products", allReturnedProducts);

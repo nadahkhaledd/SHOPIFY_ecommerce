@@ -1,6 +1,7 @@
 package org.example.service.category;
 
 import org.example.entity.Category;
+import org.example.model.Response;
 import org.example.repository.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,38 +19,39 @@ public class CategoryServiceImplementation implements CategoryService{
 
 
     /**
+     * @return
      * @inheritDoc
      */
     @Override
-    public void addCategory(Category category) {
+    public Response addCategory(Category category) {
 
         category.setName(category.getName().toLowerCase());
-        repository.addCategory(category);
+         return  repository.addCategory(category);
+
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public boolean updateCategory(Category category) {
-        int affectedRows = repository.updateCategory(category);
-        return affectedRows == 1;
+    public Response<Boolean> updateCategory(Category category) {
+        return repository.updateCategory(category);
+
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public boolean removeCategory(int categoryID) {
-        int affectedRows = repository.removeCategory(categoryID);
-        return affectedRows == 1;
+    public Response<Boolean> removeCategory(int categoryID) {
+        return repository.removeCategory(categoryID);
     }
 
     /**
      * @InheritedDoc
      */
     @Override
-    public List<Category> getAllCategories() {
+    public Response<List<Category>> getAllCategories() {
         return repository.getAllCategories();
     }
 
@@ -57,7 +59,7 @@ public class CategoryServiceImplementation implements CategoryService{
      * @InheritedDoc
      */
     @Override
-    public Category getCategoryByName(String name) {
+    public Response<Category> getCategoryByName(String name) {
         return repository.getCategoryByName(name);
     }
 
@@ -65,7 +67,7 @@ public class CategoryServiceImplementation implements CategoryService{
      * @InheritedDoc
      */
     @Override
-    public Category getCategoryByID(int id) {
+    public Response<Category> getCategoryByID(int id) {
         return repository.getCategoryByID(id);
     }
 
@@ -73,7 +75,7 @@ public class CategoryServiceImplementation implements CategoryService{
      * @InheritedDoc
      */
     @Override
-    public List<Category> searchByCategoryName(String categoryName) {
+    public Response<List<Category>> searchByCategoryName(String categoryName) {
         return repository.searchByCategoryName(categoryName);
     }
 
@@ -81,7 +83,7 @@ public class CategoryServiceImplementation implements CategoryService{
      * @inheritDoc
      */
     @Override
-    public List<String> getCategoriesNames() {
+    public Response<List<String>> getCategoriesNames() {
         return repository.getCategoriesNames();
     }
 }

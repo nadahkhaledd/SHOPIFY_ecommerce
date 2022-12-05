@@ -18,9 +18,10 @@ public class ValidationService {
       boolean isInvalidEmailFormat=validateEmailFormat(email).isErrorOccurred();
 
       if(!domain.equalsIgnoreCase("shopify") || isInvalidEmailFormat ){
-          return new Response("Wrong domain",400,true);
+          System.out.println("in validation serviceee "+isInvalidEmailFormat);
+          return new Response("Wrong domain",400,true,true);
       }
-      return new Response("Done",200,false);
+      return new Response("Done",200,false,false);
   }
   public Response validateEmailFormat(String email){
       // check if email doesn't exist in the database

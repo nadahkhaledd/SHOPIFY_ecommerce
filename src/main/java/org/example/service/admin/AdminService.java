@@ -4,6 +4,8 @@ import org.example.entity.Admin;
 import org.example.entity.User;
 import org.example.model.Response;
 
+import java.util.List;
+
 public interface AdminService {
 
 
@@ -12,15 +14,15 @@ public interface AdminService {
      * @param admin This is the admin object to be added.
      * @return nothing
      */
-    Response addAdmin(User admin);
+    Response addAdmin(Admin admin);
+
 
     /**
-     * This method is used to create the super admin of the system.
-     * It creates a new admin object and then add it to database.
-     * This method will be called by the start of the project.
-     * @return nothing
+     * get all admins
+     * retrieves all admins from database
+     * @return list of admins
      */
-    void createSuperAdmin();
+    Response<List<Admin>> getAllAdmins();
 
 
     /**
@@ -28,14 +30,14 @@ public interface AdminService {
      * @param admin This is the id of the customer needs to be removed.
      * @return boolean if admin updated.
      */
-    boolean updateAdmin(Admin admin);
+    Response<Boolean> updateAdmin(Admin admin);
 
     /**
      * This method is used to remove an admin from database.
      * @param adminID This is the id of the admin needs to be deleted.
      * @return boolean if admin removed.
      */
-    boolean removeAdmin(int adminID, String adminEmail);
+    Response<Boolean> removeAdmin(int adminID, String adminEmail);
 
     /**
      * This method is used by admin to remove a customer account from the system.
@@ -43,7 +45,7 @@ public interface AdminService {
      * @param customerID This is the id of the customer needs to be removed.
      * @return boolean if customer deactivated.
      */
-    boolean deactivateCustomer(int customerID, String customerEmail);
+    Response<Boolean> deactivateCustomer(int customerID, String customerEmail);
 
     /**
      * This method is used by admin to update status of an order after being created/placed.

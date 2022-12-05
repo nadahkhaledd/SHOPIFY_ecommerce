@@ -4,15 +4,16 @@ import org.example.entity.Customer;
 import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
 import org.example.entity.User;
+import org.example.model.Response;
 
 import java.util.List;
 
 public interface ShoppingCartProductsRepository {
-    List<ShoppingCartProducts> viewCart(int userId);
-    ShoppingCartProducts getCartItem(Product product, User user);
-    ShoppingCartProducts getCartItem(int cartItemId);
-    void addToCart(ShoppingCartProducts shoppingCartProduct);
-    int updateProductQuantityInCart(int shoppingCartProductId, int newQuantity);
-    int removeFromCart(int shoppingCartProductId);
-    double calculateTotal(int userId);
+    Response<List<ShoppingCartProducts>> viewCart(int userId);
+    Response<ShoppingCartProducts> getCartItem(Product product, User user);
+    Response<ShoppingCartProducts> getCartItem(int cartItemId);
+    Response addToCart(ShoppingCartProducts shoppingCartProduct);
+    Response<Integer> updateProductQuantityInCart(int shoppingCartProductId, int newQuantity);
+    Response<Boolean> removeFromCart(int shoppingCartProductId);
+    Response<Double> calculateTotal(int userId);
 }

@@ -23,15 +23,17 @@ public class HomeController {
     @GetMapping("/home")
     public ModelAndView getAllItems() {
         ModelAndView modelAndView = new ModelAndView("home");
-        List<Category> categories = categoryService.getAllCategories();
-        categories.forEach(System.out::println);
+        Response<List<Category>> categoriesResponse = categoryService.getAllCategories();
+        //categories.forEach(System.out::println);
         Response<List<Product>> productsResponse = productService.getProducts();
-        if (productsResponse.isErrorOccurred()){
+        if (productsResponse.isErrorOccurred()||categoriesResponse.isErrorOccurred()){
             modelAndView.setViewName("error");
-            modelAndView.addObject("errorMessage",productsResponse.getMessage());
+            modelAndView.addObject("errorMessage",productsResponse.isErrorOccurred()?productsResponse.getMessage():categoriesResponse.getMessage());
+            modelAndView.addObject("statusCode",productsResponse.isErrorOccurred()?productsResponse.getStatusCode():categoriesResponse.getStatusCode());
             return modelAndView;
         }
-        modelAndView.addObject("categories", categories);
+
+        modelAndView.addObject("categories", categoriesResponse.getObjectToBeReturned());
         modelAndView.addObject("products", productsResponse.getObjectToBeReturned());
         return modelAndView;
     }

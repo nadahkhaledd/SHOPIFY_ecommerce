@@ -5,14 +5,14 @@ public class UserInputReview {
     private int userId;
     private int ProductId;
     private String review;
-    private String userEmail;
 
-    public UserInputReview(int rateValue, int userId, int productId, String review, String userEmail) {
+
+    public UserInputReview(int rateValue, int userId, int productId, String review) {
         this.rateValue = rateValue;
         this.userId = userId;
         this.ProductId = productId;
         this.review = review;
-        this.userEmail = userEmail;
+
     }
 
     public int getRate() {
@@ -47,14 +47,6 @@ public class UserInputReview {
         this.review = review;
     }
 
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
     @Override
     public String toString() {
         return "UserInputReview{" +
@@ -62,7 +54,6 @@ public class UserInputReview {
                 ", userId=" + userId +
                 ", ProductId=" + ProductId +
                 ", review='" + review + '\'' +
-                ", userEmail='" + userEmail + '\'' +
                 '}';
     }
 }
