@@ -1,5 +1,6 @@
 package org.example.controller;
 import org.example.entity.Product;
+import org.example.model.Response;
 import org.example.model.UserInputReview;
 import org.example.service.product.ProductService;
 import org.example.service.rate.RateService;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-@SessionAttributes("userId")
 @Controller
 public class RateController {
     @Autowired
@@ -19,16 +19,14 @@ public class RateController {
     @Autowired
     ProductService productService;
     @PostMapping("/rate")
-    public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message, @RequestParam String email, Model model){
-    public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message){
+    public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message, Model model){
        ModelAndView modelAndView=new ModelAndView("redirect:/products/productDetails?productId="+productId);
-        System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message + ", email = " + email);
-        UserInputReview userInputReview=new UserInputReview(rate, (Integer) model.getAttribute("userId"),productId,message,email);
+        System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message);
+        UserInputReview userInputReview=new UserInputReview(rate, 1,productId,message);
         rateService.AssignRateToProduct(userInputReview);
        // Product product=productService.getProductsById(productId);
        // modelAndView.addObject("product",product);
         System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message );
-        UserInputReview userInputReview=new UserInputReview(rate,1,productId,message);
         Response rateResponse= rateService.AssignRateToProduct(userInputReview);
         if(rateResponse.isErrorOccurred()){
             modelAndView.setViewName("error");

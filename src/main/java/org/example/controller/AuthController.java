@@ -67,7 +67,7 @@ public class AuthController {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(result.getEmail());
         if(matcher.matches()){
-            return "redirect:/admin/adminHome";
+            return "redirect:/admin/home";
         }
         model.addAttribute("userId", result.getId());
         return "redirect:/home";
