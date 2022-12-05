@@ -57,14 +57,14 @@
                             <label>gender</label>
                             <div class="question-answer">
                                 <div>
-                                    <form:radiobutton path="gender" value="${genders.get(0)}" id="male" name="gender"/>
-                                    <label for="male" selected="true" class="radio"><span>${genders.get(0)}</span></label>
+                                    <form:radiobutton path="gender" value="male" id="male" name="gender" required="true"/>
+                                    <label for="male" class="radio"><span>male</span></label>
                                     <form:errors path="gender" cssClass="error"/>
                                 </div>
                                 <div>
-                                    <form:radiobutton path="gender" value="${genders.get(1)}" id="female"
+                                    <form:radiobutton path="gender" value="female" id="female"
                                                       name="gender"/>
-                                    <label for="female" class="radio"><span>${genders.get(1)}</span></label>
+                                    <label for="female" class="radio"><span>female</span></label>
                                     <form:errors path="gender" cssClass="error"/>
                                 </div>
                             </div>

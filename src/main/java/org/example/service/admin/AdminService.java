@@ -28,14 +28,14 @@ public interface AdminService {
      * @param admin This is the id of the customer needs to be removed.
      * @return boolean if admin updated.
      */
-    boolean updateAdmin(Admin admin);
+    Response<Boolean> updateAdmin(Admin admin);
 
     /**
      * This method is used to remove an admin from database.
      * @param adminID This is the id of the admin needs to be deleted.
      * @return boolean if admin removed.
      */
-    boolean removeAdmin(int adminID, String adminEmail);
+    Response<Boolean> removeAdmin(int adminID, String adminEmail);
 
     /**
      * This method is used by admin to remove a customer account from the system.
@@ -43,7 +43,7 @@ public interface AdminService {
      * @param customerID This is the id of the customer needs to be removed.
      * @return boolean if customer deactivated.
      */
-    boolean deactivateCustomer(int customerID, String customerEmail);
+    Response<Boolean> deactivateCustomer(int customerID, String customerEmail);
 
     /**
      * This method is used by admin to update status of an order after being created/placed.

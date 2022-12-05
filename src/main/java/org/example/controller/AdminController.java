@@ -27,6 +27,7 @@ import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -81,7 +82,6 @@ public class AdminController {
         List<String> genders = new ArrayList<>(
                 Arrays.asList(Gender.male.toString(), Gender.female.toString()));
         model.addAttribute("admin", new Admin());
-        model.addAttribute("genders", genders);
         model.addAttribute("date", dateUtils.dateYearsAgo(18));
         return "addAdmin";
     }
@@ -96,7 +96,7 @@ public class AdminController {
         modelMap.put("emailErrorMessage","");//initialize as empty
         Response response= adminService.addAdmin(admin);
         System.out.println("responseeeee "+response.toString());
-        if(String.valueOf(response.getStatusCode()).charAt(0)=='4' || String.valueOf(response.getStatusCode()).charAt(0)=='5'){
+        if(response.isErrorOccurred()){
             modelMap.put("emailErrorMessage",response.getMessage());
             return "addAdmin";
         }
@@ -112,12 +112,18 @@ public class AdminController {
     }
 
     @PostMapping("addCategory")
-    public String addCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
+    public String addCategory(@Valid @ModelAttribute("category") Category category,
+                              BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
             return "addCategory";
         }
-        categoryService.addCategory(category);
+        Response response = categoryService.addCategory(category);
+        if(response.isErrorOccurred()){
+            modelMap.put("addCategoryErrorMessage",response.getMessage());
+            return "addCategory";
+        }
+
         return "redirect:/admin/showCategories";
     }
 
@@ -136,12 +142,17 @@ public class AdminController {
     }
 
     @PostMapping("updateCategory/{id}")
-    public String updateCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
+    public String updateCategory(@Valid @ModelAttribute("category") Category category,
+                                 BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
             return "updateCategory";
         }
-        categoryService.updateCategory(category);
+        Response response = categoryService.updateCategory(category);
+        if(response.isErrorOccurred()){
+            modelMap.put("updateCategoryErrorMessage",response.getMessage());
+            return "updateCategory";
+        }
         return "redirect:/admin/showCategories";
     }
 
@@ -153,12 +164,17 @@ public class AdminController {
     }
 
     @PostMapping("addProduct")
-    public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult) {
+    public String addProduct(@Valid @ModelAttribute("product") Product product,
+                             BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
             return "addProduct";
         }
-        productService.addProduct(product);
+        Response response = productService.addProduct(product);
+        if(response.isErrorOccurred()){
+            modelMap.put("addProductErrorMessage",response.getMessage());
+            return "addProduct";
+        }
         return "redirect:/admin/home";
     }
 
@@ -172,16 +188,29 @@ public class AdminController {
     }
 
     @PostMapping("removeUser")
-    public String deleteUser(@Valid @ModelAttribute("fields") RemoveUserFields fields, BindingResult bindingResult) {
+    public String deleteUser(@Valid @ModelAttribute("fields") RemoveUserFields fields,
+                             BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
             return "removeUser";
         }
+
         if(fields.getUserType().equals("admin")){
-            adminService.removeAdmin(fields.getUserID(), fields.getUserEmail());
+
+            Response response = adminService.removeAdmin(fields.getUserID(), fields.getUserEmail());
+            if(response.isErrorOccurred()){
+                modelMap.put("removeAdminErrorMessage",response.getMessage());
+                return "error";
+            }
         }
         else
-            adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
+        {
+            Response response = adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
+            if(response.isErrorOccurred()){
+                modelMap.put("removeCustomerErrorMessage",response.getMessage());
+                return "error";
+            }
+        }
 
         return "redirect:/admin/home";
     }

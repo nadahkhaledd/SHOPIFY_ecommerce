@@ -17,9 +17,7 @@ public class AdminServiceImplementation implements AdminService{
     @Autowired
     public AdminServiceImplementation(AdminRepository repository) {
         validationService=new ValidationService();
-        System.out.println("in admin service....");
         this.repository = repository;
-        //repository.createSuperAdmin();
     }
 
     /**
@@ -45,27 +43,24 @@ public class AdminServiceImplementation implements AdminService{
      * @inheritDoc
      */
     @Override
-    public boolean updateAdmin(Admin admin) {
-        int rowsAffected = repository.updateAdmin(admin);
-        return rowsAffected==1;
+    public Response<Boolean> updateAdmin(Admin admin) {
+        return repository.updateAdmin(admin);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public boolean removeAdmin(int adminID, String adminEmail) {
-        int rowsAffected = repository.removeAdmin(adminID, adminEmail);
-        return rowsAffected==1;
+    public Response<Boolean> removeAdmin(int adminID, String adminEmail) {
+        return repository.removeAdmin(adminID, adminEmail);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public boolean deactivateCustomer(int customerID, String customerEmail) {
-        int rowsAffected = repository.deactivateCustomer(customerID, customerEmail);
-        return rowsAffected==1;
+    public Response<Boolean> deactivateCustomer(int customerID, String customerEmail) {
+        return repository.deactivateCustomer(customerID, customerEmail);
     }
 
     /**
