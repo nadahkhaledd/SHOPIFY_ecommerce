@@ -34,9 +34,16 @@ public class ProductController {
         if(productResponse.isErrorOccurred()){
             modelAndView.setViewName("error");
             modelAndView.addObject("errorMessage",productResponse.getMessage());
+            modelMap.put("statusCode",productResponse.getStatusCode());
             return modelAndView;
         }
-        rateService.calculateProductRate(productResponse.getObjectToBeReturned());
+        Response rateResponse= rateService.setProductRate(productResponse.getObjectToBeReturned());
+        if(rateResponse.isErrorOccurred()){
+            modelAndView.setViewName("error");
+            modelAndView.addObject("errorMessage",rateResponse.getMessage());
+            modelAndView.addObject("statusCode",rateResponse.getStatusCode());
+            return modelAndView;
+        }
         modelAndView.addObject("product",productResponse.getObjectToBeReturned());
         Star star=rateUtils.computeNumberOfStars(productResponse.getObjectToBeReturned().getRate());
         System.out.println(star.toString());
@@ -50,6 +57,7 @@ public class ProductController {
         Response<List<Product>> productsResponse=productService.getProducts();
         if(productsResponse.isErrorOccurred()){
             modelMap.put("errorMessage",productsResponse.getMessage());
+            modelMap.put("statusCode",productsResponse.getStatusCode());
             return "error";
         }
         modelMap.addAttribute("products",productsResponse.getObjectToBeReturned());
@@ -62,6 +70,7 @@ public class ProductController {
         Response<List<Product>> productsResponse=productService.getProductsByCategory(categoryId);
         if(productsResponse.isErrorOccurred()){
             modelMap.put("errorMessage",productsResponse.getMessage());
+            modelMap.put("statusCode",productsResponse.getStatusCode());
             return "error";
         }
         modelMap.addAttribute("products",productsResponse.getObjectToBeReturned());

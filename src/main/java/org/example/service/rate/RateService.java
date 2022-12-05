@@ -2,6 +2,7 @@ package org.example.service.rate;
 
 import org.example.entity.Product;
 import org.example.entity.Rate;
+import org.example.model.Response;
 import org.example.model.UserInputReview;
 
 public interface RateService {
@@ -11,7 +12,7 @@ public interface RateService {
      * @param rate rate (customer id,product id,description)
      * @Return nothing
      */
-    void AssignRateToProduct(UserInputReview rate);
+    Response AssignRateToProduct(UserInputReview rate);
 
     /**
      *  calculate product rate
@@ -20,6 +21,6 @@ public interface RateService {
      * @param product product
      * @return nothing
      */
-    void calculateProductRate(Product product);
+     Response setProductRate(Product product);
 
 }

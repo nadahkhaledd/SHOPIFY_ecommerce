@@ -24,6 +24,7 @@ public class CategoryController {
         Response<List<Category>> categoriesResponse=categoryService.getAllCategories();
         if(categoriesResponse.isErrorOccurred()){
             modelMap.put("errorMessage",categoriesResponse.getMessage());
+            modelMap.put("statusCode",categoriesResponse.getStatusCode());
             return "error";
         }
         //modelMap.addAttribute("products",productsResponse.getObjectToBeReturned());

@@ -29,6 +29,7 @@ public class HomeController {
         if (productsResponse.isErrorOccurred()||categoriesResponse.isErrorOccurred()){
             modelAndView.setViewName("error");
             modelAndView.addObject("errorMessage",productsResponse.isErrorOccurred()?productsResponse.getMessage():categoriesResponse.getMessage());
+            modelAndView.addObject("statusCode",productsResponse.isErrorOccurred()?productsResponse.getStatusCode():categoriesResponse.getStatusCode());
             return modelAndView;
         }
 

@@ -57,6 +57,7 @@ public class ShoppingCartProductsController {
         Response productResponse=productService.getProduct(productId);
         if(productResponse.isErrorOccurred()){
             modelMap.put("errorMessage",productResponse.getMessage());
+            modelMap.put("statusCode",productResponse.getStatusCode());
             return "error";
         }
 

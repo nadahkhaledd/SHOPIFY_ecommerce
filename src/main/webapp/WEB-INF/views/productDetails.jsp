@@ -169,24 +169,13 @@
 
                             <div class="form-group">
                                 <label for="message">Your Review *</label>
-                                <textarea id="message" name="message" cols="30" rows="5" class="form-control"></textarea>
+                                <textarea id="message" required="true" name="message" cols="30" rows="5" class="form-control"></textarea>
                             </div>
                             <div class="form-group mb-0">
                                 <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
                             </div>
                         </form>
                     </div>
-                                <div class="form-group">
-                                    <label for="message">Your Review *</label>
-                                    <textarea id="message" name="message" required="required" cols="30" rows="5" class="form-control"></textarea>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
-                                </div>
-                            </form>
-                          </div>
-
-
                 </div>
             </div>
             <!-- Shop Detail End -->
