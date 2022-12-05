@@ -96,11 +96,12 @@ public class AdminController {
         modelMap.put("emailErrorMessage","");//initialize as empty
         Response response= adminService.addAdmin(admin);
         //System.out.println("responseeeee "+response.toString());
-        if(response.isFieldErrorOccurred()){
-            modelMap.put("emailErrorMessage",response.getMessage());
-            return "addAdmin";
-        }
+
         if(response.isErrorOccurred()){
+            if(response.isFieldErrorOccurred()){
+                modelMap.put("emailErrorMessage",response.getMessage());
+                return "addAdmin";
+            }
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
@@ -124,11 +125,12 @@ public class AdminController {
         }
         modelMap.put("addCategoryErrorMessage","");//initialize as empty
         Response response = categoryService.addCategory(category);
-        if(response.isFieldErrorOccurred()){
-            modelMap.put("addCategoryErrorMessage", response.getMessage());
-            return "addCategory";
-        }
+
         if(response.isErrorOccurred()){
+            if(response.isFieldErrorOccurred()){
+                modelMap.put("addCategoryErrorMessage", response.getMessage());
+                return "addCategory";
+            }
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
@@ -159,11 +161,12 @@ public class AdminController {
         }
         modelMap.put("updateCategoryErrorMessage","");//initialize as empty
         Response response = categoryService.updateCategory(category);
-        if(response.isFieldErrorOccurred()){
-            modelMap.put("updateCategoryErrorMessage",response.getMessage());
-            return "updateCategory";
-        }
+
         if(response.isErrorOccurred()){
+            if(response.isFieldErrorOccurred()){
+                modelMap.put("updateCategoryErrorMessage",response.getMessage());
+                return "updateCategory";
+            }
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
@@ -186,11 +189,12 @@ public class AdminController {
         }
         modelMap.put("addProductErrorMessage","");//initialize as empty
         Response response = productService.addProduct(product);
-        if(response.isFieldErrorOccurred()){
-            modelMap.put("addProductErrorMessage",response.getMessage());
-            return "addProduct";
-        }
+
         if(response.isErrorOccurred()){
+            if(response.isFieldErrorOccurred()){
+                modelMap.put("addProductErrorMessage",response.getMessage());
+                return "addProduct";
+            }
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
@@ -217,11 +221,12 @@ public class AdminController {
         if(fields.getUserType().equals("admin")){
             modelMap.put("removeAdminErrorMessage","");//initialize as empty
             Response response = adminService.removeAdmin(fields.getUserID(), fields.getUserEmail());
-            if(response.isFieldErrorOccurred()){
-                modelMap.put("removeAdminErrorMessage",response.getMessage());
-                return "removeUser";
-            }
+
             if(response.isErrorOccurred()){
+                if(response.isFieldErrorOccurred()){
+                    modelMap.put("removeAdminErrorMessage",response.getMessage());
+                    return "removeUser";
+                }
                 modelMap.put("errorMessage",response.getMessage());
                 return "error";
             }
@@ -230,11 +235,12 @@ public class AdminController {
         {
             modelMap.put("removeAdminErrorMessage","");//initialize as empty
             Response response = adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
-            if(response.isFieldErrorOccurred()){
-                modelMap.put("removeCustomerErrorMessage",response.getMessage());
-                return "removeUser";
-            }
+
             if(response.isErrorOccurred()){
+                if(response.isFieldErrorOccurred()){
+                    modelMap.put("removeCustomerErrorMessage",response.getMessage());
+                    return "removeUser";
+                }
                 modelMap.put("removeCustomerErrorMessage",response.getMessage());
                 return "error";
             }
