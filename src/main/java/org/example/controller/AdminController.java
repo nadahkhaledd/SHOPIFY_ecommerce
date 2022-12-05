@@ -102,6 +102,7 @@ public class AdminController {
                 modelMap.put("emailErrorMessage",response.getMessage());
                 return "addAdmin";
             }
+            modelMap.put("statusCode", response.getStatusCode());
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
@@ -131,6 +132,7 @@ public class AdminController {
                 modelMap.put("addCategoryErrorMessage", response.getMessage());
                 return "addCategory";
             }
+            modelMap.put("statusCode", response.getStatusCode());
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
@@ -167,6 +169,7 @@ public class AdminController {
                 modelMap.put("updateCategoryErrorMessage",response.getMessage());
                 return "updateCategory";
             }
+            modelMap.put("statusCode", response.getStatusCode());
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
@@ -195,6 +198,7 @@ public class AdminController {
                 modelMap.put("addProductErrorMessage",response.getMessage());
                 return "addProduct";
             }
+            modelMap.put("statusCode", response.getStatusCode());
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
@@ -227,6 +231,7 @@ public class AdminController {
                     modelMap.put("removeAdminErrorMessage",response.getMessage());
                     return "removeUser";
                 }
+                modelMap.put("statusCode", response.getStatusCode());
                 modelMap.put("errorMessage",response.getMessage());
                 return "error";
             }
@@ -241,6 +246,7 @@ public class AdminController {
                     modelMap.put("removeCustomerErrorMessage",response.getMessage());
                     return "removeUser";
                 }
+                modelMap.put("statusCode", response.getStatusCode());
                 modelMap.put("removeCustomerErrorMessage",response.getMessage());
                 return "error";
             }
