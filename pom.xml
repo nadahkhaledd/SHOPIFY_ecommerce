@@ -27,6 +27,20 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.1</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <url>http://localhost:8080/manager/text</url>
+                    <server>maven-tomcat-war-deployment-server</server>
+                    <username>war-deployer</username>
+                    <password>maven-tomcat-plugin</password>
+                    <path>/${project.artifactId}</path>
+                    <update>true</update>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -123,6 +137,14 @@
             <artifactId>jsp-template-inheritance</artifactId>
             <version>0.3.RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>9.0.69</version>
+        </dependency>
+
+
 
     </dependencies>
 

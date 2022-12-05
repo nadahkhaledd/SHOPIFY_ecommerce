@@ -35,9 +35,9 @@
        </nav>
 
        <div id="content">
-        <layout:block name="content">
-            base_body_content
-        </layout:block>
+            <layout:block name="content">
+                base_body_content
+            </layout:block>
        </div>
 
     </body>
