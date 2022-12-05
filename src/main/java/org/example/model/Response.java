@@ -39,6 +39,14 @@ public class Response<T> {
         this.objectToBeReturned = objectToBeReturned;
     }
 
+    public Response(String message, int statusCode, boolean errorOccurred, boolean fieldErrorOccurred, T objectToBeReturned) {
+        this.message = message;
+        this.statusCode = statusCode;
+        this.errorOccurred = errorOccurred;
+        this.fieldErrorOccurred = fieldErrorOccurred;
+        this.objectToBeReturned = objectToBeReturned;
+    }
+
     public Response(String message, int statusCode, boolean errorOccurred) {
         this.message = message;
         this.statusCode = statusCode;

@@ -12,7 +12,7 @@ public interface AdminService {
      * @param admin This is the admin object to be added.
      * @return nothing
      */
-    Response addAdmin(User admin);
+    Response addAdmin(Admin admin);
 
     /**
      * This method is used to create the super admin of the system.

@@ -4,6 +4,7 @@ import org.example.entity.Customer;
 import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
 import org.example.entity.User;
+import org.example.model.Response;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -24,7 +25,7 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
     }
 
     @Override
-    public ShoppingCartProducts getCartItem(Product product, User user) {
+    public Response<ShoppingCartProducts> getCartItem(Product product, User user) {
         List<ShoppingCartProducts> cartProducts;
         try(Session session = factory.openSession()) {
             cartProducts = session.createQuery("from ShoppingCartProducts where user=:userId and product=:productId",
@@ -32,30 +33,36 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
                     .setParameter("userId", user)
                     .setParameter("productId", product)
                     .getResultList();
-            if(cartProducts.isEmpty())
-                return null;
-            else
-                return cartProducts.get(0);
         }
+        catch (Exception e) {
+            System.out.println("in ShoppingCartProductsRepositoryImpl.getCartItem  e.getStackTrace() = " + e.getStackTrace());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<ShoppingCartProducts>("Done", 200,
+                false,(cartProducts.isEmpty()?null: cartProducts.get(0)));
     }
 
     @Override
-    public ShoppingCartProducts getCartItem(int cartItemId) {
+    public Response<ShoppingCartProducts> getCartItem(int cartItemId) {
         List<ShoppingCartProducts> cartProducts;
         try(Session session = factory.openSession()) {
             cartProducts = session.createQuery("from ShoppingCartProducts where id=:cartItemId",
                             ShoppingCartProducts.class)
                     .setParameter("cartItemId", cartItemId)
                     .getResultList();
-            if(cartProducts.isEmpty())
-                return null;
-            else
-                return cartProducts.get(0);
         }
+        catch (Exception e) {
+            System.out.println("in ShoppingCartProductsRepositoryImpl.getCartItem  e.getStackTrace() = " + e.getStackTrace());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<ShoppingCartProducts>("Done", 200,
+                false,(cartProducts.isEmpty()?null: cartProducts.get(0)));
     }
 
     @Override
-    public List<ShoppingCartProducts> viewCart(int userId) {
+    public Response<List<ShoppingCartProducts>> viewCart(int userId) {
         List<ShoppingCartProducts> shoppingCartProducts;
         try(Session session = factory.openSession()) {
             shoppingCartProducts = session.
@@ -65,20 +72,32 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
                     .setParameter("id", userId)
                     .getResultList();
         }
-        return shoppingCartProducts;
+        catch (Exception e) {
+            System.out.println("in ShoppingCartProductsRepositoryImpl.viewCart  e.getStackTrace() = " + e.getStackTrace());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<List<ShoppingCartProducts>>("Done", 200,
+                false,shoppingCartProducts);
     }
 
     @Override
-    public void addToCart(ShoppingCartProducts shoppingCartProduct) {
+    public Response addToCart(ShoppingCartProducts shoppingCartProduct) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             session.persist(shoppingCartProduct);
             tx.commit();
         }
+        catch (Exception e) {
+            System.out.println("in ShoppingCartProductsRepositoryImpl.addToCart  e.getStackTrace() = " + e.getStackTrace());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<>("Done", 200, false);
     }
 
     @Override
-    public int updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
+    public Response<Integer> updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
         int result;
         try(Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
@@ -90,11 +109,17 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
             result = updateQuery.executeUpdate();
             tx.commit();
         }
-        return result;
+        catch (Exception e) {
+            System.out.println("in ShoppingCartProductsRepositoryImpl.updateProductQuantityInCart  e.getStackTrace() = " + e.getStackTrace());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<Integer>("Done", 200,
+                false,result);
     }
 
     @Override
-    public int removeFromCart(int shoppingCartProductId) {
+    public Response<Boolean> removeFromCart(int shoppingCartProductId) {
         int result;
         try(Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
@@ -104,10 +129,16 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
             result = deleteQuery.executeUpdate();
             tx.commit();
         }
-        return result;
+        catch (Exception e) {
+            System.out.println("in ShoppingCartProductsRepositoryImpl.removeFromCart  e.getStackTrace() = " + e.getStackTrace());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<Boolean>("Done", 200,
+                false,result==1);
     }
     @Override
-    public double calculateTotal(int userId) {
+    public Response<Double> calculateTotal(int userId) {
         Double result;
         try(Session session = factory.openSession()) {
             Query query = session.createQuery(
@@ -115,10 +146,14 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
                             "from ShoppingCartProducts as scp inner join scp.user as u where u.id=:id"
             ).setParameter("id", userId);
             result = (Double) query.getSingleResult();
-            if(result == null)
-                return 0.0;
         }
-        return result;
+        catch (Exception e) {
+            System.out.println("in ShoppingCartProductsRepositoryImpl.updateProductQuantityInCart  e.getStackTrace() = " + e.getStackTrace());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<Double>("Done", 200,
+                false,result==null?0.0:result);
     }
 
 }
