@@ -57,6 +57,7 @@ public class Response<T> {
         this.message = message;
         this.statusCode = statusCode;
         this.fieldErrorOccurred = fieldErrorOccurred;
+        this.errorOccurred=errorOccurred;
     }
 
     public String getMessage() {

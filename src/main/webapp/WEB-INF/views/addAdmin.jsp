@@ -22,12 +22,12 @@
                 <div class="columns">
                   <div class="item">
                     <label for="firstName"> First Name<span>*</span></label>
-                    <form:input path="firstName" id="firstName" type="text" name="firstName"/>
+                    <form:input required="true" path="firstName" id="firstName" type="text" name="firstName"/>
                     <form:errors path="firstName" cssClass="error"/>
                   </div>
                   <div class="item">
                     <label for="lastName"> Last Name<span>*</span></label>
-                    <form:input path="lastName" id="lastName" type="text" name="lastName"/>
+                    <form:input required="true" path="lastName" id="lastName" type="text" name="lastName"/>
                     <form:errors path="lastName" cssClass="error"/>
                   </div>
 

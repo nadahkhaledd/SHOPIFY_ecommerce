@@ -29,14 +29,24 @@ public class AdminServiceImplementation implements AdminService{
     @Override
     public Response addAdmin(Admin admin) {
         Response response=validationService.validateAdminEmail(admin.getEmail());
-        if(!response.isErrorOccurred()){
+        System.out.println("**********************");
+        System.out.println( response.toString());
+        System.out.println("**********************");
+        if (response.isErrorOccurred()){
+            System.out.println("henaa");
+            response.setFieldErrorOccurred(true);
+            return response;
+        }
+      else{
+            System.out.println("beforrrrrrrr");
             Response adminResponse=repository.addAdmin(admin);
+            System.out.println("email is valid 444");
             if(adminResponse.isErrorOccurred()){
                 return adminResponse;
             }
         }
+      return new Response("Ok",200,false);
 
-        return response;
     }
 
     /**

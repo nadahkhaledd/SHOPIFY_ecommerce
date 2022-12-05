@@ -44,9 +44,10 @@ public class AdminRepositoryImplementation implements AdminRepository{
         }
         catch (Exception e) {
             System.out.println("in AdminRepositoryImplementation.addAdmin  e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
-            return new Response<>("error occurred while processing your request", 500, true);
+            return new Response("error occurred while processing your request", 500, true);
         }
-        return new Response<>("Done", 200, false);
+        System.out.println("magetsh fel error");
+        return new Response("Done", 200, false);
     }
 
     /**
