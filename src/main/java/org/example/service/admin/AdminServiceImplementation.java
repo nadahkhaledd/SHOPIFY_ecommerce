@@ -9,6 +9,8 @@ import org.example.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminServiceImplementation implements AdminService{
 
@@ -49,12 +51,9 @@ public class AdminServiceImplementation implements AdminService{
 
     }
 
-    /**
-     * @inheritDoc
-     */
     @Override
-    public void createSuperAdmin() {
-        repository.createSuperAdmin();
+    public Response<List<Admin>> getAllAdmins() {
+        return repository.getAllAdmins();
     }
 
     /**

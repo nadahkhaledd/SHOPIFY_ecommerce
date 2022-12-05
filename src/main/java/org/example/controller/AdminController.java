@@ -69,6 +69,13 @@ public class AdminController {
         return "adminHome";
     }
 
+    @GetMapping("admins")
+    public String getAdmins(Model model) {
+        Response<List<Admin>> admins = adminService.getAllAdmins();
+        model.addAttribute("categories", admins.getObjectToBeReturned());
+        return "showAdmins";
+    }
+
     @GetMapping("showCategories")
     public String showCategories(Model model) {
         Response<List<Category>> categoriesResponse = categoryService.getAllCategories();

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public class AdminRepositoryImplementation implements AdminRepository{
@@ -61,6 +62,26 @@ public class AdminRepositoryImplementation implements AdminRepository{
                 "superadmin@shop.com", "super@dm1n",
                 Gender.male, date);
         addAdmin(superAdmin);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Response<List<Admin>> getAllAdmins() {
+        List<Admin> admins;
+        try (Session session = factory.openSession()) {
+
+            session.beginTransaction();
+            admins = session.createQuery("from User where email LIKE :key ", Admin.class)
+                    .setString("key", "% "+"@shopify.com")
+                    .list();
+        } catch (Exception e) {
+            System.out.println("in AdminRepositoryImplementation.getAllAdmins e.getStackTrace() = " + e.getStackTrace());
+            return new Response("error occurred while processing your request", 500, true);
+
+        }
+        return new Response("Done", 200, false, admins);
     }
 
     /**

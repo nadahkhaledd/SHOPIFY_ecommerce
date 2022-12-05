@@ -1,8 +1,11 @@
 package org.example.repository.admin;
 
 import org.example.entity.Admin;
+import org.example.entity.Category;
 import org.example.entity.User;
 import org.example.model.Response;
+
+import java.util.List;
 
 public interface AdminRepository {
 
@@ -12,6 +15,14 @@ public interface AdminRepository {
      * @return nothing
      */
     Response addAdmin(User admin);
+
+
+    /**
+     * get all admins
+     * retrieves all admins from database
+     * @return list of admins
+     */
+    Response<List<Admin>> getAllAdmins();
 
 
     /**
