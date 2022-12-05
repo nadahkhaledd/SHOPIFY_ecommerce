@@ -22,10 +22,10 @@
 
        <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
          <div class="container-fluid">
-           <a class="navbar-brand" href="/e-commerce/admin/adminHome" style="font-weight: bolder; color: cadetblue">Shopify Admin</a>
+           <a class="navbar-brand" href="/e-commerce/admin/home" style="font-weight: bolder; color: cadetblue">Shopify Admin</a>
            <div class="navbar-collapse" id="navbarSupportedContent">
              <ul class="navbar-nav me-auto ">
-               <li class="nav-item"><a class="nav-link active" aria-current="page" href="/e-commerce/admin/adminHome" >Home</a></li>
+               <li class="nav-item"><a class="nav-link active" aria-current="page" href="/e-commerce/admin/home" >Home</a></li>
 
                <li class="nav-right my-2 my-lg-0" style="float: right; padding-left: 150vh !important;">
                    <a class="nav-link active" aria-current="page" href="" >Logout</a></li>

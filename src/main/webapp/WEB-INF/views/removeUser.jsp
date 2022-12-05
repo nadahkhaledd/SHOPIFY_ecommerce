@@ -28,13 +28,13 @@
 
                   <div class="item">
                     <label for="userID">user id<span>*</span></label>
-                    <form:input path="userID" id="userID" type="text" name="userID"/>
+                    <form:input path="userID" id="userID" type="text" name="userID" required="true"/>
                     <form:errors path="userID" cssClass="error"/>
                   </div>
 
                   <div class="item">
                     <label for="userEmail">user email<span>*</span></label>
-                    <form:input path="userEmail" id="userEmail" type="email" name="userEmail"/>
+                    <form:input path="userEmail" id="userEmail" type="email" name="userEmail" required="true"/>
                     <form:errors path="userEmail" cssClass="error"/>
                   </div>
 
