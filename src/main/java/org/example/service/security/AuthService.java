@@ -66,4 +66,8 @@ public class AuthService {
     public boolean checkIfUserAlreadyExists(String email) {
         return authRepo.checkIfUserAlreadyExists(email);
     }
+
+    public boolean checkIfSuspended(String email) {
+        return false;
+    }
 }

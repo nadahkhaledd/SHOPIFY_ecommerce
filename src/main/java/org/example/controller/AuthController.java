@@ -75,7 +75,12 @@ public class AuthController {
             return "redirect:/admin/home";
         }
 
-        if(!authService.checkIfActivated(user.getId())){
+        if(!authService.checkIfActivated(result.getId())){
+            return "goToYourMail";
+        }
+
+        if(authService.checkIfSuspended(result.getEmail())){
+            //send email
             return "goToYourMail";
         }
 
