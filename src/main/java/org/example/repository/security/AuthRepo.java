@@ -77,7 +77,7 @@ public class AuthRepo {
         try (Session session = factory.openSession()) {
             User customer = session.get(User.class, userId);
             if (customer != null) {
-                if (customer.getStatus().toString().equals("ACTIVATED")) {
+                if (customer.getStatus().equals(CustomerStatus.ACTIVATED)) {
                     return true;
                 }
             }
