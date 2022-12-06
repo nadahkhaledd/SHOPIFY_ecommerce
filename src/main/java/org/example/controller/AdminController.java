@@ -75,7 +75,7 @@ public class AdminController {
         Integer id = (Integer) model.getAttribute("userId");
 
         if(id==null)
-            return "home";
+            return "login";
         model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned());
         return "adminHome";
     }
