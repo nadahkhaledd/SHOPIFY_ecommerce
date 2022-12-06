@@ -54,10 +54,17 @@ public class AuthRepo {
                 //int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).getSingleResult()).getId();
                 User customer = session.get(User.class, userId);
                 Transaction tx = session.beginTransaction();
-                if (customer.getPassword().equals(password)) {
                     customer.setPasswordAttempts(0);
                     session.merge(customer);
                     tx.commit();
+
+
+                if (customer.getPassword().equals(password)) {
+
+                        customer.setPasswordAttempts(0);
+                        session.merge(customer);
+                        tx.commit();
+
                     return new Response<User>("OK", 200, false, false, customer);
 
                 }
@@ -71,9 +78,10 @@ public class AuthRepo {
                     session.merge(customer);
                 }
                 tx.commit();
+
             }
         } catch (Exception e) {
-            System.out.println("error in check login credentials auth repo " + e.getStackTrace().toString());
+            System.out.println("error in check login credentials auth repo " + e.toString());
             return new Response<User>("error occurred while processing your request", 500, true, false, null);
 
         }

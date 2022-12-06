@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class AuthService {
@@ -20,11 +22,6 @@ public class AuthService {
     AuthRepo authRepo;
 
     public org.example.model.Response<User> login(final String email, final String password) {
-       /* final User user = this.authRepo.checkLoginCredential(email, password);
-        if (user != null) {
-            System.out.println("user is correcttt");
-            return user;
-        }*/
         return this.authRepo.checkLoginCredential(email, password);
     }
 
