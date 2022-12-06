@@ -39,7 +39,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user,Model model){
-        if(authService.checkIfUserAlreadyExists(user.getId())){
+        if(authService.checkIfUserAlreadyExists(user.getEmail())){
             model.addAttribute("error","you already have an account please login directly");
             return "redirect:/login";
         }
@@ -66,7 +66,8 @@ public class AuthController {
             model.addAttribute("error","Email or Password is Wrong");
             return "login";
         }
-        String regex = "[a-z0-9]+@admin.com";
+
+        String regex = "[a-z0-9]+@shopify.com";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(result.getEmail());
         if(matcher.matches()){
