@@ -68,16 +68,22 @@ public class AdminController {
 
     }
 
+
     @GetMapping("home")
     public String adminHome(Model model) {
 
         Integer id = (Integer) model.getAttribute("userId");
+        if(id == null)
+            return "redirect:/login";
         model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned().toUpperCase());
         return "adminHome";
     }
 
     @GetMapping("admins")
     public String getAdmins(Model model) {
+        Integer id = (Integer) model.getAttribute("userId");
+        if(id == null)
+            return "redirect:/login";
         Response<List<Admin>> admins = adminService.getAllAdmins();
         model.addAttribute("admins", admins.getObjectToBeReturned());
         return "showAdmins";
@@ -85,6 +91,9 @@ public class AdminController {
 
     @GetMapping("showCategories")
     public String showCategories(Model model) {
+        Integer id = (Integer) model.getAttribute("userId");
+        if(id == null)
+            return "redirect:/login";
         Response<List<Category>> categoriesResponse = categoryService.getAllCategories();
         model.addAttribute("categories", categoriesResponse.getObjectToBeReturned());
         return "showCategories";
@@ -92,7 +101,9 @@ public class AdminController {
 
     @GetMapping("addAdmin")
     public String newAdmin(Model model) {
-
+        Integer id = (Integer) model.getAttribute("userId");
+        if(id == null)
+            return "redirect:/login";
         List<String> genders = new ArrayList<>(
                 Arrays.asList(Gender.male.toString(), Gender.female.toString()));
         model.addAttribute("admin", new Admin());
@@ -126,6 +137,9 @@ public class AdminController {
 
     @GetMapping("addCategory")
     public String newCategory(Model model) {
+        Integer id = (Integer) model.getAttribute("userId");
+        if(id == null)
+            return "redirect:/login";
         model.addAttribute("category", new Category());
         return "addCategory";
     }
@@ -167,6 +181,9 @@ public class AdminController {
 
     @GetMapping("updateAdmin/{id}")
     public String updateAdmin(Model model, @PathVariable int id) {
+        Integer uid = (Integer) model.getAttribute("userId");
+        if(uid == null)
+            return "redirect:/login";
         Response<User> admin = userService.getUserById(id);
         model.addAttribute("admin", admin.getObjectToBeReturned());
 
@@ -197,6 +214,9 @@ public class AdminController {
 
     @GetMapping("updateCategory/{id}")
     public String updateCategory(Model model, @PathVariable int id) {
+        Integer uid = (Integer) model.getAttribute("userId");
+        if(uid == null)
+            return "redirect:/login";
         Response<Category> categoryResponse = categoryService.getCategoryByID(id);
         model.addAttribute("category", categoryResponse.getObjectToBeReturned());
 
@@ -227,6 +247,9 @@ public class AdminController {
 
     @GetMapping("addProduct")
     public String newProduct(Model model) {
+        Integer id = (Integer) model.getAttribute("userId");
+        if(id == null)
+            return "redirect:/login";
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryService.getCategoriesNames().getObjectToBeReturned());
         return "addProduct";
@@ -258,8 +281,11 @@ public class AdminController {
 
     @GetMapping("removeUser")
     public String removeUser(Model model) {
-        model.addAttribute("fields", new RemoveUserFields());
+        Integer id = (Integer) model.getAttribute("userId");
+        if(id == null)
+            return "redirect:/login";
 
+        model.addAttribute("fields", new RemoveUserFields());
         return "removeUser";
     }
 
