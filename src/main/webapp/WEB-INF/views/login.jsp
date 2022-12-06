@@ -25,8 +25,9 @@
     <div class="form-container sign-in-container">
         <form:form modelAttribute="user" method="POST">
             <h1>Sign in</h1>
-            <form:input path="email" id="email" type="email" name="email"/>
-            <form:input path="password" id="password" type="password" name="password"/>
+            <form:input path="email" id="email" type="email" name="email" required="true"/>
+            <form:input path="password" id="password" type="password" name="password" required="true"/>
+            <small style="color:red">${error}</small>
             <a href="#">Forgot your password?</a>
             <button>Sign In</button>
         </form:form>
@@ -36,6 +37,7 @@
             <div class="overlay-panel overlay-right">
                 <h1>Welcome Back!</h1>
                 <p>To keep connected with us please login with your personal info</p>
+                <h5><a style="color: black" href="/e-commerce/register">or signup as new customer</a></h5>
             </div>
         </div>
     </div>

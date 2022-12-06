@@ -11,6 +11,7 @@ import org.example.repository.user.UserRepository;
 import org.example.service.admin.AdminService;
 import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
+import org.example.service.security.AuthService;
 import org.example.service.user.UserService;
 import org.example.typeEditor.CategoryTypeEditor;
 import org.example.utility.DateUtils;
@@ -36,13 +37,11 @@ import java.util.*;
 @SessionAttributes({"userId","error"})
 @RequestMapping("/admin")
 public class AdminController {
-
     private final AdminService adminService;
     private final UserService userService;
     private final UserRepository userRepository;
     private final CategoryService categoryService;
     private final ProductService productService;
-
     private DateUtils dateUtils = new DateUtils();
 
     @Autowired
@@ -73,10 +72,7 @@ public class AdminController {
     public String adminHome(Model model) {
 
         Integer id = (Integer) model.getAttribute("userId");
-
-        if(id==null)
-            return "login";
-        model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned());
+        model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned().toUpperCase());
         return "adminHome";
     }
 
@@ -111,13 +107,13 @@ public class AdminController {
             Map<String, Object> model = bindingResult.getModel();
             return "addAdmin";
         }
-        modelMap.put("emailErrorMessage","");//initialize as empty
+        modelMap.put("ErrorMessage","");//initialize as empty
         Response response= adminService.addAdmin(admin);
         //System.out.println("responseeeee "+response.toString());
 
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
-                modelMap.put("emailErrorMessage",response.getMessage());
+                modelMap.put("ErrorMessage",response.getMessage());
                 return "addAdmin";
             }
             modelMap.put("statusCode", response.getStatusCode());
@@ -141,12 +137,12 @@ public class AdminController {
             Map<String, Object> model = bindingResult.getModel();
             return "addCategory";
         }
-        modelMap.put("addCategoryErrorMessage","");//initialize as empty
+        modelMap.put("ErrorMessage","");//initialize as empty
         Response response = categoryService.addCategory(category);
 
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
-                modelMap.put("addCategoryErrorMessage", response.getMessage());
+                modelMap.put("ErrorMessage", response.getMessage());
                 return "addCategory";
             }
             modelMap.put("statusCode", response.getStatusCode());
@@ -194,12 +190,12 @@ public class AdminController {
             Map<String, Object> model = bindingResult.getModel();
             return "updateAdmin";
         }
-        modelMap.put("updateAdminErrorMessage","");//initialize as empty
+        modelMap.put("ErrorMessage","");//initialize as empty
         Response response = adminService.updateAdmin(admin);
 
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
-                modelMap.put("updateAdminErrorMessage",response.getMessage());
+                modelMap.put("ErrorMessage",response.getMessage());
                 return "updateAdmin";
             }
             modelMap.put("statusCode", response.getStatusCode());
@@ -224,12 +220,12 @@ public class AdminController {
             Map<String, Object> model = bindingResult.getModel();
             return "updateCategory";
         }
-        modelMap.put("updateCategoryErrorMessage","");//initialize as empty
+        modelMap.put("ErrorMessage","");//initialize as empty
         Response response = categoryService.updateCategory(category);
 
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
-                modelMap.put("updateCategoryErrorMessage",response.getMessage());
+                modelMap.put("ErrorMessage",response.getMessage());
                 return "updateCategory";
             }
             modelMap.put("statusCode", response.getStatusCode());
@@ -255,12 +251,12 @@ public class AdminController {
             Map<String, Object> model = bindingResult.getModel();
             return "addProduct";
         }
-        modelMap.put("addProductErrorMessage","");//initialize as empty
+        modelMap.put("ErrorMessage","");//initialize as empty
         Response response = productService.addProduct(product);
 
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
-                modelMap.put("addProductErrorMessage",response.getMessage());
+                modelMap.put("ErrorMessage",response.getMessage());
                 return "addProduct";
             }
             modelMap.put("statusCode", response.getStatusCode());
@@ -285,7 +281,7 @@ public class AdminController {
 
             return "removeUser";
         }
-        modelMap.put("removeUserErrorMessage","");//initialize as empty
+        modelMap.put("ErrorMessage","");//initialize as empty
         Response response;
         if(fields.getUserType().equals("admin"))
             response = adminService.removeAdmin(fields.getUserID(), fields.getUserEmail());
@@ -294,7 +290,7 @@ public class AdminController {
 
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
-                modelMap.put("removeUserErrorMessage",response.getMessage());
+                modelMap.put("ErrorMessage",response.getMessage());
                 return "removeUser";
             }
             modelMap.put("statusCode", response.getStatusCode());

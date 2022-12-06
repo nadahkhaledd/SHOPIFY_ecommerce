@@ -32,10 +32,10 @@
                   </div>
                 </div>
 
+                <small style="color:red; text-align: center;">${ErrorMessage}</small>
                 <div class="btn-block">
                     <button type="submit" style="background: maroon">Update</button>
                 </div>
-                  <small style="color:red">${updateCategoryErrorMessage}</small>
               </form:form>
             </div>
         <div>

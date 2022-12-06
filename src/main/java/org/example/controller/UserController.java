@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.entity.User;
+import org.example.model.Response;
 import org.example.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ public class UserController {
         int userid = (int) model.getAttribute("userId");
         User user = userService.getUserById(userid).getObjectToBeReturned();
         model.addAttribute("userInfo", user);
+    public String getUserInfo(@RequestParam int userId, Model model) {
+        Response<User> user = userService.getUserById(userId);
+        model.addAttribute("userInfo", user.getObjectToBeReturned());
         return "userProfile";
     }
 }

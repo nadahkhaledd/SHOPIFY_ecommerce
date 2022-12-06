@@ -48,6 +48,7 @@
                     <form:errors path="availableQuantity" cssClass="error"/>
                   </div>
 
+                  <small style="color:red; text-align: center;">${ErrorMessage}</small>
                 <div class="btn-block">
                   <button type="submit" >Submit</button>
                 </div>

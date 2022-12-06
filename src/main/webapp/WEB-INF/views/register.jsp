@@ -45,7 +45,7 @@
             <form:input path="dateOfBirth" id="dateOfBirth" type="date" name="dateOfBirth" placeholder="Date of birth" min="1960-01-01" max="${date}" required="required"/>
             <ul class="nav">
                 <li><a href="#clients">
-                    <form:radiobutton path="gender" value="male" id="male" name="gender"/>
+                    <form:radiobutton path="gender" value="male" id="male" name="gender" required="true"/>
                     <label for="male" class="radio"><span>male</span></label>
                 </a></li>
                 <li><a href="#contact"></a>
@@ -61,6 +61,8 @@
         <div class="overlay">
             <div class="overlay-panel overlay-right">
                 <h1>Hello, Friend!</h1>
+                <h5>already have an account? <a style="color: black" href="/e-commerce/login">Login</a></h5>
+
             </div>
         </div>
     </div>

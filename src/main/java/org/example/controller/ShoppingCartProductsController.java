@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.entity.Address;
 import org.example.entity.ShoppingCartProducts;
+import org.example.entity.User;
 import org.example.model.Response;
 import org.example.service.address.AddressService;
 import org.example.service.order.OrderService;
@@ -42,6 +43,7 @@ public class ShoppingCartProductsController {
                                  Model model, ModelMap modelMap) {
         //modelMap.put("updateQuantityErrorMessage","");//initialize as empty
         Response response = cartServices.updateProductQuantityInCart(id, quantity);
+
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
                 model.addAttribute("updateError", response.getMessage());

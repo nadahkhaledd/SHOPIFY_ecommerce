@@ -27,7 +27,7 @@ public class ProductRepoImpl implements ProductRepo {
                         .setParameter("productId", productId)
                         .getSingleResult();}
           catch (Exception e) {
-                System.out.println("in get products repo impl  e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in get products repo impl  e.getMessage() = " + e.getMessage());
                 return new Response("error occurred while processing your request", 500, true);
             }
 
@@ -45,7 +45,7 @@ public class ProductRepoImpl implements ProductRepo {
                 session.persist(product);//return type of persist is void
                 session.getTransaction().commit();
             } catch (Exception e) {
-                System.out.println("in add product repo impl  e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in add product repo impl  e.getMessage() = " + e.getMessage());
                 return new Response("error occurred while processing your request", 500, true);
 
             }
@@ -66,7 +66,7 @@ public class ProductRepoImpl implements ProductRepo {
                 session.merge(product);
                 session.getTransaction().commit();
             } catch (Exception e) {
-                System.out.println("in update product repo impl e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in update product repo impl e.getMessage() = " + e.getMessage());
                 return new Response("error occurred while processing your request", 500, true);
             }
         }
@@ -85,7 +85,7 @@ public class ProductRepoImpl implements ProductRepo {
                 session.remove(product);//(delete vs remove)If you have the index of the item to be eliminated, del is probably best. But if you have the value that you want to eliminate, .remove() is likely to be best.
                 session.getTransaction().commit();}
              catch (Exception e) {
-                System.out.println("in delete product repo impl e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in delete product repo impl e.getMessage() = " + e.getMessage());
                 return new Response("error occurred while processing your request", 500, true);
             }
 
@@ -107,7 +107,7 @@ public class ProductRepoImpl implements ProductRepo {
                 System.out.println(rowsAffected + " rowsAffected ");
                 session.getTransaction().commit();
             } catch (Exception e) {
-                System.out.println("in update product rate product repo impl e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in update product rate product repo impl e.getMessage() = " + e.toString());
                 return new Response("error occurred while processing your request", 500, true);
             }
 
@@ -130,7 +130,7 @@ public class ProductRepoImpl implements ProductRepo {
                 System.out.println(rowsAffected + " rowsAffected ");
                 session.getTransaction().commit();
             } catch (Exception e) {
-                System.out.println("in update product quantity product repo impl  e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in update product quantity product repo impl  e.getMessage() = " + e.getMessage());
                 return new Response("error occurred while processing your request", 500, true);
             }
 
@@ -148,7 +148,7 @@ public class ProductRepoImpl implements ProductRepo {
             session.beginTransaction();
             products = session.createQuery("from Product").list();}
             catch (Exception e) {
-                System.out.println("in update product rate product repo impl e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in update product rate product repo impl e.getMessage() = " + e.getMessage());
                 return new Response("error occurred while processing your request", 500, true);
             }
         return new Response<List<Product>>("Done",200,false,products) ;
@@ -168,7 +168,7 @@ public class ProductRepoImpl implements ProductRepo {
             products = session.createQuery("select p from Product as p inner join p.category as c where c.id=:categoryId").
                     setParameter("categoryId", categoryId).list();
         } catch (Exception e){
-               System.out.println("in get products by category  product repo impl e.getStackTrace() = " + e.getStackTrace());
+               System.out.println("in get products by category  product repo impl e.getMessage() = " + e.getMessage());
                return new Response("error occurred while processing your request",500,true);
 
         }
@@ -191,7 +191,7 @@ public class ProductRepoImpl implements ProductRepo {
                         .setParameter("productName", productName).list();
             }
             catch (Exception e){
-                System.out.println("in search by product name  product repo impl e.getStackTrace() = " + e.getStackTrace().toString());
+                System.out.println("in search by product name  product repo impl e.getMessage() = " + e.getMessage().toString());
                 return new Response("error occurred while processing your request",500,true);
 
             }
@@ -215,7 +215,7 @@ public class ProductRepoImpl implements ProductRepo {
                     .setParameter("productId", productId).getSingleResult();
         }
             catch (Exception e){
-                System.out.println("in get products by id product repo impl e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in get products by id product repo impl e.getMessage() = " + e.getMessage());
                 return new Response("error occurred while processing your request",500,true);
         }
         return new Response<Product>("Done",200,false,product) ;

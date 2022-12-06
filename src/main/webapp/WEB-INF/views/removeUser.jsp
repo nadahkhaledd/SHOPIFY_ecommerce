@@ -40,13 +40,12 @@
                     <form:input path="userEmail" id="userEmail" type="email" name="userEmail" required="true"/>
                     <form:errors path="userEmail" cssClass="error"/>
                   </div>
-
                 </div>
-
+                <small style="color:red; text-align: center;">${ErrorMessage}</small>
                 <div class="btn-block">
                   <button type="submit" >Submit</button>
                 </div>
-                <small style="color:red; text-align: center;">${removeUserErrorMessage}</small>
+
 
               </form:form>
             </div>
