@@ -47,7 +47,6 @@ public class AuthRepo {
                 for (User user : users) {
                     if (user.getEmail().equals(email) ) {
                         userId = user.getId();
-                        break;
                     }
                 }
                 if (userId == -1)
@@ -63,11 +62,12 @@ public class AuthRepo {
 
                 }
                 customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
+                session.merge(customer);
                 if (customer.getPasswordAttempts() >= 3) {
                     customer.setStatus(CustomerStatus.SUSPENDED);
                     session.merge(customer);
-                    tx.commit();
                 }
+                tx.commit();
             }
         } catch (Exception e) {
             System.out.println("error in check login credentials auth repo " + e.getStackTrace().toString());

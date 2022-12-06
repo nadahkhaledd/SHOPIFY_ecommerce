@@ -89,6 +89,10 @@ public class AuthController {
             model.addAttribute("error","Email or Password is Wrong");
             return "login";
         }*/
+        if(authService.checkIfSuspended(user.getEmail())){
+            // authService.sendVerificationEmail(user.getEmail());
+            return "goToYourMail";
+        }
         Response<User> responseResult = this.authService.login(user.getEmail(), user.getPassword());
         if (responseResult .isErrorOccurred()) {
             if(responseResult.isFieldErrorOccurred()){
