@@ -21,7 +21,7 @@
                                                         padding-top: 20px;
                                                         padding-bottom: 20px;
                                                         margin-top: 50px;">
-                    <h2>Hello ${name}</h2>
+                    <h2>WELCOME ${name}</h2>
                 </div>
 
                 <div class="row">

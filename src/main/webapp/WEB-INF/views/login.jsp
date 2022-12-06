@@ -36,6 +36,7 @@
             <div class="overlay-panel overlay-right">
                 <h1>Welcome Back!</h1>
                 <p>To keep connected with us please login with your personal info</p>
+                <h5><a style="color: black" href="/e-commerce/register">or signup as new customer</a></h5>
             </div>
         </div>
     </div>

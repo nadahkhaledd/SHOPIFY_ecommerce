@@ -73,10 +73,7 @@ public class AdminController {
     public String adminHome(Model model) {
 
         Integer id = (Integer) model.getAttribute("userId");
-
-        if(id==null)
-            return "login";
-        model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned());
+        model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned().toUpperCase());
         return "adminHome";
     }
 
