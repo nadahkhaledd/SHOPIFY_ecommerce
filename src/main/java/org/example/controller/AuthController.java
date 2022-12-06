@@ -80,7 +80,7 @@ public class AuthController {
         }
 
         if(authService.checkIfSuspended(result.getEmail())){
-            //send email
+            authService.sendVerificationEmail(result.getEmail());
             return "goToYourMail";
         }
 

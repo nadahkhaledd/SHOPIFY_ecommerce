@@ -83,10 +83,6 @@ public class AuthRepo {
         try (Session session = factory.openSession()) {
             User customer = session.get(User.class, userId);
             if (customer != null) {
-                System.out.println("**********************");
-                System.out.println("checkIf :"+customer);
-                System.out.println("**********************");
-
                 if (customer.getStatus()==CustomerStatus.ACTIVATED) {
                     return true;
                 }
@@ -111,6 +107,16 @@ public class AuthRepo {
     }
 
 
-
-
+    public boolean checkIfSuspended(String email) {
+        try (Session session = factory.openSession()) {
+            int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).getSingleResult()).getId();
+            User customer = session.get(User.class, userId);
+            if (customer.getStatus()==CustomerStatus.SUSPENDED) {
+                return true;
+            }
+        }catch (Exception e){
+            return false;
+        }
+        return false;
+    }
 }
