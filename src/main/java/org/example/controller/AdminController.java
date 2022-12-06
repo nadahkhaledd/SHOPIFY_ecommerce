@@ -185,13 +185,15 @@ public class AdminController {
     @GetMapping("addProduct")
     public String newProduct(Model model) {
         model.addAttribute("product", new Product());
-        model.addAttribute("categories", categoryService.getCategoriesNames());
+        model.addAttribute("categories", categoryService.getCategoriesNames().getObjectToBeReturned());
         return "addProduct";
     }
 
     @PostMapping("addProduct")
     public String addProduct(@Valid @ModelAttribute("product") Product product,
                              BindingResult bindingResult, ModelMap modelMap) {
+        modelMap.addAttribute("categories", categoryService.getCategoriesNames().getObjectToBeReturned());
+
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
             return "addProduct";
