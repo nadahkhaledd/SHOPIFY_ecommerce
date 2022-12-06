@@ -54,14 +54,13 @@ public class AuthRepo {
                     customer.setPasswordAttempts(0);
                     return customer;
                 }
+                Transaction tx = session.beginTransaction();
                 customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
                 if (customer.getPasswordAttempts() >= 3) {
-                    Transaction tx = session.beginTransaction();
                     customer.setStatus(CustomerStatus.SUSPENDED);
-                    session.merge(customer);
-                    tx.commit();
                 }
-
+                session.merge(customer);
+                tx.commit();
             }
         } catch (Exception ex) {
             return null;
@@ -84,6 +83,10 @@ public class AuthRepo {
         try (Session session = factory.openSession()) {
             User customer = session.get(User.class, userId);
             if (customer != null) {
+                System.out.println("**********************");
+                System.out.println("checkIf :"+customer);
+                System.out.println("**********************");
+
                 if (customer.getStatus()==CustomerStatus.ACTIVATED) {
                     return true;
                 }
