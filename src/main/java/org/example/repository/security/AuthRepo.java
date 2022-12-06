@@ -87,8 +87,9 @@ public class AuthRepo {
         }
     }
 
-    public boolean checkIfUserAlreadyExists(int userId) {
+    public boolean checkIfUserAlreadyExists(String email) {
         try (Session session = factory.openSession()) {
+            int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).getSingleResult()).getId();
             User customer = session.get(User.class, userId);
             if (customer != null) {
                 return true;

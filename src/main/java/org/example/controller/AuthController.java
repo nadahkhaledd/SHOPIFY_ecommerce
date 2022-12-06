@@ -39,7 +39,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user,Model model){
-        if(authService.checkIfUserAlreadyExists(user.getId())){
+        if(authService.checkIfUserAlreadyExists(user.getEmail())){
             model.addAttribute("error","you already have an account please login directly");
             return "redirect:/login";
         }
