@@ -50,16 +50,17 @@ public class AuthRepo {
                     return null;
                 //int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).getSingleResult()).getId();
                 User customer = session.get(User.class, userId);
+                Transaction tx = session.beginTransaction();
                 if (customer.getPassword().equals(password)) {
                     customer.setPasswordAttempts(0);
+                    session.merge(customer);
                     return customer;
                 }
-                Transaction tx = session.beginTransaction();
                 customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
                 if (customer.getPasswordAttempts() >= 3) {
                     customer.setStatus(CustomerStatus.SUSPENDED);
+                    session.merge(customer);
                 }
-                session.merge(customer);
                 tx.commit();
             }
         } catch (Exception ex) {
