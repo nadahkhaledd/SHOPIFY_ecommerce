@@ -288,9 +288,4 @@ public class AdminController {
         return "redirect:/admin/home";
     }
 
-    @GetMapping("login")
-    public String loginAdmin() {
-        return "login";
-    }
-
 }
