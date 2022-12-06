@@ -26,7 +26,7 @@
         <form:form modelAttribute="user" method="POST">
             <h1>Sign in</h1>
             <form:input path="email" id="email" type="email" name="email"/>
-            <form:input path="password" id="password" type="text" name="password"/>
+            <form:input path="password" id="password" type="password" name="password"/>
             <a href="#">Forgot your password?</a>
             <button>Sign In</button>
         </form:form>

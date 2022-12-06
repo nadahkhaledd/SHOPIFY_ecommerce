@@ -83,8 +83,6 @@ public class AuthController {
             //send email
             return "goToYourMail";
         }
-
-
         return "redirect:/home";
     }
 
