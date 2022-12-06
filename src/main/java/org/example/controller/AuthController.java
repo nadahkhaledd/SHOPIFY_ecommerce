@@ -62,7 +62,7 @@ public class AuthController {
     public String login(@ModelAttribute("user")  User user, Model model) {
 
         if(authService.checkIfSuspended(user.getEmail())){
-            authService.sendVerificationEmail(user.getEmail());
+           // authService.sendVerificationEmail(user.getEmail());
             return "goToYourMail";
         }
 
