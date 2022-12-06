@@ -3,6 +3,7 @@ package org.example.repository.security;
 import org.example.entity.Customer;
 import org.example.entity.User;
 import org.example.enums.CustomerStatus;
+import org.example.model.Response;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -30,7 +31,7 @@ public class AuthRepo {
             session.persist(user);
             tx.commit();
         } catch (Exception e) {
-            System.out.println("error in register auth repo " + e.getStackTrace().toString());
+            System.out.println("error in register auth repo " + e.toString());
             return new Response<Boolean>("error occurred while processing your request", 500, true, false, false);
 
         }
@@ -44,8 +45,9 @@ public class AuthRepo {
             List<User> users = session.createQuery("FROM User", User.class).list();
             if (users.size() > 0) {
                 for (User user : users) {
-                    if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                    if (user.getEmail().equals(email) ) {
                         userId = user.getId();
+                        break;
                     }
                 }
                 if (userId == -1)
@@ -58,8 +60,8 @@ public class AuthRepo {
                     session.merge(customer);
                     tx.commit();
                     return new Response<User>("OK", 200, false, false, customer);
+
                 }
-                Transaction tx = session.beginTransaction();
                 customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
                 if (customer.getPasswordAttempts() >= 3) {
                     customer.setStatus(CustomerStatus.SUSPENDED);
@@ -72,7 +74,7 @@ public class AuthRepo {
             return new Response<User>("error occurred while processing your request", 500, true, false, null);
 
         }
-        return new Response<User>("error occurred while processing your request", 500, true, false, null);
+        return new Response<User>("email or password is wrong", 404, true, true, null);
     }
 
     public Response<Boolean> verifyEmail(String email) {
@@ -123,7 +125,6 @@ public class AuthRepo {
         }
     }
 
-}
 
     public boolean checkIfSuspended(String email) {
         System.out.println("************");

@@ -17,8 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class RateController {
     @Autowired
     private RateService rateService;
-    @Autowired
-    ProductService productService;
+
     @PostMapping("/rate")
     public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message, Model model){
        ModelAndView modelAndView=new ModelAndView("redirect:/products/productDetails?productId="+productId);
