@@ -65,28 +65,29 @@ public class AdminController {
     {
         binder.registerCustomEditor(Category.class,
                 new CategoryTypeEditor(categoryService));
-
     }
 
+    public boolean checkSession(Model model){
+
+        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
+        if(isAdmin==null ||  !isAdmin) {
+            return false;
+        }
+        return true;
+    }
 
     @GetMapping("home")
     public String adminHome(Model model) {
-
         Integer id = (Integer) model.getAttribute("userId");
-        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-
-        if(isAdmin==null ||  !isAdmin) {
+        if(!checkSession(model))
             return "redirect:/login";
-        }
         model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned().toUpperCase());
         return "adminHome";
     }
 
     @GetMapping("admins")
     public String getAdmins(Model model) {
-        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-
-        if(isAdmin == null || !isAdmin)
+        if(!checkSession(model))
             return "redirect:/login";
         Response<List<Admin>> admins = adminService.getAllAdmins();
         model.addAttribute("admins", admins.getObjectToBeReturned());
@@ -95,9 +96,7 @@ public class AdminController {
 
     @GetMapping("showCategories")
     public String showCategories(Model model) {
-        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-
-        if(isAdmin == null || !isAdmin)
+        if(!checkSession(model))
             return "redirect:/login";
         Response<List<Category>> categoriesResponse = categoryService.getAllCategories();
         model.addAttribute("categories", categoriesResponse.getObjectToBeReturned());
@@ -106,9 +105,7 @@ public class AdminController {
 
     @GetMapping("addAdmin")
     public String newAdmin(Model model) {
-        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-
-        if(isAdmin == null || !isAdmin)
+        if(!checkSession(model))
             return "redirect:/login";
         List<String> genders = new ArrayList<>(
                 Arrays.asList(Gender.male.toString(), Gender.female.toString()));
@@ -142,9 +139,7 @@ public class AdminController {
 
     @GetMapping("addCategory")
     public String newCategory(Model model) {
-        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-
-        if(isAdmin == null || !isAdmin)
+        if(!checkSession(model))
             return "redirect:/login";
         model.addAttribute("category", new Category());
         return "addCategory";
@@ -187,9 +182,7 @@ public class AdminController {
 
     @GetMapping("updateAdmin/{id}")
     public String updateAdmin(Model model, @PathVariable int id) {
-        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-
-        if(isAdmin == null || !isAdmin)
+        if(!checkSession(model))
             return "redirect:/login";
         Response<User> admin = userService.getUserById(id);
         model.addAttribute("admin", admin.getObjectToBeReturned());
@@ -221,9 +214,7 @@ public class AdminController {
 
     @GetMapping("updateCategory/{id}")
     public String updateCategory(Model model, @PathVariable int id) {
-        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-
-        if(isAdmin == null || !isAdmin)
+        if(!checkSession(model))
             return "redirect:/login";
         Response<Category> categoryResponse = categoryService.getCategoryByID(id);
         model.addAttribute("category", categoryResponse.getObjectToBeReturned());
@@ -255,9 +246,7 @@ public class AdminController {
 
     @GetMapping("addProduct")
     public String newProduct(Model model) {
-        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-
-        if(isAdmin == null || !isAdmin)
+        if(!checkSession(model))
             return "redirect:/login";
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryService.getCategoriesNames().getObjectToBeReturned());
@@ -290,9 +279,7 @@ public class AdminController {
 
     @GetMapping("removeUser")
     public String removeUser(Model model) {
-        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-
-        if(isAdmin == null || !isAdmin)
+        if(!checkSession(model))
             return "redirect:/login";
 
         model.addAttribute("fields", new RemoveUserFields());
