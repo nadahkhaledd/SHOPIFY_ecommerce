@@ -74,9 +74,14 @@ public class AuthRepo {
     }
 
     public boolean checkIfActivated(int userId) {
+        System.out.println("id: "+userId);
         try (Session session = factory.openSession()) {
+            System.out.println("**********************************************8888");
+
             User customer = session.get(User.class, userId);
+            System.out.println("in heree "+customer.toString());
             if (customer != null) {
+                System.out.println("in heree "+customer.toString());
                 if (customer.getStatus().toString().equals("ACTIVATED")) {
                     return true;
                 }

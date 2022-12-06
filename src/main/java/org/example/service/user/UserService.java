@@ -1,7 +1,9 @@
 package org.example.service.user;
 
 import org.example.entity.User;
+import org.example.model.Response;
 
 public interface UserService {
-    User getUserById(int userId);
+    Response<User> getUserById(int userId);
+
 }

@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.entity.Address;
 import org.example.entity.Customer;
 import org.example.entity.User;
+import org.example.model.Response;
 import org.example.service.address.AddressService;
 import org.example.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,9 @@ public class AddressController {
             Map<String, Object> model = bindingResult.getModel();
             return "addAddress";
         }
-        Customer customer = (Customer) userService.getUserById(userId);
-        address.setCustomer(customer);
+        Response customerResponse = userService.getUserById(userId);
+        address.setCustomer((Customer) customerResponse.getObjectToBeReturned());
+        //handle errors of response here
         addressService.addAddress(address);
         return "redirect:/address/view?id="+userId;
     }

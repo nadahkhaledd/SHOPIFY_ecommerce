@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.entity.Address;
 import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
+import org.example.entity.User;
 import org.example.model.Response;
 import org.example.service.OrderService;
 import org.example.service.address.AddressService;
@@ -73,9 +74,11 @@ public class ShoppingCartProductsController {
             modelMap.put("errorMessage",productResponse.getMessage());
             return "error";
         }
-
+        Response<User> userResponse=userService.getUserById(userId);
         cartProduct.setProduct((Product) productResponse.getObjectToBeReturned());
-        cartProduct.setUser(userService.getUserById(userId));
+        cartProduct.setUser(userResponse.getObjectToBeReturned());
+
+        // handle exceptions of user here
         cartServices.addToCart(cartProduct);
         return "redirect:/products/getAllProducts";
     }
