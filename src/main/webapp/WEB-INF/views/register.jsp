@@ -61,6 +61,8 @@
         <div class="overlay">
             <div class="overlay-panel overlay-right">
                 <h1>Hello, Friend!</h1>
+                <h5>already have an account? <a style="color: black" href="/e-commerce/login">Login</a></h5>
+
             </div>
         </div>
     </div>

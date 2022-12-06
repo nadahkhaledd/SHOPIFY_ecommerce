@@ -3,7 +3,6 @@ package org.example.repository.security;
 import org.example.entity.Customer;
 import org.example.entity.User;
 import org.example.enums.CustomerStatus;
-import org.example.model.Response;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,46 +30,49 @@ public class AuthRepo {
             session.persist(user);
             tx.commit();
         } catch (Exception e) {
-            System.out.println("error in register auth repo "+e.getStackTrace().toString());
-            return new Response<Boolean>("error occurred while processing your request",500,true,false,false);
+            System.out.println("error in register auth repo " + e.getStackTrace().toString());
+            return new Response<Boolean>("error occurred while processing your request", 500, true, false, false);
 
         }
-        return new Response<Boolean>("OK",200,false,false,true);
+        return new Response<Boolean>("OK", 200, false, false, true);
 
     }
 
     public Response<User> checkLoginCredential(String email, String password) {
-        int userId=-1;
+        int userId = -1;
         try (Session session = factory.openSession()) {
             List<User> users = session.createQuery("FROM User", User.class).list();
             if (users.size() > 0) {
                 for (User user : users) {
                     if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-                        userId=user.getId();
+                        userId = user.getId();
                     }
                 }
-                if(userId==-1)
-                    return new Response<User>("email or password is wrong",404,true,true,null);
+                if (userId == -1)
+                    return new Response<User>("email or password is wrong", 404, true, true, null);
                 //int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).getSingleResult()).getId();
                 User customer = session.get(User.class, userId);
+                Transaction tx = session.beginTransaction();
                 if (customer.getPassword().equals(password)) {
                     customer.setPasswordAttempts(0);
-                    return new Response<User>("OK",200,false,false,customer);
+                    session.merge(customer);
+                    tx.commit();
+                    return new Response<User>("OK", 200, false, false, customer);
                 }
                 Transaction tx = session.beginTransaction();
                 customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
                 if (customer.getPasswordAttempts() >= 3) {
                     customer.setStatus(CustomerStatus.SUSPENDED);
+                    session.merge(customer);
+                    tx.commit();
                 }
-                session.merge(customer);
-                tx.commit();
             }
         } catch (Exception e) {
-            System.out.println("error in check login credentials auth repo "+e.getStackTrace().toString());
-            return new Response<User>("error occurred while processing your request",500,true,false,null);
+            System.out.println("error in check login credentials auth repo " + e.getStackTrace().toString());
+            return new Response<User>("error occurred while processing your request", 500, true, false, null);
 
         }
-        return new Response<User>("error occurred while processing your request",500,true,false,null);
+        return new Response<User>("error occurred while processing your request", 500, true, false, null);
     }
 
     public Response<Boolean> verifyEmail(String email) {
@@ -81,50 +83,61 @@ public class AuthRepo {
 
             //return true;
         } catch (Exception e) {
-            System.out.println("error in verify email auth repo "+e.getStackTrace().toString());
-            return new Response<Boolean>("error occurred while processing your request",500,true,false,false);
+            System.out.println("error in verify email auth repo " + e.getStackTrace().toString());
+            return new Response<Boolean>("error occurred while processing your request", 500, true, false, false);
         }
-        return new Response<Boolean>("Ok",200,false,false,true);
+        return new Response<Boolean>("Ok", 200, false, false, true);
     }
 
     public Response<Boolean> checkIfActivated(int userId) {
         try (Session session = factory.openSession()) {
             User customer = session.get(User.class, userId);
             if (customer != null) {
-                if (customer.getStatus()==CustomerStatus.ACTIVATED) {
-                    return new Response<>("Ok",200,false,false,true);
-                }
-                else
-                    return new Response<>("customer not activated",200,false,false,false);
+                if (customer.getStatus() == CustomerStatus.ACTIVATED) {
+                    return new Response<>("Ok", 200, false, false, true);
+                } else
+                    return new Response<>("customer not activated", 200, false, false, false);
 
             }
-            return new Response<>("customer not found",404,true,false,false);
-        }catch (Exception e){
-            System.out.println("error in check if activated auth repo "+e.getStackTrace().toString());
-            return new Response<Boolean>("error occurred while processing your request",500,true,false,false);
+            return new Response<>("customer not found", 404, true, false, false);
+        } catch (Exception e) {
+            System.out.println("error in check if activated auth repo " + e.getStackTrace().toString());
+            return new Response<Boolean>("error occurred while processing your request", 500, true, false, false);
 
         }
     }
 
     public Response<Boolean> checkIfUserAlreadyExists(String email) {
-        System.out.println("email "+email);
+        System.out.println("email " + email);
         try (Session session = factory.openSession()) {
-            List<User> user=session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).list();
-             if(user.isEmpty()){
-                 return new Response<>("Ok",200,false,false,false);
-             }
-             else{
-                 return new Response<>("you already have an account please login directly",400,true,true,true);
-             }
+            List<User> user = session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).list();
+            if (user.isEmpty()) {
+                return new Response<>("Ok", 200, false, false, false);
+            } else {
+                return new Response<>("you already have an account please login directly", 400, true, true, true);
+            }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("error occured in check if user already exists " + e.toString());
             return new Response<Boolean>("error occurred while processing your request", 500, true, false, false);
         }
-
     }
 
+}
 
-
-
+    public boolean checkIfSuspended(String email) {
+        System.out.println("************");
+        System.out.println("mail"+ email);
+        System.out.println("************");
+        try (Session session = factory.openSession()) {
+            int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).getSingleResult()).getId();
+            User customer = session.get(User.class, userId);
+            if (customer.getStatus()==CustomerStatus.SUSPENDED) {
+                return true;
+            }
+        }catch (Exception e){
+            return false;
+        }
+        return false;
+    }
 }

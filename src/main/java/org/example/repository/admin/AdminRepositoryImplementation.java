@@ -40,6 +40,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
     public Response addAdmin(User admin) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
+            admin.setStatus(CustomerStatus.ACTIVATED);
             session.persist(admin);
             tx.commit();
         }

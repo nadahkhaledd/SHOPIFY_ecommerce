@@ -69,7 +69,6 @@ public class AuthService {
     }
 
     public boolean checkIfSuspended(String email) {
-        return false;
-
+        return authRepo.checkIfSuspended(email);
     }
 }

@@ -18,10 +18,10 @@
                 <div class="welcome" style="text-align:center;
                                                         float: center;
                                                         margin-bottom: 50px
-                                                        padding-top: 20px;
+                                                        padding-top: 5px;
                                                         padding-bottom: 20px;
-                                                        margin-top: 50px;">
-                    <h2>Hello ${name}</h2>
+                                                        margin-top: 35px;">
+                    <h2>WELCOME <h2 style="font-weight: bolder; ">${name}</h2></h2>
                 </div>
 
                 <div class="row">

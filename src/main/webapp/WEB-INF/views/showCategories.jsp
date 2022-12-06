@@ -48,7 +48,7 @@
 
                                         <th><a href="/e-commerce/admin/deleteCategory/${category.id}" class="btn btn-danger">Delete</a></th>
                                         <th>
-                                        <th><a href="/e-commerce/admin/updateCategory/${category.id}" class="btn btn-danger">Update</a></th>
+                                        <th><a href="/e-commerce/admin/updateCategory/${category.id}" class="btn" style="background: cadetblue; color:white">Update</a></th>
                                     </tr>
                                 </c:forEach>
                            </tbody>
