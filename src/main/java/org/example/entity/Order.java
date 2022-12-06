@@ -15,6 +15,10 @@ public class Order{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JoinColumn(name = "address_id")
+    @ManyToOne
+    private Address address;
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
     private List<OrderDetails> orderDetails;
 
@@ -22,7 +26,6 @@ public class Order{
     @ManyToOne
     private Customer customer;
     @Column(name = "order_date")
-    @NotNull
     private LocalDate date;
     @Column(name = "status", nullable = false)
     private OrderStatus status;
@@ -82,5 +85,13 @@ public class Order{
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

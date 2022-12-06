@@ -1,16 +1,24 @@
 package org.example.controller;
+import org.example.entity.Address;
 import org.example.entity.Customer;
 import org.example.entity.Order;
 import org.example.entity.OrderDetails;
 import org.example.model.Response;
+import org.example.service.address.AddressService;
 import org.example.service.order.OrderService;
 import org.example.service.user.UserService;
+import org.example.typeEditor.AddressEditor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 //Omar Abu ElKeir, Vodafone
 //Omar: create order, get orders, view order details, cancel order, CheckOut, update status.
@@ -21,11 +29,20 @@ import java.util.List;
 public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
+    private final AddressService addressService;
 
     @Autowired
-    public OrderController(OrderService orderService, UserService userService) {
+    public OrderController(OrderService orderService, UserService userService, AddressService addressService) {
         this.orderService = orderService;
         this.userService = userService;
+        this.addressService = addressService;
+    }
+
+    @InitBinder
+    public void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+    {
+        binder.registerCustomEditor(Address.class,
+                new AddressEditor(addressService));
     }
 
     @GetMapping("/details/{id}")
@@ -53,11 +70,13 @@ public class OrderController {
         return "viewOrder";
     }
 
+
     @PostMapping("/placeOrder")
-    public String placeOrder(Model model) {
+    public String placeOrder(@ModelAttribute("newOrder") Order order,
+                              Model model) {
         int userId = (int) model.getAttribute("userId");
         Customer customer = (Customer) userService.getUserById(userId).getObjectToBeReturned();
-        orderService.checkOut(customer);
+        Response response = orderService.checkOut(customer, order);
         return "redirect:/orders/view";
     }
 }

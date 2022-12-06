@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.List;
+
 @Entity
 public class Address {
     @Id
@@ -19,6 +21,9 @@ public class Address {
     @JoinColumn(name = "customer_id")
     @ManyToOne
     private Customer customer;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "address")
+    private List<Order> order;
 
 
     public Address() {
@@ -68,5 +73,13 @@ public class Address {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Order> order) {
+        this.order = order;
     }
 }

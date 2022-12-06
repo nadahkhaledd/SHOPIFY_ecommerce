@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderService{
 //        }
 //    }
 
-    public Response checkOut(Customer customer) {
-        return orderRepository.checkOut(customer);
+    public Response checkOut(Customer customer, Order order) {
+        return orderRepository.checkOut(customer, order);
     }
 }

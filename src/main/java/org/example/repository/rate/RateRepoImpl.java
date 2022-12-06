@@ -21,10 +21,11 @@ public class RateRepoImpl implements RateRepo {
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
             session.persist(rate);//return type of persist is void
+            System.out.println("rate: "+rate.toString());
             session.getTransaction().commit();
         }
         catch (Exception e) {
-            System.out.println("in add rate rate repo impl  e.getStackTrace() = " + e.getStackTrace());
+            System.out.println("in add rate rate repo impl  e.getStackTrace() = " + e.toString());
             return new Response("error occurred while processing your request", 500, true);
 
         }

@@ -24,10 +24,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public String getUserInfo(Model model) {
-        int userid = (int) model.getAttribute("userId");
-        User user = userService.getUserById(userid).getObjectToBeReturned();
-        model.addAttribute("userInfo", user);
-    public String getUserInfo(@RequestParam int userId, Model model) {
+        int userId = (int) model.getAttribute("userId");
         Response<User> user = userService.getUserById(userId);
         model.addAttribute("userInfo", user.getObjectToBeReturned());
         return "userProfile";

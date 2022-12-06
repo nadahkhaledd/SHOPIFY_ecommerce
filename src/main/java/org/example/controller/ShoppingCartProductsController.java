@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.entity.Address;
+import org.example.entity.Order;
 import org.example.entity.ShoppingCartProducts;
 import org.example.entity.User;
 import org.example.model.Response;
@@ -93,6 +94,7 @@ public class ShoppingCartProductsController {
         model.addAttribute("cartProducts", cartProducts);
         model.addAttribute("cartTotal",  cartTotal);
         model.addAttribute("addresses", addresses.getObjectToBeReturned());
+        model.addAttribute("newOrder", new Order());
         return "checkout";
     }
 }

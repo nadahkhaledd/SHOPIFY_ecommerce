@@ -19,5 +19,5 @@ public interface OrderRepository {
     Response checkOrderStatus(int orderId);
     //Response<Boolean> updateStatus(int orderId, OrderStatus status);
     Response<Double> calculateTotal(int orderId);
-    Response checkOut(Customer customer);
+    Response checkOut(Customer customer, Order order);
 }

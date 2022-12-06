@@ -111,11 +111,13 @@ public class OrderRepositoryImpl implements OrderRepository {
 //        }
 //    }
 
-    public Response checkOut(Customer customer) {
-        Order order;
+    public Response checkOut(Customer customer, Order newOrder) {
+        Order order = newOrder;
         try(Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
-            order = new Order(customer, LocalDate.now(), OrderStatus.placed, 0.0);
+            order.setCustomer(customer);
+            order.setDate(LocalDate.now());
+            order.setStatus(OrderStatus.placed);
             Double totalOrderPrice = 0.0;
             for(ShoppingCartProducts cartItems : customer.getShoppingCartProducts()) {
                 OrderDetails od = new OrderDetails(order, cartItems.getProduct().getName(), cartItems.getProduct().getPrice(),cartItems.getProduct().getImagePath());

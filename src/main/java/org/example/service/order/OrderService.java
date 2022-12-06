@@ -16,6 +16,6 @@ public interface OrderService {
     Response checkOrderStatus(int orderId);
    // Response<Boolean> cancelOrder(int orderId);
    // Response<Boolean> updateStatus(int orderId);
-    Response checkOut(Customer customer);
+    Response checkOut(Customer customer, Order order);
 
 }
