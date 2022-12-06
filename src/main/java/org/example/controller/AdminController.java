@@ -3,12 +3,14 @@ package org.example.controller;
 import org.example.entity.Admin;
 import org.example.entity.Category;
 import org.example.entity.Product;
+import org.example.entity.User;
 import org.example.enums.Gender;
 import org.example.model.RemoveUserFields;
 import org.example.model.Response;
 import org.example.service.admin.AdminService;
 import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
+import org.example.service.user.UserService;
 import org.example.typeEditor.CategoryTypeEditor;
 import org.example.utility.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +37,16 @@ import java.util.*;
 public class AdminController {
 
     private final AdminService adminService;
+    private final UserService userService;
     private final CategoryService categoryService;
     private final ProductService productService;
 
     private DateUtils dateUtils = new DateUtils();
 
     @Autowired
-    public AdminController(AdminService adminService, CategoryService categoryService, ProductService productService) {
+    public AdminController(AdminService adminService, UserService userService, CategoryService categoryService, ProductService productService) {
         this.adminService = adminService;
+        this.userService = userService;
         this.categoryService = categoryService;
         this.productService = productService;
     }
@@ -152,6 +156,42 @@ public class AdminController {
         return "redirect:/admin/showCategories";
     }
 
+    @GetMapping("deleteAdmin/{id}")
+    public String deleteAdmin(@PathVariable int id) {
+        adminService.removeAdmin(id);
+        return "redirect:/admin/admins";
+    }
+
+    @GetMapping("updateAdmin/{id}")
+    public String updateAdmin(Model model, @PathVariable int id) {
+        Response<User> admin = userService.getUserById(id);
+        model.addAttribute("admin", admin.getObjectToBeReturned());
+
+        return "updateAdmin";
+    }
+
+    @PostMapping("updateAdmin/{id}")
+    public String updateAdmin(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("admin") User admin,
+                                 BindingResult bindingResult, ModelMap modelMap) {
+        if (bindingResult.hasErrors()) {
+            Map<String, Object> model = bindingResult.getModel();
+            return "updateAdmin";
+        }
+        modelMap.put("updateAdminErrorMessage","");//initialize as empty
+        Response response = adminService.updateAdmin(admin);
+
+        if(response.isErrorOccurred()){
+            if(response.isFieldErrorOccurred()){
+                modelMap.put("updateAdminErrorMessage",response.getMessage());
+                return "updateAdmin";
+            }
+            modelMap.put("statusCode", response.getStatusCode());
+            modelMap.put("errorMessage",response.getMessage());
+            return "error";
+        }
+        return "redirect:/admin/admins";
+    }
+
     @GetMapping("updateCategory/{id}")
     public String updateCategory(Model model, @PathVariable int id) {
         Response<Category> categoryResponse = categoryService.getCategoryByID(id);
@@ -246,11 +286,6 @@ public class AdminController {
         }
 
         return "redirect:/admin/home";
-    }
-
-    @GetMapping("login")
-    public String loginAdmin() {
-        return "login";
     }
 
 }

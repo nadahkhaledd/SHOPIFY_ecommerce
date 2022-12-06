@@ -93,17 +93,16 @@ public class AdminRepositoryImplementation implements AdminRepository{
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             Query query=session.createQuery(
-                    "update User a set a.firstname=:firstname, a.lastname=:lastname," +
-                            " a.email=:email, a.password=:password, a.gender=:gender, a.dateOfBirth=:dateOfBirth," +
-                            " where a.id=:id and a.user_type:=user_type"
+                    "UPDATE User set firstName=:firstName, lastName=:lastName," +
+                            " email=:email, password=:password, gender=:gender, dateOfBirth=:dateOfBirth" +
+                            " WHERE id=:id"
             );
-            query.setParameter("firstname", admin.getFirstName());
-            query.setParameter("lastname", admin.getLastName());
+            query.setParameter("firstName", admin.getFirstName());
+            query.setParameter("lastName", admin.getLastName());
             query.setParameter("email", admin.getEmail());
             query.setParameter("password", admin.getPassword());
             query.setParameter("gender", admin.getGender());
             query.setParameter("dateOfBirth", admin.getDateOfBirth());
-            query.setParameter("user_type", 0);
             query.setParameter("id", admin.getId());
             results = query.executeUpdate();
             tx.commit();
@@ -135,6 +134,29 @@ public class AdminRepositoryImplementation implements AdminRepository{
         }
         catch (Exception e) {
             System.out.println("in AdminRepositoryImplementation.removeAdmin  e.getMessage() = " + e.getMessage());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<Boolean>("Done", 200, false, results==1);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Response<Boolean> removeAdmin(int adminID) {
+        int results;
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            Query query=session.createQuery(
+                    "delete from User a where a.id=:id"
+            );
+            query.setParameter("id", adminID);
+            results = query.executeUpdate();
+            tx.commit();
+        }
+        catch (Exception e) {
+            System.out.println("in AdminRepositoryImplementation.removeAdminID  e.getMessage() = " + e.getMessage());
             return new Response<>("error occurred while processing your request", 500, true);
 
         }
