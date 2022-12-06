@@ -177,19 +177,25 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
     @Override
     public Response<List<Category>> searchByCategoryName(String categoryName) {
         List<Category> categories;
+        categoryName=categoryName.toLowerCase();
         try (Session session = factory.openSession()) {
 
-                session.beginTransaction();
-                categories = session.createQuery("from Category where name like :searchkey or name= :categoryName ", Category.class).
-                        setParameter("searchkey", "% " + categoryName + " %")
-                        .setParameter("categoryName", categoryName)
-                        .list();
-            } catch (Exception e) {
-                System.out.println("in add category category repo impl e.getStackTrace() = " + e.getStackTrace());
-                return new Response("error occurred while processing your request", 500, true);
-            }
+            session.beginTransaction();
+            categories = session.createQuery("from Category where name like :searchkey " +
+                            "or name like :searchkey2" +
+                            " or name like :searchkey3 or name= :categoryName ", Category.class).
+                    setParameter("searchkey", "% " + categoryName + " %")
+                    .setParameter("searchkey2",categoryName+" %")
+                    .setParameter("searchkey3","% "+categoryName)
+                    .setParameter("categoryName", categoryName)
+                    .list();
+        } catch (Exception e) {
+            System.out.println("in add category category repo impl e.getStackTrace() = " + e.getStackTrace());
+            return new Response("error occurred while processing your request", 500, true);
+        }
 
         return new Response("Done", 200, false, categories);
     }
+    //
     //     session.getTransaction().commit();
 }
