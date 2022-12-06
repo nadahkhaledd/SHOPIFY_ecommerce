@@ -19,15 +19,16 @@ public class AuthService {
     @Autowired
     AuthRepo authRepo;
 
-    public User login(final String email, final String password) {
-        final User user = this.authRepo.checkLoginCredential(email, password);
+    public org.example.model.Response<User> login(final String email, final String password) {
+       /* final User user = this.authRepo.checkLoginCredential(email, password);
         if (user != null) {
+            System.out.println("user is correcttt");
             return user;
-        }
-        return null;
+        }*/
+        return this.authRepo.checkLoginCredential(email, password);
     }
 
-    public boolean register(final User user) {
+    public org.example.model.Response<Boolean> register(final User user) {
         return this.authRepo.register(user);
     }
 
@@ -54,16 +55,16 @@ public class AuthService {
         }
     }
 
-    public boolean verifyEmail(final String email) {
+    public org.example.model.Response<Boolean> verifyEmail(final String email) {
         return this.authRepo.verifyEmail(email);
      }
 
 
-    public boolean checkIfActivated(int id) {
+    public org.example.model.Response<Boolean>  checkIfActivated(int id) {
         return authRepo.checkIfActivated(id);
     }
 
-    public boolean checkIfUserAlreadyExists(String email) {
+    public org.example.model.Response<Boolean>  checkIfUserAlreadyExists(String email) {
         return authRepo.checkIfUserAlreadyExists(email);
     }
 

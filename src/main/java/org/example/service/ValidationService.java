@@ -1,9 +1,12 @@
 package org.example.service;
 
 import org.example.model.Response;
+import org.example.service.security.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ValidationService {
-
   public Response validateAdminEmail(String email){//check admin email domain is shopify
       String domain;
       try {
