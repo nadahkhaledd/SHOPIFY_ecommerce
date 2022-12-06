@@ -7,6 +7,7 @@ import org.example.entity.User;
 import org.example.enums.Gender;
 import org.example.model.RemoveUserFields;
 import org.example.model.Response;
+import org.example.repository.user.UserRepository;
 import org.example.service.admin.AdminService;
 import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
@@ -38,15 +39,17 @@ public class AdminController {
 
     private final AdminService adminService;
     private final UserService userService;
+    private final UserRepository userRepository;
     private final CategoryService categoryService;
     private final ProductService productService;
 
     private DateUtils dateUtils = new DateUtils();
 
     @Autowired
-    public AdminController(AdminService adminService, UserService userService, CategoryService categoryService, ProductService productService) {
+    public AdminController(AdminService adminService, UserService userService, UserRepository userRepository, CategoryService categoryService, ProductService productService) {
         this.adminService = adminService;
         this.userService = userService;
+        this.userRepository = userRepository;
         this.categoryService = categoryService;
         this.productService = productService;
     }
@@ -68,8 +71,9 @@ public class AdminController {
 
     @GetMapping("home")
     public String adminHome(Model model) {
-        //model.addAttribute("admin", new Admin());
-        model.addAttribute("name", "Admin");
+        int id = (int) model.getAttribute("userId");
+        System.out.println("id ->>> " + id);
+        model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned());
         return "adminHome";
     }
 
