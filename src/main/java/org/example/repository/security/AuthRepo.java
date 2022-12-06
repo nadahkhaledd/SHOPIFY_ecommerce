@@ -55,7 +55,7 @@ public class AuthRepo {
                 //int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).getSingleResult()).getId();
                 User customer = session.get(User.class, userId);
                 Transaction tx = session.beginTransaction();
-                if (customer.getPassword().equals(password)) {
+                if (EncryptionService.checkPassword(password,customer.getPassword())) {
                         customer.setPasswordAttempts(0);
                         session.merge(customer);
                         tx.commit();
