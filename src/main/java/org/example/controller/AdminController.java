@@ -37,13 +37,11 @@ import java.util.*;
 @SessionAttributes({"userId","error"})
 @RequestMapping("/admin")
 public class AdminController {
-
     private final AdminService adminService;
     private final UserService userService;
     private final UserRepository userRepository;
     private final CategoryService categoryService;
     private final ProductService productService;
-
     private DateUtils dateUtils = new DateUtils();
 
     @Autowired

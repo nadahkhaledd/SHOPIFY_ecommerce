@@ -4,6 +4,7 @@ import org.example.entity.Customer;
 import org.example.entity.User;
 import org.example.enums.CustomerStatus;
 import org.example.model.Response;
+import org.example.service.security.EncryptionService;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -58,9 +59,7 @@ public class AuthRepo {
                     session.merge(customer);
                     tx.commit();
 
-
-                if (customer.getPassword().equals(password)) {
-
+                if (EncryptionService.checkPassword(customer.getPassword(),password)) {
                         customer.setPasswordAttempts(0);
                         session.merge(customer);
                         tx.commit();
