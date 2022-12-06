@@ -22,7 +22,7 @@ public class RateController {
     public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message, Model model){
        ModelAndView modelAndView=new ModelAndView("redirect:/products/productDetails?productId="+productId);
         System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message);
-        UserInputReview userInputReview=new UserInputReview(rate, 1,productId,message);
+        UserInputReview userInputReview=new UserInputReview(rate, 7,productId,message);
         rateService.AssignRateToProduct(userInputReview);
        // Product product=productService.getProductsById(productId);
        // modelAndView.addObject("product",product);
