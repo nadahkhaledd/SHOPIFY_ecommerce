@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.entity.Product;
+import org.example.entity.ShoppingCartProducts;
 import org.example.model.Response;
 import org.example.model.Star;
 import org.example.model.UserInputReview;
@@ -48,6 +49,7 @@ public class ProductController {
         Star star=rateUtils.computeNumberOfStars(productResponse.getObjectToBeReturned().getRate());
         System.out.println(star.toString());
         modelAndView.addObject("stars",star);
+        modelAndView.addObject("newCartItem", new ShoppingCartProducts());
         return modelAndView;
     }
 

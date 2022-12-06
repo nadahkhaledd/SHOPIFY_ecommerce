@@ -3,11 +3,13 @@ package org.example.controller;
 import org.example.entity.Address;
 import org.example.entity.Customer;
 import org.example.entity.User;
+import org.example.model.Response;
 import org.example.service.address.AddressService;
 import org.example.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/address")
+@SessionAttributes("userId")
 public class AddressController {
     private final AddressService addressService;
     private final UserService userService;
@@ -27,53 +30,83 @@ public class AddressController {
         this.userService = userService;
     }
 
-    @GetMapping("/add/{userId}")
+    @GetMapping("/add")
     public String newAddress(Model model) {
         model.addAttribute("address", new Address());
         return "addAddress";
     }
 
-    @PostMapping("/add/{userId}")
+    @PostMapping("/add")
     public String addAddress(@Valid @ModelAttribute("address") Address address, BindingResult bindingResult,
-                             @PathVariable("userId") int userId) {
+                             Model model) {
         if(bindingResult.hasErrors()) {
-            Map<String, Object> model = bindingResult.getModel();
+            Map<String, Object> modelMap = bindingResult.getModel();
             return "addAddress";
         }
+        int userId = (int)model.getAttribute("userId");
         Customer customer = (Customer) userService.getUserById(userId).getObjectToBeReturned();
         address.setCustomer(customer);
-        addressService.addAddress(address);
-        return "redirect:/address/view?id="+userId;
+        Response response = addressService.addAddress(address);
+        if(response.isErrorOccurred()) {
+            if(response.isFieldErrorOccurred()) {
+                model.addAttribute("addAddressErrorMessage", response.getMessage());
+                return "addAddress";
+            }
+            model.addAttribute("statusCode", response.getStatusCode());
+            model.addAttribute("errorMessage", response.getMessage());
+            return "error";
+        }
+        return "redirect:/address/view";
     }
 
-    @GetMapping("/delete/{userId}")
-    public String deleteAddress(@PathVariable("userId") int userId,@RequestParam int id) {
-        addressService.deleteAddress(id);
-        return "redirect:/address/view?id=" + userId;
+    @GetMapping("/delete/{id}")
+    public String deleteAddress(@PathVariable int id, ModelMap modelMap) {
+        Response response = addressService.deleteAddress(id);
+        if(response.isErrorOccurred()) {
+            modelMap.put("statusCode", response.getStatusCode());
+            modelMap.put("errorMessage", response.getMessage());
+            return "error";
+        }
+        return "redirect:/address/view";
     }
 
-    @GetMapping("/update/{userId}")
-    public String newAddress(@RequestParam int id, Model model) {
-        Address address = addressService.getAddress(id);
-        model.addAttribute("updateAddress", address);
+    @GetMapping("/update/{id}")
+    public String newAddress(@PathVariable("id") int id, Model model) {
+        Response<Address> address = addressService.getAddress(id);
+        model.addAttribute("updateAddress", address.getObjectToBeReturned());
         return "updateAddress";
     }
 
-    @PostMapping("/update/{userId}")
+    @PostMapping("/update/{id}")
     public String updateAddress(@Valid @ModelAttribute("updateAddress") Address address, BindingResult bindingResult,
-                             @PathVariable("userId") int userId) {
+                                 ModelMap modelMap) {
         if(bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
             return "updateAddress";
         }
-        addressService.updateAddress(address);
-        return "redirect:/address/view?id="+userId;
+        Response response = addressService.updateAddress(address);
+        if(response.isErrorOccurred()) {
+            if(response.isFieldErrorOccurred()) {
+                modelMap.put("updateAddressErrorMessage", response.getMessage());
+                return "updateAddress";
+            }
+            modelMap.put("statusCode", response.getStatusCode());
+            modelMap.put("errorMessage", response.getMessage());
+            return "error";
+        }
+        return "redirect:/address/view";
     }
 
     @GetMapping("/view")
-    public String getAddresses(@RequestParam int id, Model model) {
-        List<Address> addresses = addressService.getUserAddresses(id);
-        model.addAttribute("addresses", addresses);
+    public String getAddresses(Model model) {
+        int userId = (int) model.getAttribute("userId");
+        Response<List<Address>> addresses = addressService.getUserAddresses(userId);
+        if(addresses.isErrorOccurred()) {
+            model.addAttribute("statusCode", addresses.getStatusCode());
+            model.addAttribute("errorMessage", addresses.getMessage());
+            return"redirect:/user/profile";
+        }
+        model.addAttribute("addresses", addresses.getObjectToBeReturned());
         return "viewAddresses";
     }
 }

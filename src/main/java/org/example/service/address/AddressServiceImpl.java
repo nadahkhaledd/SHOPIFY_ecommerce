@@ -1,6 +1,7 @@
 package org.example.service.address;
 
 import org.example.entity.*;
+import org.example.model.Response;
 import org.example.repository.address.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,26 +19,25 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void addAddress(Address address) {
-        repository.addAddress(address);
+    public Response addAddress(Address address) {
+        return repository.addAddress(address);
     }
 
     @Override
-    public List<Address> getUserAddresses(int userId) {
+    public Response<List<Address>> getUserAddresses(int userId) {
         return repository.getUserAddresses(userId);
     }
 
-    public Address getAddress(int addressId) { return repository.getAddress(addressId); }
+    @Override
+    public Response<Address> getAddress(int addressId) { return repository.getAddress(addressId); }
 
     @Override
-    public boolean updateAddress(Address address) {
-        int affectedRows = repository.updateAddress(address);
-        return affectedRows == 1;
+    public Response<Address> updateAddress(Address address) {
+        return repository.updateAddress(address);
     }
 
     @Override
-    public boolean deleteAddress(int address) {
-        int affectedRows = repository.deleteAddress(address);
-        return affectedRows == 1;
+    public Response<Address> deleteAddress(int addressId) {
+        return repository.deleteAddress(addressId);
     }
 }

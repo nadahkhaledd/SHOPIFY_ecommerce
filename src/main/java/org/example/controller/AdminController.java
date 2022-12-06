@@ -158,14 +158,24 @@ public class AdminController {
     }
 
     @GetMapping("deleteCategory/{id}")
-    public String deleteCategory(@PathVariable int id) {
-        categoryService.removeCategory(id);
+    public String deleteCategory(@PathVariable int id, ModelMap modelMap) {
+        Response response = categoryService.removeCategory(id);
+        if(response.isErrorOccurred()) {
+            modelMap.put("statusCode", response.getStatusCode());
+            modelMap.put("errorMessage", response.getMessage());
+            return "error";
+        }
         return "redirect:/admin/showCategories";
     }
 
     @GetMapping("deleteAdmin/{id}")
-    public String deleteAdmin(@PathVariable int id) {
-        adminService.removeAdmin(id);
+    public String deleteAdmin(@PathVariable int id, ModelMap modelMap) {
+        Response response = adminService.removeAdmin(id);
+        if(response.isErrorOccurred()) {
+            modelMap.put("statusCode", response.getStatusCode());
+            modelMap.put("errorMessage", response.getMessage());
+            return "error";
+        }
         return "redirect:/admin/admins";
     }
 

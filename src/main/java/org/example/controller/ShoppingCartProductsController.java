@@ -20,6 +20,7 @@ import java.util.List;
 /// all controller needs to be updated
 @Controller
 @RequestMapping("/cart")
+@SessionAttributes("userId")
 public class ShoppingCartProductsController {
     private final ShoppingCartProductsService cartServices;
     private final ProductService productService;
@@ -37,15 +38,11 @@ public class ShoppingCartProductsController {
         this.addressService = addressService;
     }
 
-    @GetMapping("/update/{userId}/{id}")
-    public String updateQuantity(@PathVariable("userId") int userId, @PathVariable("id") int id,
-                                 @RequestParam int quantity, Model model, ModelMap modelMap) {
-
-
-
-        modelMap.put("updateQuantityErrorMessage","");//initialize as empty
+    @GetMapping("/update/{id}")
+    public String updateQuantity(@PathVariable("id") int id, @RequestParam int quantity,
+                                 Model model, ModelMap modelMap) {
+        //modelMap.put("updateQuantityErrorMessage","");//initialize as empty
         Response response = cartServices.updateProductQuantityInCart(id, quantity);
-
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
                 model.addAttribute("updateError", response.getMessage());
@@ -54,13 +51,19 @@ public class ShoppingCartProductsController {
             return "error";
         }
 //        model.addAttribute("updateError", response.getMessage());
-        return "redirect:/cart/view?id="+userId;
+        return "redirect:/cart/view";
     }
 
-    @GetMapping("/delete/{userId}/{id}")
-    public String deleteCartItem(@PathVariable("userId") int userId, @PathVariable("id") int id) {
-        cartServices.removeFromCart(id);
-        return "redirect:/cart/view?id="+userId;
+    @GetMapping("/delete/{id}")
+    public String deleteCartItem(@PathVariable("id") int id,
+                                 Model model) {
+        Response response = cartServices.removeFromCart(id);
+        if(response.isErrorOccurred()) {
+            model.addAttribute("statusCode", response.getMessage());
+            model.addAttribute("errorMessage", response.getMessage());
+            return "error";
+        }
+        return "redirect:/cart/view";
     }
 
     /// to be modified and separated to post
@@ -81,24 +84,31 @@ public class ShoppingCartProductsController {
     }
 
     @GetMapping("/view")
-    public String viewCart(Model model, @RequestParam int id) {
-        List<ShoppingCartProducts> cartProducts = cartServices.viewCart(id).getObjectToBeReturned();
-        Double cartTotal = cartServices.calculateTotal(id).getObjectToBeReturned();
-        model.addAttribute("cartProducts", cartProducts);
-        model.addAttribute("cartTotal", cartTotal);
+    public String viewCart(Model model) {
+        int userId = (int) model.getAttribute("userId");
+        Response<List<ShoppingCartProducts>> cartProducts = cartServices.viewCart(userId);
+        if(cartProducts.isErrorOccurred()) {
+            model.addAttribute("statusCode", cartProducts.getStatusCode());
+            model.addAttribute("errorMessage", cartProducts.getMessage());
+            return"redirect:/user/profile";
+        }
+        Response<Double> cartTotal = cartServices.calculateTotal(userId);
+        model.addAttribute("cartProducts", cartProducts.getObjectToBeReturned());
+        model.addAttribute("cartTotal", cartTotal.getObjectToBeReturned());
         return "cart";
     }
 
 
     /// to be modified
-    @GetMapping("/checkout/{userId}")
-    public String checkOut(@PathVariable("userId") int userId, Model model) {
+    @GetMapping("/checkout")
+    public String checkOut(Model model) {
+        int userId = (int) model.getAttribute("userId");
         List<ShoppingCartProducts> cartProducts = cartServices.viewCart(userId).getObjectToBeReturned();
         Double cartTotal = cartServices.calculateTotal(userId).getObjectToBeReturned();
-        List<Address> addresses = addressService.getUserAddresses(userId);
+        Response<List<Address>> addresses = addressService.getUserAddresses(userId);
         model.addAttribute("cartProducts", cartProducts);
         model.addAttribute("cartTotal",  cartTotal);
-        model.addAttribute("addresses", addresses);
+        model.addAttribute("addresses", addresses.getObjectToBeReturned());
         return "checkout";
     }
 }

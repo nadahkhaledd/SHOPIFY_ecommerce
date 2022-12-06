@@ -84,7 +84,7 @@
                     </form>
                 </div>
                 <div class="col-lg-3 col-6 text-right">
-                    <a href="${pageContext.request.contextPath}/cart/view?id=1" class="btn border">
+                    <a href="${pageContext.request.contextPath}/cart/view" class="btn border">
                         <i class="fas fa-shopping-cart text-primary"></i>
                     </a>
                 </div>

@@ -40,21 +40,21 @@
                                             <div class="input-group quantity mx-auto" style="width: 100px;">
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-sm btn-primary btn-minus"
-                                                    onclick="location.href = '${pageContext.request.contextPath}/cart/update/${product.user.id}/${product.id}?quantity=${product.productQuantity-1}'">
+                                                    onclick="location.href = '${pageContext.request.contextPath}/cart/update/${product.id}?quantity=${product.productQuantity-1}'">
                                                     <i class="fa fa-minus"></i>
                                                     </button>
                                                 </div>
                                                 <input type="text" class="form-control form-control-sm bg-secondary text-center" readonly value=${product.productQuantity}>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-sm btn-primary btn-plus"
-                                                    onclick="location.href = '${pageContext.request.contextPath}/cart/update/${product.user.id}/${product.id}?quantity=${product.productQuantity+1}'">
+                                                    onclick="location.href = '${pageContext.request.contextPath}/cart/update/${product.id}?quantity=${product.productQuantity+1}'">
                                                         <i class="fa fa-plus"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="align-middle"><fmt:formatNumber value = "${product.product.price*product.productQuantity}" type = "currency"/></td>
-                                        <td class="align-middle"><button class="btn btn-sm btn-primary" onclick="location.href = '${pageContext.request.contextPath}/cart/delete/${product.user.id}/${product.id}'"><i class="fa fa-times"></i></button></td>
+                                        <td class="align-middle"><button class="btn btn-sm btn-primary" onclick="location.href = '${pageContext.request.contextPath}/cart/delete/${product.id}'"><i class="fa fa-times"></i></button></td>
                                     </tr>
                                 </c:forEach>
                             </c:if>
@@ -62,14 +62,6 @@
                         </table>
                     </div>
                     <div class="col-lg-4">
-                        <form class="mb-5" action="">
-                            <div class="input-group">
-                                <input type="text" class="form-control p-4" placeholder="Coupon Code">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary">Apply Coupon</button>
-                                </div>
-                            </div>
-                        </form>
                         <div class="card border-secondary mb-5">
                             <div class="card-header bg-secondary border-0">
                                 <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
@@ -90,7 +82,7 @@
                                     <h5 class="font-weight-bold"><fmt:formatNumber value = "${cartTotal+10}" type = "currency"/></h5>
                                 </div>
                                 <button class="btn btn-block btn-primary my-3 py-3"
-                                onclick="location.href = '${pageContext.request.contextPath}/cart/checkout/1'">
+                                onclick="location.href = '${pageContext.request.contextPath}/cart/checkout'">
                                 Proceed To Checkout</button>
                             </div>
                         </div>

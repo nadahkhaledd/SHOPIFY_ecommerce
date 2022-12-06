@@ -3,13 +3,14 @@ package org.example.repository.address;
 import org.example.entity.Address;
 import org.example.entity.Customer;
 import org.example.entity.User;
+import org.example.model.Response;
 
 import java.util.List;
 
 public interface AddressRepository {
-    void addAddress(Address address);
-    List<Address> getUserAddresses(int userId);
-    Address getAddress(int addressId);
-    int updateAddress(Address address);
-    int deleteAddress(int addressId);
+    Response addAddress(Address address);
+    Response<List<Address>> getUserAddresses(int userId);
+    Response<Address> getAddress(int addressId);
+    Response<Address> updateAddress(Address address);
+    Response<Address> deleteAddress(int addressId);
 }

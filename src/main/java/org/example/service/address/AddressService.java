@@ -1,16 +1,17 @@
 package org.example.service.address;
 
 import org.example.entity.*;
+import org.example.model.Response;
 
 import java.util.List;
 
 public interface AddressService {
 
-    void addAddress(Address address);
-    List<Address> getUserAddresses(int userId);
-    Address getAddress(int addressId);
-    boolean updateAddress(Address address);
-    boolean deleteAddress(int address);
+    Response addAddress(Address address);
+    Response<List<Address>> getUserAddresses(int userId);
+    Response<Address> getAddress(int addressId);
+    Response<Address> updateAddress(Address address);
+    Response<Address> deleteAddress(int addressId);
 
 
 }
