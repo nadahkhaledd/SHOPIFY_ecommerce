@@ -1,7 +1,6 @@
 package org.example.controller;
 
-import org.example.entity.Address;
-import org.example.entity.ShoppingCartProducts;
+import org.example.entity.*;
 import org.example.service.order.OrderServiceImpl;
 import org.example.service.address.AddressService;
 import org.example.service.product.ProductService;
@@ -10,9 +9,12 @@ import org.example.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/cart")
@@ -48,12 +50,24 @@ public class ShoppingCartProductsController {
     }
 
     @GetMapping("/add/{userId}")
-    public String addToCart(@PathVariable int userId, @RequestParam int productId){
-        ShoppingCartProducts cartProduct = new ShoppingCartProducts();
-        cartProduct.setProductQuantity(1);
-        cartProduct.setProduct(productService.getProduct(productId));
-        cartProduct.setUser(userService.getUserById(userId));
-        cartServices.addToCart(cartProduct);
+    public String createNewCartItem(Model model) {
+        model.addAttribute("cartItem", new ShoppingCartProducts());
+        return "";
+    }
+
+    @PostMapping("/add/{userId}")
+    public String addToCart(@Valid @ModelAttribute("cartItem") ShoppingCartProducts cartProducts, BindingResult bindingResult,
+                            @PathVariable("userId") int userId, @RequestParam int productId) {
+        if(bindingResult.hasErrors()) {
+            Map<String, Object> model = bindingResult.getModel();
+            return "";
+        }
+        Product product = productService.getProductsById(productId);
+        User user = userService.getUserById(userId);
+        cartProducts.setProductQuantity(1);
+        cartProducts.setProduct(product);
+        cartProducts.setUser(user);
+        cartServices.addToCart(cartProducts);
         return "redirect:/products/getAllProducts";
     }
 
