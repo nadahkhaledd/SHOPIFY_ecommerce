@@ -54,14 +54,17 @@ public class AuthRepo {
                 if (customer.getPassword().equals(password)) {
                     customer.setPasswordAttempts(0);
                     session.merge(customer);
+                    tx.commit();
+
                     return customer;
                 }
                 customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
                 if (customer.getPasswordAttempts() >= 3) {
                     customer.setStatus(CustomerStatus.SUSPENDED);
                     session.merge(customer);
+                    tx.commit();
+
                 }
-                tx.commit();
             }
         } catch (Exception ex) {
             return null;
