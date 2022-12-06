@@ -66,6 +66,7 @@ public class AuthController {
             model.addAttribute("error","Email or Password is Wrong");
             return "login";
         }
+
         String regex = "[a-z0-9]+@admin.com";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(result.getEmail());

@@ -65,7 +65,7 @@ public class AuthRepo {
     public boolean verifyEmail(String email) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
-            session.createQuery("update User c set c.status=:status where c.email:=email").setParameter("status", CustomerStatus.ACTIVATED).setParameter("email", email).executeUpdate();
+            session.createQuery("update User c set c.status=:status where c.email=:email").setParameter("status", CustomerStatus.ACTIVATED).setParameter("email", email).executeUpdate();
             tx.commit();
             return true;
         } catch (Throwable t) {
