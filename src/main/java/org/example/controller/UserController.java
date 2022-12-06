@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @RequestMapping("/user")
+@SessionAttributes("userId")
 public class UserController {
     private final UserService userService;
 
@@ -20,8 +22,9 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String getUserInfo(@RequestParam int userId, Model model) {
-        User user = userService.getUserById(userId).getObjectToBeReturned();
+    public String getUserInfo(Model model) {
+        int userid = (int) model.getAttribute("userId");
+        User user = userService.getUserById(userid).getObjectToBeReturned();
         model.addAttribute("userInfo", user);
         return "userProfile";
     }

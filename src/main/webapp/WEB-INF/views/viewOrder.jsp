@@ -101,50 +101,32 @@
                                                                      margin-bottom: 20px;
                                                                      padding: 20px 0 20px 50px;">
                                     <div class="profile-card-body" style="text-align: center;">
-                                        <h2 style="color: #333;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 24px;
-    margin-bottom: 10px;">  Hello ${userInfo.firstName} ${userInfo.lastName}  </h2>
-
-
-                                        <button type="button" class="address-button"
-                                            onclick="location.href = '${pageContext.request.contextPath}/address/view?id=1'"
-                                            style="outline:0;border:0;background-color: #fff;">
-                                        <i class="fa fa-address-book fa-xs"></br>Addresses</i>
-                                        </button>
-                                        <button type="button" class="orders-button"
-                                            onclick="location.href='${pageContext.request.contextPath}/orders/view?id=1'"
-                                            style="outline:0;border:0;background-color: #fff;">
-                                        <i class="fa fa-truck fa-xs"></br>Orders</i>
-                                        </button>
-                                        <button type="button" class="edit-button"
-                                            onclick="location.href='${pageContext.request.contextPath}/user/edit?id=1'"
-                                            style="outline:0;border:0;background-color: #fff;">
-                                        <i class="fa fa-pen fa-xs"></br>Edit</i>
-                                        </button>
                                         <div class="profile-card-body-table">
                                         <table>
                                             <tbody>
+                                            <c:if test="${!empty orders}">
+                                                <c:forEach var="order" items="${orders}">
                                                 <tr>
-                                                    <td>Name</td>
+                                                    <td>Order date</td>
                                                     <td>:</td>
-                                                    <td>${userInfo.firstName} ${userInfo.lastName}</td>
+                                                    <td>${order.date}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Email</td>
+                                                    <td>Status</td>
                                                     <td>:</td>
-                                                    <td>${userInfo.email}</td>
+                                                    <td>${order.status}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Gender</td>
+                                                    <td>Price</td>
                                                     <td>:</td>
-                                                    <td>${userInfo.gender}</td>
+                                                    <td>${order.total}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Date of birth</td>
-                                                    <td>:</td>
-                                                    <td>${userInfo.dateOfBirth}</td>
+                                                    <td><a role="button" type="button" class="btn btn-dark" href="/e-commerce/orders/details/${order.id}">View details</a></td>
                                                 </tr>
+
+                                            </c:forEach>
+                                            </c:if>
                                             </tbody>
                                         </table>
                                         </div>

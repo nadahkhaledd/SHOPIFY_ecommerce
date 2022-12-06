@@ -101,50 +101,24 @@
                                                                      margin-bottom: 20px;
                                                                      padding: 20px 0 20px 50px;">
                                     <div class="profile-card-body" style="text-align: center;">
-                                        <h2 style="color: #333;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 24px;
-    margin-bottom: 10px;">  Hello ${userInfo.firstName} ${userInfo.lastName}  </h2>
-
-
-                                        <button type="button" class="address-button"
-                                            onclick="location.href = '${pageContext.request.contextPath}/address/view?id=1'"
-                                            style="outline:0;border:0;background-color: #fff;">
-                                        <i class="fa fa-address-book fa-xs"></br>Addresses</i>
-                                        </button>
-                                        <button type="button" class="orders-button"
-                                            onclick="location.href='${pageContext.request.contextPath}/orders/view?id=1'"
-                                            style="outline:0;border:0;background-color: #fff;">
-                                        <i class="fa fa-truck fa-xs"></br>Orders</i>
-                                        </button>
-                                        <button type="button" class="edit-button"
-                                            onclick="location.href='${pageContext.request.contextPath}/user/edit?id=1'"
-                                            style="outline:0;border:0;background-color: #fff;">
-                                        <i class="fa fa-pen fa-xs"></br>Edit</i>
-                                        </button>
                                         <div class="profile-card-body-table">
                                         <table>
                                             <tbody>
+                                                <c:if test="${!empty orderDetails}">
+                                                    <c:forEach var="orderDetail" items="${orderDetails}">
                                                 <tr>
-                                                    <td>Name</td>
+                                                    <td>Product</td>
                                                     <td>:</td>
-                                                    <td>${userInfo.firstName} ${userInfo.lastName}</td>
+                                                    <td>${orderDetail.productName}  <img src="${orderDetail.productImage}" alt="" style="width: 50px;"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Email</td>
+                                                    <td>Product price</td>
                                                     <td>:</td>
-                                                    <td>${userInfo.email}</td>
+                                                    <td>${orderDetail.productPrice}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Gender</td>
-                                                    <td>:</td>
-                                                    <td>${userInfo.gender}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Date of birth</td>
-                                                    <td>:</td>
-                                                    <td>${userInfo.dateOfBirth}</td>
-                                                </tr>
+                                            </c:forEach>
+                                            </c:if>
+                                            <p>Subtotal </br> ${orderDetails[0].order.total}</p>
                                             </tbody>
                                         </table>
                                         </div>

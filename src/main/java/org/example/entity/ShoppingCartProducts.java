@@ -27,7 +27,6 @@ public class ShoppingCartProducts {
 
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     public int getId() {

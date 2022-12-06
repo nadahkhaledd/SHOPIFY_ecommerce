@@ -104,7 +104,7 @@ public class AddressController {
         if(addresses.isErrorOccurred()) {
             model.addAttribute("statusCode", addresses.getStatusCode());
             model.addAttribute("errorMessage", addresses.getMessage());
-            return"redirect:/user/profile";
+            return"error";
         }
         model.addAttribute("addresses", addresses.getObjectToBeReturned());
         return "viewAddresses";

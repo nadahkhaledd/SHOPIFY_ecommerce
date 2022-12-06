@@ -1,11 +1,10 @@
 package org.example.controller;
 
 import org.example.entity.Address;
-import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;
 import org.example.model.Response;
-import org.example.service.OrderService;
 import org.example.service.address.AddressService;
+import org.example.service.order.OrderService;
 import org.example.service.product.ProductService;
 import org.example.service.shoppingcartproducts.ShoppingCartProductsService;
 import org.example.service.user.UserService;
@@ -64,23 +63,6 @@ public class ShoppingCartProductsController {
             return "error";
         }
         return "redirect:/cart/view";
-    }
-
-    /// to be modified and separated to post
-    @GetMapping("/add/{userId}")
-    public String addToCart(@PathVariable int userId, @RequestParam int productId, ModelMap modelMap){
-        ShoppingCartProducts cartProduct = new ShoppingCartProducts();
-        cartProduct.setProductQuantity(1);
-        Response productResponse=productService.getProduct(productId);
-        if(productResponse.isErrorOccurred()){
-            modelMap.put("errorMessage",productResponse.getMessage());
-            return "error";
-        }
-
-        cartProduct.setProduct((Product) productResponse.getObjectToBeReturned());
-        cartProduct.setUser(userService.getUserById(userId).getObjectToBeReturned());
-        cartServices.addToCart(cartProduct);
-        return "redirect:/products/getAllProducts";
     }
 
     @GetMapping("/view")
