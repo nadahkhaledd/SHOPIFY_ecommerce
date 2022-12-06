@@ -34,7 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@SessionAttributes({"userId","error"})
+@SessionAttributes({"userId","error", "isAdmin"})
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminService adminService;
@@ -73,16 +73,20 @@ public class AdminController {
     public String adminHome(Model model) {
 
         Integer id = (Integer) model.getAttribute("userId");
-        if(id == null)
+        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
+
+        if(isAdmin==null ||  !isAdmin) {
             return "redirect:/login";
+        }
         model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned().toUpperCase());
         return "adminHome";
     }
 
     @GetMapping("admins")
     public String getAdmins(Model model) {
-        Integer id = (Integer) model.getAttribute("userId");
-        if(id == null)
+        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
+
+        if(isAdmin == null || !isAdmin)
             return "redirect:/login";
         Response<List<Admin>> admins = adminService.getAllAdmins();
         model.addAttribute("admins", admins.getObjectToBeReturned());
@@ -91,8 +95,9 @@ public class AdminController {
 
     @GetMapping("showCategories")
     public String showCategories(Model model) {
-        Integer id = (Integer) model.getAttribute("userId");
-        if(id == null)
+        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
+
+        if(isAdmin == null || !isAdmin)
             return "redirect:/login";
         Response<List<Category>> categoriesResponse = categoryService.getAllCategories();
         model.addAttribute("categories", categoriesResponse.getObjectToBeReturned());
@@ -101,8 +106,9 @@ public class AdminController {
 
     @GetMapping("addAdmin")
     public String newAdmin(Model model) {
-        Integer id = (Integer) model.getAttribute("userId");
-        if(id == null)
+        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
+
+        if(isAdmin == null || !isAdmin)
             return "redirect:/login";
         List<String> genders = new ArrayList<>(
                 Arrays.asList(Gender.male.toString(), Gender.female.toString()));
@@ -120,7 +126,6 @@ public class AdminController {
         }
         modelMap.put("ErrorMessage","");//initialize as empty
         Response response= adminService.addAdmin(admin);
-        //System.out.println("responseeeee "+response.toString());
 
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
@@ -137,8 +142,9 @@ public class AdminController {
 
     @GetMapping("addCategory")
     public String newCategory(Model model) {
-        Integer id = (Integer) model.getAttribute("userId");
-        if(id == null)
+        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
+
+        if(isAdmin == null || !isAdmin)
             return "redirect:/login";
         model.addAttribute("category", new Category());
         return "addCategory";
@@ -181,8 +187,9 @@ public class AdminController {
 
     @GetMapping("updateAdmin/{id}")
     public String updateAdmin(Model model, @PathVariable int id) {
-        Integer uid = (Integer) model.getAttribute("userId");
-        if(uid == null)
+        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
+
+        if(isAdmin == null || !isAdmin)
             return "redirect:/login";
         Response<User> admin = userService.getUserById(id);
         model.addAttribute("admin", admin.getObjectToBeReturned());
@@ -214,8 +221,9 @@ public class AdminController {
 
     @GetMapping("updateCategory/{id}")
     public String updateCategory(Model model, @PathVariable int id) {
-        Integer uid = (Integer) model.getAttribute("userId");
-        if(uid == null)
+        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
+
+        if(isAdmin == null || !isAdmin)
             return "redirect:/login";
         Response<Category> categoryResponse = categoryService.getCategoryByID(id);
         model.addAttribute("category", categoryResponse.getObjectToBeReturned());
@@ -247,8 +255,9 @@ public class AdminController {
 
     @GetMapping("addProduct")
     public String newProduct(Model model) {
-        Integer id = (Integer) model.getAttribute("userId");
-        if(id == null)
+        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
+
+        if(isAdmin == null || !isAdmin)
             return "redirect:/login";
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryService.getCategoriesNames().getObjectToBeReturned());
@@ -281,8 +290,9 @@ public class AdminController {
 
     @GetMapping("removeUser")
     public String removeUser(Model model) {
-        Integer id = (Integer) model.getAttribute("userId");
-        if(id == null)
+        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
+
+        if(isAdmin == null || !isAdmin)
             return "redirect:/login";
 
         model.addAttribute("fields", new RemoveUserFields());
