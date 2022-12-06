@@ -36,13 +36,13 @@ public class AdminServiceImplementation implements AdminService{
     public Response addAdmin(Admin admin) {
         Response response=validationService.validateAdminEmail(admin.getEmail());
         //update admin email response to be of type response
-        boolean adminEmailResponse=authService.checkIfUserAlreadyExists(admin.getEmail());
-        if (response.isErrorOccurred() || adminEmailResponse){
+      //  boolean adminEmailResponse=authService.checkIfUserAlreadyExists(admin.getEmail());
+        if (response.isErrorOccurred() ){
             response.setFieldErrorOccurred(true);
-            if(adminEmailResponse) {
+           /* if(adminEmailResponse) {
                 response.setMessage("email already exists ");
                 response.setStatusCode(400);
-            }
+            }*/
             return response;
         }
       else{

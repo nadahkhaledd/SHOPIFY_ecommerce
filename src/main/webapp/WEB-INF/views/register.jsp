@@ -45,7 +45,7 @@
             <form:input path="dateOfBirth" id="dateOfBirth" type="date" name="dateOfBirth" placeholder="Date of birth" min="1960-01-01" max="${date}" required="required"/>
             <ul class="nav">
                 <li><a href="#clients">
-                    <form:radiobutton path="gender" value="male" id="male" name="gender"/>
+                    <form:radiobutton path="gender" value="male" id="male" name="gender" required="true"/>
                     <label for="male" class="radio"><span>male</span></label>
                 </a></li>
                 <li><a href="#contact"></a>

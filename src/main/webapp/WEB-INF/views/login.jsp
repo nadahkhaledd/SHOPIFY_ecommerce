@@ -25,8 +25,9 @@
     <div class="form-container sign-in-container">
         <form:form modelAttribute="user" method="POST">
             <h1>Sign in</h1>
-            <form:input path="email" id="email" type="email" name="email"/>
-            <form:input path="password" id="password" type="text" name="password"/>
+            <form:input path="email" id="email" type="email" name="email" required="true"/>
+            <form:input path="password" id="password" type="text" name="password" required="true"/>
+            <small style="color:red">${error}</small>
             <a href="#">Forgot your password?</a>
             <button>Sign In</button>
         </form:form>
