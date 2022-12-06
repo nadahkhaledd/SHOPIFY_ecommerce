@@ -36,7 +36,7 @@ public class AuthRepo {
         return true;
     }
 
-    public User checkLoginCredential(String email, String password) {
+ /*   public User checkLoginCredential(String email, String password) {
         try (Session session = factory.openSession()) {
             List<User> users = session.createQuery("FROM User", User.class).list();
             if (users.size() > 0) {
@@ -61,7 +61,39 @@ public class AuthRepo {
         }
         return null;
     }
+*/
+ public User checkLoginCredential(String email, String password) {
+     int userId=0;
+     try (Session session = factory.openSession()) {
+         List<User> users = session.createQuery("FROM User", User.class).list();
+         if (users.size() > 0) {
+             for (User user : users) {
+                 if (user.getEmail().equals(email)) {
+                     userId=user.getId();
+                 }
+             }
+             if(userId==0)
+                 return null;
+             //int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).getSingleResult()).getId();
+             User customer = session.get(User.class, userId);
+             if (customer.getPassword().equals(password)) {
+                 customer.setPasswordAttempts(0);
+                 return customer;
+             }
+             customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
+             if (customer.getPasswordAttempts() >= 3) {
+                 Transaction tx = session.beginTransaction();
+                 customer.setStatus(CustomerStatus.SUSPENDED);
+                 session.merge(customer);
+                 tx.commit();
+             }
 
+         }
+     } catch (Exception ex) {
+         return null;
+     }
+     return null;
+ }
     public boolean verifyEmail(String email) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
@@ -74,14 +106,9 @@ public class AuthRepo {
     }
 
     public boolean checkIfActivated(int userId) {
-        System.out.println("id: "+userId);
         try (Session session = factory.openSession()) {
-            System.out.println("**********************************************8888");
-
             User customer = session.get(User.class, userId);
-            System.out.println("in heree "+customer.toString());
             if (customer != null) {
-                System.out.println("in heree "+customer.toString());
                 if (customer.getStatus().toString().equals("ACTIVATED")) {
                     return true;
                 }
