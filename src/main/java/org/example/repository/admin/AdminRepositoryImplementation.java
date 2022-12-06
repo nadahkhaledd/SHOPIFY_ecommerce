@@ -152,7 +152,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
             Transaction tx = session.beginTransaction();
             Query query=session.createQuery(
                     "update User c set c.status=:status" +
-                            " where c.id=:id and c.email:=email"
+                            " where c.id=:id and c.email=:email"
             );
             query.setParameter("status", CustomerStatus.DEACTIVATED);
             query.setParameter("id", customerID);

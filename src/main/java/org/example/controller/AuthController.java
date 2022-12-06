@@ -67,7 +67,7 @@ public class AuthController {
             return "login";
         }
 
-        String regex = "[a-z0-9]+@admin.com";
+        String regex = "[a-z0-9]+@shopify.com";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(result.getEmail());
         if(matcher.matches()){
