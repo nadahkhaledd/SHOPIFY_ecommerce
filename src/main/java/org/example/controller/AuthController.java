@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
 public class AuthController {
     @Autowired
     AuthService authService;
-
     private DateUtils dateUtils = new DateUtils();
 
     @InitBinder

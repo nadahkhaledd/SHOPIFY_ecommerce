@@ -26,6 +26,8 @@ public class AuthService {
     }
 
     public org.example.model.Response<Boolean> register(final User user) {
+        String encryptedPassword=EncryptionService.hashPassword(user.getPassword());
+        user.setPassword(encryptedPassword);
         return this.authRepo.register(user);
     }
 
