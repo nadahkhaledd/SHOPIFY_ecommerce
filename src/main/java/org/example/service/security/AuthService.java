@@ -62,4 +62,8 @@ public class AuthService {
     public boolean checkIfActivated(int id) {
         return authRepo.checkIfActivated(id);
     }
+
+    public boolean checkIfUserAlreadyExists(int id) {
+        return authRepo.checkIfUserAlreadyExists(id);
+    }
 }

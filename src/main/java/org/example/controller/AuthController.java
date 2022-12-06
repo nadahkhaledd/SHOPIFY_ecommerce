@@ -2,6 +2,7 @@ package org.example.controller;
 import org.example.entity.Customer;
 import org.example.entity.User;
 import org.example.service.security.AuthService;
+import org.example.utility.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,6 +21,8 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
+    private DateUtils dateUtils = new DateUtils();
+
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -29,6 +32,7 @@ public class AuthController {
 
     @GetMapping("register")
     public String register(Model model) {
+        model.addAttribute("date", dateUtils.dateYearsAgo(18));
         model.addAttribute("user", new Customer());
         return "register";
     }
@@ -40,13 +44,17 @@ public class AuthController {
 //            return "alreadyRegistered";
 //        }else {
 
-
     @PostMapping("/register")
-    public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user){
+    public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user,Model model){
         if(authService.register(user)){
+            if(authService.checkIfUserAlreadyExists(user.getId())){
+                model.addAttribute("error","you already have an account please login directly");
+                return "redirect:/login";
+            }
             authService.sendVerificationEmail(user.getEmail());
             return "goToYourMail";
         }
+
         return "register";
     }
 
@@ -87,7 +95,5 @@ public class AuthController {
         model.addAttribute("userId", null);
         return  "redirect:/login";
     }
-
-
 
 }

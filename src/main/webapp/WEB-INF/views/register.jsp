@@ -10,7 +10,21 @@
     <title>Register</title>
 
     <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet">
+
 </head>
+<style>
+.nav {
+          list-style-type: none;
+          text-align: center;
+          margin: 0;
+          padding: 0;
+        }
+        .nav li {
+          display: inline-block;
+          font-size: 20px;
+          padding: 20px;
+        }
+</style>
 <body>
 <!-- partial:index.partial.html -->
 <h2>SHOPIFY</h2>
@@ -24,11 +38,11 @@
     <div class="form-container sign-in-container">
         <form:form modelAttribute="user" method="POST">
             <h1>Sign Up</h1>
-            <form:input path="firstName" id="firstName" type="text" name="firstName" placeholder="First Name"/>
-            <form:input path="lastName" id="lastName" type="text" name="lastName" placeholder="Last Name"/>
-            <form:input path="email" id="email" type="email" name="email" placeholder="Email"/>
-            <form:input path="password" id="password" type="text" name="password" placeholder="Password"/>
-            <form:input path="dateOfBirth" id="dateOfBirth" type="date" name="dateOfBirth" placeholder="Date of birth"/>
+            <form:input path="firstName" id="firstName" type="text" name="firstName" placeholder="First Name" required="required" />
+            <form:input path="lastName" id="lastName" type="text" name="lastName" placeholder="Last Name" required="required"/>
+            <form:input path="email" id="email" type="email" name="email" placeholder="Email" required="required"/>
+            <form:input path="password" id="password" type="text" name="password" placeholder="Password" required="required"/>
+            <form:input path="dateOfBirth" id="dateOfBirth" type="date" name="dateOfBirth" placeholder="Date of birth" min="1960-01-01" max="${date}" required="required"/>
             <ul class="nav">
                 <li><a href="#clients">
                     <form:radiobutton path="gender" value="male" id="male" name="gender"/>

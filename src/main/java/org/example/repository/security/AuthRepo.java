@@ -89,4 +89,20 @@ public class AuthRepo {
             return false;
         }
     }
+
+    public boolean checkIfUserAlreadyExists(int userId) {
+        try (Session session = factory.openSession()) {
+            User customer = session.get(User.class, userId);
+            if (customer != null) {
+                return true;
+            }
+        }catch (Exception e){
+            return false;
+        }
+        return false;
+    }
+
+
+
+
 }
