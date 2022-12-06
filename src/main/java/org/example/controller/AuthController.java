@@ -62,6 +62,12 @@ public class AuthController {
     public String login(@ModelAttribute("user")  User user, Model model) {
 
         User result = this.authService.login(user.getEmail(), user.getPassword());
+
+        if(authService.checkIfSuspended(result.getEmail())){
+            authService.sendVerificationEmail(result.getEmail());
+            return "goToYourMail";
+        }
+
         if (result==null) {
             model.addAttribute("error","Email or Password is Wrong");
             return "login";
@@ -79,10 +85,6 @@ public class AuthController {
             return "goToYourMail";
         }
 
-        if(authService.checkIfSuspended(result.getEmail())){
-            authService.sendVerificationEmail(result.getEmail());
-            return "goToYourMail";
-        }
 
 
         return "redirect:/home";
