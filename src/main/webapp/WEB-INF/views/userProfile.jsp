@@ -94,9 +94,34 @@
                                                       margin-bottom: 20px;
                                                       padding: 20px 50px 20px 50px;">
                         <div class="profile-main">
-                                <div class="profile-card">
-                                    <div class="profile-card-body">
-                                        <h2>Hello ${userInfo.firstName} ${userInfo.lastName}</h2>
+                                <div class="profile-card" style="    background-color: #fff;
+                                                                     border-radius: 18px;
+                                                                     box-shadow: 1px 1px 8px 0 grey;
+                                                                     height: auto;
+                                                                     margin-bottom: 20px;
+                                                                     padding: 20px 0 20px 50px;">
+                                    <div class="profile-card-body" style="text-align: center;">
+                                        <h2 style="color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 24px;
+    margin-bottom: 10px;">  Hello ${userInfo.firstName} ${userInfo.lastName}  </h2>
+
+
+                                        <button type="button" class="address-button"
+                                            onclick="location.href = '${pageContext.request.contextPath}/address/view?id=1'"
+                                            style="outline:0;border:0;background-color: #fff;">
+                                        <i class="fa fa-address-book fa-xs"></br>Addresses</i>
+                                        </button>
+                                        <button type="button" class="orders-button"
+                                            onclick="location.href='${pageContext.request.contextPath}/orders/view?id=1'"
+                                            style="outline:0;border:0;background-color: #fff;">
+                                        <i class="fa fa-truck fa-xs"></br>Orders</i>
+                                        </button>
+                                        <button type="button" class="edit-button"
+                                            onclick="location.href='${pageContext.request.contextPath}/user/edit?id=1'"
+                                            style="outline:0;border:0;background-color: #fff;">
+                                        <i class="fa fa-pen fa-xs"></br>Edit</i>
+                                        </button>
                                         <div class="profile-card-body-table">
                                         <table>
                                             <tbody>
@@ -119,22 +144,6 @@
                                                     <td>Date of birth</td>
                                                     <td>:</td>
                                                     <td>${userInfo.dateOfBirth}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                    <button type="button" class="address-button"
-                                                        onclick="location.href = '${pageContext.request.contextPath}/address/view?id=1'">
-                                                        View addresses
-                                                    </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                    <button type="button" class="orders-button"
-                                                        onclick="location.href='${pageContext.request.contextPath}/orders/view?id=1'">
-                                                        View orders
-                                                    </button>
-                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>

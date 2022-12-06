@@ -96,27 +96,25 @@
 
                         <h3 class="font-weight-semi-bold mb-4">$${product.price}</h3>
 
-
                         <div class="d-flex align-items-center mb-4 pt-2">
                             <div class="input-group quantity mr-3" style="width: 130px;">
                                 <div class="input-group-btn">
                                     <button class="btn btn-primary btn-minus">
                                         <i class="fa fa-minus"></i>
                                     </button>
-                                </div>
-                                <input type="text" class="form-control bg-secondary text-center" value="1">
-                                <div class="input-group-btn">
+                                </div><div class="input-group-btn">
                                     <button class="btn btn-primary btn-plus">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
-                           <form:form  modelAttributes="cartItem" method="post">
-                                <button class="btn btn-primary px-3"
+                                <form:form modelAttribute="cartItem" method="post">
+                                <form:input path="productQuantity" id="productQuantity" type="text" class="form-control bg-secondary text-center" value="1" />
+                                <form:button class="btn btn-primary px-3"
                                         type="submit">
                                     <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
-                                </button>
-                           </form:form>
+                                </form:button>
+                                </form:form>
                         </div>
                         <div class="d-flex pt-2">
                             <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>

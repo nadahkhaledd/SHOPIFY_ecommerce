@@ -48,29 +48,6 @@ public class ShoppingCartProductsController {
         cartServices.removeFromCart(id);
         return "redirect:/cart/view?id="+userId;
     }
-
-    @GetMapping("/add/{userId}")
-    public String createNewCartItem(Model model) {
-        model.addAttribute("cartItem", new ShoppingCartProducts());
-        return "";
-    }
-
-    @PostMapping("/add/{userId}")
-    public String addToCart(@Valid @ModelAttribute("cartItem") ShoppingCartProducts cartProducts, BindingResult bindingResult,
-                            @PathVariable("userId") int userId, @RequestParam int productId) {
-        if(bindingResult.hasErrors()) {
-            Map<String, Object> model = bindingResult.getModel();
-            return "";
-        }
-        Product product = productService.getProductsById(productId);
-        User user = userService.getUserById(userId);
-        cartProducts.setProductQuantity(1);
-        cartProducts.setProduct(product);
-        cartProducts.setUser(user);
-        cartServices.addToCart(cartProducts);
-        return "redirect:/products/getAllProducts";
-    }
-
     @GetMapping("/view")
     public String viewCart(Model model, @RequestParam int id) {
         List<ShoppingCartProducts> cartProducts = cartServices.viewCart(id);
