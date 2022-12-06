@@ -171,7 +171,7 @@ public class AdminController {
     }
 
     @PostMapping("updateAdmin/{id}")
-    public String updateAdmin(@Valid @ModelAttribute("admin") User admin,
+    public String updateAdmin(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("admin") User admin,
                                  BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();

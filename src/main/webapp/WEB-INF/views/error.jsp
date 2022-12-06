@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
     <meta charset="UTF-8">
-    <title>CodePen - 404</title>
+    <title>Error</title>
     <style>
            body {
             display: flex;

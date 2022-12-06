@@ -37,15 +37,20 @@
                         <thead>
                         <tr>
                             <th/>
-                            <th> id</th>
-                            <th>email</th>
+                            <th> ID</th>
+                            <th>First  name</th>
+                            <th>Last  name</th>
+                            <th>Email</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${admins}" var="admin">
                             <tr>
+
                                 <td/>
                                 <td>${admin.id}</td>
+                                <td>${admin.firstName}</td>
+                                <td>${admin.lastName}</td>
                                 <td>${admin.email}</td>
                                 <th><a href="/e-commerce/admin/deleteAdmin/${admin.id}" class="btn btn-danger">Delete</a></th>
                                 <th><a href="/e-commerce/admin/updateAdmin/${admin.id}" class="btn btn-danger">Update</a></th>
