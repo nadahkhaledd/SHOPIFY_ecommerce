@@ -67,6 +67,7 @@ public class AuthController {
             return "login";
         }
 
+        model.addAttribute("userId", result.getId());
         String regex = "[a-z0-9]+@shopify.com";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(result.getEmail());
@@ -83,7 +84,7 @@ public class AuthController {
             return "goToYourMail";
         }
 
-        model.addAttribute("userId", result.getId());
+
         return "redirect:/home";
     }
 
