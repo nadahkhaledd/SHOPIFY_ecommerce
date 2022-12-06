@@ -6,6 +6,7 @@ import org.example.model.Response;
 import org.example.repository.admin.AdminRepository;
 import org.example.repository.user.UserRepository;
 import org.example.service.ValidationService;
+import org.example.service.security.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,14 @@ public class AdminServiceImplementation implements AdminService{
     private final UserRepository userRepository;
 
     private ValidationService validationService;
+    private AuthService authService;
+
     @Autowired
-    public AdminServiceImplementation(AdminRepository repository, UserRepository userRepository) {
+    public AdminServiceImplementation(AdminRepository repository, UserRepository userRepository,AuthService authService) {
         validationService=new ValidationService();
         this.repository = repository;
         this.userRepository = userRepository;
+        this.authService=authService;
     }
 
     /**
@@ -31,16 +35,17 @@ public class AdminServiceImplementation implements AdminService{
     @Override
     public Response addAdmin(Admin admin) {
         Response response=validationService.validateAdminEmail(admin.getEmail());
-        System.out.println("**********************");
-        System.out.println( response.toString());
-        System.out.println("**********************");
-        if (response.isErrorOccurred()){
-            System.out.println("henaa");
+        //update admin email response to be of type response
+        boolean adminEmailResponse=authService.checkIfUserAlreadyExists(admin.getEmail());
+        if (response.isErrorOccurred() || adminEmailResponse){
             response.setFieldErrorOccurred(true);
+            if(adminEmailResponse) {
+                response.setMessage("email already exists ");
+                response.setStatusCode(400);
+            }
             return response;
         }
       else{
-            System.out.println("beforrrrrrrr");
             Response adminResponse=repository.addAdmin(admin);
             System.out.println("email is valid 444");
             if(adminResponse.isErrorOccurred()){

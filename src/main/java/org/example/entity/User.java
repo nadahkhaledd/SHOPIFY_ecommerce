@@ -142,7 +142,13 @@ public class User {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", passwordAttempts=" + passwordAttempts +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", gender=" + gender +
+                ", dateOfBirth=" + dateOfBirth +
+                ", status=" + status +
+                ", shoppingCartProducts=" + shoppingCartProducts +
                 '}';
     }
 }

@@ -62,6 +62,8 @@ public class AuthController {
     public String login(@ModelAttribute("user")  User user, Model model) {
 
         User result = this.authService.login(user.getEmail(), user.getPassword());
+
+        System.out.println("in login controller "+result.toString());
         if (result==null) {
             model.addAttribute("error","Email or Password is Wrong");
             return "login";
@@ -73,8 +75,8 @@ public class AuthController {
         if(matcher.matches()){
             return "redirect:/admin/home";
         }
-
-        if(!authService.checkIfActivated(user.getId())){
+        System.out.println("in controller user is correct22222 ");
+        if(!authService.checkIfActivated(result.getId())){
             return "goToYourMail";
         }
 
