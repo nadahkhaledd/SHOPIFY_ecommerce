@@ -37,24 +37,31 @@ public class AuthRepo {
     }
 
     public User checkLoginCredential(String email, String password) {
+        int userId=0;
         try (Session session = factory.openSession()) {
             List<User> users = session.createQuery("FROM User", User.class).list();
             if (users.size() > 0) {
-                int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).getSingleResult()).getId();
-                User customer = session.get(User.class, userId);
-                if (customer != null) {
-                    if (customer.getPassword().equals(password)) {
-                        customer.setPasswordAttempts(0);
-                        return customer;
-                    }
-                    customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
-                    if (customer.getPasswordAttempts() >= 3) {
-                        Transaction tx = session.beginTransaction();
-                        customer.setStatus(CustomerStatus.SUSPENDED);
-                        session.merge(customer);
-                        tx.commit();
+                for (User user : users) {
+                    if (user.getEmail().equals(email)) {
+                        userId=user.getId();
                     }
                 }
+                if(userId==0)
+                    return null;
+                //int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).getSingleResult()).getId();
+                User customer = session.get(User.class, userId);
+                if (customer.getPassword().equals(password)) {
+                    customer.setPasswordAttempts(0);
+                    return customer;
+                }
+                customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
+                if (customer.getPasswordAttempts() >= 3) {
+                    Transaction tx = session.beginTransaction();
+                    customer.setStatus(CustomerStatus.SUSPENDED);
+                    session.merge(customer);
+                    tx.commit();
+                }
+
             }
         } catch (Exception ex) {
             return null;
@@ -77,7 +84,7 @@ public class AuthRepo {
         try (Session session = factory.openSession()) {
             User customer = session.get(User.class, userId);
             if (customer != null) {
-                if (customer.getStatus().toString().equals("ACTIVATED")) {
+                if (customer.getStatus()==CustomerStatus.ACTIVATED) {
                     return true;
                 }
             }
