@@ -4,7 +4,6 @@ import org.example.entity.Admin;
 import org.example.entity.User;
 import org.example.model.Response;
 import org.example.repository.admin.AdminRepository;
-import org.example.repository.user.UserRepository;
 import org.example.service.ValidationService;
 import org.example.service.user.UserService;
 import org.example.service.security.AuthService;
@@ -18,12 +17,12 @@ public class AdminServiceImplementation implements AdminService{
 
     private final AdminRepository repository;
     private final UserService userService;
-
     private ValidationService validationService;
-    private AuthService authService;
+    private final AuthService authService;
 
     @Autowired
-    public AdminServiceImplementation(AdminRepository repository, UserService userService) {
+    public AdminServiceImplementation(AdminRepository repository, UserService userService, AuthService authService) {
+        this.authService = authService;
         validationService=new ValidationService();
         this.repository = repository;
         this.userService = userService;
@@ -36,13 +35,11 @@ public class AdminServiceImplementation implements AdminService{
     public Response addAdmin(Admin admin) {
         Response response=validationService.validateAdminEmail(admin.getEmail());
         //update admin email response to be of type response
-      //  boolean adminEmailResponse=authService.checkIfUserAlreadyExists(admin.getEmail());
+        Response<Boolean> adminEmailResponse=authService.checkIfUserAlreadyExists(admin.getEmail());
+        if(adminEmailResponse.isErrorOccurred()){
+            return adminEmailResponse;
+        }
         if (response.isErrorOccurred() ){
-            response.setFieldErrorOccurred(true);
-           /* if(adminEmailResponse) {
-                response.setMessage("email already exists ");
-                response.setStatusCode(400);
-            }*/
             return response;
         }
       else{
