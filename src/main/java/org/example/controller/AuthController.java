@@ -62,29 +62,29 @@ public class AuthController {
     public String login(@ModelAttribute("user")  User user, Model model) {
 
         if(authService.checkIfSuspended(user.getEmail())){
-           // authService.sendVerificationEmail(user.getEmail());
+            // authService.sendVerificationEmail(user.getEmail());
             return "goToYourMail";
         }
 
         User result = this.authService.login(user.getEmail(), user.getPassword());
+
         if (result==null) {
             model.addAttribute("error","Email or Password is Wrong");
             return "login";
+        }else{
+            model.addAttribute("userId", result.getId());
+            String regex = "[a-z0-9]+@shopify.com";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(result.getEmail());
+            if(matcher.matches()){
+                return "redirect:/admin/home";
+            }
+
+
+            if(!authService.checkIfActivated(result.getId())){
+                return "goToYourMail";
+            }
         }
-
-        model.addAttribute("userId", result.getId());
-        String regex = "[a-z0-9]+@shopify.com";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(result.getEmail());
-        if(matcher.matches()){
-            return "redirect:/admin/home";
-        }
-
-        if(!authService.checkIfActivated(result.getId())){
-            return "goToYourMail";
-        }
-
-
 
         return "redirect:/home";
     }
