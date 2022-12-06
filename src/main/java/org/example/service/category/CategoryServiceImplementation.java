@@ -24,8 +24,10 @@ public class CategoryServiceImplementation implements CategoryService{
      */
     @Override
     public Response addCategory(Category category) {
-
         category.setName(category.getName().toLowerCase());
+        if(repository.getCategoryByName(category.getName()).getObjectToBeReturned()!=null)
+            return new Response<>("category already exists", 400, true, true);
+
          return  repository.addCategory(category);
 
     }
