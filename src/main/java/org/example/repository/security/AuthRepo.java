@@ -49,7 +49,10 @@ public class AuthRepo {
                     }
                     customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
                     if (customer.getPasswordAttempts() >= 3) {
+                        Transaction tx = session.beginTransaction();
                         customer.setStatus(CustomerStatus.SUSPENDED);
+                        session.merge(customer);
+                        tx.commit();
                     }
                 }
             }
@@ -59,16 +62,10 @@ public class AuthRepo {
         return null;
     }
 
-    public boolean verifyEmail(final String email) {
+    public boolean verifyEmail(String email) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
-            Query query = session.createQuery(
-                    "update User c set c.status=:status" +
-                            " where c.email:=email"
-            );
-            query.setParameter("status", CustomerStatus.ACTIVATED);
-            query.setParameter("email", email);
-            query.executeUpdate();
+            session.createQuery("update User c set c.status=:status where c.email:=email").setParameter("status", CustomerStatus.ACTIVATED).setParameter("email", email).executeUpdate();
             tx.commit();
             return true;
         } catch (Throwable t) {

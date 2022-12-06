@@ -37,38 +37,30 @@ public class AuthController {
         return "register";
     }
 
-//        //check if there is user before used this email
-//        Customer existingUser = userRegisterService.findByEmail(customer.getEmail());
-//        if(existingUser!=null) {
-//            model.addAttribute("error","There is already an account with this email:" + customer.getEmail());
-//            return "alreadyRegistered";
-//        }else {
-
     @PostMapping("/register")
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user,Model model){
-        if(authService.register(user)){
-            if(authService.checkIfUserAlreadyExists(user.getId())){
-                model.addAttribute("error","you already have an account please login directly");
-                return "redirect:/login";
-            }
-            authService.sendVerificationEmail(user.getEmail());
-            return "goToYourMail";
+        if(authService.checkIfUserAlreadyExists(user.getId())){
+            model.addAttribute("error","you already have an account please login directly");
+            return "redirect:/login";
         }
 
+        if(authService.register(user)){
+            //authService.sendVerificationEmail(user.getEmail());
+            return "goToYourMail";
+        }
+        model.addAttribute("error","you've entered an invalid data, please try again");
         return "register";
     }
 
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new User());
-        return "goToYourMail";
+        return "login";
     }
 
     @PostMapping("/login")
     public String login(@ModelAttribute("user")  User user, Model model) {
-        if(!authService.checkIfActivated(user.getId())){
-            return "goToYourMail";
-        }
+
         User result = this.authService.login(user.getEmail(), user.getPassword());
         if (result==null) {
             model.addAttribute("error","Email or Password is Wrong");
@@ -80,11 +72,16 @@ public class AuthController {
         if(matcher.matches()){
             return "redirect:/admin/home";
         }
+
+        if(!authService.checkIfActivated(user.getId())){
+            return "goToYourMail";
+        }
+
         model.addAttribute("userId", result.getId());
         return "redirect:/home";
     }
 
-    @GetMapping({ "/activate/{email}" })
+    @GetMapping("/activate/{email}")
     public String activate(@PathVariable("email") String email) {
         authService.verifyEmail(email);
         return "redirect:/login";

@@ -41,7 +41,7 @@ public class User {
     private Date dateOfBirth;
 
     @Column
-    private CustomerStatus status=CustomerStatus.DEACTIVATED;
+    private CustomerStatus status;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
     private Set<ShoppingCartProducts> shoppingCartProducts;
 
