@@ -55,7 +55,6 @@ public class AuthRepo {
                     customer.setPasswordAttempts(0);
                     session.merge(customer);
                     tx.commit();
-
                     return customer;
                 }
                 customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
@@ -63,7 +62,6 @@ public class AuthRepo {
                     customer.setStatus(CustomerStatus.SUSPENDED);
                     session.merge(customer);
                     tx.commit();
-
                 }
             }
         } catch (Exception ex) {
