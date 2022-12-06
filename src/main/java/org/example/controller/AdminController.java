@@ -71,8 +71,11 @@ public class AdminController {
 
     @GetMapping("home")
     public String adminHome(Model model) {
-        int id = (int) model.getAttribute("userId");
-        System.out.println("id ->>> " + id);
+
+        Integer id = (Integer) model.getAttribute("userId");
+
+        if(id==null)
+            return "home";
         model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned());
         return "adminHome";
     }

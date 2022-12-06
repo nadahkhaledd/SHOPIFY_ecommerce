@@ -62,12 +62,11 @@ public class AuthController {
     public String login(@ModelAttribute("user")  User user, Model model) {
 
         if(authService.checkIfSuspended(user.getEmail())){
-            // authService.sendVerificationEmail(user.getEmail());
+           // authService.sendVerificationEmail(user.getEmail());
             return "goToYourMail";
         }
 
         User result = this.authService.login(user.getEmail(), user.getPassword());
-
         if (result==null) {
             model.addAttribute("error","Email or Password is Wrong");
             return "login";

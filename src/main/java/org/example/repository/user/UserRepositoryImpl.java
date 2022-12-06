@@ -44,11 +44,9 @@ public class UserRepositoryImpl implements UserRepository {
     public Response<String> getUsernameByID(int userId) {
         String result;
         try (Session session = factory.openSession()) {
-
-            result = session.createQuery("SELECT u.firstName, u.lastName, from User u WHERE u.id=:id", Object.class)
+            result = session.createQuery("SELECT u.firstName from User u WHERE u.id=:id", String.class)
                     .setParameter("id", userId)
-                    .getSingleResult().toString();
-            System.out.println("username ->>>>>>>> " + result);
+                    .getSingleResult();
         } catch (Exception e) {
             System.out.println("in UserRepositoryImpl.getUsernameByID e.getMessage() = " + e.getMessage());
             return new Response("error occurred while processing your request", 500, true);
