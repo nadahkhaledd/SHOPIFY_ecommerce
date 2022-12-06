@@ -41,6 +41,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             admin.setStatus(CustomerStatus.ACTIVATED);
+            admin.setPasswordAttempts(0);
             session.persist(admin);
             tx.commit();
         }
