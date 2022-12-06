@@ -36,6 +36,7 @@
                         <caption>All Admins</caption>
                         <thead>
                         <tr>
+                            <th/>
                             <th> id</th>
                             <th>email</th>
                         </tr>
@@ -43,11 +44,10 @@
                         <tbody>
                         <c:forEach items="${admins}" var="admin">
                             <tr>
+                                <td/>
                                 <td>${admin.id}</td>
                                 <td>${admin.email}</td>
-
                                 <th><a href="" class="btn btn-danger">Delete</a></th>
-                                <th>
                                 <th><a href="" class="btn btn-danger">Update</a></th>
                             </tr>
                         </c:forEach>

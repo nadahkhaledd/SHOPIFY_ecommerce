@@ -28,7 +28,7 @@
                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/e-commerce/admin/home" >Home</a></li>
 
                <li class="nav-right my-2 my-lg-0" style="float: right; padding-left: 150vh !important;">
-                   <a class="nav-link active" aria-current="page" href="" >Logout</a></li>
+                   <a class="nav-link active" aria-current="page" href="/e-commerce/login" >Logout</a></li>
              </ul>
            </div>
          </div>

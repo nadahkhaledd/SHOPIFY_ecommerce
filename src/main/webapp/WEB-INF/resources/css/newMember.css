@@ -142,7 +142,7 @@ textarea
       }
       label.radio {
       position: relative;
-      display: inline;
+      display: inline-block;
       margin: 5px 20px 15px 0;
       cursor: pointer;
       }
@@ -150,10 +150,11 @@ textarea
       margin-left: 30px;
       }
       .question-answer label {
-      display: inline;
+      display: block;
       }
       label.radio:before {
       content: "";
+      position: absolute;
       left: 0;
       width: 17px;
       height: 17px;
@@ -165,6 +166,7 @@ textarea
       }
       label.radio:after {
       content: "";
+      position: absolute;
       top: 6px;
       left: 5px;
       width: 8px;

@@ -38,7 +38,7 @@ public interface AdminRepository {
      * @param admin This is the id of the customer needs to be removed.
      * @return int number of rows affected
      */
-    Response<Boolean> updateAdmin(Admin admin);
+    Response<Boolean> updateAdmin(User admin);
 
     /**
      * This method is used to remove an admin from database.

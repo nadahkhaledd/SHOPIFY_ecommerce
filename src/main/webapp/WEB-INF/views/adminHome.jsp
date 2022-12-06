@@ -48,8 +48,8 @@
                                                width: 25%;
                                                padding: 25px 10px;">
                         <div class="card">
-                            <h4>Add new admin</h4>
-                            <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/addAdmin" style="
+                            <h4>Show all admins</h4>
+                            <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/admins" style="
 
                                     height: 40px;
                                     display: inline;
@@ -68,8 +68,8 @@
                                                width: 25%;
                                                padding: 25px 10px;">
                     <div class="card">
-                        <h4>Show all admins</h4>
-                        <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/admins" style="
+                        <h4>Add new category</h4>
+                        <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/addCategory" style="
 
                                   height: 40px;
                                   display: inline;
