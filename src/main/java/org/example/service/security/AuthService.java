@@ -59,4 +59,7 @@ public class AuthService {
      }
 
 
+    public boolean checkIfActivated(int id) {
+        return authRepo.checkIfActivated(id);
+    }
 }

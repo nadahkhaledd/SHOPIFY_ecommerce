@@ -45,7 +45,7 @@ public class AuthController {
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user){
         if(authService.register(user)){
             authService.sendVerificationEmail(user.getEmail());
-            return "redirect:/home";
+            return "goToYourMail";
         }
         return "register";
     }
@@ -53,11 +53,14 @@ public class AuthController {
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new User());
-        return "login";
+        return "goToYourMail";
     }
 
     @PostMapping("/login")
     public String login(@ModelAttribute("user")  User user, Model model) {
+        if(!authService.checkIfActivated(user.getId())){
+            return "goToYourMail";
+        }
         User result = this.authService.login(user.getEmail(), user.getPassword());
         if (result==null) {
             model.addAttribute("error","Email or Password is Wrong");
@@ -76,7 +79,7 @@ public class AuthController {
     @GetMapping({ "/activate/{email}" })
     public String activate(@PathVariable("email") String email) {
         authService.verifyEmail(email);
-        return "redirect:/home";
+        return "redirect:/login";
     }
 
     @GetMapping("/logout")
