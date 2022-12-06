@@ -180,24 +180,26 @@ public class ProductRepoImpl implements ProductRepo {
         /**
          * @InheritedDoc
          */
-    @Override
-    public Response<List<Product>> searchByProductName(String productName) {
+        @Override
+        public Response<List<Product>> searchByProductName(String productName) {
 
-        List<Product> products;
-        try (Session session = sessionFactory.openSession()) {
+            List<Product> products;
+            try (Session session = sessionFactory.openSession()) {
                 session.beginTransaction();
                 products = session.createQuery("from Product where name like :searchkey or name= :productName", Product.class).
-                        setString("searchkey", "% " + productName + "%")
+                        setParameter("searchkey", "%" + productName + "%")
                         .setParameter("productName", productName).list();
             }
             catch (Exception e){
-                System.out.println("in search by product name  product repo impl e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in search by product name  product repo impl e.getStackTrace() = " + e.getStackTrace().toString());
                 return new Response("error occurred while processing your request",500,true);
 
-        }
-        return new Response<List<Product>>("Done",200,false,products) ;
+            }
+            return new Response<List<Product>>("Done",200,false,products) ;
 
-    }
+        }
+
+
 
 
     /**
