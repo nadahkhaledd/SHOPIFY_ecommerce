@@ -34,7 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@SessionAttributes({"userId","error"})
+@SessionAttributes({"userId","error", "isAdmin"})
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminService adminService;
@@ -65,19 +65,30 @@ public class AdminController {
     {
         binder.registerCustomEditor(Category.class,
                 new CategoryTypeEditor(categoryService));
+    }
 
+    public boolean checkSession(Model model){
+
+        Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
+        if(isAdmin==null ||  !isAdmin) {
+            return false;
+        }
+        return true;
     }
 
     @GetMapping("home")
     public String adminHome(Model model) {
-
         Integer id = (Integer) model.getAttribute("userId");
+        if(!checkSession(model))
+            return "redirect:/login";
         model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned().toUpperCase());
         return "adminHome";
     }
 
     @GetMapping("admins")
     public String getAdmins(Model model) {
+        if(!checkSession(model))
+            return "redirect:/login";
         Response<List<Admin>> admins = adminService.getAllAdmins();
         model.addAttribute("admins", admins.getObjectToBeReturned());
         return "showAdmins";
@@ -85,6 +96,8 @@ public class AdminController {
 
     @GetMapping("showCategories")
     public String showCategories(Model model) {
+        if(!checkSession(model))
+            return "redirect:/login";
         Response<List<Category>> categoriesResponse = categoryService.getAllCategories();
         model.addAttribute("categories", categoriesResponse.getObjectToBeReturned());
         return "showCategories";
@@ -92,7 +105,8 @@ public class AdminController {
 
     @GetMapping("addAdmin")
     public String newAdmin(Model model) {
-
+        if(!checkSession(model))
+            return "redirect:/login";
         List<String> genders = new ArrayList<>(
                 Arrays.asList(Gender.male.toString(), Gender.female.toString()));
         model.addAttribute("admin", new Admin());
@@ -109,7 +123,6 @@ public class AdminController {
         }
         modelMap.put("ErrorMessage","");//initialize as empty
         Response response= adminService.addAdmin(admin);
-        //System.out.println("responseeeee "+response.toString());
 
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
@@ -126,6 +139,8 @@ public class AdminController {
 
     @GetMapping("addCategory")
     public String newCategory(Model model) {
+        if(!checkSession(model))
+            return "redirect:/login";
         model.addAttribute("category", new Category());
         return "addCategory";
     }
@@ -177,6 +192,8 @@ public class AdminController {
 
     @GetMapping("updateAdmin/{id}")
     public String updateAdmin(Model model, @PathVariable int id) {
+        if(!checkSession(model))
+            return "redirect:/login";
         Response<User> admin = userService.getUserById(id);
         model.addAttribute("admin", admin.getObjectToBeReturned());
 
@@ -207,6 +224,8 @@ public class AdminController {
 
     @GetMapping("updateCategory/{id}")
     public String updateCategory(Model model, @PathVariable int id) {
+        if(!checkSession(model))
+            return "redirect:/login";
         Response<Category> categoryResponse = categoryService.getCategoryByID(id);
         model.addAttribute("category", categoryResponse.getObjectToBeReturned());
 
@@ -237,6 +256,8 @@ public class AdminController {
 
     @GetMapping("addProduct")
     public String newProduct(Model model) {
+        if(!checkSession(model))
+            return "redirect:/login";
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryService.getCategoriesNames().getObjectToBeReturned());
         return "addProduct";
@@ -268,8 +289,10 @@ public class AdminController {
 
     @GetMapping("removeUser")
     public String removeUser(Model model) {
-        model.addAttribute("fields", new RemoveUserFields());
+        if(!checkSession(model))
+            return "redirect:/login";
 
+        model.addAttribute("fields", new RemoveUserFields());
         return "removeUser";
     }
 

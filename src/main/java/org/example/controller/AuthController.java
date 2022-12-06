@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @Controller
-@SessionAttributes({"userId","error"})
+@SessionAttributes({"userId","error", "isAdmin"})
 public class AuthController {
     @Autowired
     AuthService authService;
@@ -99,9 +99,11 @@ public class AuthController {
         }
         User result=responseResult.getObjectToBeReturned();
         model.addAttribute("userId", result.getId());
+
         String regex = "[a-z0-9]+@shopify.com";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(result.getEmail());
+        model.addAttribute("isAdmin", matcher.matches());
         if(matcher.matches()){
             return "redirect:/admin/home";
         }
@@ -136,8 +138,10 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public String logout(Model model){
+    public String logout(Model model, ModelMap modelMap){
         model.addAttribute("userId", null);
+        modelMap.clear();
+
         return  "redirect:/login";
     }
 

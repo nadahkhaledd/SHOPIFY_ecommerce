@@ -32,7 +32,7 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
                 session.persist(category);
                 tx.commit();
             } catch (Exception e) {
-                System.out.println("in add category category repo impl e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in addCategory category repo impl e.getStackTrace() = " + e.getMessage());
                 return new Response("error occurred while processing your request", 500, true);
 
         }
@@ -58,7 +58,7 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
                 results = query.executeUpdate();
                 tx.commit();
             } catch (Exception e) {
-                System.out.println("in update category category repo impl e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in update category category repo impl e.getStackTrace() = " + e.getMessage());
                 return new Response("error occurred while processing your request", 500, true);
 
         }
@@ -100,12 +100,10 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
     public Response<List<Category>> getAllCategories() {
         List<Category> categories;
         try (Session session = factory.openSession()) {
-
                 session.beginTransaction();
                 categories = session.createQuery("from Category", Category.class).list();
-                //     session.getTransaction().commit();
             } catch (Exception e) {
-                System.out.println("in add category category repo impl e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in getAll category repo impl e.getStackTrace() = " + e.toString());
                 return new Response("error occurred while processing your request", 500, true);
 
         }
@@ -146,7 +144,7 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
                         .setParameter("id", id)
                         .getSingleResult();
             } catch (Exception e) {
-                System.out.println("in add category category repo impl e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in getCategoryByID category repo impl e.getStackTrace() = " + e.getStackTrace());
                 return new Response("error occurred while processing your request", 500, true);
 
         }
@@ -190,7 +188,7 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
                     .setParameter("categoryName", categoryName)
                     .list();
         } catch (Exception e) {
-            System.out.println("in add category category repo impl e.getStackTrace() = " + e.getStackTrace());
+            System.out.println("in searchByCategoryName category repo impl e.getStackTrace() = " + e.getStackTrace());
             return new Response("error occurred while processing your request", 500, true);
         }
 
