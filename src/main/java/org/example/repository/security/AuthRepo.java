@@ -40,7 +40,7 @@ public class AuthRepo {
         int userId=0;
         try (Session session = factory.openSession()) {
             List<User> users = session.createQuery("FROM User", User.class).list();
-            if (users.size() > 0) {
+            if (!users.isEmpty()) {
                 for (User user : users) {
                     if (user.getEmail().equals(email)) {
                         userId=user.getId();
@@ -65,8 +65,8 @@ public class AuthRepo {
                 if (customer.getPasswordAttempts() > 3) {
                     customer.setStatus(CustomerStatus.SUSPENDED);
                     session.merge(customer);
-                    tx.commit();
                 }
+                tx.commit();
             }
         } catch (Exception ex) {
             return null;
