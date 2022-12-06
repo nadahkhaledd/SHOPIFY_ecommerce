@@ -79,12 +79,10 @@ public class AuthController {
                 return "redirect:/admin/home";
             }
 
-
             if(!authService.checkIfActivated(result.getId())){
                 return "goToYourMail";
             }
         }
-
         return "redirect:/home";
     }
 
