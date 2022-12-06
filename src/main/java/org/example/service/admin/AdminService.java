@@ -30,14 +30,22 @@ public interface AdminService {
      * @param admin This is the id of the customer needs to be removed.
      * @return boolean if admin updated.
      */
-    Response<Boolean> updateAdmin(Admin admin);
+    Response<Boolean> updateAdmin(User admin);
 
     /**
-     * This method is used to remove an admin from database.
+     * This method is used to remove an admin from database with their id  and email.
      * @param adminID This is the id of the admin needs to be deleted.
+     * @param adminEmail This is the email of the admin needs to be deleted.
      * @return boolean if admin removed.
      */
     Response<Boolean> removeAdmin(int adminID, String adminEmail);
+
+    /**
+     * This method is used to remove an admin from database with their id.
+     * @param adminID This is the id of the admin needs to be deleted.
+     * @return boolean if admin removed.
+     */
+    Response<Boolean> removeAdmin(int adminID);
 
     /**
      * This method is used by admin to remove a customer account from the system.

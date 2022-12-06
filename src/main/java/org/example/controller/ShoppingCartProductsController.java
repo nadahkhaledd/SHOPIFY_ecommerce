@@ -75,7 +75,7 @@ public class ShoppingCartProductsController {
         }
 
         cartProduct.setProduct((Product) productResponse.getObjectToBeReturned());
-        cartProduct.setUser(userService.getUserById(userId));
+        cartProduct.setUser(userService.getUserById(userId).getObjectToBeReturned());
         cartServices.addToCart(cartProduct);
         return "redirect:/products/getAllProducts";
     }

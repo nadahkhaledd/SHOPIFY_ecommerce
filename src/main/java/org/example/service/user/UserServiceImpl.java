@@ -1,6 +1,7 @@
 package org.example.service.user;
 
 import org.example.entity.User;
+import org.example.model.Response;
 import org.example.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,12 @@ public class UserServiceImpl implements UserService{
      * @return
      */
     @Override
-    public User getUserById(int userId) {
+    public Response<User> getUserById(int userId) {
         return userRepository.getUserById(userId);
+    }
+
+    @Override
+    public Response<User> getUser(int userId, String email) {
+        return userRepository.getUser(userId, email);
     }
 }

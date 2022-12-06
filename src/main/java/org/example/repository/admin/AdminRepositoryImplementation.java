@@ -141,6 +141,29 @@ public class AdminRepositoryImplementation implements AdminRepository{
         return new Response<Boolean>("Done", 200, false, results==1);
     }
 
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Response<Boolean> removeAdmin(int adminID) {
+        int results;
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            Query query=session.createQuery(
+                    "delete from User a where a.id=:id"
+            );
+            query.setParameter("id", adminID);
+            results = query.executeUpdate();
+            tx.commit();
+        }
+        catch (Exception e) {
+            System.out.println("in AdminRepositoryImplementation.removeAdminID  e.getMessage() = " + e.getMessage());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<Boolean>("Done", 200, false, results==1);
+    }
+
 
     /**
      * @inheritDoc

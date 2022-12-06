@@ -27,16 +27,19 @@ public class UserRepositoryImpl implements UserRepository {
      * @return
      */
     @Override
-    public User getUserById(int userId) {
+    public Response<User> getUserById(int userId) {
         User user;
-        try(Session session=factory.openSession()){
-            session.beginTransaction();
-            user= (User) session.createQuery("from User where id= :userId")
-                    .setParameter("userId",userId).getSingleResult();
-            //     session.getTransaction().commit();
+        try (Session session = factory.openSession()) {
+
+            user = session.createQuery("from User u WHERE u.id=:id", User.class)
+                    .setParameter("id", userId)
+                    .getSingleResult();
+        } catch (Exception e) {
+            System.out.println("in UserRepositoryImpl.getUser e.getMessage() = " + e.getMessage());
+            return new Response("error occurred while processing your request", 500, true);
+
         }
-        System.out.println(user.toString());
-        return user;
+        return new Response("Done", 200, false, user);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class UserRepositoryImpl implements UserRepository {
                     .setParameter("email", email)
                     .getSingleResult();
         } catch (Exception e) {
-            System.out.println("in UserRepositoryImpl.getUser e.getStackTrace() = " + e.getStackTrace());
+            System.out.println("in UserRepositoryImpl.getUser e.getStackTrace() = " + e.getMessage());
             return new Response("error occurred while processing your request", 500, true);
 
         }

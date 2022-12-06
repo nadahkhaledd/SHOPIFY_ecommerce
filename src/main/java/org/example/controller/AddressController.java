@@ -40,7 +40,7 @@ public class AddressController {
             Map<String, Object> model = bindingResult.getModel();
             return "addAddress";
         }
-        Customer customer = (Customer) userService.getUserById(userId);
+        Customer customer = (Customer) userService.getUserById(userId).getObjectToBeReturned();
         address.setCustomer(customer);
         addressService.addAddress(address);
         return "redirect:/address/view?id="+userId;

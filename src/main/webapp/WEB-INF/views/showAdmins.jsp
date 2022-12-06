@@ -47,8 +47,8 @@
                                 <td/>
                                 <td>${admin.id}</td>
                                 <td>${admin.email}</td>
-                                <th><a href="" class="btn btn-danger">Delete</a></th>
-                                <th><a href="" class="btn btn-danger">Update</a></th>
+                                <th><a href="/e-commerce/admin/deleteAdmin/${admin.id}" class="btn btn-danger">Delete</a></th>
+                                <th><a href="/e-commerce/admin/updateAdmin/${admin.id}" class="btn btn-danger">Update</a></th>
                             </tr>
                         </c:forEach>
                         </tbody>
