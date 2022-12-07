@@ -13,10 +13,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @Controller
@@ -32,6 +38,18 @@ public class AuthController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(
                 dateFormat, false));
     }
+    static boolean doLookup( String hostName ) throws NamingException {
+        Hashtable env = new Hashtable();
+        env.put("java.naming.factory.initial",
+                "com.sun.jndi.dns.DnsContextFactory");
+        DirContext ictx = new InitialDirContext( env );
+        Attributes attrs =
+                ictx.getAttributes( hostName, new String[] { "MX" });
+        Attribute attr = attrs.get( "MX" );
+        if( attr == null ) return( false );
+
+        return( attr.size()==0?false:true );
+    }
 
     @GetMapping("register")
     public String register(Model model) {
@@ -44,10 +62,11 @@ public class AuthController {
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user,Model model){
         Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(user.getEmail());
-        if(!matcher.matches()){
+        if(!matcher.matches() || !doLookup()){
             model.addAttribute("error","Please enter a valid Email");
             return "redirect:/register";
         }
+
         Response<Boolean> response=authService.checkIfUserAlreadyExists(user.getEmail());
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
