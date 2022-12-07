@@ -16,12 +16,12 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /// all controller needs to be updated
 @Controller
 @RequestMapping("/cart")
-@SessionAttributes("userId")
 public class ShoppingCartProductsController {
     private final ShoppingCartProductsService cartServices;
     private final ProductService productService;
@@ -69,11 +69,11 @@ public class ShoppingCartProductsController {
     }
 
     @GetMapping("/view")
-    public String viewCart(Model model) {
-        if(model.getAttribute("userId")==null){
+    public String viewCart(Model model, HttpSession session) {
+        if(session.getAttribute("user-Id")==null){
             return "redirect:/login";
         }
-        int userId = (int) model.getAttribute("userId");
+        int userId = (int) session.getAttribute("user-Id");
         Response<List<ShoppingCartProducts>> cartProducts = cartServices.viewCart(userId);
         if(cartProducts.isErrorOccurred()) {
             model.addAttribute("statusCode", cartProducts.getStatusCode());
@@ -95,11 +95,11 @@ public class ShoppingCartProductsController {
 
     /// to be modified
     @GetMapping("/checkout")
-    public String checkOut(Model model) {
-        if(model.getAttribute("userId")==null){
+    public String checkOut(Model model, HttpSession session) {
+        if(session.getAttribute("user-Id")==null){
             return "redirect:/login";
         }
-        int userId = (int) model.getAttribute("userId");
+        int userId = (int) session.getAttribute("user-Id");
         Response<List<ShoppingCartProducts>> response = cartServices.viewCart(userId);
         List<ShoppingCartProducts> cartProducts = response.getObjectToBeReturned();
         if(cartProducts.isEmpty()) {

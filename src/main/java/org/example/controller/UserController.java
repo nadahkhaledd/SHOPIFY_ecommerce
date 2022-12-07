@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/user")
-@SessionAttributes("userId")
 public class UserController {
     private final UserService userService;
 
@@ -23,11 +24,11 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String getUserInfo(Model model) {
-        if(model.getAttribute("userId")==null){
+    public String getUserInfo(Model model, HttpSession session) {
+        if  ( session.getAttribute("user-Id")==null){
             return "redirect:/login";
         }
-        int userId = (int) model.getAttribute("userId");
+        int userId = (int) session.getAttribute("user-Id");
         Response<User> user = userService.getUserById(userId);
         model.addAttribute("userInfo", user.getObjectToBeReturned());
         return "userProfile";

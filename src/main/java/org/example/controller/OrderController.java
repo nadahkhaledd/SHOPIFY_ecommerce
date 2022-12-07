@@ -17,6 +17,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,6 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/orders")
-@SessionAttributes("userId")
 public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
@@ -59,8 +59,8 @@ public class OrderController {
     }
 
     @GetMapping("/view")
-    public String getOrders(Model model) {
-        int userId = (int) model.getAttribute("userId");
+    public String getOrders(Model model, HttpSession session) {
+        int userId =  (int) session.getAttribute("user-Id");
         Response<List<Order>> orders = orderService.getOrders(userId, OrderStatus.placed);
         if(orders.isErrorOccurred()) {
             model.addAttribute("statusCode", orders.getStatusCode());
@@ -74,10 +74,15 @@ public class OrderController {
 
     @PostMapping("/placeOrder")
     public String placeOrder(@ModelAttribute("newOrder") Order order,
-                              Model model) {
-        int userId = (int) model.getAttribute("userId");
+                              Model model,HttpSession session) {
+        int userId = (int) session.getAttribute("user-Id");
         Customer customer = (Customer) userService.getUserById(userId).getObjectToBeReturned();
         Response response = orderService.checkOut(customer, order);
+        if(response.isErrorOccurred()) {
+            model.addAttribute("statusCode", response.getStatusCode());
+            model.addAttribute("errorMessage", response.getMessage());
+            return"error";
+        }
         return "redirect:/orders/view";
     }
 

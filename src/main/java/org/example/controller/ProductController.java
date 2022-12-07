@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,6 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/products")
-@SessionAttributes("userId")
 public class ProductController {
     @Autowired
     ProductService productService;
@@ -65,8 +65,8 @@ public class ProductController {
 
     @PostMapping("/productDetails")
     public String addToCart(@Valid @ModelAttribute("newCartItem") ShoppingCartProducts cartProducts, BindingResult bindingResult,
-                            @RequestParam int productId, Model model) {
-        if(model.getAttribute("userId")==null){
+                            @RequestParam int productId, Model model, HttpSession session) {
+        if(  session.getAttribute("user-Id")==null){
             return "redirect:/login";
         }
         if(bindingResult.hasErrors()) {
@@ -74,7 +74,7 @@ public class ProductController {
             return "productDetails";
         }
         Response<Product> product = productService.getProductsById(productId);
-        int userId = (int) model.getAttribute("userId");
+        int userId =(int) session.getAttribute("user-Id");
         Response<User> user = userService.getUserById(userId);
         cartProducts.setProductQuantity(1);
         cartProducts.setProduct(product.getObjectToBeReturned());
