@@ -57,6 +57,9 @@
                                         </button>
                                         <table>
                                             <tbody>
+                                            <c:if test="${empty addresses}">
+                                                <h4>No addresses found. Please add a new address.</h4>
+                                            </c:if>
                                             <c:if test="${!empty addresses}">
                                                 <c:forEach var="address" items="${addresses}">
                                                 <tr>
