@@ -34,7 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@SessionAttributes({"userId","error", "isAdmin"})
+@SessionAttributes({"userId", "isAdmin"})
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminService adminService;
@@ -101,6 +101,15 @@ public class AdminController {
         Response<List<Category>> categoriesResponse = categoryService.getAllCategories();
         model.addAttribute("categories", categoriesResponse.getObjectToBeReturned());
         return "showCategories";
+    }
+
+    @GetMapping("products")
+    public String showProducts(Model model) {
+        if(!checkSession(model))
+            return "redirect:/login";
+        Response<List<Product>> products = productService.getProducts();
+        model.addAttribute("products", products.getObjectToBeReturned());
+        return "showAllProducts";
     }
 
     @GetMapping("addAdmin")
@@ -177,6 +186,17 @@ public class AdminController {
             return "error";
         }
         return "redirect:/admin/showCategories";
+    }
+
+    @GetMapping("deleteProduct/{id}")
+    public String deleteProduct(@PathVariable int id, ModelMap modelMap) {
+        Response response = productService.removeProduct(id);
+        if(response.isErrorOccurred()) {
+            modelMap.put("statusCode", response.getStatusCode());
+            modelMap.put("errorMessage", response.getMessage());
+            return "error";
+        }
+        return "redirect:/admin/products";
     }
 
     @GetMapping("deleteAdmin/{id}")
@@ -285,6 +305,41 @@ public class AdminController {
             return "error";
         }
         return "redirect:/admin/home";
+    }
+
+    @GetMapping("updateProduct/{id}")
+    public String updateProduct(Model model, @PathVariable int id) {
+        if(!checkSession(model))
+            return "redirect:/login";
+        Response<Product> productResponse = productService.getProductsById(id);
+        model.addAttribute("categories", categoryService.getCategoriesNames().getObjectToBeReturned());
+        model.addAttribute("product", productResponse.getObjectToBeReturned());
+
+        return "updateProduct";
+    }
+
+    @PostMapping("updateProduct/{id}")
+    public String updateProduct(@Valid @ModelAttribute("product") Product product,
+                                 BindingResult bindingResult, ModelMap modelMap) {
+        if (bindingResult.hasErrors()) {
+            Map<String, Object> model = bindingResult.getModel();
+            return "updateProduct";
+        }
+        modelMap.put("ErrorMessage","");//initialize as empty
+        Response response = productService.updateProduct(product);
+
+
+        if(response.isErrorOccurred()){
+            if(response.isFieldErrorOccurred()){
+                modelMap.put("ErrorMessage",response.getMessage());
+                return "updateCategory";
+            }
+            modelMap.put("statusCode", response.getStatusCode());
+            modelMap.put("errorMessage",response.getMessage());
+            return "error";
+        }
+        modelMap.addAttribute("categories", categoryService.getCategoriesNames().getObjectToBeReturned());
+        return "redirect:/admin/products";
     }
 
     @GetMapping("removeUser")

@@ -38,34 +38,33 @@
                             </a>
                             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                                 <span class="navbar-toggler-icon"></span></button>
-                            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                                <div class="navbar-nav ml-auto py-0">
-                                    <a href="/e-commerce/login" class="nav-item nav-link">Login</a>
-                                    <a href="/e-commerce/register" class="nav-item nav-link">Register</a>
-                                </div>
-                            </div>
+                            <c:choose>
+                                <c:when test="${userId == null }">
+                                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                                        <div class="navbar-nav ml-auto py-0">
+                                            <a href="/e-commerce/login" class="nav-item nav-link">Login</a>
+                                            <a href="/e-commerce/register" class="nav-item nav-link">Register</a>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise >
+                                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                                        <div class="navbar-nav ml-auto py-0">
+                                            <a href="/e-commerce/logout" class="nav-item nav-link">Logout</a>
+                                        </div>
+                                    </div>
+                                </c:otherwise>
+
+                            </c:choose>
+
                         </nav>
                         <div id="header-carousel" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active" style="height: 410px;">
                                     <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fcarousel-1.jpg?alt=media&token=d959f240-0bc8-430b-9ca3-21448fe38d3e" alt="Image">
-                                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                        <div class="p-3" style="max-width: 700px;">
-                                            <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                                            <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
-                                            <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="carousel-item" style="height: 410px;">
                                     <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/others%2Fcarousel-2.jpg?alt=media&token=319e2ff7-3025-4a5e-bc95-9fd1fefe411c" alt="Image">
-                                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                        <div class="p-3" style="max-width: 700px;">
-                                            <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                                            <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
-                                            <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
@@ -116,7 +115,6 @@
                             <div class="position-relative" style="z-index: 1;">
                                 <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
                                 <h1 class="mb-4 font-weight-semi-bold">Spring Collection</h1>
-                                <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -126,7 +124,6 @@
                             <div class="position-relative" style="z-index: 1;">
                                 <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
                                 <h1 class="mb-4 font-weight-semi-bold">Winter Collection</h1>
-                                <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Shop Now</a>
                             </div>
                         </div>
                     </div>

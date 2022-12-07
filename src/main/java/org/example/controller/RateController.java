@@ -21,8 +21,13 @@ public class RateController {
     @PostMapping("/rate")
     public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message, Model model){
        ModelAndView modelAndView=new ModelAndView("redirect:/products/productDetails?productId="+productId);
-        System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message);
-        UserInputReview userInputReview=new UserInputReview(rate, (Integer) model.getAttribute("userId"),productId,message);
+       if(model.getAttribute("userId")==null){
+           modelAndView.setViewName("redirect:/login");
+           return modelAndView;
+       }
+       int userId=(Integer) model.getAttribute("userId");
+        System.out.println(userId+" productId = " + productId + ", rate = " + rate + ", message = " + message);
+        UserInputReview userInputReview=new UserInputReview(rate,userId,productId,message);
         System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message );
         Response rateResponse= rateService.AssignRateToProduct(userInputReview);
         if(rateResponse.isErrorOccurred()){

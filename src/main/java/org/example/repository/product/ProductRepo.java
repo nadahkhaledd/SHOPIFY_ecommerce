@@ -20,24 +20,30 @@ public interface ProductRepo {
      * @param product product object to be updated
      * @Return nothing
      */
-
-
     Response<Product> updateProduct(Product product);
+
     /**
      * delete product function invoked by admin to delete product from database
      * @param product product object to be deleted
      * @Return nothing
      */
-
     Response<Product> deleteProduct(Product product);
+
+    /**
+     * delete product function invoked by admin to delete product from database
+     * @param id product id to be deleted
+     * @Return boolean
+     */
+    Response<Boolean> deleteProduct(int id);
+
     /**
      * update product rate used by customers to update rate to database
      * @param productId productId  id of the product to be updated
      * @param rate rate new rate of the product
      * @return  true if a row is updated in the database
      */
-
     Response<Boolean> updateProductRate(int productId, float rate);
+
     /**
      * update product quantity
      * function takes id of the product and new quantity and apply this changes to database
@@ -45,7 +51,6 @@ public interface ProductRepo {
      * @param quantity quantity new quantity of the product to be updated
      * @return  true if a row is updated in the database
      */
-
     Response<Boolean> updateProductQuantity(int productId, int quantity);
 
     /**
@@ -53,7 +58,6 @@ public interface ProductRepo {
      * function used to return all products from the database
      * @return products
      */
-
    Response<List<Product>> getProducts();
 
 
@@ -65,6 +69,7 @@ public interface ProductRepo {
      * @return {@link List} list of products
      */
     Response<List<Product>> getProductsByCategory(int categoryId);
+
     /**
      * search by product name
      * takes a product name and retrieve all products matching this name

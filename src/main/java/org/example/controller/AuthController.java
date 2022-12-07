@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @Controller
-@SessionAttributes({"userId","error", "isAdmin"})
+@SessionAttributes({"userId","isAdmin"})
 public class AuthController {
     @Autowired
     AuthService authService;
@@ -140,8 +140,6 @@ public class AuthController {
     @GetMapping("/logout")
     public String logout(Model model, ModelMap modelMap){
         model.addAttribute("userId", null);
-        modelMap.clear();
-
         return  "redirect:/login";
     }
 

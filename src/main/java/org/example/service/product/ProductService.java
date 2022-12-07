@@ -36,6 +36,13 @@ public interface ProductService {
      */
     Response deleteProduct(Product product);
 
+    /**
+     * This method is used by admin to remove a product from database.
+     * @param productID This is the id of the product needs to be deleted.
+     * @return boolean if product removed.
+     */
+    Response<Boolean> removeProduct(int productID);
+
 
     /**
      * update product rate used by customers to update rate to database
