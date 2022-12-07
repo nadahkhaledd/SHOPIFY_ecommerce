@@ -42,12 +42,15 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user,Model model){
-        System.out.println("in authh controller");
+        String regex = "[a-z0-9]+@shopify.com";
+        Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);        Matcher matcher = pattern.matcher(user.getEmail());
+        if(!matcher.matches()){
+            model.addAttribute("error","Please enter a valid Email");
+            return "redirect:/register";
+        }
         Response<Boolean> response=authService.checkIfUserAlreadyExists(user.getEmail());
-        System.out.println("$$ "+response.toString());
         if(response.isErrorOccurred()){
-            System.out.println("error occured in response");
-            if(response.isFieldErrorOccurred()){//
+            if(response.isFieldErrorOccurred()){
                 model.addAttribute("error",response.getMessage());
                 return "redirect:/login";
             }
@@ -56,9 +59,7 @@ public class AuthController {
             return "error";
         }
         Response registerResponse=authService.register(user);
-        System.out.println("$$ 2"+registerResponse.toString());
         if(registerResponse.isErrorOccurred()){
-            System.out.println("yopu have entered an invalid data");
             model.addAttribute("errorMessage",registerResponse.getMessage());
             model.addAttribute("statusCode",registerResponse.getStatusCode());
             return "error";
@@ -76,7 +77,6 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@ModelAttribute("user")  User user, Model model, HttpSession session) {
 
-        //response hereee!!
         if(authService.checkIfSuspended(user.getEmail())){
             authService.sendVerificationEmail(user.getEmail());
             return "goToYourMail";
