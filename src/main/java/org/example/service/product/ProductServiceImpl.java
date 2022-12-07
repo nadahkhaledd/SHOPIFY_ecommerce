@@ -30,17 +30,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Response addProduct(Product product) {
         product.setName(product.getName().toLowerCase());
-       return productRepository.addProduct(product);
+        return productRepository.addProduct(product);
     }
+
     /**
      * @Inherited Doc
      */
-
     @Override
     public Response updateProduct(Product product) {
         product.setName(product.getName().toLowerCase());
-       return productRepository.updateProduct(product);
+        return productRepository.updateProduct(product);
     }
+
     /**
      * @Inherited Doc
      */
@@ -49,6 +50,15 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.deleteProduct(product);
     }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Response<Boolean> removeProduct(int productID) {
+        return productRepository.deleteProduct(productID);
+    }
+
     /**
      * @Inherited Doc
      */
@@ -56,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
     public Response<Boolean> updateProductRate(int productId, float rate) {
         return productRepository.updateProductRate(productId, rate);
     }
+
     /**
      * @Inherited Doc
      */
@@ -63,6 +74,7 @@ public class ProductServiceImpl implements ProductService {
     public Response<Boolean> updateProductQuantity(int productId, int quantity) {
         return productRepository.updateProductQuantity(productId, quantity);
     }
+
     /**
      * @Inherited Doc
      */
@@ -95,11 +107,6 @@ public class ProductServiceImpl implements ProductService {
     public Response<List<Product>> searchByProductName(String productName) {
         return productRepository.searchByProductName(productName);
     }
-
-
-
-
-
 
 
 }
