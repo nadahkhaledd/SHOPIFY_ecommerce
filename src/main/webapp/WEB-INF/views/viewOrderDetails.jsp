@@ -56,16 +56,21 @@
                                                 <tr>
                                                     <td>Product</td>
                                                     <td>:</td>
-                                                    <td>${orderDetail.productName}  <img src="${orderDetail.productImage}" alt="" style="width: 50px;"></td>
+                                                    <td>${orderDetail.productName}     <img src="${orderDetail.productImage}" alt="" style="width: 50px;"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Product price</td>
                                                     <td>:</td>
-                                                    <td><fmt:formatNumber value = "${orderDetail.productPrice}" type = "currency"/></td>
+                                                    <td><fmt:formatNumber value = "${orderDetail.productPrice}" type = "currency"/>(x${orderDetail.productQuantity})</td>
                                                 </tr>
                                             </c:forEach>
                                             </c:if>
+                                            <div>
                                             <p>Subtotal</br><fmt:formatNumber value = "${orderDetails[0].order.total+10}" type = "currency"/></p>
+                                            <p>Address</br>
+                                            &nbsp;Street: ${orderDetails[0].order.address.street}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;City: ${orderDetails[0].order.address.city}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Building number: ${orderDetails[0].order.address.buildingNumber}</p>
+                                            </div>
+
                                             </tbody>
                                         </table>
                                         </div>

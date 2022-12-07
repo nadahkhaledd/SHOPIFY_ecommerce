@@ -39,11 +39,16 @@
                             <h4 class="font-weight-semi-bold mb-4">Addresses</h4>
                             <div class="row">
                                 <div class="col-md-6 form-group">
+                                        <c:if test="${empty addresses}">
+                                            <h2>No addresses found.<br> Please add an address before placing your order.</h2>
+                                        </c:if>
+                                        <c:if test="${!empty addresses}">
                                         <c:forEach var="address" items="${addresses}">
                                             <input type="radio" name="address" required="true" path="address" value="${address.id}">
                                             &nbsp;Street: ${address.street}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;City: ${address.city}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Building number: ${address.buildingNumber}
                                             <br/><br/>
                                         </c:forEach>
+                                        </c:if>
                                 </div>
                             </div>
                         </div>
@@ -78,8 +83,14 @@
                                 </div>
                             </div>
                             <div class="card-footer border-secondary bg-transparent">
-                                <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3"
-                                type="submit">Place Order</button>
+                                        <c:if test="${empty addresses}">
+                                        <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3"
+                                        type="submit" disabled="true">Place Order</button>
+                                        </c:if>
+                                        <c:if test="${!empty addresses}">
+                                        <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3"
+                                        type="submit">Place Order</button>
+                                        </c:if>
                             </div>
                         </div>
                     </div>

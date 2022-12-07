@@ -127,7 +127,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             order.setStatus(OrderStatus.placed);
             Double totalOrderPrice = 0.0;
             for(ShoppingCartProducts cartItems : customer.getShoppingCartProducts()) {
-                OrderDetails od = new OrderDetails(order, cartItems.getProduct().getName(), cartItems.getProduct().getPrice(),cartItems.getProduct().getImagePath());
+                OrderDetails od = new OrderDetails(order, cartItems.getProduct().getName(), cartItems.getProduct().getPrice(),cartItems.getProduct().getImagePath(),cartItems.getProductQuantity());
                 session.persist(od);
                 totalOrderPrice += cartItems.getProduct().getPrice() * cartItems.getProductQuantity();
                 cartProductsService.removeFromCart(cartItems.getId());

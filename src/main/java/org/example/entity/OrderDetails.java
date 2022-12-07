@@ -33,15 +33,20 @@ public class OrderDetails {
     @Column(name = "product_image")
     @NotNull
     private String productImage;
+    @Column(name = "product_quantity")
+    @NotNull
+    private int productQuantity;
+
 
 
     public OrderDetails() {
     }
-    public OrderDetails(Order order, String productName, double productPrice, String productImage) {
+    public OrderDetails(Order order, String productName, double productPrice, String productImage, int productQuantity) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.productImage = productImage;
         this.order = order;
+        this.productQuantity = productQuantity;
     }
 
     public int getId() {
@@ -74,5 +79,13 @@ public class OrderDetails {
 
     public void setProductImage(String productImage) {
         this.productImage = productImage;
+    }
+
+    public int getProductQuantity() {
+        return productQuantity;
+    }
+
+    public void setProductQuantity(int productQuantity) {
+        this.productQuantity = productQuantity;
     }
 }
