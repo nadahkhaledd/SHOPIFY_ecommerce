@@ -30,11 +30,12 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
 
-    public Response<List<Order>> getOrders(Customer customer) {
+    public Response<List<Order>> getOrders(Customer customer, OrderStatus status) {
         List<Order> orders;
         try (Session session = sessionFactory.openSession()) {
-            orders = session.createQuery("from Order where customer=:customer", Order.class)
+            orders = session.createQuery("from Order where customer=:customer and status=:status", Order.class)
                     .setParameter("customer", customer)
+                    .setParameter("status", status)
                     .list();
         } catch (Exception e) {
             System.out.println("in OrderRepositoryImpl.getOrders stacktrace = " + e.getMessage());
@@ -73,17 +74,22 @@ public class OrderRepositoryImpl implements OrderRepository {
         Response<Order> order = getOrderById(orderId);
         return new Response("Done", 200, false, order.getObjectToBeReturned().getStatus());
     }
-// TODO
-//    public Response<Boolean> updateStatus(int orderId, OrderStatus status) {
-//        Session session = this.sessionFactory.getCurrentSession();
-//        Order order = session.get(Order.class, orderId);
-//        if (order != null) {
-//            order.setStatus(status);
-//            return true;
-//        }
-//        return false;
-//    }
 
+    public Response<Boolean> updateStatus(int orderId, OrderStatus status) {
+        int result;
+        try (Session session = sessionFactory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            Query query = session.createQuery("update Order o set o.status=:status where o.id=:id")
+                    .setParameter("status", status)
+                    .setParameter("id", orderId);
+            result = query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println("in OrderRepositoryImpl.updateOrder stacktrace = " + e.getMessage());
+            return new Response("error occurred while processing your request", 500, true);
+        }
+        return new Response<Boolean>("Done", 200, false, result == 1);
+    }
 //    public void checkOut(int userId) {
 //        //***summary***
 //        //create an order

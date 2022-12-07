@@ -24,9 +24,9 @@ public class OrderServiceImpl implements OrderService{
     }
 
 
-    public Response<List<Order>> getOrders(int userId) {
+    public Response<List<Order>> getOrders(int userId, OrderStatus status) {
         Customer customer = (Customer) userService.getUserById(userId).getObjectToBeReturned();
-        return orderRepository.getOrders(customer);
+        return orderRepository.getOrders(customer, status);
     }
 
     public Response<Order> getOrderById(int orderId) {
@@ -51,16 +51,10 @@ public class OrderServiceImpl implements OrderService{
 //        }
 //    }
 //
-//    public Response<Boolean> updateStatus(int orderId){
-//        switch(orderRepository.checkOrderStatus(orderId)) {
-//            case "placed":
-//                return orderRepository.updateStatus(orderId, OrderStatus.shipped);
-//            case "shipped":
-//                return orderRepository.updateStatus(orderId, OrderStatus.delivered);
-//            default: //returned
-//                return orderRepository.updateStatus(orderId, OrderStatus.returned);
-//        }
-//    }
+
+    public Response<Boolean> updateStatus(int orderId, OrderStatus status) {
+        return  orderRepository.updateStatus(orderId, status);
+    }
 
     public Response checkOut(Customer customer, Order order) {
         return orderRepository.checkOut(customer, order);

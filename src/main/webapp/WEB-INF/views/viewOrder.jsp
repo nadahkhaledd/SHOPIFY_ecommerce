@@ -128,6 +128,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td><a role="button" type="button" class="btn btn-dark" href="/e-commerce/orders/details/${order.id}">View details</a></td>
+                                                    <td><a role="button" type="button" class="btn btn-dark" href="/e-commerce/orders/cancel/${order.id}">Cancel order</a></td>
                                                 </tr>
 
                                             </c:forEach>

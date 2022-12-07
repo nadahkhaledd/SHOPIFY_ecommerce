@@ -10,12 +10,12 @@ import java.util.List;
 
 public interface OrderService {
 
-    Response<List<Order>> getOrders(int userId);
+    Response<List<Order>> getOrders(int userId, OrderStatus status);
     Response<Order> getOrderById(int orderId);
     Response<List<OrderDetails>> getOrderDetails(int orderId);
     Response checkOrderStatus(int orderId);
    // Response<Boolean> cancelOrder(int orderId);
-   // Response<Boolean> updateStatus(int orderId);
+   Response<Boolean> updateStatus(int orderId, OrderStatus status);
     Response checkOut(Customer customer, Order order);
 
 }

@@ -3,6 +3,7 @@ import org.example.entity.Address;
 import org.example.entity.Customer;
 import org.example.entity.Order;
 import org.example.entity.OrderDetails;
+import org.example.enums.OrderStatus;
 import org.example.model.Response;
 import org.example.service.address.AddressService;
 import org.example.service.order.OrderService;
@@ -60,7 +61,7 @@ public class OrderController {
     @GetMapping("/view")
     public String getOrders(Model model) {
         int userId = (int) model.getAttribute("userId");
-        Response<List<Order>> orders = orderService.getOrders(userId);
+        Response<List<Order>> orders = orderService.getOrders(userId, OrderStatus.placed);
         if(orders.isErrorOccurred()) {
             model.addAttribute("statusCode", orders.getStatusCode());
             model.addAttribute("errorMessage", orders.getMessage());
@@ -77,6 +78,17 @@ public class OrderController {
         int userId = (int) model.getAttribute("userId");
         Customer customer = (Customer) userService.getUserById(userId).getObjectToBeReturned();
         Response response = orderService.checkOut(customer, order);
+        return "redirect:/orders/view";
+    }
+
+    @GetMapping("/cancel/{id}")
+    public String cancelOrder(@PathVariable("id") int id, Model model) {
+        Response response = orderService.updateStatus(id, OrderStatus.cancelled);
+        if(response.isErrorOccurred()) {
+            model.addAttribute("statusCode", response.getStatusCode());
+            model.addAttribute("errorMessage", response.getMessage());
+            return"error";
+        }
         return "redirect:/orders/view";
     }
 }
