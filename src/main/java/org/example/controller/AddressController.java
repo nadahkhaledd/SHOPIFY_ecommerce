@@ -79,11 +79,14 @@ public class AddressController {
 
     @PostMapping("/update/{id}")
     public String updateAddress(@Valid @ModelAttribute("updateAddress") Address address, BindingResult bindingResult,
-                                 ModelMap modelMap) {
+                                 ModelMap modelMap, Model model) {
         if(bindingResult.hasErrors()) {
-            Map<String, Object> model = bindingResult.getModel();
+            Map<String, Object> bindingResultModel = bindingResult.getModel();
             return "updateAddress";
         }
+        int userId = (int) model.getAttribute("userId");
+        Customer customer = (Customer) userService.getUserById(userId).getObjectToBeReturned();
+        address.setCustomer(customer);
         Response response = addressService.updateAddress(address);
         if(response.isErrorOccurred()) {
             if(response.isFieldErrorOccurred()) {
