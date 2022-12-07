@@ -62,8 +62,16 @@ public class AuthController {
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user,Model model){
         Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(user.getEmail());
-        if(!matcher.matches() || !doLookup()){
-            model.addAttribute("error","Please enter a valid Email");
+        if(!matcher.matches()){
+            model.addAttribute("registerError","Please enter a valid Email");
+            return "redirect:/register";
+        }
+        try {
+            String[] host = user.getEmail().split("@");
+            doLookup(host[1]);
+        }
+        catch (Exception e){
+            model.addAttribute("registerError","Please enter a valid Email");
             return "redirect:/register";
         }
 

@@ -10,9 +10,7 @@
     <title>Register</title>
 
     <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet">
-
-</head>
-<style>
+    <style>
 .nav {
           list-style-type: none;
           text-align: center;
@@ -25,6 +23,9 @@
           padding: 20px;
         }
 </style>
+
+</head>
+
 <body>
 <!-- partial:index.partial.html -->
 <h2>SHOPIFY</h2>
@@ -41,7 +42,7 @@
             <form:input path="firstName" id="firstName" type="text" name="firstName" placeholder="First Name" required="required" />
             <form:input path="lastName" id="lastName" type="text" name="lastName" placeholder="Last Name" required="required"/>
             <form:input path="email" id="email" type="email" name="email" placeholder="Email" required="required"/>
-            <form:input path="password" id="password" type="text" name="password" placeholder="Password" required="required"/>
+            <form:input path="password" id="password" type="password" name="password" placeholder="Password" required="required"/>
             <form:input path="dateOfBirth" id="dateOfBirth" type="date" name="dateOfBirth" placeholder="Date of birth" min="1960-01-01" max="${date}" required="required"/>
             <ul class="nav">
                 <li>
@@ -53,7 +54,7 @@
                     <label for="female" class="radio"><span>female</span></label>
                 </li>
             </ul>
-
+            <small style="color:red; text-align: center">${registerError}</small>
             <button type="submit">Sign Up</button>
         </form:form>
     </div>

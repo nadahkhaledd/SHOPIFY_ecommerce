@@ -28,7 +28,6 @@
             <form:input path="email" id="email" type="email" name="email" required="true"/>
             <form:input path="password" id="password" type="password" name="password" required="true"/>
             <small style="color:red">${error}</small>
-            <a href="#">Forgot your password?</a>
             <button type="submit">Sign In</button>
         </form:form>
     </div>
