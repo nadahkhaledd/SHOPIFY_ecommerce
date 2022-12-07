@@ -85,7 +85,6 @@ public class ProductController {
 
     @GetMapping("/getAllProducts")
     public String getAllProducts(ModelMap modelMap){
-        System.out.println("innnnnn productss controller");
         Response<List<Product>> productsResponse=productService.getProducts();
         if(productsResponse.isErrorOccurred()){
             modelMap.put("errorMessage",productsResponse.getMessage());

@@ -40,7 +40,6 @@ public class SearchController {
         }
         Set<Product> allReturnedProducts=productsUtils.
                 mergingProductsAndCategoryProducts(categoriesResponse.getObjectToBeReturned(),productsResponse.getObjectToBeReturned());
-        System.out.println("in search");
         System.out.println(allReturnedProducts.toString());
         modelAndView.addObject("products", allReturnedProducts);
         return modelAndView;
