@@ -73,17 +73,18 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <h6 class="font-weight-medium">Shipping</h6>
-                                    <h6 class="font-weight-medium">$10</h6>
+                                    <h6 class="font-weight-medium"><fmt:formatNumber value = "${shipping}" type = "currency"/></h6>
                                 </div>
                             </div>
                             <div class="card-footer border-secondary bg-transparent">
                                 <div class="d-flex justify-content-between mt-2">
                                     <h5 class="font-weight-bold">Total</h5>
-                                    <h5 class="font-weight-bold"><fmt:formatNumber value = "${cartTotal+10}" type = "currency"/></h5>
+                                    <h5 class="font-weight-bold"><fmt:formatNumber value = "${cartTotal+shipping}" type = "currency"/></h5>
                                 </div>
                                 <button class="btn btn-block btn-primary my-3 py-3"
                                 onclick="location.href = '${pageContext.request.contextPath}/cart/checkout'">
                                 Proceed To Checkout</button>
+                                <h2>${cartErrorMessage}</h2>
                             </div>
                         </div>
                     </div>

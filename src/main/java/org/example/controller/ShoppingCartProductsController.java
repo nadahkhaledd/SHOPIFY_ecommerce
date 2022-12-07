@@ -77,9 +77,15 @@ public class ShoppingCartProductsController {
             model.addAttribute("errorMessage", cartProducts.getMessage());
             return"redirect:/user/profile";
         }
-        Response<Double> cartTotal = cartServices.calculateTotal(userId);
         model.addAttribute("cartProducts", cartProducts.getObjectToBeReturned());
-        model.addAttribute("cartTotal", cartTotal.getObjectToBeReturned());
+        if(cartProducts.getObjectToBeReturned().isEmpty()) {
+            model.addAttribute("cartTotal", 0.0);
+            model.addAttribute("shipping", 0.0);
+        } else {
+            Response<Double> cartTotal = cartServices.calculateTotal(userId);
+            model.addAttribute("cartTotal", cartTotal.getObjectToBeReturned());
+            model.addAttribute("shipping", 10.0);
+        }
         return "cart";
     }
 
@@ -88,7 +94,11 @@ public class ShoppingCartProductsController {
     @GetMapping("/checkout")
     public String checkOut(Model model) {
         int userId = (int) model.getAttribute("userId");
-        List<ShoppingCartProducts> cartProducts = cartServices.viewCart(userId).getObjectToBeReturned();
+        Response<List<ShoppingCartProducts>> response = cartServices.viewCart(userId);
+        List<ShoppingCartProducts> cartProducts = response.getObjectToBeReturned();
+        if(cartProducts.isEmpty()) {
+            return "redirect:/cart/view";
+        }
         Double cartTotal = cartServices.calculateTotal(userId).getObjectToBeReturned();
         Response<List<Address>> addresses = addressService.getUserAddresses(userId);
         model.addAttribute("cartProducts", cartProducts);

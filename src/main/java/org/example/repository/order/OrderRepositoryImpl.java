@@ -32,11 +32,12 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     public Response<List<Order>> getOrders(Customer customer) {
         List<Order> orders;
-        try (Session session = sessionFactory.openSession()){
-            orders = session.createQuery("from Order where customer=:customer",Order.class)
-                    .setParameter("customer", customer).list();
+        try (Session session = sessionFactory.openSession()) {
+            orders = session.createQuery("from Order where customer=:customer", Order.class)
+                    .setParameter("customer", customer)
+                    .list();
         } catch (Exception e) {
-            System.out.println("in OrderRepositoryImpl.getOrders stacktrace = " + e.getStackTrace());
+            System.out.println("in OrderRepositoryImpl.getOrders stacktrace = " + e.getMessage());
             return new Response("error occurred while processing your request", 500, true);
         }
         return new Response<List<Order>>("Done",200,false,orders);
