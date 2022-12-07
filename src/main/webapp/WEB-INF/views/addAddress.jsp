@@ -18,18 +18,18 @@
     <form:form modelAttribute="address" method="post">
         <div class="from-row md-4">
             <label for="street">Street</label>
-            <form:input path="street" cssClass="form-control" id="street"/>
+            <form:input path="street" cssClass="form-control" required="true" id="street"/>
             <form:errors path="street" cssClass="error"/>
         </div>
         <div class="from-row">
             <label for="buildingNumber">Building Number </label>
-            <form:input path="buildingNumber" cssClass="form-control" id="buildingNumber" type="number" min="0" step="1"/>
+            <form:input path="buildingNumber" required="true" cssClass="form-control" id="buildingNumber" type="number" min="0" step="1"/>
             <form:errors path="buildingNumber" cssClass="error"/>
         </div>
 
         <div>
             <label for="city">City </label>
-            <form:input path="city" cssClass="form-control" id="city" />
+            <form:input path="city" required="true" cssClass="form-control" id="city" />
             <form:errors path="city" cssClass="error"/>
         </div>
         <br>

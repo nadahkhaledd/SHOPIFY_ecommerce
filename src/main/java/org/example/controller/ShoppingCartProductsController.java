@@ -70,6 +70,9 @@ public class ShoppingCartProductsController {
 
     @GetMapping("/view")
     public String viewCart(Model model) {
+        if(model.getAttribute("userId")==null){
+            return "redirect:/login";
+        }
         int userId = (int) model.getAttribute("userId");
         Response<List<ShoppingCartProducts>> cartProducts = cartServices.viewCart(userId);
         if(cartProducts.isErrorOccurred()) {
@@ -87,6 +90,9 @@ public class ShoppingCartProductsController {
     /// to be modified
     @GetMapping("/checkout")
     public String checkOut(Model model) {
+        if(model.getAttribute("userId")==null){
+            return "redirect:/login";
+        }
         int userId = (int) model.getAttribute("userId");
         List<ShoppingCartProducts> cartProducts = cartServices.viewCart(userId).getObjectToBeReturned();
         Double cartTotal = cartServices.calculateTotal(userId).getObjectToBeReturned();

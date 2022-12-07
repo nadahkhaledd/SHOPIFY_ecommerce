@@ -24,6 +24,9 @@ public class UserController {
 
     @GetMapping("/profile")
     public String getUserInfo(Model model) {
+        if(model.getAttribute("userId")==null){
+            return "redirect:/login";
+        }
         int userId = (int) model.getAttribute("userId");
         Response<User> user = userService.getUserById(userId);
         model.addAttribute("userInfo", user.getObjectToBeReturned());

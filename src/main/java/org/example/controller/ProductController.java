@@ -66,6 +66,9 @@ public class ProductController {
     @PostMapping("/productDetails")
     public String addToCart(@Valid @ModelAttribute("newCartItem") ShoppingCartProducts cartProducts, BindingResult bindingResult,
                             @RequestParam int productId, Model model) {
+        if(model.getAttribute("userId")==null){
+            return "redirect:/login";
+        }
         if(bindingResult.hasErrors()) {
             Map<String, Object> modelMapp = bindingResult.getModel();
             return "productDetails";
