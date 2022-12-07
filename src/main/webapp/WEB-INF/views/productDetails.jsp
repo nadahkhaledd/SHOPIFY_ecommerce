@@ -65,10 +65,18 @@
 
                         <div class="d-flex align-items-center mb-4 pt-2">
                             <form:form modelAttribute="newCartItem" method="post">
+                            <c:if test="${product.availableQuantity > 0}">
                             <form:button class="btn btn-primary px-3"
                                     type="submit">
                                 <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
                             </form:button>
+                            </c:if>
+                            <c:if test="${product.availableQuantity <= 0}">
+                            <form:button class="btn btn-primary px-3"
+                                    type="submit" disabled="true">
+                                    Out of Stock
+                            </form:button>
+                            </c:if>
                             </form:form>
                         </div>
                         <div class="d-flex pt-2">
