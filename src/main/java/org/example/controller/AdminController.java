@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.validation.BindingResult;
@@ -34,7 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@SessionAttributes({"userId", "isAdmin"})
+@SessionAttributes({"isAdmin"})
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminService adminService;
@@ -67,27 +68,27 @@ public class AdminController {
                 new CategoryTypeEditor(categoryService));
     }
 
-    public boolean checkSession(Model model){
-
+    public boolean checkSession(Model model,HttpSession session){
         Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-        if(isAdmin==null ||  !isAdmin) {
+        if(isAdmin==null ||  !isAdmin || session.getAttribute("user-Id")==null) {
             return false;
         }
         return true;
     }
 
     @GetMapping("home")
-    public String adminHome(Model model) {
-        Integer id = (Integer) model.getAttribute("userId");
-        if(!checkSession(model))
+    public String adminHome(Model model, HttpSession session) {
+       //Integer id = (Integer) model.getAttribute("userId");
+        Integer id=(Integer) session.getAttribute("user-Id");
+        if(!checkSession(model,session))
             return "redirect:/login";
         model.addAttribute("name", userRepository.getUsernameByID(id).getObjectToBeReturned().toUpperCase());
         return "adminHome";
     }
 
     @GetMapping("admins")
-    public String getAdmins(Model model) {
-        if(!checkSession(model))
+    public String getAdmins(Model model,HttpSession session) {
+        if(!checkSession(model,session))
             return "redirect:/login";
         Response<List<Admin>> admins = adminService.getAllAdmins();
         model.addAttribute("admins", admins.getObjectToBeReturned());
@@ -95,8 +96,8 @@ public class AdminController {
     }
 
     @GetMapping("showCategories")
-    public String showCategories(Model model) {
-        if(!checkSession(model))
+    public String showCategories(Model model,HttpSession session) {
+        if(!checkSession(model,session))
             return "redirect:/login";
         Response<List<Category>> categoriesResponse = categoryService.getAllCategories();
         model.addAttribute("categories", categoriesResponse.getObjectToBeReturned());
@@ -104,8 +105,8 @@ public class AdminController {
     }
 
     @GetMapping("products")
-    public String showProducts(Model model) {
-        if(!checkSession(model))
+    public String showProducts(Model model,HttpSession session) {
+        if(!checkSession(model,session))
             return "redirect:/login";
         Response<List<Product>> products = productService.getProducts();
         model.addAttribute("products", products.getObjectToBeReturned());
@@ -113,8 +114,8 @@ public class AdminController {
     }
 
     @GetMapping("addAdmin")
-    public String newAdmin(Model model) {
-        if(!checkSession(model))
+    public String newAdmin(Model model,HttpSession session) {
+        if(!checkSession(model,session))
             return "redirect:/login";
         List<String> genders = new ArrayList<>(
                 Arrays.asList(Gender.male.toString(), Gender.female.toString()));
@@ -147,8 +148,8 @@ public class AdminController {
     }
 
     @GetMapping("addCategory")
-    public String newCategory(Model model) {
-        if(!checkSession(model))
+    public String newCategory(Model model,HttpSession session) {
+        if(!checkSession(model,session))
             return "redirect:/login";
         model.addAttribute("category", new Category());
         return "addCategory";
@@ -211,8 +212,8 @@ public class AdminController {
     }
 
     @GetMapping("updateAdmin/{id}")
-    public String updateAdmin(Model model, @PathVariable int id) {
-        if(!checkSession(model))
+    public String updateAdmin(Model model, @PathVariable int id,HttpSession session) {
+        if(!checkSession(model,session))
             return "redirect:/login";
         Response<User> admin = userService.getUserById(id);
         model.addAttribute("admin", admin.getObjectToBeReturned());
@@ -243,8 +244,8 @@ public class AdminController {
     }
 
     @GetMapping("updateCategory/{id}")
-    public String updateCategory(Model model, @PathVariable int id) {
-        if(!checkSession(model))
+    public String updateCategory(Model model, @PathVariable int id,HttpSession session) {
+        if(!checkSession(model,session))
             return "redirect:/login";
         Response<Category> categoryResponse = categoryService.getCategoryByID(id);
         model.addAttribute("category", categoryResponse.getObjectToBeReturned());
@@ -275,8 +276,8 @@ public class AdminController {
     }
 
     @GetMapping("addProduct")
-    public String newProduct(Model model) {
-        if(!checkSession(model))
+    public String newProduct(Model model,HttpSession session) {
+        if(!checkSession(model,session))
             return "redirect:/login";
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryService.getCategoriesNames().getObjectToBeReturned());
@@ -308,8 +309,8 @@ public class AdminController {
     }
 
     @GetMapping("updateProduct/{id}")
-    public String updateProduct(Model model, @PathVariable int id) {
-        if(!checkSession(model))
+    public String updateProduct(Model model, @PathVariable int id,HttpSession session) {
+        if(!checkSession(model,session))
             return "redirect:/login";
         Response<Product> productResponse = productService.getProductsById(id);
         model.addAttribute("categories", categoryService.getCategoriesNames().getObjectToBeReturned());
@@ -343,8 +344,8 @@ public class AdminController {
     }
 
     @GetMapping("removeUser")
-    public String removeUser(Model model) {
-        if(!checkSession(model))
+    public String removeUser(Model model,HttpSession session) {
+        if(!checkSession(model,session))
             return "redirect:/login";
 
         model.addAttribute("fields", new RemoveUserFields());

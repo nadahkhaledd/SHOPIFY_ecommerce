@@ -12,13 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @Controller
-@SessionAttributes({"userId","isAdmin"})
+@SessionAttributes({"isAdmin"})
 public class AuthController {
     @Autowired
     AuthService authService;
@@ -81,7 +83,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("user")  User user, Model model) {
+    public String login(@ModelAttribute("user")  User user, Model model, HttpSession session) {
 
         if(authService.checkIfSuspended(user.getEmail())){
             // authService.sendVerificationEmail(user.getEmail());
@@ -105,6 +107,7 @@ public class AuthController {
         Matcher matcher = pattern.matcher(result.getEmail());
         model.addAttribute("isAdmin", matcher.matches());
         if(matcher.matches()){
+            session.setAttribute("user-Id",responseResult.getObjectToBeReturned().getId());
             return "redirect:/admin/home";
         }
         Response<Boolean> checkIfActivatedResponse=authService.checkIfActivated(result.getId());
@@ -138,8 +141,9 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public String logout(Model model, ModelMap modelMap){
-        model.addAttribute("userId", null);
+    public String logout(Model model,HttpSession session){
+      //  model.addAttribute("userId", null);
+        session.invalidate();
         return  "redirect:/login";
     }
 

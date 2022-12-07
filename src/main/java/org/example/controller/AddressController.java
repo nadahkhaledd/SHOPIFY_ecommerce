@@ -13,13 +13,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/address")
-@SessionAttributes("userId")
 public class AddressController {
     private final AddressService addressService;
     private final UserService userService;
@@ -38,12 +38,12 @@ public class AddressController {
 
     @PostMapping("/add")
     public String addAddress(@Valid @ModelAttribute("address") Address address, BindingResult bindingResult,
-                             Model model) {
+                             Model model, HttpSession session) {
         if(bindingResult.hasErrors()) {
             Map<String, Object> modelMap = bindingResult.getModel();
             return "addAddress";
         }
-        int userId = (int)model.getAttribute("userId");
+        int userId = (int) session.getAttribute("user-Id");
         Customer customer = (Customer) userService.getUserById(userId).getObjectToBeReturned();
         address.setCustomer(customer);
         Response response = addressService.addAddress(address);
@@ -79,12 +79,12 @@ public class AddressController {
 
     @PostMapping("/update/{id}")
     public String updateAddress(@Valid @ModelAttribute("updateAddress") Address address, BindingResult bindingResult,
-                                 ModelMap modelMap, Model model) {
+                                 ModelMap modelMap, Model model,HttpSession session) {
         if(bindingResult.hasErrors()) {
             Map<String, Object> bindingResultModel = bindingResult.getModel();
             return "updateAddress";
         }
-        int userId = (int) model.getAttribute("userId");
+        int userId =  (int) session.getAttribute("user-Id");
         Customer customer = (Customer) userService.getUserById(userId).getObjectToBeReturned();
         address.setCustomer(customer);
         Response response = addressService.updateAddress(address);
@@ -101,8 +101,8 @@ public class AddressController {
     }
 
     @GetMapping("/view")
-    public String getAddresses(Model model) {
-        int userId = (int) model.getAttribute("userId");
+    public String getAddresses(Model model,HttpSession session) {
+        int userId = (int) session.getAttribute("user-Id");
         Response<List<Address>> addresses = addressService.getUserAddresses(userId);
         if(addresses.isErrorOccurred()) {
             model.addAttribute("statusCode", addresses.getStatusCode());

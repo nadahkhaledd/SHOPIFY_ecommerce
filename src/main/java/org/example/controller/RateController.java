@@ -12,20 +12,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-@SessionAttributes("userId")
+import javax.servlet.http.HttpSession;
+
+
 @Controller
 public class RateController {
     @Autowired
     private RateService rateService;
 
     @PostMapping("/rate")
-    public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message, Model model){
+    public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message, HttpSession session, Model model){
        ModelAndView modelAndView=new ModelAndView("redirect:/products/productDetails?productId="+productId);
-       if(model.getAttribute("userId")==null){
+       if(  session.getAttribute("user-Id")==null){
            modelAndView.setViewName("redirect:/login");
            return modelAndView;
        }
-       int userId=(Integer) model.getAttribute("userId");
+       int userId=   (int) session.getAttribute("user-Id");
         System.out.println(userId+" productId = " + productId + ", rate = " + rate + ", message = " + message);
         UserInputReview userInputReview=new UserInputReview(rate,userId,productId,message);
         System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message );
