@@ -8,8 +8,6 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet">
-
-
 </head>
 <body>
 <!-- partial:index.partial.html -->

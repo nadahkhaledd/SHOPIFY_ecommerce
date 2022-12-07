@@ -8,7 +8,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-
     <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet">
     <style>
 .nav {
@@ -22,7 +21,8 @@
           font-size: 20px;
           padding: 20px;
         }
-</style>
+
+    </style>
 
 </head>
 
@@ -39,22 +39,26 @@
     <div class="form-container sign-in-container">
         <form:form modelAttribute="user" method="POST">
             <h1>Sign Up</h1>
-            <form:input path="firstName" id="firstName" type="text" name="firstName" placeholder="First Name" required="required" />
-            <form:input path="lastName" id="lastName" type="text" name="lastName" placeholder="Last Name" required="required"/>
+            <form:input path="firstName" id="firstName" type="text" name="firstName" placeholder="First Name"
+                        required="required"/>
+            <form:input path="lastName" id="lastName" type="text" name="lastName" placeholder="Last Name"
+                        required="required"/>
             <form:input path="email" id="email" type="email" name="email" placeholder="Email" required="required"/>
-            <form:input path="password" id="password" type="password" name="password" placeholder="Password" required="required"/>
-            <form:input path="dateOfBirth" id="dateOfBirth" type="date" name="dateOfBirth" placeholder="Date of birth" min="1960-01-01" max="${date}" required="required"/>
+            <form:input path="password" id="password" type="password" name="password" placeholder="Password"
+                        required="required"/>
+            <form:input path="dateOfBirth" id="dateOfBirth" type="date" name="dateOfBirth" placeholder="Date of birth"
+                        min="1960-01-01" max="${date}" required="required"/>
             <ul class="nav">
                 <li>
                     <form:radiobutton path="gender" value="male" id="male" name="gender" required="true"/>
                     <label for="male" class="radio"><span>male</span></label>
-                </a></li>
+                    </a></li>
                 <li>
                     <form:radiobutton path="gender" value="female" id="female" name="gender"/>
                     <label for="female" class="radio"><span>female</span></label>
                 </li>
             </ul>
-            <small style="color:red; text-align: center">${registerError}</small>
+            <small style="color:red">${error}</small>
             <button type="submit">Sign Up</button>
         </form:form>
     </div>
@@ -82,6 +86,8 @@
 	signUpButton.addEventListener('click', () => {
 		container.classList.add("right-panel-active");
 	});
+
 </script>
 
 </body>
+</html>
