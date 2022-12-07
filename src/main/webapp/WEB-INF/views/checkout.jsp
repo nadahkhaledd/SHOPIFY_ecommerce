@@ -41,6 +41,7 @@
                                 <div class="col-md-6 form-group">
                                         <c:if test="${empty addresses}">
                                             <h2>No addresses found.<br> Please add an address before placing your order.</h2>
+                                            <p class="m-0"><a href="${pageContext.request.contextPath}/address/add">Add address</a></p>
                                         </c:if>
                                         <c:if test="${!empty addresses}">
                                         <c:forEach var="address" items="${addresses}">

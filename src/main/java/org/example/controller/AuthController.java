@@ -13,10 +13,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @Controller
@@ -32,6 +38,18 @@ public class AuthController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(
                 dateFormat, false));
     }
+    static boolean doLookup( String hostName ) throws NamingException {
+        Hashtable env = new Hashtable();
+        env.put("java.naming.factory.initial",
+                "com.sun.jndi.dns.DnsContextFactory");
+        DirContext ictx = new InitialDirContext( env );
+        Attributes attrs =
+                ictx.getAttributes( hostName, new String[] { "MX" });
+        Attribute attr = attrs.get( "MX" );
+        if( attr == null ) return( false );
+
+        return( attr.size()==0?false:true );
+    }
 
     @GetMapping("register")
     public String register(Model model) {
@@ -42,12 +60,24 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user,Model model){
-        System.out.println("in authh controller");
+        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(user.getEmail());
+        if(!matcher.matches()){
+            model.addAttribute("registerError","Please enter a valid Email");
+            return "register";
+        }
+        try {
+            String[] host = user.getEmail().split("@");
+            doLookup(host[1]);
+        }
+        catch (Exception e){
+            model.addAttribute("registerError","Please enter a valid Email");
+            return "register";
+        }
+
         Response<Boolean> response=authService.checkIfUserAlreadyExists(user.getEmail());
-        System.out.println("$$ "+response.toString());
         if(response.isErrorOccurred()){
-            System.out.println("error occured in response");
-            if(response.isFieldErrorOccurred()){//
+            if(response.isFieldErrorOccurred()){
                 model.addAttribute("error",response.getMessage());
                 return "redirect:/login";
             }
@@ -56,9 +86,7 @@ public class AuthController {
             return "error";
         }
         Response registerResponse=authService.register(user);
-        System.out.println("$$ 2"+registerResponse.toString());
         if(registerResponse.isErrorOccurred()){
-            System.out.println("yopu have entered an invalid data");
             model.addAttribute("errorMessage",registerResponse.getMessage());
             model.addAttribute("statusCode",registerResponse.getStatusCode());
             return "error";
@@ -76,7 +104,6 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@ModelAttribute("user")  User user, Model model, HttpSession session) {
 
-        //response hereee!!
         if(authService.checkIfSuspended(user.getEmail())){
             authService.sendVerificationEmail(user.getEmail());
             return "goToYourMail";
