@@ -80,7 +80,7 @@ public class Product {
 
     @NotBlank
     @NotNull
-    @Column(nullable = false, length = 45,unique = true)
+    @Column(nullable = false, length = 45)
     public String getName() {
         return name;
     }
