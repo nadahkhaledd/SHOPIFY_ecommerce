@@ -52,12 +52,12 @@
                                                 <tr>
                                                     <td>Product</td>
                                                     <td>:</td>
-                                                    <td>${orderDetail.productName}     <img src="${orderDetail.productImage}" alt="" style="width: 50px;"></td>
+                                                    <td>${orderDetail.product.name}     <img src="${orderDetail.product.imagePath}" alt="" style="width: 50px;"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Product price</td>
                                                     <td>:</td>
-                                                    <td><fmt:formatNumber value = "${orderDetail.productPrice}" type = "currency"/>(x${orderDetail.productQuantity})</td>
+                                                    <td><fmt:formatNumber value = "${orderDetail.product.price}" type = "currency"/>(x${orderDetail.productQuantity})</td>
                                                 </tr>
                                             </c:forEach>
                                             </c:if>
