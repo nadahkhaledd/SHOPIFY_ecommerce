@@ -31,7 +31,10 @@ public class AuthService {
         return this.authRepo.register(user);
     }
 
-
+    public org.example.model.Response resetPassword(String email,String password){
+        String encryptedPassword=EncryptionService.hashPassword(password);
+        return authRepo.resetPassword(email,encryptedPassword);
+    }
     public void sendVerificationEmail(final String sendTo) {
         final Email from = new Email("prd@storkstores.com");
         final Email to = new Email(sendTo);

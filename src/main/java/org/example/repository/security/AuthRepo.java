@@ -82,6 +82,28 @@ public class AuthRepo {
         }
         return new Response<User>("email or password is wrong", 404, true, true, null);
     }
+    public Response resetPassword(String email,String password){
+
+        boolean isUpdated=updatePassword(email,password);
+        if(isUpdated)
+            return new Response("ok",200,false,false);
+        return new Response("email is not correct",404,true,true);
+
+    }
+    private boolean updatePassword(String email,String password){
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            session.createQuery("update User c set c.password=:password , c.status=1 where c.email=:email")
+                    .setParameter("password", password).setParameter("email", email).executeUpdate();
+            tx.commit();
+
+            //return true;
+        } catch (Exception e) {
+            System.out.println("error in verify email auth repo " + e.getStackTrace().toString());
+            return false;
+        }
+        return true;
+    }
 
     public Response<Boolean> verifyEmail(String email) {
         try (Session session = factory.openSession()) {

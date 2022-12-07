@@ -1,6 +1,7 @@
 package org.example.controller;
 import org.example.entity.Customer;
 import org.example.entity.User;
+import org.example.enums.CustomerStatus;
 import org.example.model.Response;
 import org.example.service.security.AuthService;
 import org.example.utility.DateUtils;
@@ -94,8 +95,22 @@ public class AuthController {
         authService.sendVerificationEmail(user.getEmail());
         return "goToYourMail";//if register has no errors
     }
+    @GetMapping("/reset")
+    public String resetPass(Model model) {
+        model.addAttribute("user", new User());
+        return "resetPassword";
+    }
+    @PostMapping("/reset")
+    public String resetPassword(@ModelAttribute("user")  User user, Model model, HttpSession session) {
+        Response resetPassResponse=authService.resetPassword(user.getEmail(), user.getPassword());
+        if(resetPassResponse.isFieldErrorOccurred()){
+            model.addAttribute("error",resetPassResponse.getMessage());
+            return "redirect:/reset";
+        }
+        return "redirect:/login";
+    }
 
-    @GetMapping("/login")
+        @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new User());
         return "login";
@@ -137,6 +152,7 @@ public class AuthController {
         }
         if(!checkIfActivatedResponse.getObjectToBeReturned()){
             return "goToYourMail";
+
         }
 
 
@@ -152,7 +168,7 @@ public class AuthController {
             modelMap.addAttribute("statusCode",verifyEmailResponse.getStatusCode());
             return "error";
         }
-        return "redirect:/login";
+        return "redirect:/reset";
     }
 
     @GetMapping("/logout")
