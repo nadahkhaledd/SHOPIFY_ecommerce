@@ -26,6 +26,7 @@ public class AdminServiceImplementation implements AdminService{
         validationService=new ValidationService();
         this.repository = repository;
         this.userService = userService;
+        repository.createSuperAdmin();
     }
 
     /**
@@ -43,7 +44,6 @@ public class AdminServiceImplementation implements AdminService{
             return response;
         }
       else{
-            System.out.println("beforrrrrrrr");
             Response adminResponse=repository.addAdmin(admin);
             System.out.println("email is valid 444");
             if(adminResponse.isErrorOccurred()){
