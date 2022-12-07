@@ -9,7 +9,7 @@
         <layout:put block="style" type="REPLACE">
             <link href="${pageContext.request.contextPath}/resources/css/newMember.css" rel="stylesheet">
         </layout:put>
-        <title><layout:put block="title" type="REPLACE">Add new admin</layout:put></title>
+        <title><layout:put block="title" type="REPLACE">Update admin</layout:put></title>
     </head>
     <body>
     <layout:put block="content" type="REPLACE">
@@ -17,7 +17,7 @@
             <div class="testbox">
                 <form:form modelAttribute="admin" method="POST" >
                     <div class="banner" style="background-color:maroon">
-                        <h1>Update Admin</h1>
+                        <h1>Update Admin <i>${admin.firstName} ${admin.lastName}</i></h1>
                     </div>
                     <div class="columns">
                         <div class="item">

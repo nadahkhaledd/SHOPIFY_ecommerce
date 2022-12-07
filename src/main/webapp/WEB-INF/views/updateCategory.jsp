@@ -8,7 +8,7 @@
     <layout:put block="style" type="REPLACE">
         <link href="${pageContext.request.contextPath}/resources/css/newMember.css" rel="stylesheet">
     </layout:put>
-    <title><layout:put block="title" type="REPLACE">Add new Category</layout:put></title>
+    <title><layout:put block="title" type="REPLACE">Update category</layout:put></title>
   </head>
   <body>
      <layout:put block="content" type="REPLACE">

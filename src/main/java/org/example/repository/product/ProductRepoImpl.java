@@ -5,6 +5,8 @@ import org.example.entity.Product;
 import org.example.model.Response;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -90,6 +92,31 @@ public class ProductRepoImpl implements ProductRepo {
             }
 
         return new Response<Product>("Done", 200, false, product);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Response<Boolean> deleteProduct(int id) {
+        int results;
+
+        try (Session session = sessionFactory.openSession()) {
+
+            Transaction tx = session.beginTransaction();
+            Query query = session.createQuery(
+                    "delete from Product p where p.id=:id"
+            );
+            query.setParameter("id", id);
+            results = query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println("in productRepoImpl.deleteProductByID e.getStackTrace() = " + e.getStackTrace());
+            return new Response("error occurred while processing your request", 500, true);
+
+        }
+        return new Response("Done", 200, false, results == 1);
+
     }
 
     /**

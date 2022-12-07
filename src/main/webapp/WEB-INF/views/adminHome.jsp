@@ -130,7 +130,7 @@
                                                       padding: 25px 10px;">
                         <div class="card">
                             <h4>Update product</h4>
-                            <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/updateProduct" style="
+                            <a role="button" type="button" class="btn btn-dark" href="/e-commerce/admin/products" style="
 
                                                         height: 40px;
                                                        display: inline;
