@@ -20,6 +20,10 @@
             <div class="container-fluid pt-5">
                 <div class="row px-xl-5">
                     <div class="col-lg-8 table-responsive mb-5">
+                        <c:if test="${empty cartProducts}">
+                            <h2> No items in cart. </h2>
+                        </c:if>
+                        <c:if test="${!empty cartProducts}">
                         <table class="table table-bordered text-center mb-0">
                             <thead class="bg-secondary text-dark">
                                 <tr>
@@ -31,7 +35,6 @@
                                 </tr>
                             </thead>
                             <tbody class="align-middle">
-                            <c:if test="${!empty cartProducts}">
                                 <c:forEach var="product" items="${cartProducts}">
                                     <tr>
                                         <td class="align-middle"><img src="${product.product.imagePath}" alt="" style="width: 50px;"> ${product.product.name}</td>
@@ -57,9 +60,9 @@
                                         <td class="align-middle"><button class="btn btn-sm btn-primary" onclick="location.href = '${pageContext.request.contextPath}/cart/delete/${product.id}'"><i class="fa fa-times"></i></button></td>
                                     </tr>
                                 </c:forEach>
-                            </c:if>
                             </tbody>
                         </table>
+                            </c:if>
                     </div>
                     <div class="col-lg-4">
                         <div class="card border-secondary mb-5">
@@ -84,7 +87,7 @@
                                 <button class="btn btn-block btn-primary my-3 py-3"
                                 onclick="location.href = '${pageContext.request.contextPath}/cart/checkout'">
                                 Proceed To Checkout</button>
-                                <h2>${cartErrorMessage}</h2>
+
                             </div>
                         </div>
                     </div>

@@ -57,11 +57,6 @@
                                             style="outline:0;border:0;background-color: #fff;">
                                         <i class="fa fa-truck fa-xs"></br>Orders</i>
                                         </button>
-                                        <button type="button" class="edit-button"
-                                            onclick="location.href='${pageContext.request.contextPath}/user/edit'"
-                                            style="outline:0;border:0;background-color: #fff;">
-                                        <i class="fa fa-pen fa-xs"></br>Edit</i>
-                                        </button>
                                         <div class="profile-card-body-table">
                                         <table>
                                             <tbody>
@@ -83,7 +78,7 @@
                                                 <tr>
                                                     <td>Date of birth</td>
                                                     <td>:</td>
-                                                    <td>${userInfo.dateOfBirth}</td>
+                                                    <td><fmt:formatDate type="date" value="${userInfo.dateOfBirth}" /></td>
                                                 </tr>
                                             </tbody>
                                         </table>

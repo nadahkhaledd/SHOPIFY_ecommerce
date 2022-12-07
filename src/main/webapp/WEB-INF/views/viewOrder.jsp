@@ -107,9 +107,12 @@
                                                                      padding: 20px 0 20px 50px;">
                                     <div class="profile-card-body" style="text-align: center;">
                                         <div class="profile-card-body-table">
+                                        <c:if test="${empty orders}">
+                                            <h2>No orders placed.</h2>
+                                        </c:if>
+                                        <c:if test="${!empty orders}">
                                         <table>
                                             <tbody>
-                                            <c:if test="${!empty orders}">
                                                 <c:forEach var="order" items="${orders}">
                                                 <tr>
                                                     <td>Order date</td>
@@ -124,17 +127,16 @@
                                                 <tr>
                                                     <td>Price</td>
                                                     <td>:</td>
-                                                    <td>${order.total}</td>
+                                                    <td><fmt:formatNumber value = "${order.total+10}" type = "currency"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td><a role="button" type="button" class="btn btn-dark" href="/e-commerce/orders/details/${order.id}">View details</a></td>
                                                     <td><a role="button" type="button" class="btn btn-dark" href="/e-commerce/orders/cancel/${order.id}">Cancel order</a></td>
                                                 </tr>
-
                                             </c:forEach>
-                                            </c:if>
                                             </tbody>
                                         </table>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>

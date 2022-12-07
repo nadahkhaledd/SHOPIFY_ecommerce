@@ -61,11 +61,11 @@
                                                 <tr>
                                                     <td>Product price</td>
                                                     <td>:</td>
-                                                    <td>${orderDetail.productPrice}</td>
+                                                    <td><fmt:formatNumber value = "${orderDetail.productPrice}" type = "currency"/></td>
                                                 </tr>
                                             </c:forEach>
                                             </c:if>
-                                            <p>Subtotal </br> ${orderDetails[0].order.total}</p>
+                                            <p>Subtotal</br><fmt:formatNumber value = "${orderDetails[0].order.total+10}" type = "currency"/></p>
                                             </tbody>
                                         </table>
                                         </div>

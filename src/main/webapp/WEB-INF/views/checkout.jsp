@@ -40,7 +40,7 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                         <c:forEach var="address" items="${addresses}">
-                                            <input type="radio" name="address"  path="address" value="${address.id}">
+                                            <input type="radio" name="address" required="true" path="address" value="${address.id}">
                                             &nbsp;Street: ${address.street}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;City: ${address.city}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Building number: ${address.buildingNumber}
                                             <br/><br/>
                                         </c:forEach>

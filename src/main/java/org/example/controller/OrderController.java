@@ -78,6 +78,11 @@ public class OrderController {
         int userId = (int) session.getAttribute("user-Id");
         Customer customer = (Customer) userService.getUserById(userId).getObjectToBeReturned();
         Response response = orderService.checkOut(customer, order);
+        if(response.isErrorOccurred()) {
+            model.addAttribute("statusCode", response.getStatusCode());
+            model.addAttribute("errorMessage", response.getMessage());
+            return"error";
+        }
         return "redirect:/orders/view";
     }
 
