@@ -85,9 +85,17 @@
                                     <h5 class="font-weight-bold">Total</h5>
                                     <h5 class="font-weight-bold"><fmt:formatNumber value = "${cartTotal+shipping}" type = "currency"/></h5>
                                 </div>
+                        <c:if test="${empty cartProducts}">
+                                <button class="btn btn-block btn-primary my-3 py-3"
+                                onclick="location.href = '${pageContext.request.contextPath}/cart/checkout'"
+                                disabled="true">
+                                Proceed To Checkout</button>
+                        </c:if>
+                        <c:if test="${!empty cartProducts}">
                                 <button class="btn btn-block btn-primary my-3 py-3"
                                 onclick="location.href = '${pageContext.request.contextPath}/cart/checkout'">
                                 Proceed To Checkout</button>
+                        </c:if>
 
                             </div>
                         </div>
