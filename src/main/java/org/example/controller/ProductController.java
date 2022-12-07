@@ -74,12 +74,14 @@ public class ProductController {
             return "productDetails";
         }
         Response<Product> product = productService.getProductsById(productId);
-        int userId =(int) session.getAttribute("user-Id");
-        Response<User> user = userService.getUserById(userId);
-        cartProducts.setProductQuantity(1);
-        cartProducts.setProduct(product.getObjectToBeReturned());
-        cartProducts.setUser(user.getObjectToBeReturned());
-        cartService.addToCart(cartProducts);
+        if(product.getObjectToBeReturned().getAvailableQuantity() > 0) {
+            int userId =(int) session.getAttribute("user-Id");
+            Response<User> user = userService.getUserById(userId);
+            cartProducts.setProductQuantity(1);
+            cartProducts.setProduct(product.getObjectToBeReturned());
+            cartProducts.setUser(user.getObjectToBeReturned());
+            cartService.addToCart(cartProducts);
+        }
         return "redirect:/products/getAllProducts";
     }
 

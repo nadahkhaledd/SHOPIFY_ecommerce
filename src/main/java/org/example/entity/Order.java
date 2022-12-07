@@ -19,7 +19,7 @@ public class Order{
     @ManyToOne
     private Address address;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order",fetch = FetchType.EAGER)
     private List<OrderDetails> orderDetails;
 
     @JoinColumn(name = "customer_id")

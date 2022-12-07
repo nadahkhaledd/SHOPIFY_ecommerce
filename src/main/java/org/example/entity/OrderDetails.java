@@ -3,6 +3,8 @@ package org.example.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name="order_details")
@@ -23,16 +25,10 @@ public class OrderDetails {
     public void setOrder(Order order) {
         this.order = order;
     }
-
-    @Column(name = "product_name")
-    @NotNull
-    private String productName;
-    @Column(name = "product_price")
-    @NotNull
-    private double productPrice;
-    @Column(name = "product_image")
-    @NotNull
-    private String productImage;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Product product;
     @Column(name = "product_quantity")
     @NotNull
     private int productQuantity;
@@ -41,10 +37,7 @@ public class OrderDetails {
 
     public OrderDetails() {
     }
-    public OrderDetails(Order order, String productName, double productPrice, String productImage, int productQuantity) {
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productImage = productImage;
+    public OrderDetails(Order order,int productQuantity) {
         this.order = order;
         this.productQuantity = productQuantity;
     }
@@ -57,29 +50,6 @@ public class OrderDetails {
         this.id = id;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public double getProductPrice() {
-        return productPrice;
-    }
-
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
-    }
-
-    public String getProductImage() {
-        return productImage;
-    }
-
-    public void setProductImage(String productImage) {
-        this.productImage = productImage;
-    }
 
     public int getProductQuantity() {
         return productQuantity;
@@ -87,5 +57,13 @@ public class OrderDetails {
 
     public void setProductQuantity(int productQuantity) {
         this.productQuantity = productQuantity;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

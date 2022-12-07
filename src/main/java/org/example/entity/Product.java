@@ -3,6 +3,8 @@ package org.example.entity;
 
 import javax.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -24,6 +26,8 @@ public class Product {
     private int availableQuantity;
 
     private double rate;
+
+    private List<OrderDetails> orderDetails;
 
     private List<Rate> rates;
 
@@ -125,6 +129,15 @@ public class Product {
     }
     public void setAvailableQuantity(int availableQuantity) {
         this.availableQuantity = availableQuantity;
+    }
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    public List<OrderDetails> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetails> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 
     @Override

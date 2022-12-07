@@ -6,6 +6,7 @@ import org.example.entity.OrderDetails;
 import org.example.enums.OrderStatus;
 import org.example.model.Response;
 import org.example.repository.order.OrderRepository;
+import org.example.service.product.ProductService;
 import org.example.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,13 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService{
     private final OrderRepository orderRepository;
     private final UserService userService;
+    private final ProductService productService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, UserService userService) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, ProductService productService) {
         this.orderRepository = orderRepository;
         this.userService = userService;
+        this.productService = productService;
     }
 
 

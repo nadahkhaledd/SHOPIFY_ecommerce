@@ -3,6 +3,7 @@ package org.example.repository.order;
 import org.example.entity.*;
 import org.example.enums.OrderStatus;
 import org.example.model.Response;
+import org.example.service.product.ProductService;
 import org.example.service.shoppingcartproducts.ShoppingCartProductsService;
 import org.example.service.user.UserService;
 import org.hibernate.Session;
@@ -16,17 +17,20 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class OrderRepositoryImpl implements OrderRepository {
 
     private final SessionFactory sessionFactory;
     private final ShoppingCartProductsService cartProductsService;
+    private final ProductService productService;
 
     @Autowired
-    public OrderRepositoryImpl(SessionFactory sessionFactory, ShoppingCartProductsService cartProductsService, UserService userService) {
+    public OrderRepositoryImpl(SessionFactory sessionFactory, ShoppingCartProductsService cartProductsService, UserService userService, ProductService productService) {
         this.sessionFactory = sessionFactory;
         this.cartProductsService = cartProductsService;
+        this.productService = productService;
     }
 
 
@@ -83,12 +87,22 @@ public class OrderRepositoryImpl implements OrderRepository {
                     .setParameter("status", status)
                     .setParameter("id", orderId);
             result = query.executeUpdate();
+            cancelProduct(orderId);
             tx.commit();
         } catch (Exception e) {
             System.out.println("in OrderRepositoryImpl.updateOrder stacktrace = " + e.getMessage());
             return new Response("error occurred while processing your request", 500, true);
         }
         return new Response<Boolean>("Done", 200, false, result == 1);
+    }
+
+    public void cancelProduct(int orderId) {
+        List<OrderDetails> orderDetails = getOrderById(orderId).getObjectToBeReturned()
+                .getOrderDetails();
+        for(OrderDetails od : orderDetails) {
+            Product product = od.getProduct();
+            productService.updateProductQuantity(product.getId(), od.getProductQuantity() + product.getAvailableQuantity());
+        }
     }
 //    public void checkOut(int userId) {
 //        //***summary***
@@ -127,9 +141,11 @@ public class OrderRepositoryImpl implements OrderRepository {
             order.setStatus(OrderStatus.placed);
             Double totalOrderPrice = 0.0;
             for(ShoppingCartProducts cartItems : customer.getShoppingCartProducts()) {
-                OrderDetails od = new OrderDetails(order, cartItems.getProduct().getName(), cartItems.getProduct().getPrice(),cartItems.getProduct().getImagePath(),cartItems.getProductQuantity());
+                OrderDetails od = new OrderDetails(order, cartItems.getProductQuantity());
+                od.setProduct(cartItems.getProduct());
                 session.persist(od);
                 totalOrderPrice += cartItems.getProduct().getPrice() * cartItems.getProductQuantity();
+                productService.updateProductQuantity(cartItems.getProduct().getId(), cartItems.getProduct().getAvailableQuantity()-cartItems.getProductQuantity());
                 cartProductsService.removeFromCart(cartItems.getId());
             }
             order.setTotal(totalOrderPrice);
