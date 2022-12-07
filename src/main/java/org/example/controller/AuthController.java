@@ -76,7 +76,9 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@ModelAttribute("user")  User user, Model model, HttpSession session) {
 
+        //response hereee!!
         if(authService.checkIfSuspended(user.getEmail())){
+            authService.sendVerificationEmail(user.getEmail());
             return "goToYourMail";
         }
         Response<User> responseResult = this.authService.login(user.getEmail(), user.getPassword());
@@ -109,11 +111,7 @@ public class AuthController {
         if(!checkIfActivatedResponse.getObjectToBeReturned()){
             return "goToYourMail";
         }
-        //response hereee!!
-        if(authService.checkIfSuspended(result.getEmail())){
-            authService.sendVerificationEmail(result.getEmail());
-            return "goToYourMail";
-        }
+
 
         session.setAttribute("user-Id",responseResult.getObjectToBeReturned().getId());
         return "redirect:/home";
