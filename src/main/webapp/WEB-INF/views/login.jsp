@@ -29,7 +29,7 @@
             <form:input path="password" id="password" type="password" name="password" required="true"/>
             <small style="color:red">${error}</small>
             <a href="#">Forgot your password?</a>
-            <button>Sign In</button>
+            <button type="submit">Sign In</button>
         </form:form>
     </div>
     <div class="overlay-container">

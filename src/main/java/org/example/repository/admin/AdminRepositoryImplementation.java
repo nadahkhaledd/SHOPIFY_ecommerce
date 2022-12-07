@@ -8,6 +8,7 @@ import org.example.enums.CustomerStatus;
 import org.example.enums.Gender;
 import org.example.model.Response;
 import org.example.repository.category.CategoryRepository;
+import org.example.service.security.EncryptionService;
 import org.example.utility.DateUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -40,6 +41,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
     public Response addAdmin(User admin) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
+            admin.setPassword(EncryptionService.hashPassword(admin.getPassword()));
             admin.setStatus(CustomerStatus.ACTIVATED);
             admin.setPasswordAttempts(0);
             session.persist(admin);
@@ -49,7 +51,6 @@ public class AdminRepositoryImplementation implements AdminRepository{
             System.out.println("in AdminRepositoryImplementation.addAdmin  e.getMessage() = " + e.getMessage());
             return new Response("error occurred while processing your request", 500, true);
         }
-        System.out.println("magetsh fel error");
         return new Response("Done", 200, false);
     }
 
@@ -61,7 +62,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
         Date date = dateUtils.convertStringToDate("1989-10-13");
 
         Admin superAdmin = new Admin("super", "admin",
-                "superadmin@shop.com", "super@dm1n",
+                "superadmin@shopify.com", "super@dm1n",
                 Gender.male, date);
         addAdmin(superAdmin);
     }
