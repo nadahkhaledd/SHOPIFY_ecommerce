@@ -58,7 +58,7 @@
                     <label for="female" class="radio"><span>female</span></label>
                 </li>
             </ul>
-            <small style="color:red">${error}</small>
+            <small style="color:red; margin-bottom:10px">${registerError}</small>
             <button type="submit">Sign Up</button>
         </form:form>
     </div>

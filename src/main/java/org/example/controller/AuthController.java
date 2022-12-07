@@ -64,7 +64,7 @@ public class AuthController {
         Matcher matcher = pattern.matcher(user.getEmail());
         if(!matcher.matches()){
             model.addAttribute("registerError","Please enter a valid Email");
-            return "redirect:/register";
+            return "register";
         }
         try {
             String[] host = user.getEmail().split("@");
@@ -72,7 +72,7 @@ public class AuthController {
         }
         catch (Exception e){
             model.addAttribute("registerError","Please enter a valid Email");
-            return "redirect:/register";
+            return "register";
         }
 
         Response<Boolean> response=authService.checkIfUserAlreadyExists(user.getEmail());
