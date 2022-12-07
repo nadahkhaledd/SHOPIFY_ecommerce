@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 @Controller
 
@@ -24,8 +25,9 @@ public class HomeController {
 
 
     @GetMapping("/home")
-    public ModelAndView getAllItems() {
+    public ModelAndView getAllItems(HttpSession session,Model model) {
         ModelAndView modelAndView = new ModelAndView("home");
+        model.addAttribute("userId",session.getAttribute("user-Id"));
         Response<List<Category>> categoriesResponse = categoryService.getAllCategories();
         //categories.forEach(System.out::println);
         Response<List<Product>> productsResponse = productService.getProducts();

@@ -42,15 +42,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user,Model model){
-     /*   if(authService.checkIfUserAlreadyExists(user.getEmail())){
-            model.addAttribute("error","you already have an account please login directly");
-            return "redirect:/login";
-        }
-
-        if(authService.register(user)){
-
-            return "goToYourMail";
-        }*/
         System.out.println("in authh controller");
         Response<Boolean> response=authService.checkIfUserAlreadyExists(user.getEmail());
         System.out.println("$$ "+response.toString());
@@ -72,7 +63,7 @@ public class AuthController {
             model.addAttribute("statusCode",registerResponse.getStatusCode());
             return "error";
         }
-
+        authService.sendVerificationEmail(user.getEmail());
         return "goToYourMail";//if register has no errors
     }
 
@@ -86,7 +77,6 @@ public class AuthController {
     public String login(@ModelAttribute("user")  User user, Model model, HttpSession session) {
 
         if(authService.checkIfSuspended(user.getEmail())){
-            // authService.sendVerificationEmail(user.getEmail());
             return "goToYourMail";
         }
         Response<User> responseResult = this.authService.login(user.getEmail(), user.getPassword());
@@ -121,11 +111,11 @@ public class AuthController {
         }
         //response hereee!!
         if(authService.checkIfSuspended(result.getEmail())){
-            //send email
+            authService.sendVerificationEmail(result.getEmail());
             return "goToYourMail";
         }
 
-
+        session.setAttribute("user-Id",responseResult.getObjectToBeReturned().getId());
         return "redirect:/home";
     }
 
