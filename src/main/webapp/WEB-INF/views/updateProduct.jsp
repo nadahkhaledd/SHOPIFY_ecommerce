@@ -24,6 +24,7 @@
                             <form:input path="name" id="name" value="${name}" type="text" name="name" required="true"/>
                             <form:errors path="name" cssClass="error"/>
                         </div>
+
                         <div class="item">
                             <label for="imagePath">Image path<span>*</span></label>
                             <form:input path="imagePath" value="${imagePath}" id="imagePath" type="text" name="imagePath" required="true"/>

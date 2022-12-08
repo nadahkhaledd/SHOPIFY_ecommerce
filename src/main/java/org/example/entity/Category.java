@@ -53,7 +53,7 @@ public class Category {
         this.imagePath = imagePath;
     }
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER,cascade  = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", orphanRemoval = true, fetch = FetchType.EAGER,cascade  = CascadeType.ALL)
     public List<Product> getProducts() {
         return products;
     }

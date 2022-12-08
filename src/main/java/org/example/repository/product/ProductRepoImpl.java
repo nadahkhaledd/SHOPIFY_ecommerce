@@ -25,13 +25,13 @@ public class ProductRepoImpl implements ProductRepo {
     public Response<Product> getProduct(int productId) {
         Product product;
         try (Session session = sessionFactory.openSession()) {
-                product = session.createQuery("from Product where id=:productId", Product.class)
-                        .setParameter("productId", productId)
-                        .getSingleResult();}
-          catch (Exception e) {
-                System.out.println("in get products repo impl  e.getMessage() = " + e.getMessage());
-                return new Response("error occurred while processing your request", 500, true);
-            }
+            product = session.createQuery("from Product where id=:productId", Product.class)
+                    .setParameter("productId", productId)
+                    .getSingleResult();
+        } catch (Exception e) {
+            System.out.println("in get products repo impl  e.getMessage() = " + e.getMessage());
+            return new Response("error occurred while processing your request", 500, true);
+        }
 
         return new Response<Product>("Done", 200, false, product);
     }
@@ -43,14 +43,14 @@ public class ProductRepoImpl implements ProductRepo {
     public Response addProduct(Product product) {
         try (Session session = sessionFactory.openSession()) {
 
-                session.beginTransaction();
-                session.persist(product);//return type of persist is void
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                System.out.println("in add product repo impl  e.getMessage() = " + e.getMessage());
-                return new Response("error occurred while processing your request", 500, true);
+            session.beginTransaction();
+            session.persist(product);//return type of persist is void
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("in add product repo impl  e.getMessage() = " + e.getMessage());
+            return new Response("error occurred while processing your request", 500, true);
 
-            }
+        }
 
         return new Response("Done", 200, false, product);
 
@@ -83,13 +83,13 @@ public class ProductRepoImpl implements ProductRepo {
     public Response<Product> deleteProduct(Product product) {
         try (Session session = sessionFactory.openSession()) {
 
-                session.beginTransaction();
-                session.remove(product);//(delete vs remove)If you have the index of the item to be eliminated, del is probably best. But if you have the value that you want to eliminate, .remove() is likely to be best.
-                session.getTransaction().commit();}
-             catch (Exception e) {
-                System.out.println("in delete product repo impl e.getMessage() = " + e.getMessage());
-                return new Response("error occurred while processing your request", 500, true);
-            }
+            session.beginTransaction();
+            session.remove(product);//(delete vs remove)If you have the index of the item to be eliminated, del is probably best. But if you have the value that you want to eliminate, .remove() is likely to be best.
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("in delete product repo impl e.getMessage() = " + e.getMessage());
+            return new Response("error occurred while processing your request", 500, true);
+        }
 
         return new Response<Product>("Done", 200, false, product);
     }
@@ -127,16 +127,16 @@ public class ProductRepoImpl implements ProductRepo {
         int rowsAffected = 0;
         try (Session session = sessionFactory.openSession()) {
 
-                session.beginTransaction();
-                rowsAffected = session.createQuery("UPDATE Product set rate = :rate " + "WHERE id = :productId").
-                        setParameter("rate", rate).setParameter("productId", productId)
-                        .executeUpdate();
-                System.out.println(rowsAffected + " rowsAffected ");
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                System.out.println("in update product rate product repo impl e.getMessage() = " + e.toString());
-                return new Response("error occurred while processing your request", 500, true);
-            }
+            session.beginTransaction();
+            rowsAffected = session.createQuery("UPDATE Product set rate = :rate " + "WHERE id = :productId").
+                    setParameter("rate", rate).setParameter("productId", productId)
+                    .executeUpdate();
+            System.out.println(rowsAffected + " rowsAffected ");
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("in update product rate product repo impl e.getMessage() = " + e.toString());
+            return new Response("error occurred while processing your request", 500, true);
+        }
 
         return new Response<Boolean>("Done", 200, false, rowsAffected == 1);
 
@@ -150,16 +150,16 @@ public class ProductRepoImpl implements ProductRepo {
         int rowsAffected = 0;
         try (Session session = sessionFactory.openSession()) {
 
-                session.beginTransaction();
-                rowsAffected = session.createQuery("UPDATE Product set availableQuantity= :quantity " + "WHERE id = :productId").
-                        setParameter("quantity", quantity).setParameter("productId", productId)
-                        .executeUpdate();
-                System.out.println(rowsAffected + " rowsAffected ");
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                System.out.println("in update product quantity product repo impl  e.getMessage() = " + e.getMessage());
-                return new Response("error occurred while processing your request", 500, true);
-            }
+            session.beginTransaction();
+            rowsAffected = session.createQuery("UPDATE Product set availableQuantity= :quantity " + "WHERE id = :productId").
+                    setParameter("quantity", quantity).setParameter("productId", productId)
+                    .executeUpdate();
+            System.out.println(rowsAffected + " rowsAffected ");
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("in update product quantity product repo impl  e.getMessage() = " + e.getMessage());
+            return new Response("error occurred while processing your request", 500, true);
+        }
 
         return new Response<Boolean>("Done", 200, false, rowsAffected == 1);
 
@@ -173,15 +173,14 @@ public class ProductRepoImpl implements ProductRepo {
         List<Product> products;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            products = session.createQuery("from Product").list();}
-            catch (Exception e) {
-                System.out.println("in update product rate product repo impl e.getMessage() = " + e.getMessage());
-                return new Response("error occurred while processing your request", 500, true);
-            }
-        return new Response<List<Product>>("Done",200,false,products) ;
+            products = session.createQuery("from Product").list();
+        } catch (Exception e) {
+            System.out.println("in update product rate product repo impl e.getMessage() = " + e.getMessage());
+            return new Response("error occurred while processing your request", 500, true);
+        }
+        return new Response<List<Product>>("Done", 200, false, products);
 
     }
-
 
 
     /**
@@ -194,39 +193,55 @@ public class ProductRepoImpl implements ProductRepo {
             session.beginTransaction();
             products = session.createQuery("select p from Product as p inner join p.category as c where c.id=:categoryId").
                     setParameter("categoryId", categoryId).list();
-        } catch (Exception e){
-               System.out.println("in get products by category  product repo impl e.getMessage() = " + e.getMessage());
-               return new Response("error occurred while processing your request",500,true);
+        } catch (Exception e) {
+            System.out.println("in get products by category  product repo impl e.getMessage() = " + e.getMessage());
+            return new Response("error occurred while processing your request", 500, true);
 
         }
-        return new Response<List<Product>>("Done",200,false,products) ;
+        return new Response<List<Product>>("Done", 200, false, products);
+
+    }
+
+    /**
+     * @InheritedDoc
+     */
+    @Override
+    public Response<Integer> getNumberOfCategoryProducts(int categoryId) {
+        int number=0;
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            number = session.createQuery("select COUNT(p.id) from Product where p.category_id=:categoryId", Integer.class).
+                    setParameter("categoryId", categoryId).getSingleResult();
+        } catch (Exception e){
+            System.out.println("in ProductRepoImpl.getNumberOfCategoryProducts " + e.getMessage());
+            return new Response("error occurred while processing your request",500,true);
+
+        }
+        return new Response<Integer>("Done",200,false,number) ;
 
     }
 
 
-        /**
-         * @InheritedDoc
-         */
-        @Override
-        public Response<List<Product>> searchByProductName(String productName) {
+    /**
+     * @InheritedDoc
+     */
+    @Override
+    public Response<List<Product>> searchByProductName(String productName) {
 
-            List<Product> products;
-            try (Session session = sessionFactory.openSession()) {
-                session.beginTransaction();
-                products = session.createQuery("from Product where name like :searchkey or name= :productName", Product.class).
-                        setParameter("searchkey", "%" + productName + "%")
-                        .setParameter("productName", productName).list();
-            }
-            catch (Exception e){
-                System.out.println("in search by product name  product repo impl e.getMessage() = " + e.getMessage().toString());
-                return new Response("error occurred while processing your request",500,true);
-
-            }
-            return new Response<List<Product>>("Done",200,false,products) ;
+        List<Product> products;
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            products = session.createQuery("from Product where name like :searchkey or name= :productName", Product.class).
+                    setParameter("searchkey", "%" + productName + "%")
+                    .setParameter("productName", productName).list();
+        } catch (Exception e) {
+            System.out.println("in search by product name  product repo impl e.getMessage() = " + e.getMessage().toString());
+            return new Response("error occurred while processing your request", 500, true);
 
         }
+        return new Response<List<Product>>("Done", 200, false, products);
 
-
+    }
 
 
     /**
@@ -240,12 +255,11 @@ public class ProductRepoImpl implements ProductRepo {
             session.beginTransaction();
             product = (Product) session.createQuery("from Product where id= :productId")
                     .setParameter("productId", productId).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("in get products by id product repo impl e.getMessage() = " + e.getMessage());
+            return new Response("error occurred while processing your request", 500, true);
         }
-            catch (Exception e){
-                System.out.println("in get products by id product repo impl e.getMessage() = " + e.getMessage());
-                return new Response("error occurred while processing your request",500,true);
-        }
-        return new Response<Product>("Done",200,false,product) ;
+        return new Response<Product>("Done", 200, false, product);
 
     }
 

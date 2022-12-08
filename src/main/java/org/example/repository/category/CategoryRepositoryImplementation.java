@@ -76,19 +76,16 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
 
         try (Session session = factory.openSession()) {
 
-                Transaction tx = session.beginTransaction();
-                Query query = session.createQuery(
-                        "delete from Category c where c.id=:id"
-                );
-                query.setParameter("id", categoryID);
-                results = query.executeUpdate();
-                tx.commit();
+            Transaction tx = session.beginTransaction();
+            Category category = session.get(Category.class, categoryID);
+            session.delete(category);
+            tx.commit();
             } catch (Exception e) {
                 System.out.println("in remove category category repo impl e.getStackTrace() = " + e.getStackTrace());
                 return new Response("error occurred while processing your request", 500, true);
 
         }
-        return new Response("Done", 200, false, results == 1);
+        return new Response("Done", 200, false, true);
 
     }
 

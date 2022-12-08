@@ -25,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @Inherited Doc
+     * @InheritedDoc
      */
     @Override
     public Response addProduct(Product product) {
@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @Inherited Doc
+     * @InheritedDoc
      */
     @Override
     public Response updateProduct(Product product) {
@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @Inherited Doc
+     * @InheritedDoc
      */
     @Override
     public Response deleteProduct(Product product) {
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @Inherited Doc
+     * @InheritedDoc
      */
     @Override
     public Response<Boolean> updateProductRate(int productId, float rate) {
@@ -68,7 +68,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @Inherited Doc
+     * @InheritedDoc
      */
     @Override
     public Response<Boolean> updateProductQuantity(int productId, int quantity) {
@@ -76,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @Inherited Doc
+     * @InheritedDoc
      */
     @Override
     public Response<List<Product>> getProducts() {
@@ -84,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @Inherited Doc
+     * @InheritedDoc
      */
     @Override
     public Response<List<Product>> getProductsByCategory(int categoryId) {
@@ -92,7 +92,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @Inherited Doc
+     * @InheritedDoc
+     */
+    @Override
+    public Response<Integer> getNumberOfCategoryProducts(int categoryID) {
+        return productRepository.getNumberOfCategoryProducts(categoryID);
+    }
+
+    /**
+     * @InheritedDoc
      */
     @Override
     public Response<Product> getProductsById(int productId) {
@@ -101,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     /**
-     * @Inherited Doc
+     * @InheritedDoc
      */
     @Override
     public Response<List<Product>> searchByProductName(String productName) {

@@ -40,7 +40,8 @@
             <div class="container-fluid py-5">
                 <div class="row px-xl-5">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img class="img-fluid w-100" src=${product.imagePath} alt="">
+                        <img class="img-fluid w-100" width="100"
+                             height="200" src=${product.imagePath} alt="">
                     </div>
 
                     <div class="col-lg-7 pb-5">

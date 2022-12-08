@@ -70,6 +70,7 @@ public class AdminController {
                 new CategoryTypeEditor(categoryService));
     }
 
+
     public boolean checkSession(Model model,HttpSession session){
         Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
         if(isAdmin==null ||  !isAdmin || session.getAttribute("user-Id")==null) {
