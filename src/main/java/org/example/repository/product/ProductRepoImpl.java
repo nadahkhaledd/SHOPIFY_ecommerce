@@ -65,10 +65,10 @@ public class ProductRepoImpl implements ProductRepo {
         try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.merge(product);
+                session.update(product);
                 session.getTransaction().commit();
             } catch (Exception e) {
-                System.out.println("in update product repo impl e.getMessage() = " + e.getMessage());
+                System.out.println("in update product repo impl e.getMessage() = " + e.toString());
                 return new Response("error occurred while processing your request", 500, true);
             }
         }
@@ -87,7 +87,7 @@ public class ProductRepoImpl implements ProductRepo {
                 session.remove(product);//(delete vs remove)If you have the index of the item to be eliminated, del is probably best. But if you have the value that you want to eliminate, .remove() is likely to be best.
                 session.getTransaction().commit();}
              catch (Exception e) {
-                System.out.println("in delete product repo impl e.getMessage() = " + e.getMessage());
+                System.out.println("in delete product repo impl e.getMessage() = " + e.toString());
                 return new Response("error occurred while processing your request", 500, true);
             }
 
@@ -100,25 +100,35 @@ public class ProductRepoImpl implements ProductRepo {
     @Override
     public Response<Boolean> deleteProduct(int id) {
         int results;
-
+        Product p=deleteProductCategory(id);
+        if(p==null)
+            throw new IllegalArgumentException();
         try (Session session = sessionFactory.openSession()) {
-
-            Transaction tx = session.beginTransaction();
-            Query query = session.createQuery(
-                    "delete from Product p where p.id=:id"
-            );
-            query.setParameter("id", id);
-            results = query.executeUpdate();
-            tx.commit();
+            session.beginTransaction();
+           System.out.println("id "+id+"  "+p.toString());
+           session.remove(p);
+            session.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("in productRepoImpl.deleteProductByID e.getStackTrace() = " + e.getStackTrace());
+            System.out.println("in productRepoImpl.deleteProductByID e.getStackTrace() = " + e.toString());
             return new Response("error occurred while processing your request", 500, true);
 
         }
-        return new Response("Done", 200, false, results == 1);
+        return new Response("Done", 200, false, true);
 
     }
+    private Product deleteProductCategory(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            Product product = session.get(Product.class, id);
+            product.setCategory(null);
+            session.merge(product);
+            tx.commit();
+            return product;
+        } catch (Exception e){
+            return null;
+        }
 
+    }
     /**
      * @InheritedDoc
      */

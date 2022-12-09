@@ -20,7 +20,7 @@ public class RateRepoImpl implements RateRepo {
     public Response addRate(Rate rate){
         try(Session session=sessionFactory.openSession()){
             session.beginTransaction();
-            session.persist(rate);//return type of persist is void
+            session.save(rate);//return type of persist is void
             System.out.println("rate: "+rate.toString());
             session.getTransaction().commit();
         }

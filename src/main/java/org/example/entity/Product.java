@@ -53,7 +53,10 @@ public class Product {
         this.rate = rate;
     }
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "product",fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.PERSIST,
+            CascadeType.DETACH,
+            CascadeType.REFRESH,
+            CascadeType.REMOVE},mappedBy = "product",fetch = FetchType.EAGER,orphanRemoval = true)
     public List<Rate> getRates() {
         return rates;
     }
@@ -112,7 +115,7 @@ public class Product {
         this.price = price;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade =CascadeType.MERGE)
     @JoinColumn(name = "category_id")
     public Category getCategory() {
         return category;
