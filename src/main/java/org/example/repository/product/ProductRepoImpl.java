@@ -118,6 +118,7 @@ public class ProductRepoImpl implements ProductRepo {
     }
     private Product deleteProductCategory(int id) {
         try (Session session = sessionFactory.openSession()) {
+
             Transaction tx = session.beginTransaction();
             Product product = session.get(Product.class, id);
             product.setCategory(null);
@@ -127,8 +128,10 @@ public class ProductRepoImpl implements ProductRepo {
         } catch (Exception e){
             return null;
         }
+        return new Response("Done", 200, false, results == 1);
 
     }
+
     /**
      * @InheritedDoc
      */

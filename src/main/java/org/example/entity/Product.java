@@ -22,7 +22,7 @@ public class Product {
 
     private Category category;
 
-    private String description;
+    private String description = "";
     private int availableQuantity;
 
     private double rate;
