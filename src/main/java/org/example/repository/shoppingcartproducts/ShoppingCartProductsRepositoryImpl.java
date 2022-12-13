@@ -26,21 +26,26 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
 
     @Override
     public Response<ShoppingCartProducts> getCartItem(Product product, User user) {
-        List<ShoppingCartProducts> cartProducts;
+        ShoppingCartProducts cartProduct;
         try(Session session = factory.openSession()) {
-            cartProducts = session.createQuery("from ShoppingCartProducts where user=:userId and product=:productId",
+            cartProduct = session.createQuery("from ShoppingCartProducts where user=:userId and product=:productId",
                             ShoppingCartProducts.class)
                     .setParameter("userId", user)
                     .setParameter("productId", product)
-                    .getResultList();
+                    .getSingleResult();
         }
         catch (Exception e) {
             System.out.println("in ShoppingCartProductsRepositoryImpl.getCartItem  e.getStackTrace() = " + e.getStackTrace());
             return new Response<>("error occurred while processing your request", 500, true);
 
         }
-        return new Response<ShoppingCartProducts>("Done", 200,
-                false,(cartProducts.isEmpty()?null: cartProducts.get(0)));
+        if(cartProduct != null) {
+            return new Response<ShoppingCartProducts>("Done", 200,
+                false, cartProduct);
+        } else {
+            return null;
+        }
+
     }
 
     @Override

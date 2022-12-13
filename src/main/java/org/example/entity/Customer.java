@@ -23,6 +23,13 @@ public class Customer extends User {
     public Customer() {
     }
 
+    public Customer(int id, String firstname, String lastname, String email, String password, Gender gender, Date dateOfBirth, CustomerStatus status, int passwordAttempts, List<Address> addresses) {
+        super(id, firstname, lastname, email, password, gender, dateOfBirth);
+        this.status = status;
+        this.passwordAttempts = passwordAttempts;
+        this.addresses = addresses;
+    }
+
     public Customer(String firstname, String lastname, String email, String password, Gender gender, Date dateOfBirth, CustomerStatus status, int passwordAttempts, List<Address> addresses) {
         super(firstname, lastname, email, password, gender, dateOfBirth);
         this.status = status;
