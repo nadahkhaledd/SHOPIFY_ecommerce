@@ -19,8 +19,7 @@ public class CategoryServiceImplementation implements CategoryService{
 
 
     /**
-     * @return
-     * @inheritDoc
+     * @InheritedDoc
      */
     @Override
     public Response addCategory(Category category) {
@@ -35,10 +34,12 @@ public class CategoryServiceImplementation implements CategoryService{
     }
 
     /**
-     * @inheritDoc
+     * @InheritedDoc
      */
     @Override
     public Response<Boolean> updateCategory(Category category) {
+        if(category == null)
+            throw new NullPointerException();
 //        if(repository.getCategoryByID(category.getId()).getObjectToBeReturned()==null) {
 //            repository.addCategory(category);
 //            return new Response<>("Done", 200, false, false, true);
@@ -48,7 +49,7 @@ public class CategoryServiceImplementation implements CategoryService{
     }
 
     /**
-     * @inheritDoc
+     * @InheritedDoc
      */
     @Override
     public Response<Boolean> removeCategory(Category category) {
