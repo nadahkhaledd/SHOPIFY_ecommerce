@@ -23,10 +23,10 @@ public interface CategoryService {
 
     /**
      * This method is used by admin to remove a category from database.
-     * @param categoryID This is the id of the category needs to be deleted.
+     * @param category This is the category needs to be deleted.
      * @return boolean if category removed.
      */
-    Response<Boolean> removeCategory(int categoryID);
+    Response<Boolean> removeCategory(Category category);
 
     /**
      * get all categories

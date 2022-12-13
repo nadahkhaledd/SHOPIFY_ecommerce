@@ -48,21 +48,23 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
         int results;
         try (Session session = factory.openSession()) {
                 Transaction tx = session.beginTransaction();
-                Query query = session.createQuery(
-                        "update Category c set c.name=:name, c.imagePath=:imagePath" +
-                                " where c.id=:id"
-                );
-                query.setParameter("name", category.getName());
-                query.setParameter("imagePath", category.getImagePath());
-                query.setParameter("id", category.getId());
-                results = query.executeUpdate();
+//                Query query = session.createQuery(
+//                        "update Category c set c.name=:name, c.imagePath=:imagePath" +
+//                                " where c.id=:id"
+//                );
+//                query.setParameter("name", category.getName());
+//                query.setParameter("imagePath", category.getImagePath());
+//                query.setParameter("id", category.getId());
+//                results = query.executeUpdate();
+                session.update(category);
+                session.getTransaction().commit();
                 tx.commit();
             } catch (Exception e) {
                 System.out.println("in update category category repo impl e.getStackTrace() = " + e.getMessage());
                 return new Response("error occurred while processing your request", 500, true);
 
         }
-        return new Response("Done", 200, false, results == 1);
+        return new Response("Done", 200, false, false, true);
 
     }
 
@@ -71,27 +73,19 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
      * @inheritDoc
      */
     @Override
-    public Response<Boolean> removeCategory(int categoryID) {
-        int results;
-
+    public Response<Boolean> removeCategory(Category category) {
         try (Session session = factory.openSession()) {
 
                 Transaction tx = session.beginTransaction();
-                Category category=session.get(Category.class,categoryID);
+                //Category category=session.get(Category.class,categoryID);
                 session.delete(category);
-             /*   Query query = session.createQuery(
-                        "delete from Category c where c.id=:id"
-                );
-                query.setParameter("id", categoryID);
-                results = query.executeUpdate();*/
                 tx.commit();
             } catch (Exception e) {
                 System.out.println("in remove category category repo impl e.getStackTrace() = " + e.getStackTrace());
                 return new Response("error occurred while processing your request", 500, true);
 
         }
-        return new Response("Done", 200, false, true);
-
+        return new Response("Done", 200, false, false, true);
     }
 
 
