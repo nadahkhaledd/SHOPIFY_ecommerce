@@ -76,6 +76,13 @@ public class CategoryServiceTest {
         verify(categoryRepositoryMock, times(1)).updateCategory(any(Category.class));
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testUpdateCategory_sendNullCategoryEntity_returnNullPointerException() {
+        /*ACT*/
+        categoryService.updateCategory(null);
+
+    }
+
     @Test
     public void testRemoveCategory_sendCategoryEntity_thenReturnTrue() {
         /*Arrange*/
