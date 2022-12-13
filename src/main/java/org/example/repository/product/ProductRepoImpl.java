@@ -115,21 +115,7 @@ public class ProductRepoImpl implements ProductRepo {
         return new Response("Done", 200, false, true);
 
     }
-   /* private Product deleteProductCategory(int id) {
-        try (Session session = sessionFactory.openSession()) {
 
-            Transaction tx = session.beginTransaction();
-            Product product = session.get(Product.class, id);
-            product.setCategory(null);
-            session.merge(product);
-            tx.commit();
-            return product;
-        } catch (Exception e){
-            return null;
-        }
-        return new Response("Done", 200, false, );
-
-    }*/
     private Product deleteProductCategory(int id) {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();

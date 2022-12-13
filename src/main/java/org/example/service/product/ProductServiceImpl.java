@@ -94,14 +94,6 @@ public class ProductServiceImpl implements ProductService {
     /**
      * @InheritedDoc
      */
-   /* @Override
-    public Response<Integer> getNumberOfCategoryProducts(int categoryID) {
-        return productRepository.getNumberOfCategoryProducts(categoryID);
-    }
-*/
-    /**
-     * @InheritedDoc
-     */
     @Override
     public Response<Product> getProductsById(int productId) {
         return productRepository.getProductsById(productId);

@@ -87,12 +87,6 @@ public interface ProductService {
      */
     Response<List<Product>> getProductsByCategory(int categoryId);
 
-    /**
-     * get number of products for a category.
-     * @param categoryID id of category.
-     * @return number of products
-     */
-  //  Response<Integer> getNumberOfCategoryProducts(int categoryID);
 
 
     /**
