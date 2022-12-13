@@ -54,7 +54,7 @@ public interface ProductService {
      * @param rate      rate new rate of the product
      * @return true if a row is updated in the database
      */
-    Response<Boolean> updateProductRate(int productId, float rate);
+//    Response<Boolean> updateProductRate(int productId, float rate);
 
 
     /**

@@ -15,7 +15,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepo productRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductRepoImpl productRepoImpl) {
+    public ProductServiceImpl(ProductRepo productRepoImpl) {
         this.productRepository = productRepoImpl;
 
     }
@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Response addProduct(Product product) {
-        product.setName(product.getName().toLowerCase());
+        //product.setName(product.getName().toLowerCase());
         return productRepository.addProduct(product);
     }
 
@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Response updateProduct(Product product) {
-        product.setName(product.getName().toLowerCase());
+        //product.setName(product.getName().toLowerCase());
         return productRepository.updateProduct(product);
     }
 
@@ -47,6 +47,9 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Response deleteProduct(Product product) {
+        if(product==null){
+            throw new NullPointerException();
+        }
 
         return productRepository.deleteProduct(product);
     }
@@ -62,11 +65,11 @@ public class ProductServiceImpl implements ProductService {
     /**
      * @InheritedDoc
      */
-    @Override
+   /* @Override
     public Response<Boolean> updateProductRate(int productId, float rate) {
         return productRepository.updateProductRate(productId, rate);
     }
-
+*/
     /**
      * @InheritedDoc
      */
@@ -105,6 +108,9 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Response<List<Product>> searchByProductName(String productName) {
+        if(productName==null){
+            throw new NullPointerException();
+        }
         return productRepository.searchByProductName(productName);
     }
 
