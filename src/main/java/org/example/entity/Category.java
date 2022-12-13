@@ -3,6 +3,7 @@ package org.example.entity;
 import javax.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +18,12 @@ public class Category {
         this.name = name;
         this.imagePath = imagePath;
         this.products = products;
+    }
+
+    public Category(String name, String imagePath) {
+        this.name = name;
+        this.imagePath = imagePath;
+        this.products = new ArrayList<>();
     }
 
     public Category() {}

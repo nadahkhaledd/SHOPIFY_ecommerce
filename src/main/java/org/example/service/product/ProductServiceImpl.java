@@ -21,7 +21,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public Response<Product> getProduct(int productId) {
-        return productRepository.getProduct(productId);
+        return productRepository.getProductsById(productId);
     }
 
     /**
@@ -39,6 +39,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Response updateProduct(Product product) {
         //product.setName(product.getName().toLowerCase());
+        if(product==null){
+            throw new NullPointerException();
+        }
         return productRepository.updateProduct(product);
     }
 

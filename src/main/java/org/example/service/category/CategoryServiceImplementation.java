@@ -19,11 +19,12 @@ public class CategoryServiceImplementation implements CategoryService{
 
 
     /**
-     * @return
-     * @inheritDoc
+     * @InheritedDoc
      */
     @Override
     public Response addCategory(Category category) {
+        if(category == null)
+            throw new NullPointerException();
         category.setName(category.getName().toLowerCase());
         if(repository.getCategoryByName(category.getName()).getObjectToBeReturned()!=null)
             return new Response<>("category already exists", 400, true, true);
@@ -33,20 +34,28 @@ public class CategoryServiceImplementation implements CategoryService{
     }
 
     /**
-     * @inheritDoc
+     * @InheritedDoc
      */
     @Override
     public Response<Boolean> updateCategory(Category category) {
+        if(category == null)
+            throw new NullPointerException();
+//        if(repository.getCategoryByID(category.getId()).getObjectToBeReturned()==null) {
+//            repository.addCategory(category);
+//            return new Response<>("Done", 200, false, false, true);
+//        }
         return repository.updateCategory(category);
 
     }
 
     /**
-     * @inheritDoc
+     * @InheritedDoc
      */
     @Override
-    public Response<Boolean> removeCategory(int categoryID) {
-        return repository.removeCategory(categoryID);
+    public Response<Boolean> removeCategory(Category category) {
+        if(category == null)
+            throw new NullPointerException();
+        return repository.removeCategory(category);
     }
 
     /**
@@ -62,6 +71,10 @@ public class CategoryServiceImplementation implements CategoryService{
      */
     @Override
     public Response<Category> getCategoryByName(String name) {
+        if(name.isBlank())
+            throw new IllegalArgumentException();
+        if(name.equals(null))
+            throw new NullPointerException();
         return repository.getCategoryByName(name);
     }
 
@@ -70,6 +83,8 @@ public class CategoryServiceImplementation implements CategoryService{
      */
     @Override
     public Response<Category> getCategoryByID(int id) {
+        if(id == -1)
+            throw new IllegalArgumentException();
         return repository.getCategoryByID(id);
     }
 
@@ -78,6 +93,10 @@ public class CategoryServiceImplementation implements CategoryService{
      */
     @Override
     public Response<List<Category>> searchByCategoryName(String categoryName) {
+        if(categoryName.isBlank())
+            throw new IllegalArgumentException();
+        if(categoryName.equals(null))
+            throw new NullPointerException();
         return repository.searchByCategoryName(categoryName);
     }
 

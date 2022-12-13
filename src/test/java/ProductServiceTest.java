@@ -43,6 +43,7 @@ public class ProductServiceTest {
         when(productRepositoryMock.getProductsByCategory(anyInt())).thenReturn(response);
         //act
         Response<List<Product>> productsResponse=productService.getProductsByCategory(1);
+        //assert
         assertNotNull(productsResponse);
         assertEquals(2, productsResponse.getObjectToBeReturned().size());
         verify(productRepositoryMock, times(1)).getProductsByCategory(anyInt());
@@ -65,6 +66,7 @@ public class ProductServiceTest {
         when(productRepositoryMock.getProducts()).thenReturn(response);
         //act
         Response<List<Product>> productsResponse=productService.getProducts();
+        //assert
         assertNotNull(productsResponse);
         assertEquals(2, productsResponse.getObjectToBeReturned().size());
         verify(productRepositoryMock, times(1)).getProducts();
@@ -73,6 +75,7 @@ public class ProductServiceTest {
 
     @Test
     public void getProductById_sendProductId_returnResponseHavingTheProductWithTheGivenId(){
+        //arrange
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
@@ -80,15 +83,18 @@ public class ProductServiceTest {
         Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
         product1.setId(1);
         Response<Product> expectedResponse=new Response<Product>("Ok",200,false,false,product1);
-        when(productRepositoryMock.getProduct(anyInt())).thenReturn(expectedResponse);
+        when(productRepositoryMock.getProductsById(anyInt())).thenReturn(expectedResponse);
+        //act
         Response<Product> productResponse=productService.getProduct(1);
+        //assert
         assertNotNull(productResponse.getObjectToBeReturned());
         assertEquals(expectedResponse,productResponse);
-        verify(productRepositoryMock, times(1)).getProduct(anyInt());
+        verify(productRepositoryMock, times(1)).getProductsById(anyInt());
 
     }
     @Test
     public void searchByProductNameTest_sendSearchValue_returnResponseHavingTheProductsListWithNamesMatchingTheSearchValue(){
+        //arrange
         String productName="test";
         List<Product> list = new ArrayList<>();
         Category mensDresses=new Category();
@@ -102,7 +108,9 @@ public class ProductServiceTest {
         mensDresses.setProducts(list);
         Response<List<Product>> expectedResponse=new Response<List<Product>>("Ok",200,false,false,list);
         when(productRepositoryMock.searchByProductName(any())).thenReturn(expectedResponse);
+        //act
         Response<List<Product>> searchResponse=productService.searchByProductName(productName);
+        //assert
         assertNotNull(searchResponse);
         assertEquals(expectedResponse,searchResponse);
         verify(productRepositoryMock, times(1)).searchByProductName(any());
@@ -111,11 +119,14 @@ public class ProductServiceTest {
     }
     @Test
     public void updateProductQuantityTest_SendNewQuantity_sendProductId_returnResponseHavingBooleanValue(){
+        //arrange
         int newQuantity=20;
         int productId=1;
         Response<Boolean> expectedResponse=new Response<Boolean>("Ok",200,false,false,true);
         when(productRepositoryMock.updateProductQuantity(anyInt(),anyInt())).thenReturn(expectedResponse);
+        //act
         Response<Boolean>  updateQuantityResponse=productService.updateProductQuantity(productId,newQuantity);
+        //assert
         assertNotNull(updateQuantityResponse);
         assertEquals(expectedResponse,updateQuantityResponse);
         verify(productRepositoryMock, times(1)).updateProductQuantity(anyInt(),anyInt());
@@ -124,6 +135,7 @@ public class ProductServiceTest {
 
     @Test
     public void addProduct_sendProduct_returnResponseObject(){
+        //arrange
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
@@ -132,7 +144,9 @@ public class ProductServiceTest {
         product1.setId(1);
         Response expectedResponse=new Response("Ok",200,false,false);
         when(productRepositoryMock.addProduct(any())).thenReturn(expectedResponse);
+       //act
         Response productResponse=productService.addProduct(product1);
+        //assert
         assertNotNull(productResponse);
         assertEquals(expectedResponse,productResponse);
         verify(productRepositoryMock, times(1)).addProduct(any());
@@ -141,16 +155,20 @@ public class ProductServiceTest {
 
     @Test
     public void updateProduct_sendProduct_returnResponseObject(){
+        //arrange
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
         mensDresses.setId(1);
         Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
         product1.setId(1);
+
         Response expectedResponse=new Response("Ok",200,false,false);
 
         when(productRepositoryMock.updateProduct(any())).thenReturn(expectedResponse);
-        Response productResponse=productService.updateProduct(any());
+        //act
+        Response productResponse=productService.updateProduct(product1);
+        //assert
         assertNotNull(productResponse);
         assertEquals(expectedResponse,productResponse);
         verify(productRepositoryMock, times(1)).updateProduct(any());
@@ -171,6 +189,7 @@ public class ProductServiceTest {
     }
     @Test
     public void deleteProduct_sendProduct_returnResponseObject(){
+        //arrange
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
@@ -179,7 +198,9 @@ public class ProductServiceTest {
         product1.setId(1);
         Response expectedResponse=new Response("Ok",200,false,false);
         when(productRepositoryMock.deleteProduct(any())).thenReturn(expectedResponse);
+        //act
         Response productResponse=productService.deleteProduct(product1);
+        //assert
         assertNotNull(productResponse);
         assertEquals(expectedResponse,productResponse);
         verify(productRepositoryMock, times(1)).deleteProduct(any());

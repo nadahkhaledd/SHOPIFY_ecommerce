@@ -5,7 +5,6 @@ import org.example.entity.ShoppingCartProducts;
 import org.example.entity.User;
 import org.example.model.Response;
 import org.example.repository.shoppingcartproducts.ShoppingCartProductsRepository;
-import org.example.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +14,10 @@ import java.util.List;
 public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsService {
 
     private final ShoppingCartProductsRepository repository;
-    private final ProductService productService;
 
     @Autowired
-    public ShoppingCartProductsServiceImpl(ShoppingCartProductsRepository repository, ProductService productService) {
+    public ShoppingCartProductsServiceImpl(ShoppingCartProductsRepository repository) {
         this.repository = repository;
-        this.productService = productService;
     }
 
     @Override
@@ -45,14 +42,14 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
 
     @Override
     public Response addToCart(ShoppingCartProducts shoppingCartProduct) {
-        ShoppingCartProducts returnedProduct = getCartItem(shoppingCartProduct.getProduct(),
-                shoppingCartProduct.getUser()).getObjectToBeReturned();
+        Response<ShoppingCartProducts> returnedProduct = getCartItem(shoppingCartProduct.getProduct(),
+                shoppingCartProduct.getUser());
         if(returnedProduct == null) {
             repository.addToCart(shoppingCartProduct);
         }
         else
-            repository.updateProductQuantityInCart(returnedProduct.getId(),
-                    returnedProduct.getProductQuantity()+1);
+            repository.updateProductQuantityInCart(returnedProduct.getObjectToBeReturned().getId(),
+                    returnedProduct.getObjectToBeReturned().getProductQuantity()+1);
 
         return new Response<>("Done", 200, false);
     }
@@ -60,8 +57,9 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
     @Override
     public Response updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
         int affectedRows;
-        ShoppingCartProducts cartProduct = getCartItem(shoppingCartProductId).getObjectToBeReturned();
-        if(cartProduct.getProduct().getAvailableQuantity() < newQuantity) {
+        Response<ShoppingCartProducts> cartProduct = getCartItem(shoppingCartProductId);
+
+        if(cartProduct.getObjectToBeReturned().getProduct().getAvailableQuantity() < newQuantity) {
             return new Response<>("The amount isn't in stock.", 402, false, true);
         }
         if(newQuantity > 0) {
@@ -71,7 +69,7 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
             affectedRows = 0;
             repository.removeFromCart(shoppingCartProductId);
         }
-        return new Response<>("Quantity updated.", 200, false);
+        return new Response<>("Quantity updated.", 200, false, affectedRows);
     }
 
     @Override

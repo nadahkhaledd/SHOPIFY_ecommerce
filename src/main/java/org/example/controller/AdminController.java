@@ -183,7 +183,8 @@ public class AdminController {
 
     @GetMapping("deleteCategory/{id}")
     public String deleteCategory(@PathVariable int id, ModelMap modelMap) {
-        Response response = categoryService.removeCategory(id);
+        Category category = categoryService.getCategoryByID(id).getObjectToBeReturned();
+        Response response = categoryService.removeCategory(category);
         if(response.isErrorOccurred()) {
             modelMap.put("statusCode", response.getStatusCode());
             modelMap.put("errorMessage", response.getMessage());
