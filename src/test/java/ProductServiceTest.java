@@ -43,6 +43,7 @@ public class ProductServiceTest {
         when(productRepositoryMock.getProductsByCategory(anyInt())).thenReturn(response);
         //act
         Response<List<Product>> productsResponse=productService.getProductsByCategory(1);
+        //assert
         assertNotNull(productsResponse);
         assertEquals(2, productsResponse.getObjectToBeReturned().size());
         verify(productRepositoryMock, times(1)).getProductsByCategory(anyInt());
@@ -65,6 +66,7 @@ public class ProductServiceTest {
         when(productRepositoryMock.getProducts()).thenReturn(response);
         //act
         Response<List<Product>> productsResponse=productService.getProducts();
+        //assert
         assertNotNull(productsResponse);
         assertEquals(2, productsResponse.getObjectToBeReturned().size());
         verify(productRepositoryMock, times(1)).getProducts();
@@ -73,6 +75,7 @@ public class ProductServiceTest {
 
     @Test
     public void getProductById_sendProductId_returnResponseHavingTheProductWithTheGivenId(){
+        //arrange
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
@@ -81,7 +84,9 @@ public class ProductServiceTest {
         product1.setId(1);
         Response<Product> expectedResponse=new Response<Product>("Ok",200,false,false,product1);
         when(productRepositoryMock.getProductsById(anyInt())).thenReturn(expectedResponse);
+        //act
         Response<Product> productResponse=productService.getProduct(1);
+        //assert
         assertNotNull(productResponse.getObjectToBeReturned());
         assertEquals(expectedResponse,productResponse);
         verify(productRepositoryMock, times(1)).getProductsById(anyInt());
