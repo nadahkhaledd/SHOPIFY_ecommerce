@@ -7,7 +7,7 @@ import org.example.model.Response;
 import java.util.List;
 
 public interface ProductRepo {
-    Response<Product> getProduct(int productId);
+ //   Response<Product> getProduct(int productId);
 
     /**
      *  add product this function used by admin to add product to database

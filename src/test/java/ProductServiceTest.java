@@ -80,11 +80,11 @@ public class ProductServiceTest {
         Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
         product1.setId(1);
         Response<Product> expectedResponse=new Response<Product>("Ok",200,false,false,product1);
-        when(productRepositoryMock.getProduct(anyInt())).thenReturn(expectedResponse);
+        when(productRepositoryMock.getProductsById(anyInt())).thenReturn(expectedResponse);
         Response<Product> productResponse=productService.getProduct(1);
         assertNotNull(productResponse.getObjectToBeReturned());
         assertEquals(expectedResponse,productResponse);
-        verify(productRepositoryMock, times(1)).getProduct(anyInt());
+        verify(productRepositoryMock, times(1)).getProductsById(anyInt());
 
     }
     @Test
@@ -150,7 +150,7 @@ public class ProductServiceTest {
         Response expectedResponse=new Response("Ok",200,false,false);
 
         when(productRepositoryMock.updateProduct(any())).thenReturn(expectedResponse);
-        Response productResponse=productService.updateProduct(any());
+        Response productResponse=productService.updateProduct(product1);
         assertNotNull(productResponse);
         assertEquals(expectedResponse,productResponse);
         verify(productRepositoryMock, times(1)).updateProduct(any());

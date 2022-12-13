@@ -22,7 +22,7 @@ public class ProductRepoImpl implements ProductRepo {
         this.sessionFactory = sessionFactory;
     }
 
-    public Response<Product> getProduct(int productId) {
+   /* public Response<Product> getProduct(int productId) {
         Product product;
         try (Session session = sessionFactory.openSession()) {
                 product = session.createQuery("from Product where id=:productId", Product.class)
@@ -35,7 +35,7 @@ public class ProductRepoImpl implements ProductRepo {
 
         return new Response<Product>("Done", 200, false, product);
     }
-
+*/
     /**
      * @InheritedDoc
      */
