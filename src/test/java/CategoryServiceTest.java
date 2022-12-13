@@ -147,6 +147,18 @@ public class CategoryServiceTest {
         verify(categoryRepositoryMock, times(1)).getCategoryByName(any());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetCategoryByName_sendBlankString_returnIllegalArgumentException() {
+        /*ACT*/
+        categoryService.getCategoryByName(" ");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testGetCategoryByName_sendNull_returnNullPointerException() {
+        /*ACT*/
+        categoryService.getCategoryByName(null);
+    }
+
     @Test
     public void testGetCategoryByID_sendCategoryID_returnCategoryEntity() {
         /*Arrange*/
