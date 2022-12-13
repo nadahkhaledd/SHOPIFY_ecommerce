@@ -13,6 +13,12 @@ public class ShoppingCartProducts {
     private User user;
     public ShoppingCartProducts() {}
 
+    public ShoppingCartProducts(int productQuantity, Product product, User user) {
+        this.productQuantity = productQuantity;
+        this.product = product;
+        this.user = user;
+    }
+
     @ManyToOne()
     @JoinColumn(name = "user_id")
 
