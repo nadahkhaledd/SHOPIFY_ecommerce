@@ -55,7 +55,6 @@ public class CategoryServiceImplementation implements CategoryService{
     public Response<Boolean> removeCategory(Category category) {
         if(category == null)
             throw new NullPointerException();
-            //return new Response("null object", 400, true, false, new NullPointerException());
         return repository.removeCategory(category);
     }
 
@@ -72,6 +71,10 @@ public class CategoryServiceImplementation implements CategoryService{
      */
     @Override
     public Response<Category> getCategoryByName(String name) {
+        if(name.isBlank())
+            throw new IllegalArgumentException();
+        if(name.equals(null))
+            throw new NullPointerException();
         return repository.getCategoryByName(name);
     }
 
