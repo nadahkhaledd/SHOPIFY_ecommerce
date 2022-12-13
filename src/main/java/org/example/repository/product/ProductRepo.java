@@ -65,7 +65,7 @@ public interface ProductRepo {
      * @param categoryID id of category.
      * @return number of products
      */
-    Response<Integer> getNumberOfCategoryProducts(int categoryID);
+   // Response<Integer> getNumberOfCategoryProducts(int categoryID);
 
     /**
      * get products by category
