@@ -94,11 +94,11 @@ public class ProductServiceImpl implements ProductService {
     /**
      * @InheritedDoc
      */
-    @Override
+   /* @Override
     public Response<Integer> getNumberOfCategoryProducts(int categoryID) {
         return productRepository.getNumberOfCategoryProducts(categoryID);
     }
-
+*/
     /**
      * @InheritedDoc
      */
