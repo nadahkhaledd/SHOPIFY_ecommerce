@@ -88,7 +88,6 @@ public class OrderServiceTest {
     @Test
     public void getOrderDetailsTest_returnListOfProduct(){
         Order order = new Order(new Customer(), LocalDate.now(), OrderStatus.cancelled, 1.00);
-        order.setId(1);
         List<OrderDetails> orderDetails = new ArrayList<>();
         OrderDetails orderItem = new OrderDetails();
         orderDetails.add(orderItem);
@@ -107,7 +106,6 @@ public class OrderServiceTest {
     @Test
     public void checkOutTest(){
         Order order = new Order(new Customer(), LocalDate.now(), OrderStatus.cancelled, 1.00);
-        order.setId(1);
         List<OrderDetails> orderDetails = new ArrayList<>();
         OrderDetails orderItem = new OrderDetails();
         orderDetails.add(orderItem);
@@ -118,6 +116,21 @@ public class OrderServiceTest {
         when(orderRepositoryMock.checkOut(any(Customer.class),any(Order.class))).thenReturn(orderResponse);
 
         Response result = orderService.checkOut(user,order);
+        assertEquals(200, result.getStatusCode());
+    }
+
+    @Test
+    public void checkOrderStatusTest_toReturnStatus(){
+        Order order = new Order(new Customer(), LocalDate.now(), OrderStatus.cancelled, 1.00);
+        List<OrderDetails> orderDetails = new ArrayList<>();
+        OrderDetails orderItem = new OrderDetails();
+        orderDetails.add(orderItem);
+        order.setOrderDetails(orderDetails);
+
+        Response response = new Response("Done", 200, false, order.getStatus());
+        when(orderRepositoryMock.checkOrderStatus(any(Integer.class))).thenReturn(response);
+
+        Response result = orderService.checkOrderStatus(order.getId());
         assertEquals(200, result.getStatusCode());
     }
 
