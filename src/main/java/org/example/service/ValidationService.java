@@ -16,7 +16,6 @@ public class ValidationService {
       Pattern pattern = Pattern.compile(regex);
       Matcher matcher = pattern.matcher(email);
       if(!matcher.matches()){
-          System.out.println("in validation serviceee ");
           return new Response("Wrong domain",400,true,true);
       }
       return new Response("Done",200,false,false);

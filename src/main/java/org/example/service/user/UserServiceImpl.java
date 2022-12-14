@@ -23,7 +23,11 @@ public class UserServiceImpl implements UserService{
         if(userId == -1)
             throw new IllegalArgumentException();
 
-        return userRepository.getUserById(userId);
+        Response userResponse =  userRepository.getUserById(userId);
+        if(userResponse.getObjectToBeReturned() == null)
+            return new Response<>("no content", 204, false, true, null);
+
+        return userResponse;
     }
 
     @Override
@@ -33,6 +37,10 @@ public class UserServiceImpl implements UserService{
         if(email == null)
             throw new NullPointerException();
 
-        return userRepository.getUserByEmail(email);
+        Response userResponse =  userRepository.getUserByEmail(email);
+        if(userResponse.getObjectToBeReturned() == null)
+            return new Response<>("no content", 204, false, true, null);
+
+        return userResponse;
     }
 }
