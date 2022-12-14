@@ -12,6 +12,10 @@ public class Admin extends  User{
     public Admin() {
     }
 
+    public Admin(String email){
+        this.setEmail(email);
+    }
+
     public Admin(String firstName, String lastName, String email, String password, Gender gender, Date dateOfBirth) {
         super(firstName, lastName, email, password, gender, dateOfBirth);
     }
