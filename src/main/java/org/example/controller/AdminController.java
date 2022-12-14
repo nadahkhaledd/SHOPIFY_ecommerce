@@ -81,7 +81,6 @@ public class AdminController {
 
     @GetMapping("home")
     public String adminHome(Model model, HttpSession session) {
-       //Integer id = (Integer) model.getAttribute("userId");
         Integer id=(Integer) session.getAttribute("user-Id");
         if(!checkSession(model,session))
             return "redirect:/login";

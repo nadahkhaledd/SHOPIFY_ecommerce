@@ -1,16 +1,11 @@
 import org.example.entity.Admin;
-import org.example.entity.Category;
 import org.example.entity.User;
 import org.example.model.Response;
 import org.example.repository.admin.AdminRepository;
-import org.example.repository.category.CategoryRepository;
 import org.example.service.ValidationService;
 import org.example.service.admin.AdminService;
 import org.example.service.admin.AdminServiceImplementation;
-import org.example.service.category.CategoryService;
-import org.example.service.category.CategoryServiceImplementation;
 import org.example.service.security.AuthService;
-import org.example.service.security.EncryptionService;
 import org.example.service.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
