@@ -20,11 +20,19 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public Response<User> getUserById(int userId) {
+        if(userId == -1)
+            throw new IllegalArgumentException();
+
         return userRepository.getUserById(userId);
     }
 
     @Override
     public Response<User> getUserByEmail(String email) {
+        if(email.isBlank())
+            throw new IllegalArgumentException();
+        if(email == null)
+            throw new NullPointerException();
+
         return userRepository.getUserByEmail(email);
     }
 }

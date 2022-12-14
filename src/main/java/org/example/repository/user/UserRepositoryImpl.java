@@ -29,9 +29,10 @@ public class UserRepositoryImpl implements UserRepository {
         User user;
         try(Session session=factory.openSession()){
             session.beginTransaction();
-            user= (User) session.createQuery("from User where id= :userId")
-                    .setParameter("userId",userId).getSingleResult();
-            //     session.getTransaction().commit();
+            user = session.get(User.class, userId);
+//            user= (User) session.createQuery("from User where id= :userId")
+//                    .setParameter("userId",userId).getSingleResult();
+            session.getTransaction().commit();
         }
         catch (Exception e){
             System.out.println("in get user by id user repo impl e.getStackTrace() = " + e.getStackTrace().toString());
