@@ -91,6 +91,39 @@ public class AdminControllerTest {
 
         //Assert
         assertEquals("redirect:/login", response);
+        verify(modelMock, times(0)).addAttribute(anyString(), any());
+    }
+
+    @Test
+    public void testGetAdminHome_sendValidSessionAttribute_expectReturnAdminHomePage(){
+        //Arrange
+        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
+        when(adminController.checkSession(modelMock, httpSessionMock)).thenReturn(true);
+        when(userRepositoryMock.getUsernameByID(anyInt()))
+                .thenReturn(new Response("Done", 200, false, false, "admin"));
+        when(modelMock.addAttribute(anyString(), any())).thenReturn(modelMock);
+
+        //ACT
+        String response = adminController.adminHome(modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("adminHome", response);
+        verify(modelMock, times(1)).addAttribute(anyString(), any());
+
+    }
+
+    @Test
+    public void testGetAdmins_sendValidSessionAttribute_returnAdminsPage(){
+        //Arrange
+        when(adminController.checkSession(modelMock, httpSessionMock)).thenReturn(true);
+        when(adminServiceMock.getAllAdmins()).thenReturn(new Response("Done", 200, false, false, new ArrayList<>()));
+        when(modelMock.addAttribute(anyString(), any())).thenReturn(modelMock);
+
+        //ACT
+        String response = adminController.getAdmins(modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("showAdmins", response);
     }
 
 

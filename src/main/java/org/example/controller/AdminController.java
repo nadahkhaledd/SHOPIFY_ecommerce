@@ -73,7 +73,7 @@ public class AdminController {
 
     public boolean checkSession(Model model,HttpSession session){
         Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-        if(isAdmin==null ||  !isAdmin || session.getAttribute("user-Id")==null) {
+        if(isAdmin==null ||  !isAdmin) {
             return false;
         }
         return true;
