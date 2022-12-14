@@ -14,6 +14,6 @@ public interface ShoppingCartProductsRepository {
     Response<ShoppingCartProducts> getCartItem(int cartItemId);
     Response addToCart(ShoppingCartProducts shoppingCartProduct);
     Response<Integer> updateProductQuantityInCart(int shoppingCartProductId, int newQuantity);
-    Response<Boolean> removeFromCart(int shoppingCartProductId);
+    Response<Integer> removeFromCart(int shoppingCartProductId);
     Response<Double> calculateTotal(int userId);
 }

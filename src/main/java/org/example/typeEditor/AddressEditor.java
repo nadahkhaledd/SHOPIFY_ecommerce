@@ -27,7 +27,7 @@ public class AddressEditor extends PropertyEditorSupport {
 
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
-        Address address = addressService.getAddress(Integer.parseInt(text)).getObjectToBeReturned();
+        Address address = addressService.getAddressById(Integer.parseInt(text)).getObjectToBeReturned();
         this.setValue(address);
     }
 }

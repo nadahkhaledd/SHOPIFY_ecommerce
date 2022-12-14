@@ -4,6 +4,7 @@ import org.example.enums.CustomerStatus;
 import org.example.enums.Gender;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +22,13 @@ public class Customer extends User {
     private List<Rate> Rates;
 
     public Customer() {
+    }
+
+    public Customer(int id, String firstName, String lastName, String email, String password, Gender gender, Date dateOfBirth, CustomerStatus status, int passwordAttempts) {
+        super(id, firstName, lastName, email, password, gender, dateOfBirth);
+        this.status = status;
+        this.passwordAttempts = passwordAttempts;
+        this.addresses = new ArrayList<>();
     }
 
     public Customer(int id, String firstname, String lastname, String email, String password, Gender gender, Date dateOfBirth, CustomerStatus status, int passwordAttempts, List<Address> addresses) {

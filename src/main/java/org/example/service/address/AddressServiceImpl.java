@@ -20,24 +20,37 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Response addAddress(Address address) {
+        if(address == null)
+            throw new NullPointerException();
         return repository.addAddress(address);
     }
 
     @Override
     public Response<List<Address>> getUserAddresses(int userId) {
+        if(userId < 1)
+            throw new IllegalArgumentException();
         return repository.getUserAddresses(userId);
     }
 
     @Override
-    public Response<Address> getAddress(int addressId) { return repository.getAddress(addressId); }
+    public Response<Address> getAddressById(int addressId) {
+        if(addressId < 1)
+            throw new IllegalArgumentException();
+        return repository.getAddressById(addressId);
+    }
 
     @Override
     public Response<Address> updateAddress(Address address) {
+        if(address == null)
+            throw new NullPointerException();
         return repository.updateAddress(address);
     }
 
     @Override
-    public Response<Address> deleteAddress(int addressId) {
-        return repository.deleteAddress(addressId);
+    public Response<Boolean> deleteAddress(int addressId) {
+        if(addressId < 1)
+            throw new IllegalArgumentException();
+        int affectedRows = repository.deleteAddress(addressId).getObjectToBeReturned();
+        return new Response<>("Done", 200, false, false, affectedRows == 1);
     }
 }

@@ -22,40 +22,52 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
 
     @Override
     public Response<Double> calculateTotal(int userId) {
+        if(userId < 1)
+            throw new IllegalArgumentException();
         return repository.calculateTotal(userId);
     }
 
     @Override
     public Response<List<ShoppingCartProducts>> viewCart(int userId) {
+        if(userId < 1)
+            throw new IllegalArgumentException();
         return repository.viewCart(userId);
     }
 
     @Override
     public Response<ShoppingCartProducts> getCartItem(Product product, User user) {
+        if(product == null || user == null)
+            throw new NullPointerException();
         return repository.getCartItem(product, user);
     }
 
     @Override
     public Response<ShoppingCartProducts> getCartItem(int cartItemId) {
+        if(cartItemId < 1)
+            throw new IllegalArgumentException();
         return repository.getCartItem(cartItemId);
     }
 
     @Override
     public Response addToCart(ShoppingCartProducts shoppingCartProduct) {
+        if(shoppingCartProduct == null)
+            throw new NullPointerException();
+
         Response<ShoppingCartProducts> returnedProduct = getCartItem(shoppingCartProduct.getProduct(),
                 shoppingCartProduct.getUser());
         if(returnedProduct == null) {
-            repository.addToCart(shoppingCartProduct);
+            return repository.addToCart(shoppingCartProduct);
         }
         else
-            repository.updateProductQuantityInCart(returnedProduct.getObjectToBeReturned().getId(),
+            return repository.updateProductQuantityInCart(returnedProduct.getObjectToBeReturned().getId(),
                     returnedProduct.getObjectToBeReturned().getProductQuantity()+1);
-
-        return new Response<>("Done", 200, false);
     }
 
     @Override
-    public Response updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
+    public Response<Boolean> updateProductQuantityInCart(int shoppingCartProductId, int newQuantity) {
+        if(shoppingCartProductId < 1)
+            throw new IllegalArgumentException();
+
         int affectedRows;
         Response<ShoppingCartProducts> cartProduct = getCartItem(shoppingCartProductId);
 
@@ -66,14 +78,16 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
             affectedRows = repository.updateProductQuantityInCart(shoppingCartProductId, newQuantity).getObjectToBeReturned();
         }
         else {
-            affectedRows = 0;
-            repository.removeFromCart(shoppingCartProductId);
+            affectedRows = repository.removeFromCart(shoppingCartProductId).getObjectToBeReturned();
         }
-        return new Response<>("Quantity updated.", 200, false, affectedRows);
+        return new Response<Boolean>("Quantity updated.", 200, false, affectedRows == 1);
     }
 
     @Override
     public Response<Boolean> removeFromCart(int shoppingCartProductId) {
-        return repository.removeFromCart(shoppingCartProductId);
+        if(shoppingCartProductId < 1)
+            throw new IllegalArgumentException();
+        int result = repository.removeFromCart(shoppingCartProductId).getObjectToBeReturned();
+        return new Response<Boolean>("Done", 200, false, false,  result == 1);
     }
 }
