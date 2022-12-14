@@ -29,8 +29,7 @@ public class CategoryServiceImplementation implements CategoryService{
         if(repository.getCategoryByName(category.getName()).getObjectToBeReturned()!=null)
             return new Response<>("category already exists", 400, true, true);
 
-         return  repository.addCategory(category);
-
+       return  repository.addCategory(category);
     }
 
     /**
@@ -73,9 +72,10 @@ public class CategoryServiceImplementation implements CategoryService{
     public Response<Category> getCategoryByName(String name) {
         if(name.isBlank())
             throw new IllegalArgumentException();
-        if(name.equals(null))
+        if(name == null)
             throw new NullPointerException();
-        return repository.getCategoryByName(name);
+
+        return repository.getCategoryByName(name.toLowerCase());
     }
 
     /**
@@ -95,9 +95,10 @@ public class CategoryServiceImplementation implements CategoryService{
     public Response<List<Category>> searchByCategoryName(String categoryName) {
         if(categoryName.isBlank())
             throw new IllegalArgumentException();
-        if(categoryName.equals(null))
+        if(categoryName == null)
             throw new NullPointerException();
-        return repository.searchByCategoryName(categoryName);
+
+        return repository.searchByCategoryName(categoryName.toLowerCase());
     }
 
     /**

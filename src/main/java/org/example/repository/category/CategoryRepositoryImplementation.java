@@ -48,14 +48,6 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
         int results;
         try (Session session = factory.openSession()) {
                 Transaction tx = session.beginTransaction();
-//                Query query = session.createQuery(
-//                        "update Category c set c.name=:name, c.imagePath=:imagePath" +
-//                                " where c.id=:id"
-//                );
-//                query.setParameter("name", category.getName());
-//                query.setParameter("imagePath", category.getImagePath());
-//                query.setParameter("id", category.getId());
-//                results = query.executeUpdate();
                 session.update(category);
                 session.getTransaction().commit();
                 tx.commit();
@@ -77,7 +69,6 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
         try (Session session = factory.openSession()) {
 
                 Transaction tx = session.beginTransaction();
-                //Category category=session.get(Category.class,categoryID);
                 session.delete(category);
                 tx.commit();
             } catch (Exception e) {
@@ -120,7 +111,7 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
                         .getSingleResult();
 
             } catch (Exception e) {
-                System.out.println("in get category by name category repo impl e.getStackTrace() = " + e.getStackTrace());
+                System.out.println("in CategoryRepositoryImplementation.getCategoryByName e.getStackTrace() = " + e.getStackTrace());
                 return new Response("error occurred while processing your request", 500, true);
 
         }
@@ -171,7 +162,6 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
     @Override
     public Response<List<Category>> searchByCategoryName(String categoryName) {
         List<Category> categories;
-        categoryName=categoryName.toLowerCase();
         try (Session session = factory.openSession()) {
 
             session.beginTransaction();
@@ -190,6 +180,4 @@ public class CategoryRepositoryImplementation implements CategoryRepository {
 
         return new Response("Done", 200, false, categories);
     }
-    //
-    //     session.getTransaction().commit();
 }
