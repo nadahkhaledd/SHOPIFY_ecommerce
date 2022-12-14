@@ -34,8 +34,8 @@ public class OrderServiceTest {
     private OrderService orderService;
     private OrderRepository orderRepositoryMock;
     private UserRepository userRepository;
-    private ProductRepo productRepo;
     private UserService userService;
+    private ProductRepo productRepo;
     private ProductService productService;
 
     @Before
