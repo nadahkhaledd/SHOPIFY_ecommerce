@@ -6,5 +6,5 @@ import org.example.model.Response;
 public interface UserService {
     Response<User> getUserById(int userId);
 
-    Response<User> getUser(int userId, String email);
+    Response<User> getUserByEmail(String email);
 }

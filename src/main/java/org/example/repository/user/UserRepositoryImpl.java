@@ -57,12 +57,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Response<User> getUser(int id, String email) {
+    public Response<User> getUserByEmail(String email) {
         User user;
         try (Session session = factory.openSession()) {
 
-            user = session.createQuery("from User u WHERE u.id=:id AND u.email=:email", User.class)
-                    .setParameter("id", id)
+            user = session.createQuery("from User u WHERE u.email=:email", User.class)
                     .setParameter("email", email)
                     .getSingleResult();
         } catch (Exception e) {

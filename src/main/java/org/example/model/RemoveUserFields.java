@@ -8,10 +8,6 @@ public class RemoveUserFields {
 
     @NotNull
     @NotBlank
-    private int userID;
-
-    @NotNull
-    @NotBlank
     private String userEmail;
 
     @NotNull
@@ -21,17 +17,8 @@ public class RemoveUserFields {
     }
 
     public RemoveUserFields(int userID, String userEmail, String userType) {
-        this.userID = userID;
         this.userEmail = userEmail;
         this.userType = userType;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
     }
 
     public String getUserEmail() {

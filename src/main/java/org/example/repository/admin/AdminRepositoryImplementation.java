@@ -1,13 +1,9 @@
 package org.example.repository.admin;
-
 import org.example.entity.Admin;
-import org.example.entity.Category;
-import org.example.entity.Customer;
 import org.example.entity.User;
 import org.example.enums.CustomerStatus;
 import org.example.enums.Gender;
 import org.example.model.Response;
-import org.example.repository.category.CategoryRepository;
 import org.example.service.security.EncryptionService;
 import org.example.utility.DateUtils;
 import org.hibernate.Session;
@@ -17,7 +13,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -41,9 +36,6 @@ public class AdminRepositoryImplementation implements AdminRepository{
     public Response addAdmin(User admin) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
-            admin.setPassword(EncryptionService.hashPassword(admin.getPassword()));
-            admin.setStatus(CustomerStatus.ACTIVATED);
-            admin.setPasswordAttempts(0);
             session.persist(admin);
             tx.commit();
         }
@@ -92,22 +84,10 @@ public class AdminRepositoryImplementation implements AdminRepository{
      */
     @Override
     public Response<Boolean> updateAdmin(User admin) {
-        int results;
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
-            Query query=session.createQuery(
-                    "UPDATE User set firstName=:firstName, lastName=:lastName," +
-                            " email=:email, password=:password, gender=:gender, dateOfBirth=:dateOfBirth" +
-                            " WHERE id=:id"
-            );
-            query.setParameter("firstName", admin.getFirstName());
-            query.setParameter("lastName", admin.getLastName());
-            query.setParameter("email", admin.getEmail());
-            query.setParameter("password", admin.getPassword());
-            query.setParameter("gender", admin.getGender());
-            query.setParameter("dateOfBirth", admin.getDateOfBirth());
-            query.setParameter("id", admin.getId());
-            results = query.executeUpdate();
+            session.update(admin);
+            session.getTransaction().commit();
             tx.commit();
         }
         catch (Exception e) {
@@ -115,7 +95,7 @@ public class AdminRepositoryImplementation implements AdminRepository{
             return new Response<>("error occurred while processing your request", 500, true);
 
         }
-        return new Response<Boolean>("Done", 200, false, results==1);
+        return new Response<Boolean>("Done", 200, false, false, true);
 
     }
 
@@ -123,39 +103,12 @@ public class AdminRepositoryImplementation implements AdminRepository{
      * @inheritDoc
      */
     @Override
-    public Response<Boolean> removeAdmin(int adminID, String adminEmail) {
-        int results;
+    public Response<Boolean> removeAdminByEmail(String email) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
-            Query query=session.createQuery(
-                    "delete from User a where a.id=:id and a.email=:email"
-            );
-            query.setParameter("id", adminID);
-            query.setParameter("email", adminEmail);
-            results = query.executeUpdate();
-            tx.commit();
-        }
-        catch (Exception e) {
-            System.out.println("in AdminRepositoryImplementation.removeAdmin  e.getMessage() = " + e.getMessage());
-            return new Response<>("error occurred while processing your request", 500, true);
-
-        }
-        return new Response<Boolean>("Done", 200, false, results==1);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public Response<Boolean> removeAdmin(int adminID) {
-        int results;
-        try (Session session = factory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            Query query=session.createQuery(
-                    "delete from User a where a.id=:id"
-            );
-            query.setParameter("id", adminID);
-            results = query.executeUpdate();
+            Admin admin = session.get(Admin.class, email);
+            session.delete(admin);
+            session.getTransaction().commit();
             tx.commit();
         }
         catch (Exception e) {
@@ -163,7 +116,27 @@ public class AdminRepositoryImplementation implements AdminRepository{
             return new Response<>("error occurred while processing your request", 500, true);
 
         }
-        return new Response<Boolean>("Done", 200, false, results==1);
+        return new Response<Boolean>("Done", 200, false, false, true);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Response<Boolean> removeAdminByID(int id) {
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            Admin admin = session.get(Admin.class, id);
+            session.delete(admin);
+            session.getTransaction().commit();
+            tx.commit();
+        }
+        catch (Exception e) {
+            System.out.println("in AdminRepositoryImplementation.removeAdminID  e.getMessage() = " + e.getMessage());
+            return new Response<>("error occurred while processing your request", 500, true);
+
+        }
+        return new Response<Boolean>("Done", 200, false, false, true);
     }
 
 
@@ -171,16 +144,15 @@ public class AdminRepositoryImplementation implements AdminRepository{
      * @inheritDoc
      */
     @Override
-    public Response<Boolean> deactivateCustomer(int customerID, String customerEmail) {
+    public Response<Boolean> deactivateCustomer(String customerEmail) {
         int results;
         try(Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
             Query query=session.createQuery(
                     "update User c set c.status=:status" +
-                            " where c.id=:id and c.email=:email"
+                            " where c.email=:email"
             );
             query.setParameter("status", CustomerStatus.DEACTIVATED);
-            query.setParameter("id", customerID);
             query.setParameter("email", customerEmail);
 
             results = query.executeUpdate();

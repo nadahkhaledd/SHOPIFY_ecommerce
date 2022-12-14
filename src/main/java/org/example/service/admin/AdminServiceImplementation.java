@@ -2,9 +2,11 @@ package org.example.service.admin;
 
 import org.example.entity.Admin;
 import org.example.entity.User;
+import org.example.enums.CustomerStatus;
 import org.example.model.Response;
 import org.example.repository.admin.AdminRepository;
 import org.example.service.ValidationService;
+import org.example.service.security.EncryptionService;
 import org.example.service.user.UserService;
 import org.example.service.security.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +36,9 @@ public class AdminServiceImplementation implements AdminService{
      */
     @Override
     public Response addAdmin(Admin admin) {
+        if(admin == null)
+            throw new NullPointerException();
         Response response=validationService.validateAdminEmail(admin.getEmail());
-        //update admin email response to be of type response
         Response<Boolean> adminEmailResponse=authService.checkIfUserAlreadyExists(admin.getEmail());
         if(adminEmailResponse.isErrorOccurred()){
             return adminEmailResponse;
@@ -44,13 +47,15 @@ public class AdminServiceImplementation implements AdminService{
             return response;
         }
       else{
+            admin.setPassword(EncryptionService.hashPassword(admin.getPassword()));
+            admin.setStatus(CustomerStatus.ACTIVATED);
+            admin.setPasswordAttempts(0);
             Response adminResponse=repository.addAdmin(admin);
-            System.out.println("email is valid 444");
             if(adminResponse.isErrorOccurred()){
                 return adminResponse;
             }
         }
-      return new Response("Ok",200,false);
+      return new Response("Done",200,false);
 
     }
 
@@ -71,43 +76,35 @@ public class AdminServiceImplementation implements AdminService{
      * @inheritDoc
      */
     @Override
-    public Response<Boolean> removeAdmin(int adminID, String adminEmail) {
-        Response isAdminDataCorrect = userService.getUser(adminID, adminEmail);
-
+    public Response<Boolean> removeAdminByEmail(String adminEmail) {
+        Response isAdminDataCorrect = userService.getUserByEmail(adminEmail);
         if(isAdminDataCorrect.getObjectToBeReturned()==null)
             return new Response<>("admin data incorrect", 404, true, true, false);
-        return repository.removeAdmin(adminID, adminEmail);
+
+        return repository.removeAdminByEmail(adminEmail);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public Response<Boolean> removeAdmin(int adminID) {
+    public Response<Boolean> removeAdminByID(int adminID) {
         Response isAdminDataCorrect = userService.getUserById(adminID);
-
         if(isAdminDataCorrect.getObjectToBeReturned()==null)
             return new Response<>("admin data incorrect", 404, true, true, false);
-        return repository.removeAdmin(adminID);
+
+        return repository.removeAdminByID(adminID);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public Response<Boolean> deactivateCustomer(int customerID, String customerEmail) {
-        Response isAdminDataCorrect = userService.getUser(customerID, customerEmail);
-
+    public Response<Boolean> deactivateCustomer(String customerEmail) {
+        Response isAdminDataCorrect = userService.getUserByEmail(customerEmail);
         if(isAdminDataCorrect.getObjectToBeReturned()==null)
             return new Response<>("customer data incorrect", 404, true, true, false);
-        return repository.deactivateCustomer(customerID, customerEmail);
-    }
 
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public void updateOrderStatus(int orderID) {
-        /// call orderservice.updateStatus()
+        return repository.deactivateCustomer(customerEmail);
     }
 }

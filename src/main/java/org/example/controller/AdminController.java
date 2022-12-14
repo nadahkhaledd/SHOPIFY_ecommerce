@@ -206,7 +206,7 @@ public class AdminController {
 
     @GetMapping("deleteAdmin/{id}")
     public String deleteAdmin(@PathVariable int id, ModelMap modelMap) {
-        Response response = adminService.removeAdmin(id);
+        Response response = adminService.removeAdminByID(id);
         if(response.isErrorOccurred()) {
             modelMap.put("statusCode", response.getStatusCode());
             modelMap.put("errorMessage", response.getMessage());
@@ -367,9 +367,9 @@ public class AdminController {
         modelMap.put("ErrorMessage","");//initialize as empty
         Response response;
         if(fields.getUserType().equals("admin"))
-            response = adminService.removeAdmin(fields.getUserID(), fields.getUserEmail());
+            response = adminService.removeAdminByEmail(fields.getUserEmail());
         else
-            response = adminService.deactivateCustomer(fields.getUserID(), fields.getUserEmail());
+            response = adminService.deactivateCustomer(fields.getUserEmail());
 
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){

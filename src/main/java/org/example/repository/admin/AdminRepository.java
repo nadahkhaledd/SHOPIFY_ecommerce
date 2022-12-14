@@ -40,28 +40,27 @@ public interface AdminRepository {
      */
     Response<Boolean> updateAdmin(User admin);
 
-    /**
-     * This method is used to remove an admin from database with their id  and email.
-     * @param adminID This is the id of the admin needs to be deleted.
-     * @param adminEmail This is the email of the admin needs to be deleted.
-     * @return boolean if admin removed.
-     */
-    Response<Boolean> removeAdmin(int adminID, String adminEmail);
 
     /**
      * This method is used to remove an admin from database with their id.
-     * @param adminID This is the id of the admin needs to be deleted.
+     * @param email This is the email of the admin needs to be deleted.
      * @return boolean if admin removed.
      */
-    Response<Boolean> removeAdmin(int adminID);
+    Response<Boolean> removeAdminByEmail(String email);
+
+    /**
+     * This method is used to remove an admin from database with their id.
+     * @param id This is the id of the admin needs to be deleted.
+     * @return boolean if admin removed.
+     */
+    Response<Boolean> removeAdminByID(int id);
 
     /**
      * This method is used by admin to remove a customer account from the system.
      * It works by deactivating the customer from database as to keep their history stored.
-     * @param customerID This is the id of the customer needs to be removed.
      * @param customerEmail This is the email of the customer.
      * @return int number of rows affected or exception if happens.
      */
-    Response<Boolean> deactivateCustomer(int customerID, String customerEmail);
+    Response<Boolean> deactivateCustomer(String customerEmail);
 
 }
