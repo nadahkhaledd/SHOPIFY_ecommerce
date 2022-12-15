@@ -4,7 +4,6 @@ import org.example.entity.Admin;
 import org.example.entity.Category;
 import org.example.entity.Product;
 import org.example.entity.User;
-import org.example.enums.Gender;
 import org.example.model.RemoveUserFields;
 import org.example.model.Response;
 import org.example.repository.user.UserRepository;
