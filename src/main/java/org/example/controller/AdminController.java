@@ -119,16 +119,15 @@ public class AdminController {
     public String newAdmin(Model model,HttpSession session) {
         if(!checkSession(model,session))
             return "redirect:/login";
-        List<String> genders = new ArrayList<>(
-                Arrays.asList(Gender.male.toString(), Gender.female.toString()));
+
         model.addAttribute("admin", new Admin());
         model.addAttribute("date", dateUtils.dateYearsAgo(18));
         return "addAdmin";
     }
 
     @PostMapping("addAdmin")
-    public String addUser(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd")  @ModelAttribute("admin") Admin admin, BindingResult bindingResult ,
-                          ModelMap modelMap) {
+    public String addUser(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd")  @ModelAttribute("admin") Admin admin,
+                          BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
             return "addAdmin";
@@ -145,7 +144,6 @@ public class AdminController {
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
-
         return "redirect:/admin/admins";
     }
 
