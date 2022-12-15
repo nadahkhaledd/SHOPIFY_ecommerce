@@ -103,20 +103,39 @@ public class OrderControllerTest {
         assertEquals("viewOrder", returnedPage);
     }
 
-//    @Test
-//    public void placeOrderTest_sendOrder_internalErrorOccurred_returnErrorPage() {
-//        //Arrange
-//        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
-//        User user = new User();
-//        when(userServiceMock.getUserById(anyInt()))
-//                .thenReturn(new Response<>("error", 400, true, false, user));
-//
-//        //Act
-//        String returnedPage = orderController.placeOrder(new Order(), modelMock, httpSessionMock);
-//
-//        //Assert
-//        assertEquals("error", returnedPage);
-//    }
+    @Test
+    public void placeOrderTest_sendOrder_internalErrorOccurred_returnErrorPage() {
+        //Arrange
+        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
+        User user = new Customer();
+        when(userServiceMock.getUserById(anyInt()))
+                .thenReturn(new Response<>("Done", 200, false, false, user));
+        when(orderServiceMock.checkOut(any(Customer.class), any(Order.class)))
+                .thenReturn(new Response("error", 400, true, false, false));
+
+        //Act
+        String returnedPage = orderController.placeOrder(new Order(), modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("error", returnedPage);
+    }
+
+    @Test
+    public void placeOrderTest_sendOrder_returnViewOrdersPage() {
+        //Arrange
+        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
+        User user = new Customer();
+        when(userServiceMock.getUserById(anyInt()))
+                .thenReturn(new Response<>("Done", 200, false, false, user));
+        when(orderServiceMock.checkOut(any(Customer.class), any(Order.class)))
+                .thenReturn(new Response("Done", 200, false, false, true));
+
+        //Act
+        String returnedPage = orderController.placeOrder(new Order(), modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("redirect:/orders/view", returnedPage);
+    }
 
     @Test
     public void cancelOrderTest_sendOrderId_internalErrorOccurred_returnErrorPage() {

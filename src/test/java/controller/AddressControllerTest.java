@@ -66,23 +66,59 @@ public class AddressControllerTest {
         assertEquals("addAddress", returnedPage);
     }
 
-//    @Test
-//    public void addAddressTest_sendAddress_InternalErrorOccurred_returnErrorPage() {
-//        //Arrange
-//        User user = new User();
-//        Address address = new Address();
-//        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
-//        when(userServiceMock.getUserById(anyInt()))
-//                .thenReturn(new Response<>("Done", 200, false, false, user));
-//        when(addressServiceMock.addAddress(address))
-//                .thenReturn(new Response("Done", 200, true, false, address));
-//
-//        //Act
-//        String returnedPage = addressController.addAddress(address, bindingResultMock, modelMock, httpSessionMock);
-//
-//        //Assert
-//        assertEquals("error", returnedPage);
-//    }
+    @Test
+    public void addAddressTest_sendAddress_internalErrorOccurred_returnErrorPage() {
+        //Arrange
+        User user = new Customer();
+        Address address = new Address();
+        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
+        when(userServiceMock.getUserById(anyInt()))
+                .thenReturn(new Response<>("Done", 200, false, false, user));
+        when(addressServiceMock.addAddress(address))
+                .thenReturn(new Response("Done", 200, true, false, address));
+
+        //Act
+        String returnedPage = addressController.addAddress(address, bindingResultMock, modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("error", returnedPage);
+    }
+
+    @Test
+    public void addAddressTest_sendAddress_fieldErrorOccurred_returnAddAddressPage() {
+        //Arrange
+        User user = new Customer();
+        Address address = new Address();
+        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
+        when(userServiceMock.getUserById(anyInt()))
+                .thenReturn(new Response<>("Done", 200, false, false, user));
+        when(addressServiceMock.addAddress(address))
+                .thenReturn(new Response("Done", 200, true, true, address));
+
+        //Act
+        String returnedPage = addressController.addAddress(address, bindingResultMock, modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("addAddress", returnedPage);
+    }
+
+    @Test
+    public void addAddressTest_sendAddress_returnViewAddressesPage() {
+        //Arrange
+        User user = new Customer();
+        Address address = new Address();
+        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
+        when(userServiceMock.getUserById(anyInt()))
+                .thenReturn(new Response<>("Done", 200, false, false, user));
+        when(addressServiceMock.addAddress(address))
+                .thenReturn(new Response("Done", 200, false, false, address));
+
+        //Act
+        String returnedPage = addressController.addAddress(address, bindingResultMock, modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("redirect:/address/view", returnedPage);
+    }
 
     @Test
     public void deleteAddressTest_sendAddressId_returnViewAddressesPage() {
@@ -137,53 +173,53 @@ public class AddressControllerTest {
         assertEquals("updateAddress", returnedPage);
     }
 
-//    @Test
-//    public void updateAddressTest_sendAddress_fieldErrorOccurred_returnUpdateAddressPage() {
-//        //Arrange
-//        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
-//        when(userServiceMock.getUserById(anyInt())).thenReturn(new Response<>("Done", 200, false, false, new User()));
-//        Response response = new Response("error", 400, true, true, false);
-//        when(addressServiceMock.updateAddress(any(Address.class))).thenReturn(response);
-//        Address address = new Address();
-//
-//        //Act
-//        String returnedPage = addressController.updateAddress(address, bindingResultMock, modelMock, httpSessionMock);
-//
-//        //Assert
-//        assertEquals("updateAddress", returnedPage);
-//    }
-//
-//    @Test
-//    public void updateAddressTest_sendAddress_internalErrorOccurred_returnErrorPage() {
-//        //Arrange
-//        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
-//        when(userServiceMock.getUserById(anyInt())).thenReturn(new Response<>("Done", 200, false, false, new User()));
-//        Response response = new Response("error", 400, true, false, false);
-//        when(addressServiceMock.updateAddress(any(Address.class))).thenReturn(response);
-//        Address address = new Address();
-//
-//        //Act
-//        String returnedPage = addressController.updateAddress(address, bindingResultMock, modelMock, httpSessionMock);
-//
-//        //Assert
-//        assertEquals("error", returnedPage);
-//    }
-//
-//    @Test
-//    public void updateAddressTest_sendAddress_returnViewAddressesPage() {
-//        //Arrange
-//        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
-//        when(userServiceMock.getUserById(anyInt())).thenReturn(new Response<>("Done", 200, false, false, new User()));
-//        Response response = new Response("Done", 200, false, false, true);
-//        when(addressServiceMock.updateAddress(any(Address.class))).thenReturn(response);
-//        Address address = new Address();
-//
-//        //Act
-//        String returnedPage = addressController.updateAddress(address, bindingResultMock, modelMock, httpSessionMock);
-//
-//        //Assert
-//        assertEquals("redirect:/address/view", returnedPage);
-//    }
+    @Test
+    public void updateAddressTest_sendAddress_fieldErrorOccurred_returnUpdateAddressPage() {
+        //Arrange
+        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
+        when(userServiceMock.getUserById(anyInt())).thenReturn(new Response<>("Done", 200, false, false, new Customer()));
+        Response response = new Response("error", 400, true, true, false);
+        when(addressServiceMock.updateAddress(any(Address.class))).thenReturn(response);
+        Address address = new Address();
+
+        //Act
+        String returnedPage = addressController.updateAddress(address, bindingResultMock, modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("updateAddress", returnedPage);
+    }
+
+    @Test
+    public void updateAddressTest_sendAddress_internalErrorOccurred_returnErrorPage() {
+        //Arrange
+        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
+        when(userServiceMock.getUserById(anyInt())).thenReturn(new Response<>("Done", 200, false, false, new Customer()));
+        Response response = new Response("error", 400, true, false, false);
+        when(addressServiceMock.updateAddress(any(Address.class))).thenReturn(response);
+        Address address = new Address();
+
+        //Act
+        String returnedPage = addressController.updateAddress(address, bindingResultMock, modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("error", returnedPage);
+    }
+
+    @Test
+    public void updateAddressTest_sendAddress_returnViewAddressesPage() {
+        //Arrange
+        when(httpSessionMock.getAttribute(anyString())).thenReturn(1);
+        when(userServiceMock.getUserById(anyInt())).thenReturn(new Response<>("Done", 200, false, false, new Customer()));
+        Response response = new Response("Done", 200, false, false, true);
+        when(addressServiceMock.updateAddress(any(Address.class))).thenReturn(response);
+        Address address = new Address();
+
+        //Act
+        String returnedPage = addressController.updateAddress(address, bindingResultMock, modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("redirect:/address/view", returnedPage);
+    }
 
     @Test
     public void getAddressesTest_internalErrorOccurred_returnErrorPage() {
