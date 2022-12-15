@@ -80,7 +80,7 @@ public class ShoppingCartProductsServiceImpl implements ShoppingCartProductsServ
         else {
             affectedRows = repository.removeFromCart(shoppingCartProductId).getObjectToBeReturned();
         }
-        return new Response<Boolean>("Quantity updated.", 200, false, affectedRows == 1);
+        return new Response<Boolean>("Quantity updated.", 200, false, false, affectedRows == 1);
     }
 
     @Override
