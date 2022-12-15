@@ -26,7 +26,7 @@ public class RateServiceImpl implements RateService {
     @Override
     public Response AssignRateToProduct(UserInputReview userRate){
         Customer customer=customerService.getCustomerById(userRate.getUserId());
-        Response<Product> productResponse=productService.getProductsById(userRate.getProductId());
+        Response<Product> productResponse=productService.getProductById(userRate.getProductId());
         Rate rate=new Rate(userRate.getRate(),userRate.getReview(),customer,productResponse.getObjectToBeReturned());
       //  System.out.println(rate.toString());
         Response rateResponse;
