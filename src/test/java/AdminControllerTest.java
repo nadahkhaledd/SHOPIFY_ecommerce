@@ -1,6 +1,7 @@
 import org.bouncycastle.math.raw.Mod;
 import org.example.controller.AdminController;
 import org.example.entity.Admin;
+import org.example.entity.Category;
 import org.example.entity.User;
 import org.example.model.Response;
 import org.example.repository.admin.AdminRepository;
@@ -17,6 +18,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -33,8 +36,11 @@ public class AdminControllerTest {
     private UserRepository userRepositoryMock;
     private CategoryService categoryServiceMock;
     private ProductService productServiceMock;
+    private Response responseMock;
     private Model modelMock;
+    private ModelMap modelMapMock;
     private HttpSession httpSessionMock;
+    private BindingResult bindingResultMock;
 
     public AdminControllerTest() {
         this.adminServiceMock = Mockito.mock(AdminService.class);
@@ -42,8 +48,11 @@ public class AdminControllerTest {
         userRepositoryMock = Mockito.mock(UserRepository.class);
         categoryServiceMock = Mockito.mock(CategoryService.class);
         productServiceMock = Mockito.mock(ProductService.class);
+        responseMock = Mockito.mock(Response.class);
         httpSessionMock = Mockito.mock(HttpSession.class);
         modelMock = Mockito.mock(Model.class);
+        bindingResultMock = Mockito.mock(BindingResult.class);
+        modelMapMock = Mockito.mock(ModelMap.class);
         adminController = new AdminController(adminServiceMock, userServiceMock, userRepositoryMock, categoryServiceMock, productServiceMock);
 
     }
@@ -124,7 +133,160 @@ public class AdminControllerTest {
 
         //Assert
         assertEquals("showAdmins", response);
+        verify(adminServiceMock, times(1)).getAllAdmins();
     }
+
+    @Test
+    public void testShowCategories_sendValidSessionAttribute_returnCategoriesPage(){
+        //Arrange
+        when(adminController.checkSession(modelMock, httpSessionMock)).thenReturn(true);
+        when(categoryServiceMock.getAllCategories()).thenReturn(new Response("Done", 200, false, false, new ArrayList<>()));
+        when(modelMock.addAttribute(anyString(), any())).thenReturn(modelMock);
+
+        //ACT
+        String response = adminController.showCategories(modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("showCategories", response);
+        verify(categoryServiceMock, times(1)).getAllCategories();
+    }
+
+    @Test
+    public void testShowProducts_sendValidSessionAttribute_returnProductsPage(){
+        //Arrange
+        when(adminController.checkSession(modelMock, httpSessionMock)).thenReturn(true);
+        when(productServiceMock.getProducts()).thenReturn(new Response("Done", 200, false, false, new ArrayList<>()));
+        when(modelMock.addAttribute(anyString(), any())).thenReturn(modelMock);
+
+        //ACT
+        String response = adminController.showProducts(modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("showAllProducts", response);
+        verify(productServiceMock, times(1)).getProducts();
+    }
+
+    @Test
+    public void testNewAdmin_sendValidData_returnAddAdminFormPage(){
+        //Arrange
+        when(adminController.checkSession(modelMock, httpSessionMock)).thenReturn(true);
+        when(modelMock.addAttribute(anyString(), any())).thenReturn(modelMock);
+
+        //ACT
+        String response = adminController.newAdmin(modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("addAdmin", response);
+        verify(modelMock, times(2)).addAttribute(anyString(), any());
+
+    }
+
+    // addUser() tests
+    @Test
+    public void testAddUser_sendBindingResultError_expectGoToSamePage(){
+        //Arrange
+        when(bindingResultMock.hasErrors()).thenReturn(true);
+
+        //ACT
+        String response = adminController.addUser(new Admin(), bindingResultMock, modelMapMock);
+
+        //Assert
+        assertEquals("addAdmin", response);
+        verify(adminServiceMock, times(0)).addAdmin(any(User.class));
+    }
+
+    @Test
+    public void testAddUser_sendExceptionError_returnErrorPage(){
+        //Arrange
+        when(bindingResultMock.hasErrors()).thenReturn(false);
+        when(modelMapMock.put(anyString(), any())).thenReturn("");
+        when(adminServiceMock.addAdmin(any(User.class))).thenReturn(new Response("Done", 200, true));
+        when(responseMock.isErrorOccurred()).thenReturn(true);
+        when(responseMock.isFieldErrorOccurred()).thenReturn(false);
+
+        //ACT
+        String response = adminController.addUser(new Admin(), bindingResultMock, modelMapMock);
+
+        //Assert
+        assertEquals("error", response);
+        verify(modelMapMock, times(3)).put(anyString(), any());
+    }
+
+    @Test
+    public void testAddUser_sendFieldError_returnSamePage(){
+        //Arrange
+        when(bindingResultMock.hasErrors()).thenReturn(false);
+        when(modelMapMock.put(anyString(), any())).thenReturn("");
+        when(adminServiceMock.addAdmin(any(User.class))).thenReturn(new Response("Done", 200, true, true));
+        when(responseMock.isErrorOccurred()).thenReturn(true);
+        when(responseMock.isFieldErrorOccurred()).thenReturn(true);
+
+        //ACT
+        String response = adminController.addUser(new Admin(), bindingResultMock, modelMapMock);
+
+        //Assert
+        assertEquals("addAdmin", response);
+        verify(modelMapMock, times(2)).put(anyString(), any());
+    }
+
+    @Test
+    public void testAddUser_sendValidAdminData_returnAdminsPage(){
+        //Arrange
+        when(bindingResultMock.hasErrors()).thenReturn(false);
+        when(modelMapMock.put(anyString(), any())).thenReturn("");
+        when(adminServiceMock.addAdmin(any(User.class))).thenReturn(new Response("Done", 200, false));
+        when(responseMock.isErrorOccurred()).thenReturn(false);
+
+        //ACT
+        String response = adminController.addUser(new Admin(), bindingResultMock, modelMapMock);
+
+        //Assert
+        assertEquals("redirect:/admin/admins", response);
+        verify(modelMapMock, times(1)).put(anyString(), any());
+        verify(responseMock, times(0)).isFieldErrorOccurred();
+    }
+
+    @Test
+    public void testNewCategory_sendValidData_returnAddCategoryFormPage(){
+        //Arrange
+        when(adminController.checkSession(modelMock, httpSessionMock)).thenReturn(true);
+        when(modelMock.addAttribute(anyString(), any())).thenReturn(modelMock);
+
+        //ACT
+        String response = adminController.newCategory(modelMock, httpSessionMock);
+
+        //Assert
+        assertEquals("addCategory", response);
+        verify(modelMock, times(1)).addAttribute(anyString(), any());
+    }
+
+    @Test
+    public void testAddCategory_sendValidCategory_returnCategoriesPage(){
+        //Arrange
+        when(bindingResultMock.hasErrors()).thenReturn(false);
+        when(modelMapMock.put(anyString(), any())).thenReturn("");
+        when(categoryServiceMock.addCategory(any(Category.class))).thenReturn(new Response("Done", 200, false));
+        when(responseMock.isErrorOccurred()).thenReturn(false);
+
+        //ACT
+        String response = adminController.addCategory(new Category(), bindingResultMock, modelMapMock);
+
+        //Assert
+        assertEquals("redirect:/admin/showCategories", response);
+        verify(modelMapMock, times(1)).put(anyString(), any());
+        verify(responseMock, times(0)).isFieldErrorOccurred();
+    }
+
+//    @Test
+//    public void testDeleteCategory_sendError_expectReturnErrorPage(){
+//        //Arrange
+//        when(categoryServiceMock.getCategoryByID(anyInt())).thenReturn(new Response("Done", 200, false, new Category()));
+//        when(categoryServiceMock.removeCategory(any(Category.class))).thenReturn()
+//    }
+
+
+
+
 
 
 }
