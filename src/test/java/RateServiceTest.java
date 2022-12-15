@@ -144,18 +144,14 @@ public class RateServiceTest {
         kidsDresses.setName("men's dresses");
         kidsDresses.setImagePath("dummy pic");
         Product product1=new Product("tshirt","dummy pic",120.0,kidsDresses,12);
+        product1.setId(1);
         product1.setRates(Arrays.asList(new Rate()));
-        //when(rateRepositoryMock.calculateRateOfProduct(anyInt())
-        //).thenReturn(new Response<Double>("OK",200,false,false,5.0));
-       // doReturn(new Response<Double>("OK",200,false,false,5.0)
-     //   ).when(rateRepositoryMock).calculateRateOfProduct(anyInt());
-        when(rateService.calculateRateOfProduct_(anyInt())
-               ).thenReturn(5.0);
+        when(rateRepositoryMock.calculateRateOfProduct(anyInt())
+        ).thenReturn(new Response<Double>("OK",200,false,false,5.0));
         //act
-       // Response result=rateService.setProductRate(product1);
-            //assert
-      //  assertEquals(result.getStatusCode(),200);
-        //delta:describes the amount of difference you can tolerate in the values for them to be still considered equal
-    }
-    //setProductRate(
+        Response result=rateService.setProductRate(product1);
+        //assert
+         assertEquals(result.getStatusCode(),200);
+         }
+
 }

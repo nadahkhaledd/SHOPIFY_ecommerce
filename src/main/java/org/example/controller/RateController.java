@@ -17,20 +17,24 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class RateController {
-    @Autowired
+
     private RateService rateService;
+    @Autowired
+    public RateController(RateService rateService) {
+        this.rateService = rateService;
+    }
 
     @PostMapping("/rate")
-    public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message, HttpSession session, Model model){
+    public ModelAndView uploadRate(@RequestParam int productId, @RequestParam int rate, @RequestParam String message, HttpSession session){
        ModelAndView modelAndView=new ModelAndView("redirect:/products/productDetails?productId="+productId);
        if(  session.getAttribute("user-Id")==null){
            modelAndView.setViewName("redirect:/login");
            return modelAndView;
        }
        int userId=   (int) session.getAttribute("user-Id");
-        System.out.println(userId+" productId = " + productId + ", rate = " + rate + ", message = " + message);
+       // System.out.println(userId+" productId = " + productId + ", rate = " + rate + ", message = " + message);
         UserInputReview userInputReview=new UserInputReview(rate,userId,productId,message);
-        System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message );
+       // System.out.println("productId = " + productId + ", rate = " + rate + ", message = " + message );
         Response rateResponse= rateService.AssignRateToProduct(userInputReview);
         if(rateResponse.isErrorOccurred()){
             modelAndView.setViewName("error");

@@ -22,5 +22,6 @@ public interface RateService {
      * @return nothing
      */
      Response setProductRate(Product product);
+     double calculateRateOfProduct_(int productId);
 
 }

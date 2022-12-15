@@ -18,11 +18,14 @@ import java.util.List;
 @Controller
 
 public class HomeController {
-    @Autowired
-    CategoryService categoryService;
-    @Autowired
-    ProductService productService;
 
+    CategoryService categoryService;
+    ProductService productService;
+    @Autowired
+    public HomeController(CategoryService categoryService, ProductService productService) {
+        this.categoryService = categoryService;
+        this.productService = productService;
+    }
 
     @GetMapping("/home")
     public ModelAndView getAllItems(HttpSession session,Model model) {

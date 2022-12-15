@@ -28,24 +28,29 @@ import java.util.Map;
 @Controller
 @RequestMapping("/products")
 public class ProductController {
-    @Autowired
+
     ProductService productService;
-    @Autowired
     RateService rateService;
-    @Autowired
     UserService userService;
-    @Autowired
     ShoppingCartProductsService cartService;
 
+    @Autowired
+    public ProductController(ProductService productService, RateService rateService, UserService userService, ShoppingCartProductsService cartService) {
+        this.productService = productService;
+        this.rateService = rateService;
+        this.userService = userService;
+        this.cartService = cartService;
+    }
+
     @GetMapping("/productDetails")
-    public ModelAndView getProductDetails( @RequestParam int productId,ModelMap modelMap){
+    public ModelAndView getProductDetails( @RequestParam int productId){
         RateUtils rateUtils=new RateUtils();
         ModelAndView modelAndView=new ModelAndView("productDetails");
         Response<Product> productResponse=productService.getProductsById(productId);
         if(productResponse.isErrorOccurred()){
             modelAndView.setViewName("error");
             modelAndView.addObject("errorMessage",productResponse.getMessage());
-            modelMap.put("statusCode",productResponse.getStatusCode());
+            modelAndView.addObject("statusCode",productResponse.getStatusCode());
             return modelAndView;
         }
         Response rateResponse= rateService.setProductRate(productResponse.getObjectToBeReturned());
@@ -59,18 +64,18 @@ public class ProductController {
         Star star=rateUtils.computeNumberOfStars(productResponse.getObjectToBeReturned().getRate());
         System.out.println(star.toString());
         modelAndView.addObject("stars",star);
-        modelMap.addAttribute("newCartItem", new ShoppingCartProducts());
+        modelAndView.addObject("newCartItem", new ShoppingCartProducts());
         return modelAndView;
     }
 
     @PostMapping("/productDetails")
     public String addToCart(@Valid @ModelAttribute("newCartItem") ShoppingCartProducts cartProducts, BindingResult bindingResult,
-                            @RequestParam int productId, Model model, HttpSession session) {
+                            @RequestParam int productId, HttpSession session) {
         if(  session.getAttribute("user-Id")==null){
             return "redirect:/login";
         }
         if(bindingResult.hasErrors()) {
-            Map<String, Object> modelMapp = bindingResult.getModel();
+            Map<String, Object> modelMap = bindingResult.getModel();
             return "productDetails";
         }
         Response<Product> product = productService.getProductsById(productId);

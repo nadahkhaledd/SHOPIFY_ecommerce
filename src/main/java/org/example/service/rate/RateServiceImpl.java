@@ -49,6 +49,7 @@ public class RateServiceImpl implements RateService {
      * @return rate of the product
      */
     // converted it into public method to be mocked
+    @Override
     public double calculateRateOfProduct_(int productId) {
         if(productId<0)
             throw new IllegalArgumentException();
@@ -60,9 +61,7 @@ public class RateServiceImpl implements RateService {
     public Response setProductRate(Product product) {
         if(!product.getRates().isEmpty())
             product.setRate(calculateRateOfProduct_(product.getId()));
-        return new Response("Done", 200, false);
-
-      //  return new Response("no rates for the given products", 404, true);
+        return new Response("Ok", 200, false);
     }
   /*  public List<Float> getRates(int productId){
         return rateRepository.getRates(productId);
