@@ -21,10 +21,14 @@ import java.util.Set;
 @Controller
 @RequestMapping("/search")
 public class SearchController {
-    @Autowired
+
     CategoryService categoryService;
-    @Autowired
     ProductService productService;
+    @Autowired
+    public SearchController(CategoryService categoryService, ProductService productService) {
+        this.categoryService = categoryService;
+        this.productService = productService;
+    }
 
     ProductsUtils productsUtils=new ProductsUtils();
     @PostMapping

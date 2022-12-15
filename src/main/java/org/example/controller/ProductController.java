@@ -41,7 +41,6 @@ public class ProductController {
         this.userService = userService;
         this.cartService = cartService;
     }
-
     @GetMapping("/productDetails")
     public ModelAndView getProductDetails( @RequestParam int productId){
         RateUtils rateUtils=new RateUtils();

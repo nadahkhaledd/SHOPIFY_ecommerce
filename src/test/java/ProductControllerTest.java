@@ -1,3 +1,4 @@
+import helpers.HelperMethods;
 import org.example.controller.ProductController;
 import org.example.entity.Category;
 import org.example.entity.Product;
@@ -34,6 +35,7 @@ public class ProductControllerTest {
     private Model modelMock;
     private HttpSession httpSessionMock;
     private BindingResult bindingResultMock;
+    private HelperMethods helperMethods;
 
     public ProductControllerTest() {
         productServiceMock= Mockito.mock(ProductService.class);
@@ -44,6 +46,7 @@ public class ProductControllerTest {
         httpSessionMock = Mockito.mock(HttpSession.class);
         modelMock = Mockito.mock(Model.class);
         bindingResultMock = Mockito.mock(BindingResult.class);
+        helperMethods=new HelperMethods();
     }
     //productService.getProductsById(productId);
     //rateService.setProductRate(productResponse.getObjectToBeReturned()
@@ -83,9 +86,8 @@ public class ProductControllerTest {
         Category womenDresses=new Category();
         womenDresses.setName("women's dresses");
         womenDresses.setImagePath("dummy pic");
-        Product product1=new Product("tshirt","dummy pic",120.0,womenDresses,12);
-        product1.setRate(5.0);
-        Response<Product> productResponse=new Response("Ok",200,false,false,product1);
+        Product product=helperMethods.initProduct();
+        Response<Product> productResponse=new Response("Ok",200,false,false,product);
         Response<Product> rateResponse=new Response("error",500,true);
         when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
         when(rateServiceMock.setProductRate(any())).thenReturn(rateResponse);
@@ -122,16 +124,10 @@ public class ProductControllerTest {
         //arrange
         when(httpSessionMock.getAttribute("user-Id")).thenReturn(1);
         when(bindingResultMock.hasErrors()).thenReturn(false);
-        Category womenDresses=new Category();
-        womenDresses.setName("women's dresses");
-        womenDresses.setImagePath("dummy pic");
-        Product product1=new Product("tshirt","dummy pic",120.0,womenDresses,12);
-        product1.setRate(5.0);
-        Response<Product> productResponse=new Response("Ok",200,false,false,product1);
+        Product product=helperMethods.initProduct();
+        Response<Product> productResponse=new Response("Ok",200,false,false,product);
         when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
-        //userService.getUserById(userId);
-        User user=new User();
-        Response<User> userResponse=new Response("Ok",200,false,false,user);
+        Response<User> userResponse=new Response("Ok",200,false,false,new User());
         when(userServiceMock.getUserById(anyInt())).thenReturn(userResponse);
         //act
         String result=productController.addToCart(new ShoppingCartProducts(),bindingResultMock,1,httpSessionMock);
@@ -143,14 +139,7 @@ public class ProductControllerTest {
     @Test
     public void getAllProducts_SendValidProductResponse_ExpectedViewProductsPage(){
         //arrange
-        Category womenDresses=new Category();
-        womenDresses.setName("women's dresses");
-        womenDresses.setImagePath("dummy pic");
-        List<Product> productsList = new ArrayList<>();
-        Product product1=new Product("tshirt","dummy pic",120.0,womenDresses,12);
-        Product product2=new Product("red tshirt","dummy pic",120.0,womenDresses,1);
-        productsList.add(product1);
-        productsList.add(product2);
+        List<Product> productsList = helperMethods.initProductsList();
         Response productsResponse=new Response("Ok",200,false,false,productsList);
         when(productServiceMock.getProducts()).thenReturn(productsResponse);
         //act
@@ -171,14 +160,7 @@ public class ProductControllerTest {
     @Test
     public void getCategoryProducts_SendValidProductResponse_ExpectedViewProductsPage(){
         //arrange
-        Category womenDresses=new Category();
-        womenDresses.setName("women's dresses");
-        womenDresses.setImagePath("dummy pic");
-        List<Product> productsList = new ArrayList<>();
-        Product product1=new Product("tshirt","dummy pic",120.0,womenDresses,12);
-        Product product2=new Product("red tshirt","dummy pic",120.0,womenDresses,1);
-        productsList.add(product1);
-        productsList.add(product2);
+        List<Product> productsList = helperMethods.initProductsList();
         Response productsResponse=new Response("Ok",200,false,false,productsList);
         when(productServiceMock.getProductsByCategory(anyInt())).thenReturn(productsResponse);
         //act

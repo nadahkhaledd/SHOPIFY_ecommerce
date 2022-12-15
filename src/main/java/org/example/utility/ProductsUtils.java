@@ -24,7 +24,8 @@ public class ProductsUtils {
                 .collect(Collectors.toList());
         return mergingListsOfProducts(categoryProducts,products);
     }
-    private Set<Product> mergingListsOfProducts(List<Product> firstListOfProducts,List<Product> secondListOfProducts){
+    //converted from private into public to be tested
+    public Set<Product> mergingListsOfProducts(List<Product> firstListOfProducts,List<Product> secondListOfProducts){
         Set<Product>allProducts = new HashSet<>();
         allProducts.addAll(firstListOfProducts);
         allProducts.addAll(secondListOfProducts);
