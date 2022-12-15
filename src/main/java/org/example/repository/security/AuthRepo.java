@@ -51,7 +51,7 @@ public class AuthRepo {
                     }
                 }
                 if (userId == -1)
-                    return new Response<User>("email or password is wrong", 404, true, true, null);
+                    return new Response<User>("email or password is wrong", 400, true, true, null);
                 //int userId = (session.createQuery("FROM User u where u.email=:email", User.class).setParameter("email", email).getSingleResult()).getId();
                 User customer = session.get(User.class, userId);
                 Transaction tx = session.beginTransaction();
@@ -64,9 +64,6 @@ public class AuthRepo {
 
                 }
                 customer.setPasswordAttempts(customer.getPasswordAttempts() + 1);
-                System.out.println("*****************");
-                System.out.println(customer.getPasswordAttempts());
-                System.out.println("*******************");
                 session.merge(customer);
                 if (customer.getPasswordAttempts() > 3) {
                     customer.setStatus(CustomerStatus.SUSPENDED);
@@ -161,9 +158,6 @@ public class AuthRepo {
             if (customer.getStatus().equals(CustomerStatus.SUSPENDED)) {
                 return true;
             }
-            System.out.println("(((((((((((((((((((())))))))))))))))))))");
-            System.out.println(customer.getStatus());
-            System.out.println("(((((((((((((((((((())))))))))))))))))))");
 
         }catch (Exception e){
             return false;

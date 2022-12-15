@@ -30,6 +30,7 @@ public class CategoryServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    // Test addCategory
     @Test
     public void testAddCategory_sendCategoryEntity_thenSaveToDB() {
         /*Arrange*/
@@ -55,6 +56,7 @@ public class CategoryServiceTest {
 
     }
 
+    // Test updateCategory
     @Test
     public void testUpdateCategory_sendUpdatedCategoryEntity_thenSaveToDB() {
         /*Arrange*/
@@ -83,6 +85,7 @@ public class CategoryServiceTest {
 
     }
 
+    // Test removeCategory
     @Test
     public void testRemoveCategory_sendCategoryEntity_thenReturnTrue() {
         /*Arrange*/
@@ -128,6 +131,7 @@ public class CategoryServiceTest {
         verify(categoryRepositoryMock, times(1)).getAllCategories();
     }
 
+    // Test getCategoryByName
     @Test
     public void testGetCategoryByName_sendCategoryName_returnCategoryEntity() {
         /*Arrange*/
@@ -159,6 +163,7 @@ public class CategoryServiceTest {
         categoryService.getCategoryByName(null);
     }
 
+    // Test getCategoryByID
     @Test
     public void testGetCategoryByID_sendCategoryID_returnCategoryEntity() {
         /*Arrange*/
@@ -186,6 +191,7 @@ public class CategoryServiceTest {
 
     }
 
+    // Test searchByCategoryName
     @Test
     public void testSearchByCategoryName_sendPartialName_returnAllMatchedCategories() {
         /*Arrange*/

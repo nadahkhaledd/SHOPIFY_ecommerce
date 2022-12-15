@@ -14,7 +14,7 @@ public interface AdminService {
      * @param admin This is the admin object to be added.
      * @return nothing
      */
-    Response addAdmin(Admin admin);
+    Response addAdmin(User admin);
 
 
     /**

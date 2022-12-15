@@ -1,6 +1,7 @@
 import org.example.entity.Customer;
 import org.example.entity.Order;
 import org.example.entity.OrderDetails;
+import org.example.entity.User;
 import org.example.enums.OrderStatus;
 import org.example.model.Response;
 import org.example.repository.order.OrderRepository;
@@ -33,8 +34,8 @@ public class OrderServiceTest {
     private OrderService orderService;
     private OrderRepository orderRepositoryMock;
     private UserRepository userRepository;
-    private ProductRepo productRepo;
     private UserService userService;
+    private ProductRepo productRepo;
     private ProductService productService;
 
     @Before
@@ -63,27 +64,75 @@ public class OrderServiceTest {
         Response<Boolean> orderResponse = new Response<Boolean>("Done", 200, false);
         when(orderRepositoryMock.updateStatus(1, OrderStatus.cancelled)).thenReturn(orderResponse);
         //Response<Boolean> result = new Response<Boolean>("Done", 200, false);
-        Response<Boolean> result = orderService.updateStatus(1, OrderStatus.cancelled);
+        Response<Boolean> result = this.orderService.updateStatus(1, OrderStatus.cancelled);
         assertEquals(200, result.getStatusCode());
     }
 
     @Test
     public void getOrdersTest_returnOrderDetailsBelongsToOrderEntity() {
-        Order order = new Order(new Customer(), LocalDate.now(),OrderStatus.cancelled,1.00);
-        List<Order> orders= new ArrayList<>();
+        Order order = new Order(new Customer(), LocalDate.now(), OrderStatus.cancelled, 1.00);
+        List<Order> orders = new ArrayList<>();
         orders.add(order);
+        Customer user =new Customer();
 
-        Response<List<Order>> orderResponse =new Response<>("Done", 200, false, orders);
+        Response userResponse = new Response("Done", 200, false, user);
+        when(userRepository.getUserById(any(Integer.class))).thenReturn(userResponse);
 
-        when(orderRepositoryMock.getOrders(any(Customer.class),any(OrderStatus.class))).thenReturn(orderResponse);
+        Response<List<Order>> orderResponse = new Response<>("Done", 200, false, orders);
+        when(orderRepositoryMock.getOrders(any(Customer.class), any(OrderStatus.class))).thenReturn(orderResponse);
 
-        Response<List<Order>> result = orderService.getOrders(1,OrderStatus.returned);
+        Response<List<Order>> result = orderService.getOrders(1, OrderStatus.cancelled);
         assertEquals(200, result.getStatusCode());
-
     }
 
+    @Test
+    public void getOrderDetailsTest_returnListOfProduct(){
+        Order order = new Order(new Customer(), LocalDate.now(), OrderStatus.cancelled, 1.00);
+        List<OrderDetails> orderDetails = new ArrayList<>();
+        OrderDetails orderItem = new OrderDetails();
+        orderDetails.add(orderItem);
+        order.setOrderDetails(orderDetails);
 
+        Response<Order> orderResponse1 = new Response("Done", 200, false,order);
+        when(orderRepositoryMock.getOrderById(any(Integer.class))).thenReturn(orderResponse1);
 
+        Response<List<OrderDetails>> orderResponse = new Response<List<OrderDetails>>("Done", 200, false,orderDetails);
+        when(orderRepositoryMock.getOrderDetails(any(Order.class))).thenReturn(orderResponse);
+
+        Response result = orderService.getOrderDetails(order.getId());
+        assertEquals(200, result.getStatusCode());
+    }
+
+    @Test
+    public void checkOutTest(){
+        Order order = new Order(new Customer(), LocalDate.now(), OrderStatus.cancelled, 1.00);
+        List<OrderDetails> orderDetails = new ArrayList<>();
+        OrderDetails orderItem = new OrderDetails();
+        orderDetails.add(orderItem);
+        order.setOrderDetails(orderDetails);
+        Customer user =new Customer();
+
+        Response orderResponse =  new Response("Done",200,false,order);
+        when(orderRepositoryMock.checkOut(any(Customer.class),any(Order.class))).thenReturn(orderResponse);
+
+        Response result = orderService.checkOut(user,order);
+        assertEquals(200, result.getStatusCode());
+    }
+
+    @Test
+    public void checkOrderStatusTest_toReturnStatus(){
+        Order order = new Order(new Customer(), LocalDate.now(), OrderStatus.cancelled, 1.00);
+        List<OrderDetails> orderDetails = new ArrayList<>();
+        OrderDetails orderItem = new OrderDetails();
+        orderDetails.add(orderItem);
+        order.setOrderDetails(orderDetails);
+
+        Response response = new Response("Done", 200, false, order.getStatus());
+        when(orderRepositoryMock.checkOrderStatus(any(Integer.class))).thenReturn(response);
+
+        Response result = orderService.checkOrderStatus(order.getId());
+        assertEquals(200, result.getStatusCode());
+    }
 
 
 }

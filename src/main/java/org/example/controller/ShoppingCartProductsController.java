@@ -24,35 +24,26 @@ import java.util.List;
 @RequestMapping("/cart")
 public class ShoppingCartProductsController {
     private final ShoppingCartProductsService cartServices;
-    private final ProductService productService;
-    private final UserService userService;
-    private final OrderService orderService;
     private final AddressService addressService;
 
     @Autowired
-    public ShoppingCartProductsController(ShoppingCartProductsService cartServices, OrderService orderService,
-                                          ProductService productService, UserService userService, AddressService addressService) {
+    public ShoppingCartProductsController(ShoppingCartProductsService cartServices, AddressService addressService) {
         this.cartServices = cartServices;
-        this.productService = productService;
-        this.userService = userService;
-        this.orderService = orderService;
         this.addressService = addressService;
     }
 
     @GetMapping("/update/{id}")
     public String updateQuantity(@PathVariable("id") int id, @RequestParam int quantity,
-                                 Model model, ModelMap modelMap) {
-        //modelMap.put("updateQuantityErrorMessage","");//initialize as empty
+                                 Model model) {
         Response response = cartServices.updateProductQuantityInCart(id, quantity);
 
         if(response.isErrorOccurred()){
             if(response.isFieldErrorOccurred()){
                 model.addAttribute("updateError", response.getMessage());
             }
-            modelMap.put("errorMessage",response.getMessage());
+            model.addAttribute("errorMessage", response.getMessage());
             return "error";
         }
-//        model.addAttribute("updateError", response.getMessage());
         return "redirect:/cart/view";
     }
 
@@ -78,7 +69,7 @@ public class ShoppingCartProductsController {
         if(cartProducts.isErrorOccurred()) {
             model.addAttribute("statusCode", cartProducts.getStatusCode());
             model.addAttribute("errorMessage", cartProducts.getMessage());
-            return"redirect:/user/profile";
+            return "error";
         }
         model.addAttribute("cartProducts", cartProducts.getObjectToBeReturned());
         if(cartProducts.getObjectToBeReturned().isEmpty()) {
@@ -102,9 +93,6 @@ public class ShoppingCartProductsController {
         int userId = (int) session.getAttribute("user-Id");
         Response<List<ShoppingCartProducts>> response = cartServices.viewCart(userId);
         List<ShoppingCartProducts> cartProducts = response.getObjectToBeReturned();
-        if(cartProducts.isEmpty()) {
-            return "redirect:/cart/view";
-        }
         Double cartTotal = cartServices.calculateTotal(userId).getObjectToBeReturned();
         Response<List<Address>> addresses = addressService.getUserAddresses(userId);
         model.addAttribute("cartProducts", cartProducts);

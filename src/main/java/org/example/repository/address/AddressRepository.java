@@ -10,7 +10,7 @@ import java.util.List;
 public interface AddressRepository {
     Response addAddress(Address address);
     Response<List<Address>> getUserAddresses(int userId);
-    Response<Address> getAddress(int addressId);
+    Response<Address> getAddressById(int addressId);
     Response<Address> updateAddress(Address address);
-    Response<Address> deleteAddress(int addressId);
+    Response<Integer> deleteAddress(int addressId);
 }

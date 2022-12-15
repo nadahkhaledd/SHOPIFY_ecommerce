@@ -72,7 +72,7 @@ public class AddressController {
 
     @GetMapping("/update/{id}")
     public String newAddress(@PathVariable("id") int id, Model model) {
-        Response<Address> address = addressService.getAddress(id);
+        Response<Address> address = addressService.getAddressById(id);
         model.addAttribute("updateAddress", address.getObjectToBeReturned());
         return "updateAddress";
     }

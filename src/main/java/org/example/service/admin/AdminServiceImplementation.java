@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AdminServiceImplementation implements AdminService{
+public class AdminServiceImplementation implements AdminService {
 
     private final AdminRepository repository;
     private final UserService userService;
@@ -25,37 +25,38 @@ public class AdminServiceImplementation implements AdminService{
     @Autowired
     public AdminServiceImplementation(AdminRepository repository, UserService userService, AuthService authService) {
         this.authService = authService;
-        validationService=new ValidationService();
+        validationService = new ValidationService();
         this.repository = repository;
         this.userService = userService;
-        repository.createSuperAdmin();
+        //repository.createSuperAdmin();
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public Response addAdmin(Admin admin) {
-        if(admin == null)
+    public Response addAdmin(User admin) {
+        if (admin == null)
             throw new NullPointerException();
-        Response response=validationService.validateAdminEmail(admin.getEmail());
-        Response<Boolean> adminEmailResponse=authService.checkIfUserAlreadyExists(admin.getEmail());
-        if(adminEmailResponse.isErrorOccurred()){
+
+        Response isEmailValidResponse = validationService.validateAdminEmail(admin.getEmail());
+        if (isEmailValidResponse.isErrorOccurred()) {
+            return isEmailValidResponse;
+        }
+
+        Response<Boolean> adminEmailResponse = authService.checkIfUserAlreadyExists(admin.getEmail());
+        if (adminEmailResponse.isErrorOccurred()) {
             return adminEmailResponse;
-        }
-        if (response.isErrorOccurred() ){
-            return response;
-        }
-      else{
+        } else {
             admin.setPassword(EncryptionService.hashPassword(admin.getPassword()));
             admin.setStatus(CustomerStatus.ACTIVATED);
             admin.setPasswordAttempts(0);
-            Response adminResponse=repository.addAdmin(admin);
-            if(adminResponse.isErrorOccurred()){
+            Response adminResponse = repository.addAdmin(admin);
+            if (adminResponse.isErrorOccurred()) {
                 return adminResponse;
             }
         }
-      return new Response("Done",200,false);
+        return new Response("Done", 200, false);
 
     }
 
@@ -69,6 +70,8 @@ public class AdminServiceImplementation implements AdminService{
      */
     @Override
     public Response<Boolean> updateAdmin(User admin) {
+        if(admin == null)
+            throw new NullPointerException();
         return repository.updateAdmin(admin);
     }
 
@@ -78,7 +81,7 @@ public class AdminServiceImplementation implements AdminService{
     @Override
     public Response<Boolean> removeAdminByEmail(String adminEmail) {
         Response isAdminDataCorrect = userService.getUserByEmail(adminEmail);
-        if(isAdminDataCorrect.getObjectToBeReturned()==null)
+        if (isAdminDataCorrect.getObjectToBeReturned() == null)
             return new Response<>("admin data incorrect", 404, true, true, false);
 
         return repository.removeAdminByEmail(adminEmail);
@@ -89,8 +92,11 @@ public class AdminServiceImplementation implements AdminService{
      */
     @Override
     public Response<Boolean> removeAdminByID(int adminID) {
+        if(adminID == -1)
+            throw new IllegalArgumentException();
+
         Response isAdminDataCorrect = userService.getUserById(adminID);
-        if(isAdminDataCorrect.getObjectToBeReturned()==null)
+        if (isAdminDataCorrect.getObjectToBeReturned() == null)
             return new Response<>("admin data incorrect", 404, true, true, false);
 
         return repository.removeAdminByID(adminID);
@@ -102,7 +108,7 @@ public class AdminServiceImplementation implements AdminService{
     @Override
     public Response<Boolean> deactivateCustomer(String customerEmail) {
         Response isAdminDataCorrect = userService.getUserByEmail(customerEmail);
-        if(isAdminDataCorrect.getObjectToBeReturned()==null)
+        if (isAdminDataCorrect.getObjectToBeReturned() == null)
             return new Response<>("customer data incorrect", 404, true, true, false);
 
         return repository.deactivateCustomer(customerEmail);

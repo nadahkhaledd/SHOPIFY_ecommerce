@@ -73,7 +73,7 @@ public class AdminController {
 
     public boolean checkSession(Model model,HttpSession session){
         Boolean isAdmin = (Boolean) model.getAttribute("isAdmin");
-        if(isAdmin==null ||  !isAdmin || session.getAttribute("user-Id")==null) {
+        if(isAdmin==null ||  !isAdmin) {
             return false;
         }
         return true;
@@ -81,7 +81,6 @@ public class AdminController {
 
     @GetMapping("home")
     public String adminHome(Model model, HttpSession session) {
-       //Integer id = (Integer) model.getAttribute("userId");
         Integer id=(Integer) session.getAttribute("user-Id");
         if(!checkSession(model,session))
             return "redirect:/login";

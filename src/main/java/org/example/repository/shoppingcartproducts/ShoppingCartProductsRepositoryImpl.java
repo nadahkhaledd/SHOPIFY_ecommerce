@@ -36,8 +36,7 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
         }
         catch (Exception e) {
             System.out.println("in ShoppingCartProductsRepositoryImpl.getCartItem  e.getStackTrace() = " + e.getStackTrace());
-            return new Response<>("error occurred while processing your request", 500, true);
-
+            return new Response<>("error occurred while processing your request", 500, true, false);
         }
         if(cartProduct != null) {
             return new Response<ShoppingCartProducts>("Done", 200,
@@ -59,11 +58,10 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
         }
         catch (Exception e) {
             System.out.println("in ShoppingCartProductsRepositoryImpl.getCartItem  e.getStackTrace() = " + e.getStackTrace());
-            return new Response<>("error occurred while processing your request", 500, true);
-
+            return new Response<>("error occurred while processing your request", 500, true, false);
         }
         return new Response<ShoppingCartProducts>("Done", 200,
-                false,(cartProducts.isEmpty()?null: cartProducts.get(0)));
+                false,false, (cartProducts.isEmpty()?null: cartProducts.get(0)));
     }
 
     @Override
@@ -79,11 +77,10 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
         }
         catch (Exception e) {
             System.out.println("in ShoppingCartProductsRepositoryImpl.viewCart  e.getStackTrace() = " + e.getStackTrace());
-            return new Response<>("error occurred while processing your request", 500, true);
-
+            return new Response<>("error occurred while processing your request", 500, true, false);
         }
         return new Response<List<ShoppingCartProducts>>("Done", 200,
-                false,shoppingCartProducts);
+                false, false, shoppingCartProducts);
     }
 
     @Override
@@ -95,10 +92,9 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
         }
         catch (Exception e) {
             System.out.println("in ShoppingCartProductsRepositoryImpl.addToCart  e.getStackTrace() = " + e.getStackTrace());
-            return new Response<>("error occurred while processing your request", 500, true);
-
+            return new Response<>("error occurred while processing your request", 500, true, false);
         }
-        return new Response<>("Done", 200, false);
+        return new Response<>("Done", 200, false, false);
     }
 
     @Override
@@ -116,15 +112,14 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
         }
         catch (Exception e) {
             System.out.println("in ShoppingCartProductsRepositoryImpl.updateProductQuantityInCart  e.getStackTrace() = " + e.getStackTrace());
-            return new Response<>("error occurred while processing your request", 500, true);
-
+            return new Response<>("error occurred while processing your request", 500, true, false);
         }
         return new Response<Integer>("Done", 200,
-                false,result);
+                false,false, result);
     }
 
     @Override
-    public Response<Boolean> removeFromCart(int shoppingCartProductId) {
+    public Response<Integer> removeFromCart(int shoppingCartProductId) {
         int result;
         try(Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
@@ -136,11 +131,10 @@ public class ShoppingCartProductsRepositoryImpl implements ShoppingCartProductsR
         }
         catch (Exception e) {
             System.out.println("in ShoppingCartProductsRepositoryImpl.removeFromCart  e.getStackTrace() = " + e.getStackTrace());
-            return new Response<>("error occurred while processing your request", 500, true);
-
+            return new Response<>("error occurred while processing your request", 500, true, false);
         }
-        return new Response<Boolean>("Done", 200,
-                false,result==1);
+        return new Response<Integer>("Done", 200,
+                false, false, result);
     }
     @Override
     public Response<Double> calculateTotal(int userId) {
