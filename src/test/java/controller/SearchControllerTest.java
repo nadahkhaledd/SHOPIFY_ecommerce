@@ -1,3 +1,5 @@
+package controller;
+
 import helpers.HelperMethods;
 import org.example.controller.SearchController;
 import org.example.entity.Category;
@@ -39,7 +41,7 @@ public class SearchControllerTest {
         //act
         ModelAndView result=searchController.searchByName("test");
         //assert
-        assertEquals(result.getViewName(),"viewProducts");
+        assertEquals("viewProducts",result.getViewName());
     }
     @Test
     public void searchByNameTest_sendInvalidCategoriesAndProductsResponses_expectedErrorPage(){
@@ -53,7 +55,7 @@ public class SearchControllerTest {
         //act
         ModelAndView result=searchController.searchByName("test");
         //assert
-        assertEquals(result.getViewName(),"error");
+        assertEquals("error",result.getViewName());
     }
     @Test
     public void searchByNameTest_sendValidCategoriesAndInvalidProductsResponses_expectedErrorPage(){
@@ -66,6 +68,6 @@ public class SearchControllerTest {
         //act
         ModelAndView result=searchController.searchByName("test");
         //assert
-        assertEquals(result.getViewName(),"error");
+        assertEquals("error",result.getViewName());
     }
 }

@@ -30,7 +30,8 @@ public class CategoryControllerTest {
         categoryServiceMock = Mockito.mock(CategoryService.class);
         responseMock = Mockito.mock(Response.class);
         modelMapMock = Mockito.mock(ModelMap.class);
-        categoryController = new CategoryController();
+        //categoryController = new CategoryController(); results in null pointer exception
+        categoryController = new CategoryController(categoryServiceMock);
     }
 
     @Before

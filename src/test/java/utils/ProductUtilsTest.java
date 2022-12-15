@@ -1,3 +1,5 @@
+package utils;
+
 import helpers.HelperMethods;
 import org.example.entity.Category;
 import org.example.entity.Product;

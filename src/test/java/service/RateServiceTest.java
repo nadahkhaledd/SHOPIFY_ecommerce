@@ -37,11 +37,13 @@ public class RateServiceTest {
         private RateServiceImpl rateService;
         private CustomerService customerServiceMock;
         private ProductService productServiceMock;
+        private HelperMethods helperMethods;
         public RateServiceTest(){
             rateRepositoryMock= Mockito.mock(RateRepoImpl.class);
             productServiceMock=Mockito.mock(ProductService.class);
             customerServiceMock=Mockito.mock(CustomerService.class);
             rateService=new RateServiceImpl(rateRepositoryMock,customerServiceMock,productServiceMock);
+            helperMethods=new HelperMethods();
         }
         @Before
         public void init() {
@@ -55,7 +57,7 @@ public class RateServiceTest {
             when(customerServiceMock.getCustomerById(anyInt())).thenReturn(customerTest);
             Product product=helperMethods.initProduct();
             Response<Product> productResponse=new Response<Product>("Ok",200,false,false,product);
-            when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+            when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
             when(rateRepositoryMock.addRate(any())).thenReturn(new Response("Done", 200, false));
             UserInputReview userRate=new UserInputReview(1,1,1,"nice");
             //act
@@ -71,7 +73,7 @@ public class RateServiceTest {
         Customer customerTest=helperMethods.initCustomer();
         when(customerServiceMock.getCustomerById(anyInt())).thenReturn(customerTest);
         Response<Product> productResponse=new Response<Product>("error while processing your request",500,true,true);
-        when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+        when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
         when(rateRepositoryMock.addRate(any())).thenReturn(new Response("Ok", 200, false,false));
         UserInputReview userRate=new UserInputReview(1,1,1,"nice");
         //act
@@ -85,7 +87,7 @@ public class RateServiceTest {
         Customer customerTest=helperMethods.initCustomer();
         when(customerServiceMock.getCustomerById(anyInt())).thenReturn(customerTest);
         Response<Product> productResponse=new Response<Product>("error while processing your request",500,true,true);
-        when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+        when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
         when(rateRepositoryMock.addRate(any())).thenReturn(new Response ("error while processing your request",500,true,true));
         UserInputReview userRate=new UserInputReview(1,1,1,"nice");
         //act
@@ -99,7 +101,7 @@ public class RateServiceTest {
         Customer customerTest=helperMethods.initCustomer();
         when(customerServiceMock.getCustomerById(anyInt())).thenReturn(customerTest);
         Response productResponse=new Response("Ok", 200, false,false);
-        when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+        when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
         when(rateRepositoryMock.addRate(any())).thenReturn(new Response("error while processing your request",500,true,true));
         UserInputReview userRate=new UserInputReview(1,1,1,"nice");
         //act

@@ -17,8 +17,16 @@ import java.util.List;
 @Controller
 @RequestMapping("/categories")
 public class CategoryController {
-    @Autowired
+
     CategoryService categoryService;
+    @Autowired
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+
+
+
     @GetMapping("/getAllCategories")
     public String getAllCategories(ModelMap modelMap){
         Response<List<Category>> categoriesResponse=categoryService.getAllCategories();

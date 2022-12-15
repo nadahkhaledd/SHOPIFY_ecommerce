@@ -1,3 +1,5 @@
+package utils;
+
 import helpers.HelperMethods;
 import org.example.model.Star;
 import org.example.utility.RateUtils;

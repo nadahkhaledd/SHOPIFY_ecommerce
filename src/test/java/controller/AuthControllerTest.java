@@ -46,7 +46,7 @@ public class AuthControllerTest {
         productServiceMock = Mockito.mock(ProductService.class);
         httpSessionMock = Mockito.mock(HttpSession.class);
         modelMock = Mockito.mock(Model.class);
-        AuthController authcontroller = new AuthController();
+        authcontroller = new AuthController();
     }
 
     @Before

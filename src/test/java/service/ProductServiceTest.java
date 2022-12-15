@@ -1,6 +1,5 @@
-import helpers.HelperMethods;
 package service;
-
+import helpers.HelperMethods;
 import org.example.entity.Category;
 import org.example.entity.Product;
 import org.example.model.Response;
@@ -63,7 +62,7 @@ public class ProductServiceTest {
         Response<Product> expectedResponse=new Response<Product>("Ok",200,false,false,product);
         when(productRepositoryMock.getProductsById(anyInt())).thenReturn(expectedResponse);
         //act
-        Response<Product> productResponse=productService.getProductsById(1);
+        Response<Product> productResponse=productService.getProductById(1);
         //assert
         assertNotNull(productResponse.getObjectToBeReturned());
         assertEquals(expectedResponse,productResponse);
@@ -170,7 +169,7 @@ public class ProductServiceTest {
     }
     @Test(expected = IllegalArgumentException.class)
     public void getProductBYIdTest_sendNegativeNumberAsId_returnException(){
-        productService.getProductsById(-1);
+        productService.getProductById(-1);
     }
 
     @Test

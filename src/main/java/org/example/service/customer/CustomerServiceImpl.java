@@ -1,12 +1,9 @@
 package org.example.service.customer;
 
 import org.example.entity.Customer;
-import org.example.entity.User;
 import org.example.repository.customer.CustomerRepository;
-import org.example.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-//user service , customerService ,encryption service
 @Service
 public class CustomerServiceImpl implements CustomerService {
     CustomerRepository customerRepository;
@@ -21,6 +18,8 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer getCustomerById(int userId) {
+        if(userId<0)
+            throw new IllegalArgumentException();
         return customerRepository.getCustomerById(userId);
     }
 }
