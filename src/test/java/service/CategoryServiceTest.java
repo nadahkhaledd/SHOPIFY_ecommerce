@@ -32,14 +32,19 @@ public class CategoryServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    public Category generateCategory(String name){
+        Category category = new Category(name,
+                "https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/categories%2Fcat-4.jpg?alt=media&token=ecba3f3a-a12b-49e9-9617-a44ce858ec2e");
+
+        return category;
+    }
+
     // Test addCategory
     @Test
     public void testAddCategory_sendCategoryEntity_thenSaveToDB() {
         /*Arrange*/
 
-        Category category = new Category("accessories",
-                "https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/categories%2Fcat-4.jpg?alt=media&token=ecba3f3a-a12b-49e9-9617-a44ce858ec2e");
-
+        Category category= generateCategory("accessories");
         when(categoryRepositoryMock.getCategoryByName(any(String.class))).thenReturn(new Response("Done", 200, false, null));
         when(categoryRepositoryMock.addCategory(any(Category.class))).thenReturn(new Response("Done", 200, false));
 
@@ -62,9 +67,7 @@ public class CategoryServiceTest {
     @Test
     public void testUpdateCategory_sendUpdatedCategoryEntity_thenSaveToDB() {
         /*Arrange*/
-
-        Category category = new Category("accessories",
-                "https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/categories%2Fcat-4.jpg?alt=media&token=ecba3f3a-a12b-49e9-9617-a44ce858ec2e");
+        Category category= generateCategory("accessories");
 
 //        when(categoryRepositoryMock.getCategoryByName(any(String.class))).thenReturn(new Response("Done", 200, false, null));
 //        when(categoryRepositoryMock.getCategoryByID(any(Integer.class))).thenReturn(new Response("Done", 200, false, category));
@@ -91,9 +94,7 @@ public class CategoryServiceTest {
     @Test
     public void testRemoveCategory_sendCategoryEntity_thenReturnTrue() {
         /*Arrange*/
-        Category category = new Category("accessories",
-                "https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/categories%2Fcat-4.jpg?alt=media&token=ecba3f3a-a12b-49e9-9617-a44ce858ec2e");
-
+        Category category= generateCategory("accessories");
         Response response = new Response("Done", 200, false, false, true);
         when(categoryRepositoryMock.removeCategory(any(Category.class)))
                 .thenReturn(response);
@@ -118,10 +119,8 @@ public class CategoryServiceTest {
     public void testGetAllCategories_returnAllSavedCategoryEntities() {
         /*Arrange*/
         List<Category> list = new ArrayList<>();
-        list.add(new Category("accessories",
-                "https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/categories%2Fcat-4.jpg?alt=media&token=ecba3f3a-a12b-49e9-9617-a44ce858ec2e"));
-        list.add(new Category("bags",
-                "https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/categories%2Fcat-4.jpg?alt=media&token=ecba3f3a-a12b-49e9-9617-a44ce858ec2e"));
+        list.add(generateCategory("accessories"));
+        list.add(generateCategory("bags"));
         when(categoryRepositoryMock.getAllCategories()).thenReturn(new Response("Done", 200, false, list));
 
         /*ACT*/
@@ -137,9 +136,7 @@ public class CategoryServiceTest {
     @Test
     public void testGetCategoryByName_sendCategoryName_returnCategoryEntity() {
         /*Arrange*/
-        Category category = new Category("accessories",
-                "https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/categories%2Fcat-4.jpg?alt=media&token=ecba3f3a-a12b-49e9-9617-a44ce858ec2e");
-
+        Category category= generateCategory("accessories");
         Response response = new Response("Done", 200, false, category);
         when(categoryRepositoryMock.getCategoryByName(any(String.class)))
                 .thenReturn(response);
@@ -169,9 +166,7 @@ public class CategoryServiceTest {
     @Test
     public void testGetCategoryByID_sendCategoryID_returnCategoryEntity() {
         /*Arrange*/
-        Category category = new Category("accessories",
-                "https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/categories%2Fcat-4.jpg?alt=media&token=ecba3f3a-a12b-49e9-9617-a44ce858ec2e");
-
+        Category category= generateCategory("accessories");
         category.setId(1);
         Response<Category> response = new Response("Done", 200, false, category);
         when(categoryRepositoryMock.getCategoryByID(any(Integer.class)))
@@ -198,10 +193,8 @@ public class CategoryServiceTest {
     public void testSearchByCategoryName_sendPartialName_returnAllMatchedCategories() {
         /*Arrange*/
         List<Category> list = new ArrayList<>();
-        list.add(new Category("bag",
-                "https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/categories%2Fcat-4.jpg?alt=media&token=ecba3f3a-a12b-49e9-9617-a44ce858ec2e"));
-        list.add(new Category("bags",
-                "https://firebasestorage.googleapis.com/v0/b/e-commerce-9ac2b.appspot.com/o/categories%2Fcat-4.jpg?alt=media&token=ecba3f3a-a12b-49e9-9617-a44ce858ec2e"));
+        list.add(generateCategory("bag"));
+        list.add(generateCategory("bags"));
         when(categoryRepositoryMock.searchByCategoryName(anyString())).thenReturn(new Response("Done", 200, false, list));
 
         /*ACT*/
