@@ -60,11 +60,11 @@ public class AddressController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteAddress(@PathVariable int id, ModelMap modelMap) {
+    public String deleteAddress(@PathVariable int id, Model model) {
         Response response = addressService.deleteAddress(id);
         if(response.isErrorOccurred()) {
-            modelMap.put("statusCode", response.getStatusCode());
-            modelMap.put("errorMessage", response.getMessage());
+            model.addAttribute("statusCode", response.getStatusCode());
+            model.addAttribute("errorMessage", response.getMessage());
             return "error";
         }
         return "redirect:/address/view";
@@ -79,7 +79,7 @@ public class AddressController {
 
     @PostMapping("/update/{id}")
     public String updateAddress(@Valid @ModelAttribute("updateAddress") Address address, BindingResult bindingResult,
-                                 ModelMap modelMap, Model model,HttpSession session) {
+                                Model model,HttpSession session) {
         if(bindingResult.hasErrors()) {
             Map<String, Object> bindingResultModel = bindingResult.getModel();
             return "updateAddress";
@@ -90,11 +90,11 @@ public class AddressController {
         Response response = addressService.updateAddress(address);
         if(response.isErrorOccurred()) {
             if(response.isFieldErrorOccurred()) {
-                modelMap.put("updateAddressErrorMessage", response.getMessage());
+                model.addAttribute("updateAddressErrorMessage", response.getMessage());
                 return "updateAddress";
             }
-            modelMap.put("statusCode", response.getStatusCode());
-            modelMap.put("errorMessage", response.getMessage());
+            model.addAttribute("statusCode", response.getStatusCode());
+            model.addAttribute("errorMessage", response.getMessage());
             return "error";
         }
         return "redirect:/address/view";

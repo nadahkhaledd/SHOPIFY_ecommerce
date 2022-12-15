@@ -1,3 +1,4 @@
+import helpers.HelperMethods;
 package service;
 
 import org.example.entity.Category;
@@ -6,11 +7,8 @@ import org.example.model.Response;
 import org.example.repository.product.ProductRepo;
 import org.example.service.product.ProductService;
 import org.example.service.product.ProductServiceImpl;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -20,27 +18,18 @@ import static org.mockito.Mockito.*;
 public class ProductServiceTest {
     private ProductRepo productRepositoryMock;
     private ProductService productService;
+    private HelperMethods helperMethods;
     public ProductServiceTest(){
       productRepositoryMock=Mockito.mock(ProductRepo.class);
       productService=new ProductServiceImpl(productRepositoryMock) ;
+        helperMethods=new HelperMethods();
     }
-    @Before
-    public void init() {
-        MockitoAnnotations.openMocks(this);
-    }
+
+
     @Test
     public void getProductsByCategoryTest_sendCategoryId_returnResponseHavingTheProductsListUnderThisCategory(){
         //arrange
-        List<Product> list = new ArrayList<>();
-        Category mensDresses=new Category();
-        mensDresses.setName("men's dresses");
-        mensDresses.setImagePath("dummy pic");
-        mensDresses.setId(1);
-        Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
-        Product product2=new Product("red tshirt","dummy pic",120.0,mensDresses,1);
-        list.add(product1);
-        list.add(product2);
-        mensDresses.setProducts(list);
+        List<Product> list=helperMethods.initProductsList();
         Response<List<Product>> response=new Response("Ok",200,false,false,list);
         when(productRepositoryMock.getProductsByCategory(anyInt())).thenReturn(response);
         //act
@@ -54,18 +43,9 @@ public class ProductServiceTest {
     @Test
     public void getALlProductsTest_returnResponseHavingTheProductsList(){
         //arrange
-        List<Product> list = new ArrayList<>();
-        Category mensDresses=new Category();
-        mensDresses.setName("men's dresses");
-        mensDresses.setImagePath("dummy pic");
-        Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
-        Product product2=new Product("red tshirt","dummy pic",120.0,mensDresses,1);
-        list.add(product1);
-        list.add(product2);
-        mensDresses.setProducts(list);
+        List<Product> list=helperMethods.initProductsList();
         Response<List<Product>> response=new Response("Ok",200,false,false,list);
         when(productRepositoryMock.getProducts()).thenReturn(response);
-
         //act
         Response<List<Product>> productsResponse=productService.getProducts();
         //assert
@@ -78,14 +58,12 @@ public class ProductServiceTest {
     @Test
     public void getProductById_sendProductId_returnResponseHavingTheProductWithTheGivenId(){
         //arrange
-        Category mensDresses=new Category();
-        mensDresses.setName("men's dresses");
-        mensDresses.setImagePath("dummy pic");
-        Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
-        Response<Product> expectedResponse=new Response<Product>("Ok",200,false,false,product1);
+
+        Product product=helperMethods.initProduct();
+        Response<Product> expectedResponse=new Response<Product>("Ok",200,false,false,product);
         when(productRepositoryMock.getProductsById(anyInt())).thenReturn(expectedResponse);
         //act
-        Response<Product> productResponse=productService.getProductById(1);
+        Response<Product> productResponse=productService.getProductsById(1);
         //assert
         assertNotNull(productResponse.getObjectToBeReturned());
         assertEquals(expectedResponse,productResponse);
@@ -96,15 +74,7 @@ public class ProductServiceTest {
     public void searchByProductNameTest_sendSearchValue_returnResponseHavingTheProductsListWithNamesMatchingTheSearchValue(){
         //arrange
         String productName="test";
-        List<Product> list = new ArrayList<>();
-        Category mensDresses=new Category();
-        mensDresses.setName("men's dresses");
-        mensDresses.setImagePath("dummy pic");
-        Product product1=new Product("test1","dummy pic",120.0,mensDresses,12);
-        Product product2=new Product("test2","dummy pic",120.0,mensDresses,1);
-        list.add(product1);
-        list.add(product2);
-        mensDresses.setProducts(list);
+        List<Product> list =helperMethods.initProductsList();
         Response<List<Product>> expectedResponse=new Response<List<Product>>("Ok",200,false,false,list);
         when(productRepositoryMock.searchByProductName(any())).thenReturn(expectedResponse);
         //act
@@ -138,11 +108,11 @@ public class ProductServiceTest {
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
-        Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
+        Product product= helperMethods.initProduct();
         Response expectedResponse=new Response("Ok",200,false,false);
         when(productRepositoryMock.addProduct(any())).thenReturn(expectedResponse);
        //act
-        Response productResponse=productService.addProduct(product1);
+        Response productResponse=productService.addProduct(product);
         //assert
         assertNotNull(productResponse);
         assertEquals(expectedResponse,productResponse);
@@ -153,16 +123,12 @@ public class ProductServiceTest {
     @Test
     public void updateProduct_sendProduct_returnResponseObject(){
         //arrange
-        Category mensDresses=new Category();
-        mensDresses.setName("men's dresses");
-        mensDresses.setImagePath("dummy pic");
-        Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
-
+        Product product=helperMethods.initProduct();
         Response expectedResponse=new Response("Ok",200,false,false);
 
         when(productRepositoryMock.updateProduct(any())).thenReturn(expectedResponse);
         //act
-        Response productResponse=productService.updateProduct(product1);
+        Response productResponse=productService.updateProduct(product);
         //assert
         assertNotNull(productResponse);
         assertEquals(expectedResponse,productResponse);
@@ -191,8 +157,8 @@ public class ProductServiceTest {
         productService.addProduct(null);
     }
     @Test(expected = IllegalArgumentException.class)
-    public void getProductBYIdTest_sendNegativeNumberAsId_returnException(){
-        productService.getProductById(-1);
+    public void  getProductsByCategoryTest_sendNegativeNumberAsId_returnException(){
+        productService.getProductsByCategory(-1);
     }
     @Test(expected = IllegalArgumentException.class)
     public void updateProductQuantityTest_sendNegativeNumberAsId_returnException(){
@@ -202,17 +168,19 @@ public class ProductServiceTest {
     public void updateProductQuantityTest_sendNegativeNumberAsQuantity_returnException(){
         productService.updateProductQuantity(1,-1);
     }
+    @Test(expected = IllegalArgumentException.class)
+    public void getProductBYIdTest_sendNegativeNumberAsId_returnException(){
+        productService.getProductsById(-1);
+    }
+
     @Test
     public void deleteProductTest_sendProduct_returnResponseObject(){
         //arrange
-        Category mensDresses=new Category();
-        mensDresses.setName("men's dresses");
-        mensDresses.setImagePath("dummy pic");
-        Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
+        Product product=helperMethods.initProduct();
         Response expectedResponse=new Response("Ok",200,false,false);
         when(productRepositoryMock.deleteProduct(any())).thenReturn(expectedResponse);
         //act
-        Response productResponse=productService.deleteProduct(product1);
+        Response productResponse=productService.deleteProduct(product);
         //assert
         assertNotNull(productResponse);
         assertEquals(expectedResponse,productResponse);
