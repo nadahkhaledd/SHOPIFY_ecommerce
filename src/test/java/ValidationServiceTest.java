@@ -3,7 +3,7 @@ import org.example.service.ValidationService;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-public class ValidationTest {
+public class ValidationServiceTest {
     private ValidationService validationService;
     @Before
     public void setup() {
