@@ -215,7 +215,7 @@ public class ShoppingCartProductsServiceTest {
         Response returnedUpdateQuantityInCartResponse = shoppingCartProductsService.updateProductQuantityInCart(1, 3);
         //Assert
         assertNotEquals(null, returnedUpdateQuantityInCartResponse);
-        assertEquals(1, returnedUpdateQuantityInCartResponse.getObjectToBeReturned());
+        assertEquals(true, returnedUpdateQuantityInCartResponse.getObjectToBeReturned());
         verify(shoppingCartProductsRepositoryMock, times(1)).getCartItem(anyInt());
         verify(shoppingCartProductsRepositoryMock, times(1)).updateProductQuantityInCart(anyInt(), anyInt());
     }
@@ -231,12 +231,12 @@ public class ShoppingCartProductsServiceTest {
         when(shoppingCartProductsRepositoryMock.getCartItem(anyInt())).thenReturn(new Response<ShoppingCartProducts>("Done",200,
                 false, cartProduct));
         when(shoppingCartProductsRepositoryMock.removeFromCart(anyInt()))
-                .thenReturn(new Response<>("Done", 200, false, true));
+                .thenReturn(new Response<>("Done", 200, false, false, 1));
         //Act
         Response returnedUpdateQuantityInCartResponse = shoppingCartProductsService.updateProductQuantityInCart(1, -1);
         //Assert
         assertNotEquals(null, returnedUpdateQuantityInCartResponse);
-        assertEquals(0, returnedUpdateQuantityInCartResponse.getObjectToBeReturned());
+        assertEquals(true, returnedUpdateQuantityInCartResponse.getObjectToBeReturned());
         verify(shoppingCartProductsRepositoryMock, times(1)).getCartItem(anyInt());
         verify(shoppingCartProductsRepositoryMock, times(1)).removeFromCart(anyInt());
     }
@@ -255,7 +255,7 @@ public class ShoppingCartProductsServiceTest {
         Product product1 = new Product("Product_1", "imagePath", 14.0, null, 4);
         ShoppingCartProducts cartProduct = new ShoppingCartProducts(2, product1, customer);
 
-        when(shoppingCartProductsRepositoryMock.removeFromCart(anyInt())).thenReturn(new Response<>("Done", 200, false));
+        when(shoppingCartProductsRepositoryMock.removeFromCart(anyInt())).thenReturn(new Response<>("Done", 200, false, false, 1));
         //Act
         Response returnedRemoveFromCartResponse = shoppingCartProductsService.removeFromCart(1);
         //Assert
