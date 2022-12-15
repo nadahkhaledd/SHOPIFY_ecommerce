@@ -277,12 +277,22 @@ public class AdminControllerTest {
         verify(responseMock, times(0)).isFieldErrorOccurred();
     }
 
-//    @Test
-//    public void testDeleteCategory_sendError_expectReturnErrorPage(){
-//        //Arrange
-//        when(categoryServiceMock.getCategoryByID(anyInt())).thenReturn(new Response("Done", 200, false, new Category()));
-//        when(categoryServiceMock.removeCategory(any(Category.class))).thenReturn()
-//    }
+    @Test
+    public void testDeleteCategory_sendError_expectReturnErrorPage(){
+        //Arrange
+        when(categoryServiceMock.getCategoryByID(anyInt())).thenReturn(new Response("Done", 200, false, new Category()));
+        when(categoryServiceMock.removeCategory(any(Category.class))).thenReturn(new Response("error occurred while processing your request", 500, true));
+        when(modelMapMock.put(anyString(), any())).thenReturn("");
+        when(responseMock.isErrorOccurred()).thenReturn(true);
+
+        //ACT
+        String response = adminController.deleteCategory(1, modelMapMock);
+
+        //Assert
+        assertEquals("error", response);
+        verify(modelMapMock, times(2)).put(anyString(), any());
+    }
+
 
 
 
