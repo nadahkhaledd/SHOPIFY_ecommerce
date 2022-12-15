@@ -1,6 +1,5 @@
 package org.example.service.product;
 
-import org.example.entity.Category;
 import org.example.entity.Product;
 import org.example.model.Response;
 
@@ -96,7 +95,7 @@ public interface ProductService {
      * @param productId id of product
      * @return product
      */
-    Response<Product> getProductsById(int productId);
+    Response<Product> getProductById(int productId);
 
     /**
      * search by product name

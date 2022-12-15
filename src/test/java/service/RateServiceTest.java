@@ -1,3 +1,5 @@
+package service;
+
 import helpers.HelperMethods;
 import lombok.experimental.Helper;
 import org.example.entity.Category;
@@ -21,9 +23,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -37,19 +37,16 @@ public class RateServiceTest {
         private RateServiceImpl rateService;
         private CustomerService customerServiceMock;
         private ProductService productServiceMock;
-        private HelperMethods helperMethods;
         public RateServiceTest(){
             rateRepositoryMock= Mockito.mock(RateRepoImpl.class);
             productServiceMock=Mockito.mock(ProductService.class);
             customerServiceMock=Mockito.mock(CustomerService.class);
             rateService=new RateServiceImpl(rateRepositoryMock,customerServiceMock,productServiceMock);
-            helperMethods=new HelperMethods();
         }
         @Before
         public void init() {
             MockitoAnnotations.openMocks(this);
         }
-
 
         @Test
         public void assignRateToProductTest_sendValidProductResponse_sendValidRateResponse_returnProductResponse(){

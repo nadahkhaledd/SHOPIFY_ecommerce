@@ -1,4 +1,6 @@
 import helpers.HelperMethods;
+package service;
+
 import org.example.entity.Category;
 import org.example.entity.Product;
 import org.example.model.Response;
@@ -72,7 +74,7 @@ public class ProductServiceTest {
     public void searchByProductNameTest_sendSearchValue_returnResponseHavingTheProductsListWithNamesMatchingTheSearchValue(){
         //arrange
         String productName="test";
-        List<Product> list = helperMethods.initProductsList();
+        List<Product> list =helperMethods.initProductsList();
         Response<List<Product>> expectedResponse=new Response<List<Product>>("Ok",200,false,false,list);
         when(productRepositoryMock.searchByProductName(any())).thenReturn(expectedResponse);
         //act

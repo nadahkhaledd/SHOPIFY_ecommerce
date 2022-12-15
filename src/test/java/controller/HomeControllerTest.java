@@ -1,3 +1,5 @@
+package controller;
+
 import helpers.HelperMethods;
 import org.example.controller.HomeController;
 import org.example.entity.Category;
@@ -7,10 +9,15 @@ import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpSession;
+
+import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 

@@ -1,3 +1,5 @@
+package service;
+
 import org.example.entity.Customer;
 import org.example.entity.Order;
 import org.example.entity.OrderDetails;
@@ -47,20 +49,19 @@ public class OrderServiceTest {
         productService = new ProductServiceImpl(productRepo);
         orderService = new OrderServiceImpl(orderRepositoryMock, userService, productService);
     }
-
+//_thenReturnTrue
     @Test
-    public void getOrderByIdTest_returnOneOrderInOrderEntity() {
+    public void getOrderByIdTest_sendOrderId_returnOneOrderInOrderEntity() {
         Response<Order> orderResponse = new Response<Order>("Done", 200, false, new Order());
         when(orderRepositoryMock.getOrderById(any(Integer.class))).thenReturn(orderResponse);
         Response<Order> result = orderService.getOrderById(1);
         assertNotNull(result);
         assertEquals("Done", result.getMessage());
         assertEquals(200, result.getStatusCode());
-//      verify(orderRepositoryMock.getOrderById(any(Integer.class)), times(1));
     }
 
     @Test
-    public void updateStatusTest_returnOrderDetailsBelongsToOrderEntity() {
+    public void updateStatusTest_sendOrderStatus_returnOrderDetailsBelongsToOrderEntity() {
         Response<Boolean> orderResponse = new Response<Boolean>("Done", 200, false);
         when(orderRepositoryMock.updateStatus(1, OrderStatus.cancelled)).thenReturn(orderResponse);
         //Response<Boolean> result = new Response<Boolean>("Done", 200, false);
@@ -69,7 +70,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void getOrdersTest_returnOrderDetailsBelongsToOrderEntity() {
+    public void getOrdersTest_sendCustomer_returnOrderDetailsBelongsToOrderEntity() {
         Order order = new Order(new Customer(), LocalDate.now(), OrderStatus.cancelled, 1.00);
         List<Order> orders = new ArrayList<>();
         orders.add(order);
@@ -86,7 +87,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void getOrderDetailsTest_returnListOfProduct(){
+    public void getOrderDetailsTest_sendOrder_returnListOfProduct(){
         Order order = new Order(new Customer(), LocalDate.now(), OrderStatus.cancelled, 1.00);
         List<OrderDetails> orderDetails = new ArrayList<>();
         OrderDetails orderItem = new OrderDetails();
@@ -104,7 +105,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void checkOutTest(){
+    public void checkOutTest_sendUserAndOrder_returnedSuccessCode(){
         Order order = new Order(new Customer(), LocalDate.now(), OrderStatus.cancelled, 1.00);
         List<OrderDetails> orderDetails = new ArrayList<>();
         OrderDetails orderItem = new OrderDetails();
@@ -120,7 +121,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void checkOrderStatusTest_toReturnStatus(){
+    public void checkOrderStatusTest_sendOrderId_toReturnStatus(){
         Order order = new Order(new Customer(), LocalDate.now(), OrderStatus.cancelled, 1.00);
         List<OrderDetails> orderDetails = new ArrayList<>();
         OrderDetails orderItem = new OrderDetails();

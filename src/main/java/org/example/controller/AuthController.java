@@ -1,7 +1,6 @@
 package org.example.controller;
 import org.example.entity.Customer;
 import org.example.entity.User;
-import org.example.enums.CustomerStatus;
 import org.example.model.Response;
 import org.example.service.security.AuthService;
 import org.example.utility.DateUtils;
@@ -13,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
@@ -52,12 +50,12 @@ public class AuthController {
         return( attr.size()==0?false:true );
     }
 
-    @GetMapping("register")
-    public String register(Model model) {
-        model.addAttribute("date", dateUtils.dateYearsAgo(18));
-        model.addAttribute("user", new Customer());
-        return "register";
-    }
+//    @GetMapping("register")
+//    public String register(Model model) {
+//        model.addAttribute("date", dateUtils.dateYearsAgo(18));
+//        model.addAttribute("user", new Customer());
+//        return "register";
+//    }
 
     @PostMapping("/register")
     public String register(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd") @ModelAttribute("user") Customer user,Model model){
@@ -110,11 +108,11 @@ public class AuthController {
         return "redirect:/login";
     }
 
-        @GetMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("user", new User());
-        return "login";
-    }
+//        @GetMapping("/login")
+//    public String login(Model model) {
+//        model.addAttribute("user", new User());
+//        return "login";
+//    }
 
     @PostMapping("/login")
     public String login(@ModelAttribute("user")  User user, Model model, HttpSession session) {

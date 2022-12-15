@@ -5,7 +5,6 @@ import org.example.entity.ShoppingCartProducts;
 import org.example.entity.User;
 import org.example.model.Response;
 import org.example.model.Star;
-import org.example.model.UserInputReview;
 import org.example.service.product.ProductService;
 import org.example.service.rate.RateService;
 import org.example.service.shoppingcartproducts.ShoppingCartProductsService;
@@ -13,7 +12,6 @@ import org.example.service.user.UserService;
 import org.example.utility.RateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +42,7 @@ public class ProductController {
     public ModelAndView getProductDetails( @RequestParam int productId){
         RateUtils rateUtils=new RateUtils();
         ModelAndView modelAndView=new ModelAndView("productDetails");
-        Response<Product> productResponse=productService.getProductsById(productId);
+        Response<Product> productResponse=productService.getProductById(productId);
         if(productResponse.isErrorOccurred()){
             modelAndView.setViewName("error");
             modelAndView.addObject("errorMessage",productResponse.getMessage());
@@ -77,7 +74,7 @@ public class ProductController {
             Map<String, Object> modelMap = bindingResult.getModel();
             return "productDetails";
         }
-        Response<Product> product = productService.getProductsById(productId);
+        Response<Product> product = productService.getProductById(productId);
         if(product.getObjectToBeReturned().getAvailableQuantity() > 0) {
             int userId =(int) session.getAttribute("user-Id");
             Response<User> user = userService.getUserById(userId);

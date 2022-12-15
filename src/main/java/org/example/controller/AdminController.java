@@ -4,18 +4,15 @@ import org.example.entity.Admin;
 import org.example.entity.Category;
 import org.example.entity.Product;
 import org.example.entity.User;
-import org.example.enums.Gender;
 import org.example.model.RemoveUserFields;
 import org.example.model.Response;
 import org.example.repository.user.UserRepository;
 import org.example.service.admin.AdminService;
 import org.example.service.category.CategoryService;
 import org.example.service.product.ProductService;
-import org.example.service.security.AuthService;
 import org.example.service.user.UserService;
 import org.example.typeEditor.CategoryTypeEditor;
 import org.example.utility.DateUtils;
-import org.example.utility.ProductsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,7 +28,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.validation.BindingResult;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -119,16 +115,15 @@ public class AdminController {
     public String newAdmin(Model model,HttpSession session) {
         if(!checkSession(model,session))
             return "redirect:/login";
-        List<String> genders = new ArrayList<>(
-                Arrays.asList(Gender.male.toString(), Gender.female.toString()));
+
         model.addAttribute("admin", new Admin());
         model.addAttribute("date", dateUtils.dateYearsAgo(18));
         return "addAdmin";
     }
 
     @PostMapping("addAdmin")
-    public String addUser(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd")  @ModelAttribute("admin") Admin admin, BindingResult bindingResult ,
-                          ModelMap modelMap) {
+    public String addUser(@Valid @DateTimeFormat(pattern = "yyyy-MM-dd")  @ModelAttribute("admin") Admin admin,
+                          BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
             return "addAdmin";
@@ -145,7 +140,6 @@ public class AdminController {
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
-
         return "redirect:/admin/admins";
     }
 
@@ -308,14 +302,14 @@ public class AdminController {
             modelMap.put("errorMessage",response.getMessage());
             return "error";
         }
-        return "redirect:/admin/home";
+        return "redirect:/admin/products";
     }
 
     @GetMapping("updateProduct/{id}")
     public String updateProduct(Model model, @PathVariable int id,HttpSession session) {
         if(!checkSession(model,session))
             return "redirect:/login";
-        Response<Product> productResponse = productService.getProductsById(id);
+        Response<Product> productResponse = productService.getProductById(id);
         model.addAttribute("categories", categoryService.getCategoriesNames().getObjectToBeReturned());
         model.addAttribute("product", productResponse.getObjectToBeReturned());
 
@@ -360,9 +354,9 @@ public class AdminController {
                              BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             Map<String, Object> model = bindingResult.getModel();
-
             return "removeUser";
         }
+
         modelMap.put("ErrorMessage","");//initialize as empty
         Response response;
         if(fields.getUserType().equals("admin"))
@@ -380,7 +374,7 @@ public class AdminController {
             return "error";
         }
 
-        return "redirect:/admin/home";
+        return fields.getUserType().equals("admin")?"redirect:/admin/admins":  "redirect:/admin/home";
     }
 
 }
