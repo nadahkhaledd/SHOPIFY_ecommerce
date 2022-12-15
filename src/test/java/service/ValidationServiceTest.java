@@ -1,3 +1,5 @@
+package service;
+
 import org.example.model.Response;
 import org.example.service.ValidationService;
 import org.junit.Before;

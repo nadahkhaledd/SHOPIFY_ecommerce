@@ -1,3 +1,5 @@
+package service;
+
 import org.example.entity.Category;
 import org.example.entity.Product;
 import org.example.model.Response;

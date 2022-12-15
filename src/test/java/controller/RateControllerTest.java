@@ -1,3 +1,5 @@
+package controller;
+
 import org.example.controller.RateController;
 import org.example.entity.Product;
 import org.example.entity.ShoppingCartProducts;

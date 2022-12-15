@@ -1,3 +1,5 @@
+package service;
+
 import org.example.entity.Address;
 import org.example.entity.Customer;
 import org.example.enums.CustomerStatus;

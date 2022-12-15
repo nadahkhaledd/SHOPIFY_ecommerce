@@ -1,3 +1,5 @@
+package controller;
+
 import org.example.controller.ProductController;
 import org.example.entity.Category;
 import org.example.entity.Product;
