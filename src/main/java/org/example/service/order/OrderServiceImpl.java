@@ -26,7 +26,6 @@ public class OrderServiceImpl implements OrderService{
         this.productService = productService;
     }
 
-
     public Response<List<Order>> getOrders(int userId, OrderStatus status) {
         Customer customer = (Customer) userService.getUserById(userId).getObjectToBeReturned();
         return orderRepository.getOrders(customer, status);

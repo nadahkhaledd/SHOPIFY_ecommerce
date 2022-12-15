@@ -21,6 +21,11 @@ public class AuthService {
     @Autowired
     AuthRepo authRepo;
 
+    @Autowired
+    public AuthService(AuthRepo authRepo){
+        this.authRepo=authRepo;
+    }
+
     public org.example.model.Response<User> login(final String email, final String password) {
         return this.authRepo.checkLoginCredential(email, password);
     }
@@ -35,6 +40,7 @@ public class AuthService {
         String encryptedPassword=EncryptionService.hashPassword(password);
         return authRepo.resetPassword(email,encryptedPassword);
     }
+
     public void sendVerificationEmail(final String sendTo) {
         final Email from = new Email("prd@storkstores.com");
         final Email to = new Email(sendTo);
@@ -60,7 +66,6 @@ public class AuthService {
     public org.example.model.Response<Boolean> verifyEmail(final String email) {
         return this.authRepo.verifyEmail(email);
      }
-
 
     public org.example.model.Response<Boolean>  checkIfActivated(int id) {
         return authRepo.checkIfActivated(id);
