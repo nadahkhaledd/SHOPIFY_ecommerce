@@ -11,22 +11,15 @@ import org.example.model.UserInputReview;
 import org.example.repository.rate.RateRepo;
 import org.example.repository.rate.RateRepoImpl;
 import org.example.service.customer.CustomerService;
-import org.example.service.customer.CustomerServiceImpl;
 import org.example.service.product.ProductService;
-import org.example.service.product.ProductServiceImpl;
-import org.example.service.rate.RateService;
 import org.example.service.rate.RateServiceImpl;
 import org.junit.Before;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -60,7 +53,7 @@ public class RateServiceTest {
             kidsDresses.setImagePath("dummy pic");
             Product product1=new Product("tshirt","dummy pic",120.0,kidsDresses,12);
             Response<Product> productResponse=new Response<Product>("Ok",200,false,false,product1);
-            when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+            when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
             when(rateRepositoryMock.addRate(any())).thenReturn(new Response("Done", 200, false,false,null));
             UserInputReview userRate=new UserInputReview(1,1,1,"nice");
             //act
@@ -77,7 +70,7 @@ public class RateServiceTest {
         );
         when(customerServiceMock.getCustomerById(anyInt())).thenReturn(customerTest);
         Response<Product> productResponse=new Response<Product>("error while processing your request",500,true,true);
-        when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+        when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
         when(rateRepositoryMock.addRate(any())).thenReturn(new Response("Ok", 200, false,false));
         UserInputReview userRate=new UserInputReview(1,1,1,"nice");
         //act
@@ -93,7 +86,7 @@ public class RateServiceTest {
         );
         when(customerServiceMock.getCustomerById(anyInt())).thenReturn(customerTest);
         Response<Product> productResponse=new Response<Product>("error while processing your request",500,true,true);
-        when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+        when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
         when(rateRepositoryMock.addRate(any())).thenReturn(new Response ("error while processing your request",500,true,true));
         UserInputReview userRate=new UserInputReview(1,1,1,"nice");
         //act
@@ -109,7 +102,7 @@ public class RateServiceTest {
         );
         when(customerServiceMock.getCustomerById(anyInt())).thenReturn(customerTest);
         Response productResponse=new Response("Ok", 200, false,false);
-        when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+        when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
         when(rateRepositoryMock.addRate(any())).thenReturn(new Response("error while processing your request",500,true,true));
         UserInputReview userRate=new UserInputReview(1,1,1,"nice");
         //act

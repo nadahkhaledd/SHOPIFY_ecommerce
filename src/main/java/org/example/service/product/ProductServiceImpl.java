@@ -118,7 +118,7 @@ public class ProductServiceImpl implements ProductService {
      * @InheritedDoc
      */
     @Override
-    public Response<Product> getProductsById(int productId) {
+    public Response<Product> getProductById(int productId) {
         if(productId<0){
             throw new IllegalArgumentException();
         }

@@ -27,7 +27,6 @@ public class CategoryController {
             modelMap.put("statusCode",categoriesResponse.getStatusCode());
             return "error";
         }
-        //modelMap.addAttribute("products",productsResponse.getObjectToBeReturned());
 
         modelMap.addAttribute("categories",categoriesResponse.getObjectToBeReturned());
         return "viewAllCategories";

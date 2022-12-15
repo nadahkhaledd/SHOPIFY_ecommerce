@@ -24,7 +24,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 public class ProductControllerTest {
@@ -58,7 +57,7 @@ public class ProductControllerTest {
         Product product1=new Product("tshirt","dummy pic",120.0,womenDresses,12);
         product1.setRate(5.0);
         Response<Product> productResponse=new Response("Ok",200,false,false,product1);
-        when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+        when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
         when(rateServiceMock.setProductRate(any())).thenReturn(new Response("Ok",200,false));
        //act
        ModelAndView result=productController.getProductDetails(1);
@@ -70,7 +69,7 @@ public class ProductControllerTest {
     public void getProductDetails_sendInvalidProductResponseAndValidRateResponse_expectedErrorView(){
         //arrange
         Response<Product> productResponse=new Response("error",500,true);
-        when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+        when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
         when(rateServiceMock.setProductRate(any())).thenReturn(new Response("Ok",200,false));
         //act
         ModelAndView result=productController.getProductDetails(1);
@@ -89,7 +88,7 @@ public class ProductControllerTest {
         product1.setRate(5.0);
         Response<Product> productResponse=new Response("Ok",200,false,false,product1);
         Response<Product> rateResponse=new Response("error",500,true);
-        when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+        when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
         when(rateServiceMock.setProductRate(any())).thenReturn(rateResponse);
         //act
         ModelAndView result=productController.getProductDetails(1);
@@ -130,7 +129,7 @@ public class ProductControllerTest {
         Product product1=new Product("tshirt","dummy pic",120.0,womenDresses,12);
         product1.setRate(5.0);
         Response<Product> productResponse=new Response("Ok",200,false,false,product1);
-        when(productServiceMock.getProductsById(anyInt())).thenReturn(productResponse);
+        when(productServiceMock.getProductById(anyInt())).thenReturn(productResponse);
         //userService.getUserById(userId);
         User user=new User();
         Response<User> userResponse=new Response("Ok",200,false,false,user);
