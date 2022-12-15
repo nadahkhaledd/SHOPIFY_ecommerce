@@ -37,7 +37,10 @@ public class Customer extends User {
         this.addresses = addresses;
     }
 
-
+    public Customer(int id, String firstName, String lastName, String email, String password, Gender gender, Date dateOfBirth, CustomerStatus status) {
+        super(id, firstName, lastName, email, password, gender, dateOfBirth);
+        this.status = status;
+    }
 
     public CustomerStatus getStatus() {
         return status;

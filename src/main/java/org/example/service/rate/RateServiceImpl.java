@@ -28,25 +28,30 @@ public class RateServiceImpl implements RateService {
         Customer customer=customerService.getCustomerById(userRate.getUserId());
         Response<Product> productResponse=productService.getProductsById(userRate.getProductId());
         Rate rate=new Rate(userRate.getRate(),userRate.getReview(),customer,productResponse.getObjectToBeReturned());
-        System.out.println(rate.toString());
+      //  System.out.println(rate.toString());
         Response rateResponse;
         if(!productResponse.isErrorOccurred()) {
             rateResponse = rateRepository.addRate(rate);
             if(rateResponse.isErrorOccurred()){
                 return rateResponse;
             }
+            else{
+                return new Response("Ok",200,false,false);
+            }
         }
-        else{
-            return productResponse;
-        }
-        return new Response("Ok",200,false);
+        return productResponse;
+
+     //   return new Response("Ok",200,false);
     }
 
     /** calculate product rate (avg of users' rate to this product)
      * @param productId id of the product
      * @return rate of the product
      */
-    private double calculateRateOfProduct(int productId) {
+    // converted it into public method to be mocked
+    public double calculateRateOfProduct_(int productId) {
+        if(productId<0)
+            throw new IllegalArgumentException();
         double rate=rateRepository.calculateRateOfProduct(productId).getObjectToBeReturned();
        // System.out.println("in rate service "+rate);
         return rate;
@@ -54,7 +59,7 @@ public class RateServiceImpl implements RateService {
     @Override
     public Response setProductRate(Product product) {
         if(!product.getRates().isEmpty())
-            product.setRate(calculateRateOfProduct(product.getId()));
+            product.setRate(calculateRateOfProduct_(product.getId()));
         return new Response("Done", 200, false);
 
       //  return new Response("no rates for the given products", 404, true);

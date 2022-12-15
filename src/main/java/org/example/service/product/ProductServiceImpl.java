@@ -20,16 +20,22 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    public Response<Product> getProduct(int productId) {
+  /*  public Response<Product> getProduct(int productId) {
+        if(productId<0){
+            throw new IllegalArgumentException();
+        }
         return productRepository.getProductsById(productId);
     }
-
+*/
     /**
      * @InheritedDoc
      */
     @Override
     public Response addProduct(Product product) {
-        //product.setName(product.getName().toLowerCase());
+        if(product==null){
+            throw new NullPointerException();
+        }
+        product.setName(product.getName().toLowerCase());
         return productRepository.addProduct(product);
     }
 
@@ -38,10 +44,11 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Response updateProduct(Product product) {
-        //product.setName(product.getName().toLowerCase());
+
         if(product==null){
             throw new NullPointerException();
         }
+        product.setName(product.getName().toLowerCase());
         return productRepository.updateProduct(product);
     }
 
@@ -60,9 +67,13 @@ public class ProductServiceImpl implements ProductService {
     /**
      * @inheritDoc
      */
+    //to be removed
     @Override
-    public Response<Boolean> removeProduct(int productID) {
-        return productRepository.deleteProduct(productID);
+    public Response<Boolean> removeProduct(int productId) {
+        if(productId<0){
+            throw new IllegalArgumentException();
+        }
+        return productRepository.deleteProduct(productId);
     }
 
     /**
@@ -78,6 +89,9 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Response<Boolean> updateProductQuantity(int productId, int quantity) {
+        if(productId<0 || quantity<0){
+            throw new IllegalArgumentException();
+        }
         return productRepository.updateProductQuantity(productId, quantity);
     }
 
@@ -94,6 +108,9 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Response<List<Product>> getProductsByCategory(int categoryId) {
+        if(categoryId<0){
+            throw new IllegalArgumentException();
+        }
         return productRepository.getProductsByCategory(categoryId);
     }
 
@@ -102,6 +119,9 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Response<Product> getProductsById(int productId) {
+        if(productId<0){
+            throw new IllegalArgumentException();
+        }
         return productRepository.getProductsById(productId);
     }
 
@@ -113,6 +133,9 @@ public class ProductServiceImpl implements ProductService {
     public Response<List<Product>> searchByProductName(String productName) {
         if(productName==null){
             throw new NullPointerException();
+        }
+        else if(productName.isBlank()){
+            throw new IllegalArgumentException();
         }
         return productRepository.searchByProductName(productName);
     }

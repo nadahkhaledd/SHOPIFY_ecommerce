@@ -56,7 +56,6 @@ public class ProductServiceTest {
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
-        mensDresses.setId(1);
         Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
         Product product2=new Product("red tshirt","dummy pic",120.0,mensDresses,1);
         list.add(product1);
@@ -64,6 +63,7 @@ public class ProductServiceTest {
         mensDresses.setProducts(list);
         Response<List<Product>> response=new Response("Ok",200,false,false,list);
         when(productRepositoryMock.getProducts()).thenReturn(response);
+
         //act
         Response<List<Product>> productsResponse=productService.getProducts();
         //assert
@@ -79,13 +79,11 @@ public class ProductServiceTest {
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
-        mensDresses.setId(1);
         Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
-        product1.setId(1);
         Response<Product> expectedResponse=new Response<Product>("Ok",200,false,false,product1);
         when(productRepositoryMock.getProductsById(anyInt())).thenReturn(expectedResponse);
         //act
-        Response<Product> productResponse=productService.getProduct(1);
+        Response<Product> productResponse=productService.getProductsById(1);
         //assert
         assertNotNull(productResponse.getObjectToBeReturned());
         assertEquals(expectedResponse,productResponse);
@@ -100,7 +98,6 @@ public class ProductServiceTest {
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
-        mensDresses.setId(1);
         Product product1=new Product("test1","dummy pic",120.0,mensDresses,12);
         Product product2=new Product("test2","dummy pic",120.0,mensDresses,1);
         list.add(product1);
@@ -139,9 +136,7 @@ public class ProductServiceTest {
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
-        mensDresses.setId(1);
         Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
-        product1.setId(1);
         Response expectedResponse=new Response("Ok",200,false,false);
         when(productRepositoryMock.addProduct(any())).thenReturn(expectedResponse);
        //act
@@ -159,9 +154,7 @@ public class ProductServiceTest {
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
-        mensDresses.setId(1);
         Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
-        product1.setId(1);
 
         Response expectedResponse=new Response("Ok",200,false,false);
 
@@ -178,24 +171,42 @@ public class ProductServiceTest {
     @Test(expected = NullPointerException.class)
     public void deleteProduct_sendNullProduct_returnException(){
         productService.deleteProduct(null);
-       // verify(productRepositoryMock, times(1)).deleteProduct(null);
-
     }
     @Test(expected = NullPointerException.class)
     public void searchByProductName_sendNullProductName_returnException(){
         productService.searchByProductName(null);
-        // verify(productRepositoryMock, times(1)).deleteProduct(null);
-
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void searchByProductName_sendBlankProductName_returnException(){
+        productService.searchByProductName("    ");
+    }
+    @Test(expected = NullPointerException.class)
+    public void updateProduct_sendNullProduct_returnException(){
+        productService.updateProduct(null);
+    }
+    @Test(expected = NullPointerException.class)
+    public void addProductTest_sendNullProduct_returnException(){
+        productService.addProduct(null);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void getProductBYIdTest_sendNegativeNumberAsId_returnException(){
+        productService.getProductsById(-1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void updateProductQuantityTest_sendNegativeNumberAsId_returnException(){
+        productService.updateProductQuantity(-1,9);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void updateProductQuantityTest_sendNegativeNumberAsQuantity_returnException(){
+        productService.updateProductQuantity(1,-1);
     }
     @Test
-    public void deleteProduct_sendProduct_returnResponseObject(){
+    public void deleteProductTest_sendProduct_returnResponseObject(){
         //arrange
         Category mensDresses=new Category();
         mensDresses.setName("men's dresses");
         mensDresses.setImagePath("dummy pic");
-        mensDresses.setId(1);
         Product product1=new Product("tshirt","dummy pic",120.0,mensDresses,12);
-        product1.setId(1);
         Response expectedResponse=new Response("Ok",200,false,false);
         when(productRepositoryMock.deleteProduct(any())).thenReturn(expectedResponse);
         //act

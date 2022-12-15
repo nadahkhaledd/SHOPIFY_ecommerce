@@ -1,5 +1,7 @@
 package org.example.model;
 
+import java.util.Objects;
+
 public class Response<T> {
     private String message;
     private int statusCode;
@@ -50,14 +52,14 @@ public class Response<T> {
     public Response(String message, int statusCode, boolean errorOccurred) {
         this.message = message;
         this.statusCode = statusCode;
-        this.errorOccurred=errorOccurred;
+        this.errorOccurred = errorOccurred;
     }
 
     public Response(String message, int statusCode, boolean errorOccurred, boolean fieldErrorOccurred) {
         this.message = message;
         this.statusCode = statusCode;
         this.fieldErrorOccurred = fieldErrorOccurred;
-        this.errorOccurred=errorOccurred;
+        this.errorOccurred = errorOccurred;
     }
 
     public String getMessage() {
@@ -76,12 +78,4 @@ public class Response<T> {
         this.statusCode = statusCode;
     }
 
-    @Override
-    public String toString() {
-        return "Response{" +
-                "message='" + message + '\'' +
-                ", statusCode=" + statusCode +
-                ", errorOccurred=" + errorOccurred +
-                '}';
-    }
 }

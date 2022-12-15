@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface ProductService {
 
-    Response<Product> getProduct(int productId);
+    //Response<Product> getProduct(int productId);
 
     /**
      * add product this function used by admin to add product to database

@@ -26,11 +26,11 @@ public class RateRepoImpl implements RateRepo {
         }
         catch (Exception e) {
             System.out.println("in add rate rate repo impl  e.getStackTrace() = " + e.toString());
-            return new Response("error occurred while processing your request", 500, true);
+            return new Response("error occurred while processing your request", 500, true,false,null);
 
         }
 
-        return new Response("Done", 200, false);
+        return new Response("Done", 200, false,false,null);
 
     }
 
@@ -47,11 +47,11 @@ public class RateRepoImpl implements RateRepo {
             }
             catch (Exception e) {
                 System.out.println("in calculateRateOfProduct rate repo impl  e.getStackTrace() = " + e.getStackTrace());
-                return new Response("error occurred while processing your request", 500, true);
+                return new Response("error occurred while processing your request", 500, true,false,null);
 
             }
 
-        return new Response("Done", 200, false, productRate);
+        return new Response("Done", 200, false,false, productRate);
 
 
     }
